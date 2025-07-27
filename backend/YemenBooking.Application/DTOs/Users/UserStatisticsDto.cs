@@ -139,4 +139,46 @@ public class UserStatisticsDto
     /// Most booked city
     /// </summary>
     public string? MostBookedCity { get; set; }
+
+    /// <summary>
+    /// تاريخ العضوية
+    /// Member since date
+    /// </summary>
+    public DateTime MemberSince { get; set; }
+
+    /// <summary>
+    /// عدد التقييمات المكتوبة
+    /// Reviews written count
+    /// </summary>
+    public int ReviewsWritten { get; set; }
+
+    /// <summary>
+    /// عدد الكيانات المفضلة
+    /// Favorite properties count
+    /// </summary>
+    public int FavoritePropertiesCount { get; set; }
+
+    /// <summary>
+    /// المدن المزارة
+    /// Cities visited
+    /// </summary>
+    public int CitiesVisited { get; set; }
+
+    /// <summary>
+    /// إجمالي المبلغ المنفق
+    /// Total spent amount
+    /// </summary>
+    public decimal TotalSpent { get; set; }
+
+    /// <summary>
+    /// إجمالي المبلغ الموفر
+    /// Total saved amount
+    /// </summary>
+    public decimal TotalSaved { get; set; }
+
+    /// <summary>
+    /// مستوى الولاء
+    /// Loyalty tier
+    /// </summary>
+    public string LoyaltyTier { get; set; } = "Bronze";
 }

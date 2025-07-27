@@ -47,4 +47,10 @@ public interface IPricingRuleRepository : IRepository<PricingRule>
     /// Check for overlapping pricing rules in the specified period
     /// </summary>
     Task<bool> HasOverlapAsync(Guid unitId, DateTime startDate, DateTime endDate, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// الحصول على قواعد التسعير بواسطة معرف الوحدة
+    /// Get pricing rules by unit ID
+    /// </summary>
+    Task<IEnumerable<PricingRule>> GetByUnitIdAsync(Guid unitId, CancellationToken cancellationToken = default);
 } 

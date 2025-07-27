@@ -39,7 +39,9 @@ namespace YemenBooking.Application.Handlers.Queries.PropertyTypes
                 Id = pt.Id,
                 Name = pt.Name,
                 Description = pt.Description,
-                DefaultAmenities = pt.DefaultAmenities
+                DefaultAmenities = string.IsNullOrEmpty(pt.DefaultAmenities) 
+                    ? new List<string>() 
+                    : System.Text.Json.JsonSerializer.Deserialize<List<string>>(pt.DefaultAmenities) ?? new List<string>()
             }).ToList();
 
             var totalCount = dtos.Count;

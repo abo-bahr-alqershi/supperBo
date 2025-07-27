@@ -17,6 +17,20 @@ public class User : BaseEntity
     /// </summary>
     [Display(Name = "اسم المستخدم")]
     public string Name { get; set; }
+
+    /// <summary>
+    /// الاسم الأول
+    /// First name
+    /// </summary>
+    [Display(Name = "الاسم الأول")]
+    public string? FirstName { get; set; }
+
+    /// <summary>
+    /// اسم العائلة
+    /// Last name
+    /// </summary>
+    [Display(Name = "اسم العائلة")]
+    public string? LastName { get; set; }
     
     /// <summary>
     /// البريد الإلكتروني للمستخدم
@@ -45,6 +59,20 @@ public class User : BaseEntity
     /// </summary>
     [Display(Name = "صورة المستخدم")]
     public string ProfileImage { get; set; }
+
+    /// <summary>
+    /// رابط صورة الملف الشخصي
+    /// Profile picture URL
+    /// </summary>
+    [Display(Name = "رابط صورة الملف الشخصي")]
+    public string? ProfilePictureUrl { get; set; }
+
+    /// <summary>
+    /// البلد
+    /// Country
+    /// </summary>
+    [Display(Name = "البلد")]
+    public string? Country { get; set; }
 
     /// <summary>
     /// تاريخ إنشاء حساب المستخدم

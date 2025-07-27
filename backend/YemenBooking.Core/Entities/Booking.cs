@@ -14,6 +14,13 @@ using System.ComponentModel.DataAnnotations;
 public class Booking : BaseEntity
 {
     /// <summary>
+    /// رقم الحجز
+    /// Booking number
+    /// </summary>
+    [Display(Name = "رقم الحجز")]
+    public string? BookingNumber { get; set; }
+
+    /// <summary>
     /// معرف المستخدم
     /// User identifier
     /// </summary>
@@ -26,6 +33,13 @@ public class Booking : BaseEntity
     /// </summary>
     [Display(Name = "معرف الوحدة")]
     public Guid UnitId { get; set; }
+
+    /// <summary>
+    /// معرف الكيان
+    /// Property identifier
+    /// </summary>
+    [Display(Name = "معرف الكيان")]
+    public Guid PropertyId { get; set; }
     
     /// <summary>
     /// تاريخ الوصول
@@ -172,4 +186,11 @@ public class Booking : BaseEntity
     /// </summary>
     [Display(Name = "ملاحظات إكمال الحجز")]
     public string? CompletionNotes { get; set; }
+
+    /// <summary>
+    /// الكيان المرتبط بالحجز
+    /// Property associated with the booking
+    /// </summary>
+    [Display(Name = "الكيان المرتبط بالحجز")]
+    public virtual Property Property { get; set; }
 } 

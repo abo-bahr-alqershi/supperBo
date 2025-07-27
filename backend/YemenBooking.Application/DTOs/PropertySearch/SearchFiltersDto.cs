@@ -16,6 +16,12 @@ namespace YemenBooking.Application.DTOs.PropertySearch
         public List<CityFilterDto> Cities { get; set; } = new();
 
         /// <summary>
+        /// المدن المتاحة (مرادف لـ Cities)
+        /// Available cities (alias for Cities)
+        /// </summary>
+        public List<CityFilterDto> AvailableCities => Cities;
+
+        /// <summary>
         /// أنواع العقارات المتاحة
         /// Available property types
         /// </summary>

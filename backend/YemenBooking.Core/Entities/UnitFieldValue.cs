@@ -33,6 +33,20 @@ public class UnitFieldValue : BaseEntity, IFieldValue
     public string FieldValue { get; set; } = string.Empty;
 
     /// <summary>
+    /// اسم الحقل
+    /// Field name
+    /// </summary>
+    [Display(Name = "اسم الحقل")]
+    public string FieldName { get; set; } = string.Empty;
+
+    /// <summary>
+    /// الاسم المعروض للحقل
+    /// Display name
+    /// </summary>
+    [Display(Name = "الاسم المعروض للحقل")]
+    public string DisplayName { get; set; } = string.Empty;
+
+    /// <summary>
     /// الوحدة المرتبطة
     /// Unit associated
     /// </summary>

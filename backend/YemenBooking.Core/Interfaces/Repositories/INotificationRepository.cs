@@ -73,4 +73,54 @@ public interface INotificationRepository : IRepository<Notification>
     Task<int> GetUnreadNotificationsCountAsync(
         Guid userId,
         CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// الحصول على عدد إشعارات المستخدم
+    /// Get user notifications count
+    /// </summary>
+    Task<int> GetUserNotificationsCountAsync(
+        Guid userId,
+        CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// الحصول على عدد الإشعارات غير المقروءة للمستخدم
+    /// Get user unread notifications count
+    /// </summary>
+    Task<int> GetUserUnreadNotificationsCountAsync(
+        Guid userId,
+        CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// الحصول على عدد الإشعارات حسب النوع
+    /// Get notifications count by type
+    /// </summary>
+    Task<int> GetNotificationsCountByTypeAsync(
+        Guid userId,
+        string notificationType,
+        CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// الحصول على عدد الإشعارات حسب الأولوية
+    /// Get notifications count by priority
+    /// </summary>
+    Task<int> GetNotificationsCountByPriorityAsync(
+        Guid userId,
+        string priority,
+        CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// الحصول على آخر إشعار للمستخدم
+    /// Get last user notification
+    /// </summary>
+    Task<Notification?> GetLastUserNotificationAsync(
+        Guid userId,
+        CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// الحصول على الإشعارات عالية الأولوية غير المقروءة
+    /// Get high priority unread notifications
+    /// </summary>
+    Task<IEnumerable<Notification>> GetHighPriorityUnreadNotificationsAsync(
+        Guid userId,
+        CancellationToken cancellationToken = default);
 }

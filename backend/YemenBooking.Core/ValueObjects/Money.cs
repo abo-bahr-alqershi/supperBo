@@ -106,6 +106,51 @@ public record Money
     }
     
     /// <summary>
+    /// مقارنة أكبر من أو يساوي
+    /// Greater than or equal comparison
+    /// </summary>
+    public static bool operator >=(Money left, decimal right)
+    {
+        return left.Amount >= right;
+    }
+
+    /// <summary>
+    /// مقارنة أصغر من أو يساوي
+    /// Less than or equal comparison
+    /// </summary>
+    public static bool operator <=(Money left, decimal right)
+    {
+        return left.Amount <= right;
+    }
+
+    /// <summary>
+    /// مقارنة أكبر من
+    /// Greater than comparison
+    /// </summary>
+    public static bool operator >(Money left, decimal right)
+    {
+        return left.Amount > right;
+    }
+
+    /// <summary>
+    /// مقارنة أصغر من
+    /// Less than comparison
+    /// </summary>
+    public static bool operator <(Money left, decimal right)
+    {
+        return left.Amount < right;
+    }
+
+    /// <summary>
+    /// تحويل ضمني إلى decimal
+    /// Implicit conversion to decimal
+    /// </summary>
+    public static implicit operator decimal(Money money)
+    {
+        return money.Amount;
+    }
+
+    /// <summary>
     /// تنسيق المبلغ للعرض
     /// Format amount for display
     /// </summary>

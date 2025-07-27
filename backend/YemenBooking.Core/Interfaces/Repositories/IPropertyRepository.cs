@@ -173,4 +173,34 @@ public interface IPropertyRepository : IRepository<Property>
     /// Get cancellation policy for a property
     /// </summary>
     Task<PropertyPolicy?> GetCancellationPolicyAsync(Guid propertyId, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// الحصول على جميع الكيانات النشطة
+    /// Get all active properties
+    /// </summary>
+    Task<IEnumerable<Property>> GetActivePropertiesAsync(CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// الحصول على عدد الكيانات حسب النوع
+    /// Get properties count by type
+    /// </summary>
+    Task<int> GetCountByTypeAsync(Guid propertyTypeId, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// الحصول على أقل سعر للكيان
+    /// Get minimum price for property
+    /// </summary>
+    Task<decimal?> GetMinPriceAsync(Guid propertyId, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// زيادة عدد المشاهدات للكيان
+    /// Increment view count for property
+    /// </summary>
+    Task IncrementViewCountAsync(Guid propertyId, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// الحصول على عدد الحجوزات للكيان
+    /// Get property booking count
+    /// </summary>
+    Task<int> GetPropertyBookingCountAsync(Guid propertyId, CancellationToken cancellationToken = default);
 }

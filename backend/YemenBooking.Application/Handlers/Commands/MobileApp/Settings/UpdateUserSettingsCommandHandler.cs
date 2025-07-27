@@ -4,6 +4,7 @@ using YemenBooking.Application.Commands.MobileApp.Settings;
 using YemenBooking.Application.DTOs;
 using YemenBooking.Core.Interfaces.Services;
 using YemenBooking.Core.Interfaces.Repositories;
+using YemenBooking.Core.Entities;
 using System.Text.Json;
 
 namespace YemenBooking.Application.Handlers.Commands.MobileApp.Settings;

@@ -127,33 +127,4 @@ public class UnitImageDto
     public bool IsMain { get; set; }
 }
 
-/// <summary>
-/// بيانات قيمة الحقل
-/// Unit field value data transfer object
-/// </summary>
-public class UnitFieldValueDto
-{
-    /// <summary>
-    /// اسم الحقل
-    /// Field name
-    /// </summary>
-    public string FieldName { get; set; } = string.Empty;
-    
-    /// <summary>
-    /// الاسم المعروض
-    /// Display name
-    /// </summary>
-    public string DisplayName { get; set; } = string.Empty;
-    
-    /// <summary>
-    /// القيمة
-    /// Value
-    /// </summary>
-    public string Value { get; set; } = string.Empty;
-    
-    /// <summary>
-    /// نوع الحقل
-    /// Field type
-    /// </summary>
-    public string FieldType { get; set; } = string.Empty;
-}
+

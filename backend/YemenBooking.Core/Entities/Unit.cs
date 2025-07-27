@@ -130,4 +130,18 @@ public class Unit : BaseEntity
     [Display(Name = "طريقة حساب السعر")]
     public PricingMethod PricingMethod { get; set; }
 
+    /// <summary>
+    /// العملة
+    /// Currency
+    /// </summary>
+    [Display(Name = "العملة")]
+    public string Currency { get; set; } = "YER";
+
+    /// <summary>
+    /// نسبة الخصم
+    /// Discount percentage
+    /// </summary>
+    [Display(Name = "نسبة الخصم")]
+    public decimal DiscountPercentage { get; set; } = 0;
+
 } 

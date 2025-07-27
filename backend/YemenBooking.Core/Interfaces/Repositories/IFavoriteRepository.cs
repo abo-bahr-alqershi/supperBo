@@ -89,4 +89,10 @@ public interface IFavoriteRepository
     Task<IEnumerable<(Guid PropertyId, int FavoriteCount)>> GetMostFavoritedPropertiesAsync(
         int limit = 10, 
         CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// الحصول على المفضلات بواسطة معرف المستخدم
+    /// Get favorites by user ID
+    /// </summary>
+    Task<IEnumerable<Favorite>> GetByUserIdAsync(Guid userId, CancellationToken cancellationToken = default);
 }

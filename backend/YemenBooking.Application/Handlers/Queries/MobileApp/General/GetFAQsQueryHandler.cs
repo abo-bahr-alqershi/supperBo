@@ -54,9 +54,7 @@ public class GetFAQsQueryHandler : IRequestHandler<GetFAQsQuery, ResultDto<List<
             var language = NormalizeLanguage(request.Language);
 
             // الحصول على الأسئلة الشائعة
-            var faqs = string.IsNullOrWhiteSpace(request.Category)
-                ? await _faqRepository.GetAllActiveAsync(language, cancellationToken)
-                : await _faqRepository.GetByCategoryAsync(request.Category, language, cancellationToken);
+            var faqs = await _faqRepository.GetActiveFAQsAsync(language, request.Category, cancellationToken);
 
             if (faqs == null || !faqs.Any())
             {

@@ -79,7 +79,7 @@ public class ClientGetUserPaymentsQueryHandler : IRequestHandler<ClientGetUserPa
                     TotalCount = 0,
                     PageNumber = request.PageNumber,
                     PageSize = request.PageSize,
-                    TotalPages = 0
+    
                 };
 
                 return ResultDto<PaginatedResult<ClientPaymentDto>>.Ok(
@@ -144,7 +144,7 @@ public class ClientGetUserPaymentsQueryHandler : IRequestHandler<ClientGetUserPa
                 TotalCount = totalCount,
                 PageNumber = request.PageNumber,
                 PageSize = request.PageSize,
-                TotalPages = totalPages
+
             };
 
             _logger.LogInformation("تم العثور على {TotalCount} مدفوعة للمستخدم {UserId}, عرض الصفحة {PageNumber} من {TotalPages}", 

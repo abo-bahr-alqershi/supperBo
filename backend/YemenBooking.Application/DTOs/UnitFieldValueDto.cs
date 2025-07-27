@@ -61,4 +61,10 @@ public class UnitFieldValueDto
     /// UpdatedAt
     /// </summary>
     public DateTime UpdatedAt { get; set; }
+
+    /// <summary>
+    /// القيمة (مرادف لـ FieldValue)
+    /// Value (alias for FieldValue)
+    /// </summary>
+    public string Value => FieldValue;
 } 

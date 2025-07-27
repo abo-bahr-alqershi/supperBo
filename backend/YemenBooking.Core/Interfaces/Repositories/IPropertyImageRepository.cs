@@ -96,4 +96,10 @@ public interface IPropertyImageRepository : IRepository<PropertyImage>
     /// Fetch images by their stored path values
     /// </summary>
     Task<IEnumerable<PropertyImage>> GetImagesByPathAsync(IEnumerable<string> paths, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// الحصول على صور الوحدة بناء على معرف الوحدة
+    /// Get images by unit ID
+    /// </summary>
+    Task<IEnumerable<PropertyImage>> GetByUnitIdAsync(Guid unitId, CancellationToken cancellationToken = default);
 }

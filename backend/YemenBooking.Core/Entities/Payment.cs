@@ -67,6 +67,69 @@ public class Payment : BaseEntity
     /// </summary>
     [Display(Name = "معرف المستخدم الذي قام بمعالجة الدفع")]
     public Guid ProcessedBy { get; set; }
+
+    /// <summary>
+    /// العملة
+    /// Currency
+    /// </summary>
+    [Display(Name = "العملة")]
+    public string Currency { get; set; } = "YER";
+
+    /// <summary>
+    /// طريقة الدفع
+    /// Payment method
+    /// </summary>
+    [Display(Name = "طريقة الدفع")]
+    public PaymentMethodType PaymentMethod { get; set; }
+
+    /// <summary>
+    /// تاريخ المعالجة
+    /// Processed at
+    /// </summary>
+    [Display(Name = "تاريخ المعالجة")]
+    public DateTime? ProcessedAt { get; set; }
+
+    /// <summary>
+    /// المرجع الخارجي
+    /// External reference
+    /// </summary>
+    [Display(Name = "المرجع الخارجي")]
+    public string? ExternalReference { get; set; }
+
+    /// <summary>
+    /// رقم الفاتورة
+    /// Invoice number
+    /// </summary>
+    [Display(Name = "رقم الفاتورة")]
+    public string? InvoiceNumber { get; set; }
+
+    /// <summary>
+    /// ملاحظات
+    /// Notes
+    /// </summary>
+    [Display(Name = "ملاحظات")]
+    public string? Notes { get; set; }
+
+    /// <summary>
+    /// سبب الفشل
+    /// Failure reason
+    /// </summary>
+    [Display(Name = "سبب الفشل")]
+    public string? FailureReason { get; set; }
+
+    /// <summary>
+    /// الرسوم
+    /// Fees
+    /// </summary>
+    [Display(Name = "الرسوم")]
+    public decimal Fees { get; set; } = 0;
+
+    /// <summary>
+    /// الضرائب
+    /// Taxes
+    /// </summary>
+    [Display(Name = "الضرائب")]
+    public decimal Taxes { get; set; } = 0;
     
     /// <summary>
     /// الحجز المرتبط بالدفع

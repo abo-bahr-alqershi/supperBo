@@ -103,4 +103,10 @@ public interface IPaymentRepository : IRepository<Payment>
     /// Get refunds for a payment
     /// </summary>
     Task<IEnumerable<Payment>> GetRefundsForPaymentAsync(Guid paymentId, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// الحصول على مدفوعات المستخدم
+    /// Get payments by user ID
+    /// </summary>
+    Task<IEnumerable<Payment>> GetByUserIdAsync(Guid userId, CancellationToken cancellationToken = default);
 }

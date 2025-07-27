@@ -25,6 +25,13 @@ public class Review : BaseEntity
     /// </summary>
     [Display(Name = "معرف الكيان")]
     public Guid PropertyId { get; set; }
+
+    /// <summary>
+    /// معرف المستخدم
+    /// User identifier
+    /// </summary>
+    [Display(Name = "معرف المستخدم")]
+    public Guid UserId { get; set; }
     
     /// <summary>
     /// تقييم النظافة
@@ -32,6 +39,13 @@ public class Review : BaseEntity
     /// </summary>
     [Display(Name = "تقييم النظافة")]
     public int Cleanliness { get; set; }
+
+    /// <summary>
+    /// تقييم النظافة (مرادف)
+    /// Cleanliness rating (alias)
+    /// </summary>
+    [Display(Name = "تقييم النظافة")]
+    public int CleanlinessRating => Cleanliness;
     
     /// <summary>
     /// تقييم الخدمة

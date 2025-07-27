@@ -210,7 +210,7 @@ namespace YemenBooking.Application.Handlers.Queries.Units
                         Type = i.Type,
                         SizeBytes = i.SizeBytes
                     }).ToList(),
-                FieldValues = u.FieldValues.Select(fv => new YemenBooking.Application.DTOs.Units.UnitFieldValueDto
+                FieldValues = u.FieldValues.Select(fv => new UnitFieldValueDto
                 {
                     ValueId = fv.Id,
                     UnitId = fv.UnitId,

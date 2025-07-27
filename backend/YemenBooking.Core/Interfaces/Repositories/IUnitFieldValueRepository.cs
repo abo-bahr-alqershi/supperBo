@@ -27,4 +27,10 @@ public interface IUnitFieldValueRepository : IRepository<UnitFieldValue>
     /// Get values by field ID
     /// </summary>
     Task<IEnumerable<UnitFieldValue>> GetByFieldIdAsync(Guid fieldId, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// الحصول على القيم بواسطة معرف الوحدة
+    /// Get values by unit ID
+    /// </summary>
+    Task<IEnumerable<UnitFieldValue>> GetByUnitIdAsync(Guid unitId, CancellationToken cancellationToken = default);
 }

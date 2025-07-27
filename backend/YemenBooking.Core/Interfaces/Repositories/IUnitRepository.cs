@@ -99,4 +99,10 @@ public interface IUnitRepository : IRepository<Unit>
         DateTime fromDate,
         DateTime toDate,
         CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// الحصول على الوحدات بواسطة معرف الكيان
+    /// Get units by property ID
+    /// </summary>
+    Task<IEnumerable<Unit>> GetByPropertyIdAsync(Guid propertyId, CancellationToken cancellationToken = default);
 }

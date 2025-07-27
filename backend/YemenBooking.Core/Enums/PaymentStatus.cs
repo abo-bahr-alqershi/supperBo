@@ -40,5 +40,11 @@ public enum PaymentStatus
     /// استرداد جزئي
     /// Partially refunded
     /// </summary>
-    PartiallyRefunded
+    PartiallyRefunded,
+    
+    /// <summary>
+    /// مكتمل
+    /// Completed
+    /// </summary>
+    Completed
 } 

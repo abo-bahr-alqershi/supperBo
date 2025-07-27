@@ -64,6 +64,18 @@ public class FAQ
     public int ViewCount { get; set; } = 0;
 
     /// <summary>
+    /// عدد التقييمات المفيدة
+    /// Helpful count
+    /// </summary>
+    public int HelpfulCount { get; set; } = 0;
+
+    /// <summary>
+    /// عدد التقييمات غير المفيدة
+    /// Not helpful count
+    /// </summary>
+    public int NotHelpfulCount { get; set; } = 0;
+
+    /// <summary>
     /// تاريخ الإنشاء
     /// Creation date
     /// </summary>

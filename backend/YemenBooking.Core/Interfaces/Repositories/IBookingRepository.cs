@@ -152,4 +152,28 @@ public interface IBookingRepository : IRepository<Booking>
     /// Get summary of cancellation reasons within a date range
     /// </summary>
     Task<IEnumerable<CancellationReasonSummary>> GetCancellationReasonsSummaryAsync(DateTime startDate, DateTime endDate, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// الحصول على حجوزات المستخدم
+    /// Get bookings by user ID
+    /// </summary>
+    Task<IEnumerable<Booking>> GetByUserIdAsync(Guid userId, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// الحصول على حجوزات الكيان
+    /// Get bookings by property ID
+    /// </summary>
+    Task<IEnumerable<Booking>> GetByPropertyIdAsync(Guid propertyId, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// الحصول على الحجوزات المتضاربة
+    /// Get conflicting bookings
+    /// </summary>
+    Task<IEnumerable<Booking>> GetConflictingBookingsAsync(Guid unitId, DateTime checkIn, DateTime checkOut, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// الحصول على حجوزات الكيان في نطاق زمني
+    /// Get property bookings in date range
+    /// </summary>
+    Task<IEnumerable<Booking>> GetByPropertyIdAndDateRangeAsync(Guid propertyId, DateTime startDate, DateTime endDate, CancellationToken cancellationToken = default);
 }

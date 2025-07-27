@@ -24,6 +24,13 @@ public class Property : BaseEntity
     /// </summary>
     [Display(Name = "معرف نوع الكيان")]
     public Guid TypeId { get; set; }
+
+    /// <summary>
+    /// معرف نوع الكيان (مرادف لـ TypeId)
+    /// Property type identifier (alias for TypeId)
+    /// </summary>
+    [Display(Name = "معرف نوع الكيان")]
+    public Guid PropertyTypeId => TypeId;
     
     /// <summary>
     /// اسم الكيان

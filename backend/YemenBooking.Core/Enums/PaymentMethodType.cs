@@ -1,8 +1,8 @@
 namespace YemenBooking.Core.Enums;
 
 /// <summary>
-/// أنواع طرق الدفع
-/// Payment method types
+/// تعداد أنواع طرق الدفع
+/// Payment method types enumeration
 /// </summary>
 public enum PaymentMethodType
 {
@@ -10,47 +10,29 @@ public enum PaymentMethodType
     /// بطاقة ائتمان
     /// Credit card
     /// </summary>
-    CreditCard = 1,
-
+    CreditCard,
+    
     /// <summary>
     /// بطاقة خصم
     /// Debit card
     /// </summary>
-    DebitCard = 2,
-
+    DebitCard,
+    
     /// <summary>
-    /// محفظة رقمية
+    /// نقدي
+    /// Cash
+    /// </summary>
+    Cash,
+    
+    /// <summary>
+    /// محفظة إلكترونية
     /// Digital wallet
     /// </summary>
-    DigitalWallet = 3,
-
+    DigitalWallet,
+    
     /// <summary>
     /// تحويل بنكي
     /// Bank transfer
     /// </summary>
-    BankTransfer = 4,
-
-    /// <summary>
-    /// دفع نقدي
-    /// Cash payment
-    /// </summary>
-    Cash = 5,
-
-    /// <summary>
-    /// شيك
-    /// Check
-    /// </summary>
-    Check = 6,
-
-    /// <summary>
-    /// عملة مشفرة
-    /// Cryptocurrency
-    /// </summary>
-    Cryptocurrency = 7,
-
-    /// <summary>
-    /// دفع عند الاستلام
-    /// Pay on delivery
-    /// </summary>
-    PayOnDelivery = 8
+    BankTransfer
 }

@@ -74,4 +74,16 @@ public interface IReviewRepository : IRepository<Review>
     /// </summary>
     Task<Booking?> GetBookingByIdAsync(Guid bookingId, CancellationToken cancellationToken = default);
 
+    /// <summary>
+    /// الحصول على التقييمات بواسطة معرف المستخدم
+    /// Get reviews by user ID
+    /// </summary>
+    Task<IEnumerable<Review>> GetByUserIdAsync(Guid userId, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// الحصول على التقييم بواسطة معرف الحجز
+    /// Get review by booking ID
+    /// </summary>
+    Task<Review?> GetByBookingIdAsync(Guid bookingId, CancellationToken cancellationToken = default);
+
 }

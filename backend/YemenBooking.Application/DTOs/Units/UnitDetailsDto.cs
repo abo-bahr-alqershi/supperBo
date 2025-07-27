@@ -1,3 +1,5 @@
+using YemenBooking.Application.DTOs;
+
 namespace YemenBooking.Application.DTOs.Units;
 
 /// <summary>
@@ -107,6 +109,12 @@ public class UnitDetailsDto
     /// Dynamic field values
     /// </summary>
     public List<UnitFieldValueDto> FieldValues { get; set; } = new();
+
+    /// <summary>
+    /// الحقول الديناميكية
+    /// Dynamic fields
+    /// </summary>
+    public List<UnitFieldValueDto> DynamicFields { get; set; } = new();
     
     /// <summary>
     /// قواعد التسعير المطبقة
@@ -121,42 +129,7 @@ public class UnitDetailsDto
     public CalculatedPriceDto? CalculatedPrice { get; set; }
 }
 
-/// <summary>
-/// بيانات قاعدة التسعير
-/// Pricing rule data transfer object
-/// </summary>
-public class PricingRuleDto
-{
-    /// <summary>
-    /// نوع السعر
-    /// Price type
-    /// </summary>
-    public string PriceType { get; set; } = string.Empty;
-    
-    /// <summary>
-    /// تاريخ البداية
-    /// Start date
-    /// </summary>
-    public DateTime StartDate { get; set; }
-    
-    /// <summary>
-    /// تاريخ النهاية
-    /// End date
-    /// </summary>
-    public DateTime EndDate { get; set; }
-    
-    /// <summary>
-    /// مبلغ السعر
-    /// Price amount
-    /// </summary>
-    public decimal PriceAmount { get; set; }
-    
-    /// <summary>
-    /// الوصف
-    /// Description
-    /// </summary>
-    public string? Description { get; set; }
-}
+
 
 /// <summary>
 /// السعر المحسوب

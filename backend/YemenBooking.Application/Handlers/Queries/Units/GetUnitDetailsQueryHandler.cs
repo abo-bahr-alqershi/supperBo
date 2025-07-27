@@ -102,21 +102,30 @@ namespace YemenBooking.Application.Handlers.Queries.Units
                 PropertyId = unit.PropertyId,
                 UnitTypeId = unit.UnitTypeId,
                 Name = unit.Name,
-                BasePrice = new MoneyDto { Amount = unit.BasePrice.Amount, Currency = unit.BasePrice.Currency },
-                CustomFeatures = unit.CustomFeatures,
+                BasePrice = unit.BasePrice.Amount,
+                CustomFeatures = string.IsNullOrEmpty(unit.CustomFeatures) 
+                    ? new Dictionary<string, object>() 
+                    : System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(unit.CustomFeatures) ?? new Dictionary<string, object>(),
                 IsAvailable = unit.IsAvailable,
                 MaxCapacity = unit.MaxCapacity,
                 ViewCount = unit.ViewCount,
                 BookingCount = unit.BookingCount,
                 PropertyName = unit.Property.Name,
                 UnitTypeName = unit.UnitType.Name,
-                PricingMethod = unit.PricingMethod,
+                PricingMethod = unit.PricingMethod.ToString(),
                 FieldValues = unit.FieldValues.Select(fv => new UnitFieldValueDto
                 {
                     FieldId = fv.UnitTypeFieldId,
                     FieldValue = fv.FieldValue
                 }).ToList(),
-                DynamicFields = dynamicFields
+                DynamicFields = dynamicFields.SelectMany(g => g.FieldValues.Select(fv => new UnitFieldValueDto
+                {
+                    ValueId = fv.ValueId,
+                    FieldId = fv.FieldId,
+                    FieldName = fv.FieldName,
+                    DisplayName = fv.DisplayName,
+                    FieldValue = fv.Value
+                })).ToList()
             };
 
             _logger.LogInformation("تم جلب تفاصيل الوحدة بنجاح: {UnitId}", request.UnitId);
