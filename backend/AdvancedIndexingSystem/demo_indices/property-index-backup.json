@@ -1,0 +1,2563 @@
+{
+  "configuration": {
+    "indexId": "property-index-001",
+    "indexName": "PropertyIndex",
+    "arabicName": "",
+    "description": "",
+    "indexType": 7,
+    "priority": 3,
+    "status": 1,
+    "createdAt": "2025-07-25T11:31:51.6164019Z",
+    "lastUpdated": "2025-07-25T11:31:51.6164021Z",
+    "isEnabled": true,
+    "autoUpdate": true,
+    "maxItems": 1000000,
+    "customSettings": {},
+    "indexedFields": [
+      "city",
+      "district",
+      "price",
+      "bedrooms",
+      "bathrooms",
+      "area",
+      "propertytype",
+      "heatingtype",
+      "amenities",
+      "isavailable",
+      "status",
+      "rating"
+    ],
+    "dynamicFields": [
+      {
+        "fieldId": "",
+        "fieldName": "bedrooms",
+        "arabicName": "",
+        "dataType": 1,
+        "isRequired": false,
+        "isSearchable": true,
+        "isSortable": true,
+        "allowedValues": [],
+        "defaultValue": null,
+        "validationRules": {
+          "minLength": null,
+          "maxLength": null,
+          "minValue": 0,
+          "maxValue": 10,
+          "regexPattern": null,
+          "errorMessage": "\u0639\u062F\u062F \u063A\u0631\u0641 \u0627\u0644\u0646\u0648\u0645 \u064A\u062C\u0628 \u0623\u0646 \u064A\u0643\u0648\u0646 \u0628\u064A\u0646 0 \u0648 10"
+        },
+        "rangeSettings": {
+          "customRanges": [],
+          "autoRangeSize": null,
+          "autoGenerateRanges": true
+        }
+      },
+      {
+        "fieldId": "",
+        "fieldName": "price",
+        "arabicName": "",
+        "dataType": 1,
+        "isRequired": true,
+        "isSearchable": true,
+        "isSortable": true,
+        "allowedValues": [],
+        "defaultValue": null,
+        "validationRules": {
+          "minLength": null,
+          "maxLength": null,
+          "minValue": 100,
+          "maxValue": 1000000,
+          "regexPattern": null,
+          "errorMessage": "\u0627\u0644\u0633\u0639\u0631 \u064A\u062C\u0628 \u0623\u0646 \u064A\u0643\u0648\u0646 \u0628\u064A\u0646 100 \u0648 1,000,000"
+        },
+        "rangeSettings": {
+          "customRanges": [],
+          "autoRangeSize": null,
+          "autoGenerateRanges": true
+        }
+      },
+      {
+        "fieldId": "",
+        "fieldName": "heatingtype",
+        "arabicName": "",
+        "dataType": 4,
+        "isRequired": false,
+        "isSearchable": true,
+        "isSortable": false,
+        "allowedValues": [
+          "central",
+          "individual",
+          "gas",
+          "electric",
+          "none"
+        ],
+        "defaultValue": "none",
+        "validationRules": {
+          "minLength": null,
+          "maxLength": null,
+          "minValue": null,
+          "maxValue": null,
+          "regexPattern": null,
+          "errorMessage": null
+        },
+        "rangeSettings": {
+          "customRanges": [],
+          "autoRangeSize": null,
+          "autoGenerateRanges": true
+        }
+      }
+    ],
+    "performanceMetrics": {
+      "indexId": "",
+      "indexName": "",
+      "indexCreatedAt": "2025-07-25T11:31:51.6164267Z",
+      "lastOperationTime": "00:00:00",
+      "currentItemCount": 0,
+      "totalItems": 0,
+      "indexedItemsCount": 0,
+      "searchesPerSecond": 0,
+      "indexSizeBytes": 0,
+      "averageSearchTimeMs": 0,
+      "averageSearchTime": 0,
+      "averageInsertionTimeMs": 0,
+      "averageUpdateTimeMs": 0,
+      "averageDeletionTimeMs": 0,
+      "totalCreateOperations": 0,
+      "totalAddOperations": 0,
+      "totalUpdateOperations": 0,
+      "totalRemoveOperations": 0,
+      "totalSearchOperations": 0,
+      "totalSaveOperations": 0,
+      "totalLoadOperations": 0,
+      "totalRebuildOperations": 0,
+      "totalClearOperations": 0,
+      "searchOperationsCount": 0,
+      "insertionOperationsCount": 0,
+      "updateOperationsCount": 0,
+      "deletionOperationsCount": 0,
+      "successRate": 0,
+      "memoryUsageMb": 0,
+      "throughputOpsPerSecond": 0,
+      "efficiencyRatio": 0,
+      "rebuildCount": 0,
+      "lastRebuildTime": null,
+      "statisticsStartTime": "2025-07-25T11:31:51.6164267Z",
+      "lastUpdated": "2025-07-25T11:31:51.6164268Z",
+      "fieldStatistics": {},
+      "cacheStatistics": {
+        "cacheSizeBytes": 0,
+        "cachedItemsCount": 0,
+        "cacheHits": 0,
+        "cacheMisses": 0,
+        "cacheHitRatio": 0,
+        "cacheEvictions": 0,
+        "averageCacheAccessTimeMs": 0,
+        "lastCleanupTime": null
+      },
+      "additionalDetails": {}
+    }
+  },
+  "items": {
+    "prop-016": {
+      "id": "prop-016",
+      "title": "Villa in Taiz - Unit 16",
+      "description": "Beautiful villa located in Taiz with modern amenities.",
+      "price": 2218,
+      "currency": "USD",
+      "city": "Taiz",
+      "district": "Al-Shamayatayn",
+      "bedrooms": 5,
+      "bathrooms": 1,
+      "area": 257,
+      "propertyType": "villa",
+      "heatingType": "gas",
+      "amenities": [
+        "garden",
+        "wifi"
+      ],
+      "isAvailable": true,
+      "createdAt": "2024-09-23T11:31:51.6328585Z",
+      "updatedAt": "2025-07-02T11:31:51.6328586Z",
+      "owner": {
+        "name": "Owner 16",
+        "phone": "\u002B967-900839506",
+        "email": "owner16@example.com",
+        "isVerified": false
+      },
+      "location": {
+        "latitude": 15.407208855663896,
+        "longitude": 44.155123609808335,
+        "fullAddress": "Street 62, Taiz",
+        "postalCode": "65237"
+      },
+      "images": [],
+      "rating": 2.8,
+      "reviewsCount": 38,
+      "tags": [
+        "taiz",
+        "villa",
+        "modern"
+      ],
+      "status": 0,
+      "additionalInfo": {
+        "furnished": false,
+        "petFriendly": false,
+        "yearBuilt": 1999
+      }
+    },
+    "prop-037": {
+      "id": "prop-037",
+      "title": "Villa in Ibb - Unit 37",
+      "description": "Beautiful villa located in Ibb with modern amenities.",
+      "price": 4892,
+      "currency": "USD",
+      "city": "Ibb",
+      "district": "Al-Mashannah",
+      "bedrooms": 5,
+      "bathrooms": 3,
+      "area": 201,
+      "propertyType": "villa",
+      "heatingType": "none",
+      "amenities": [
+        "pool",
+        "security",
+        "garden",
+        "elevator"
+      ],
+      "isAvailable": false,
+      "createdAt": "2025-04-03T11:31:51.6329343Z",
+      "updatedAt": "2025-07-20T11:31:51.6329344Z",
+      "owner": {
+        "name": "Owner 37",
+        "phone": "\u002B967-313977479",
+        "email": "owner37@example.com",
+        "isVerified": true
+      },
+      "location": {
+        "latitude": 15.35143816876376,
+        "longitude": 44.19234309798076,
+        "fullAddress": "Street 99, Ibb",
+        "postalCode": "15945"
+      },
+      "images": [],
+      "rating": 2.7,
+      "reviewsCount": 9,
+      "tags": [
+        "ibb",
+        "villa",
+        "modern"
+      ],
+      "status": 0,
+      "additionalInfo": {
+        "furnished": true,
+        "petFriendly": false,
+        "yearBuilt": 2004
+      }
+    },
+    "prop-041": {
+      "id": "prop-041",
+      "title": "House in Sana\u0027a - Unit 41",
+      "description": "Beautiful house located in Sana\u0027a with modern amenities.",
+      "price": 4368,
+      "currency": "USD",
+      "city": "Sana\u0027a",
+      "district": "Al-Hasaba",
+      "bedrooms": 4,
+      "bathrooms": 2,
+      "area": 292,
+      "propertyType": "house",
+      "heatingType": "none",
+      "amenities": [
+        "parking",
+        "elevator",
+        "garden",
+        "gym"
+      ],
+      "isAvailable": true,
+      "createdAt": "2024-09-27T11:31:51.6329457Z",
+      "updatedAt": "2025-07-23T11:31:51.6329458Z",
+      "owner": {
+        "name": "Owner 41",
+        "phone": "\u002B967-331967114",
+        "email": "owner41@example.com",
+        "isVerified": true
+      },
+      "location": {
+        "latitude": 15.396270478352937,
+        "longitude": 44.212843120768596,
+        "fullAddress": "Street 97, Sana\u0027a",
+        "postalCode": "73608"
+      },
+      "images": [],
+      "rating": 1.4,
+      "reviewsCount": 35,
+      "tags": [
+        "sana\u0027a",
+        "house",
+        "modern"
+      ],
+      "status": 0,
+      "additionalInfo": {
+        "furnished": false,
+        "petFriendly": false,
+        "yearBuilt": 2009
+      }
+    },
+    "prop-017": {
+      "id": "prop-017",
+      "title": "Apartment in Aden - Unit 17",
+      "description": "Beautiful apartment located in Aden with modern amenities.",
+      "price": 3942,
+      "currency": "USD",
+      "city": "Aden",
+      "district": "Al-Mualla",
+      "bedrooms": 5,
+      "bathrooms": 3,
+      "area": 134,
+      "propertyType": "apartment",
+      "heatingType": "central",
+      "amenities": [
+        "gym",
+        "elevator"
+      ],
+      "isAvailable": true,
+      "createdAt": "2025-04-13T11:31:51.6328692Z",
+      "updatedAt": "2025-07-13T11:31:51.6328692Z",
+      "owner": {
+        "name": "Owner 17",
+        "phone": "\u002B967-598303676",
+        "email": "owner17@example.com",
+        "isVerified": false
+      },
+      "location": {
+        "latitude": 15.333649645133619,
+        "longitude": 44.233637632504404,
+        "fullAddress": "Street 39, Aden",
+        "postalCode": "76992"
+      },
+      "images": [],
+      "rating": 3.4,
+      "reviewsCount": 23,
+      "tags": [
+        "aden",
+        "apartment",
+        "modern"
+      ],
+      "status": 0,
+      "additionalInfo": {
+        "furnished": true,
+        "petFriendly": false,
+        "yearBuilt": 2018
+      }
+    },
+    "prop-034": {
+      "id": "prop-034",
+      "title": "Villa in Hodeidah - Unit 34",
+      "description": "Beautiful villa located in Hodeidah with modern amenities.",
+      "price": 1330,
+      "currency": "USD",
+      "city": "Hodeidah",
+      "district": "Al-Hawk",
+      "bedrooms": 1,
+      "bathrooms": 1,
+      "area": 212,
+      "propertyType": "villa",
+      "heatingType": "electric",
+      "amenities": [
+        "parking",
+        "pool",
+        "security"
+      ],
+      "isAvailable": true,
+      "createdAt": "2024-11-29T11:31:51.6329249Z",
+      "updatedAt": "2025-07-12T11:31:51.6329249Z",
+      "owner": {
+        "name": "Owner 34",
+        "phone": "\u002B967-952566278",
+        "email": "owner34@example.com",
+        "isVerified": false
+      },
+      "location": {
+        "latitude": 15.387526651117637,
+        "longitude": 44.148929962737455,
+        "fullAddress": "Street 1, Hodeidah",
+        "postalCode": "88639"
+      },
+      "images": [],
+      "rating": 1.1,
+      "reviewsCount": 10,
+      "tags": [
+        "hodeidah",
+        "villa",
+        "modern"
+      ],
+      "status": 0,
+      "additionalInfo": {
+        "furnished": true,
+        "petFriendly": false,
+        "yearBuilt": 2012
+      }
+    },
+    "prop-021": {
+      "id": "prop-021",
+      "title": "House in Hodeidah - Unit 21",
+      "description": "Beautiful house located in Hodeidah with modern amenities.",
+      "price": 3580,
+      "currency": "USD",
+      "city": "Hodeidah",
+      "district": "Bayt Al-Faqih",
+      "bedrooms": 1,
+      "bathrooms": 2,
+      "area": 106,
+      "propertyType": "house",
+      "heatingType": "central",
+      "amenities": [
+        "gym",
+        "garden"
+      ],
+      "isAvailable": true,
+      "createdAt": "2025-02-11T11:31:51.6328829Z",
+      "updatedAt": "2025-06-28T11:31:51.6328829Z",
+      "owner": {
+        "name": "Owner 21",
+        "phone": "\u002B967-133850146",
+        "email": "owner21@example.com",
+        "isVerified": false
+      },
+      "location": {
+        "latitude": 15.344609775206266,
+        "longitude": 44.144291504552264,
+        "fullAddress": "Street 46, Hodeidah",
+        "postalCode": "53960"
+      },
+      "images": [],
+      "rating": 4.9,
+      "reviewsCount": 48,
+      "tags": [
+        "hodeidah",
+        "house",
+        "modern"
+      ],
+      "status": 0,
+      "additionalInfo": {
+        "furnished": false,
+        "petFriendly": false,
+        "yearBuilt": 2011
+      }
+    },
+    "prop-001": {
+      "id": "prop-001",
+      "title": "Luxury Apartment - Updated",
+      "description": "",
+      "price": 1800,
+      "currency": "USD",
+      "city": "Sana\u0027a",
+      "district": "Al-Sitteen",
+      "bedrooms": 3,
+      "bathrooms": 2,
+      "area": 120,
+      "propertyType": "apartment",
+      "heatingType": "central",
+      "amenities": [
+        "wifi",
+        "parking",
+        "elevator",
+        "security"
+      ],
+      "isAvailable": true,
+      "createdAt": "2025-07-25T11:31:51.6544426Z",
+      "updatedAt": "2025-07-25T11:31:51.6544487Z",
+      "owner": {
+        "name": "",
+        "phone": "",
+        "email": "",
+        "isVerified": false
+      },
+      "location": {
+        "latitude": 0,
+        "longitude": 0,
+        "fullAddress": "",
+        "postalCode": ""
+      },
+      "images": [],
+      "rating": 0,
+      "reviewsCount": 0,
+      "tags": [],
+      "status": 0,
+      "additionalInfo": {}
+    },
+    "prop-009": {
+      "id": "prop-009",
+      "title": "House in Ibb - Unit 9",
+      "description": "Beautiful house located in Ibb with modern amenities.",
+      "price": 4708,
+      "currency": "USD",
+      "city": "Ibb",
+      "district": "Yarim",
+      "bedrooms": 4,
+      "bathrooms": 2,
+      "area": 289,
+      "propertyType": "house",
+      "heatingType": "individual",
+      "amenities": [
+        "garden",
+        "gym",
+        "security"
+      ],
+      "isAvailable": false,
+      "createdAt": "2025-02-03T11:31:51.6328403Z",
+      "updatedAt": "2025-06-29T11:31:51.6328403Z",
+      "owner": {
+        "name": "Owner 9",
+        "phone": "\u002B967-381162499",
+        "email": "owner9@example.com",
+        "isVerified": true
+      },
+      "location": {
+        "latitude": 15.407541036773166,
+        "longitude": 44.230068385720756,
+        "fullAddress": "Street 2, Ibb",
+        "postalCode": "36851"
+      },
+      "images": [],
+      "rating": 3.3,
+      "reviewsCount": 0,
+      "tags": [
+        "ibb",
+        "house",
+        "modern"
+      ],
+      "status": 0,
+      "additionalInfo": {
+        "furnished": true,
+        "petFriendly": false,
+        "yearBuilt": 2012
+      }
+    },
+    "prop-026": {
+      "id": "prop-026",
+      "title": "Studio in Sana\u0027a - Unit 26",
+      "description": "Beautiful studio located in Sana\u0027a with modern amenities.",
+      "price": 1757,
+      "currency": "USD",
+      "city": "Sana\u0027a",
+      "district": "Al-Wahdah",
+      "bedrooms": 2,
+      "bathrooms": 1,
+      "area": 219,
+      "propertyType": "studio",
+      "heatingType": "electric",
+      "amenities": [
+        "garden",
+        "parking",
+        "security",
+        "gym"
+      ],
+      "isAvailable": true,
+      "createdAt": "2025-04-15T11:31:51.6328976Z",
+      "updatedAt": "2025-07-05T11:31:51.6328977Z",
+      "owner": {
+        "name": "Owner 26",
+        "phone": "\u002B967-239869072",
+        "email": "owner26@example.com",
+        "isVerified": true
+      },
+      "location": {
+        "latitude": 15.38585537147599,
+        "longitude": 44.20276630107769,
+        "fullAddress": "Street 70, Sana\u0027a",
+        "postalCode": "20571"
+      },
+      "images": [],
+      "rating": 3.8,
+      "reviewsCount": 17,
+      "tags": [
+        "sana\u0027a",
+        "studio",
+        "modern"
+      ],
+      "status": 0,
+      "additionalInfo": {
+        "furnished": false,
+        "petFriendly": true,
+        "yearBuilt": 2006
+      }
+    },
+    "prop-047": {
+      "id": "prop-047",
+      "title": "Villa in Ibb - Unit 47",
+      "description": "Beautiful villa located in Ibb with modern amenities.",
+      "price": 1206,
+      "currency": "USD",
+      "city": "Ibb",
+      "district": "Yarim",
+      "bedrooms": 3,
+      "bathrooms": 1,
+      "area": 166,
+      "propertyType": "villa",
+      "heatingType": "individual",
+      "amenities": [
+        "elevator",
+        "gym",
+        "security",
+        "wifi"
+      ],
+      "isAvailable": true,
+      "createdAt": "2024-08-01T11:31:51.6329601Z",
+      "updatedAt": "2025-07-17T11:31:51.6329601Z",
+      "owner": {
+        "name": "Owner 47",
+        "phone": "\u002B967-868292414",
+        "email": "owner47@example.com",
+        "isVerified": true
+      },
+      "location": {
+        "latitude": 15.382228067300296,
+        "longitude": 44.201556637430826,
+        "fullAddress": "Street 62, Ibb",
+        "postalCode": "71825"
+      },
+      "images": [],
+      "rating": 2,
+      "reviewsCount": 33,
+      "tags": [
+        "ibb",
+        "villa",
+        "modern"
+      ],
+      "status": 0,
+      "additionalInfo": {
+        "furnished": true,
+        "petFriendly": false,
+        "yearBuilt": 1999
+      }
+    },
+    "prop-006": {
+      "id": "prop-006",
+      "title": "Apartment in Sana\u0027a - Unit 6",
+      "description": "Beautiful apartment located in Sana\u0027a with modern amenities.",
+      "price": 2914,
+      "currency": "USD",
+      "city": "Sana\u0027a",
+      "district": "Al-Thawra",
+      "bedrooms": 1,
+      "bathrooms": 2,
+      "area": 147,
+      "propertyType": "apartment",
+      "heatingType": "individual",
+      "amenities": [
+        "elevator",
+        "pool",
+        "gym",
+        "garden"
+      ],
+      "isAvailable": true,
+      "createdAt": "2025-02-13T11:31:51.6328287Z",
+      "updatedAt": "2025-07-14T11:31:51.6328287Z",
+      "owner": {
+        "name": "Owner 6",
+        "phone": "\u002B967-967418246",
+        "email": "owner6@example.com",
+        "isVerified": true
+      },
+      "location": {
+        "latitude": 15.373701775318711,
+        "longitude": 44.235774448263825,
+        "fullAddress": "Street 81, Sana\u0027a",
+        "postalCode": "21548"
+      },
+      "images": [],
+      "rating": 1.4,
+      "reviewsCount": 0,
+      "tags": [
+        "sana\u0027a",
+        "apartment",
+        "modern"
+      ],
+      "status": 0,
+      "additionalInfo": {
+        "furnished": false,
+        "petFriendly": true,
+        "yearBuilt": 2014
+      }
+    },
+    "prop-027": {
+      "id": "prop-027",
+      "title": "Villa in Hodeidah - Unit 27",
+      "description": "Beautiful villa located in Hodeidah with modern amenities.",
+      "price": 1168,
+      "currency": "USD",
+      "city": "Hodeidah",
+      "district": "Al-Luhayyah",
+      "bedrooms": 3,
+      "bathrooms": 2,
+      "area": 217,
+      "propertyType": "villa",
+      "heatingType": "individual",
+      "amenities": [
+        "pool",
+        "wifi",
+        "garden",
+        "security"
+      ],
+      "isAvailable": true,
+      "createdAt": "2024-07-26T11:31:51.6328999Z",
+      "updatedAt": "2025-07-16T11:31:51.6329Z",
+      "owner": {
+        "name": "Owner 27",
+        "phone": "\u002B967-276060608",
+        "email": "owner27@example.com",
+        "isVerified": true
+      },
+      "location": {
+        "latitude": 15.379770090911338,
+        "longitude": 44.170025909876934,
+        "fullAddress": "Street 41, Hodeidah",
+        "postalCode": "44711"
+      },
+      "images": [],
+      "rating": 2.5,
+      "reviewsCount": 7,
+      "tags": [
+        "hodeidah",
+        "villa",
+        "modern"
+      ],
+      "status": 0,
+      "additionalInfo": {
+        "furnished": false,
+        "petFriendly": false,
+        "yearBuilt": 1991
+      }
+    },
+    "prop-044": {
+      "id": "prop-044",
+      "title": "Apartment in Taiz - Unit 44",
+      "description": "Beautiful apartment located in Taiz with modern amenities.",
+      "price": 2591,
+      "currency": "USD",
+      "city": "Taiz",
+      "district": "Mawza",
+      "bedrooms": 1,
+      "bathrooms": 1,
+      "area": 149,
+      "propertyType": "apartment",
+      "heatingType": "individual",
+      "amenities": [
+        "elevator",
+        "security"
+      ],
+      "isAvailable": true,
+      "createdAt": "2024-09-27T11:31:51.632952Z",
+      "updatedAt": "2025-07-04T11:31:51.632952Z",
+      "owner": {
+        "name": "Owner 44",
+        "phone": "\u002B967-829312536",
+        "email": "owner44@example.com",
+        "isVerified": true
+      },
+      "location": {
+        "latitude": 15.365133449489687,
+        "longitude": 44.155700313245276,
+        "fullAddress": "Street 8, Taiz",
+        "postalCode": "59685"
+      },
+      "images": [],
+      "rating": 1.6,
+      "reviewsCount": 40,
+      "tags": [
+        "taiz",
+        "apartment",
+        "modern"
+      ],
+      "status": 0,
+      "additionalInfo": {
+        "furnished": true,
+        "petFriendly": false,
+        "yearBuilt": 1990
+      }
+    },
+    "prop-033": {
+      "id": "prop-033",
+      "title": "Studio in Taiz - Unit 33",
+      "description": "Beautiful studio located in Taiz with modern amenities.",
+      "price": 1025,
+      "currency": "USD",
+      "city": "Taiz",
+      "district": "Al-Shamayatayn",
+      "bedrooms": 5,
+      "bathrooms": 3,
+      "area": 204,
+      "propertyType": "studio",
+      "heatingType": "none",
+      "amenities": [
+        "pool",
+        "garden",
+        "security",
+        "elevator"
+      ],
+      "isAvailable": false,
+      "createdAt": "2025-05-12T11:31:51.6329225Z",
+      "updatedAt": "2025-06-30T11:31:51.6329226Z",
+      "owner": {
+        "name": "Owner 33",
+        "phone": "\u002B967-789631362",
+        "email": "owner33@example.com",
+        "isVerified": true
+      },
+      "location": {
+        "latitude": 15.368748567728582,
+        "longitude": 44.19685864109726,
+        "fullAddress": "Street 96, Taiz",
+        "postalCode": "59984"
+      },
+      "images": [],
+      "rating": 1,
+      "reviewsCount": 28,
+      "tags": [
+        "taiz",
+        "studio",
+        "modern"
+      ],
+      "status": 0,
+      "additionalInfo": {
+        "furnished": true,
+        "petFriendly": true,
+        "yearBuilt": 2020
+      }
+    },
+    "prop-050": {
+      "id": "prop-050",
+      "title": "Apartment in Ibb - Unit 50",
+      "description": "Beautiful apartment located in Ibb with modern amenities.",
+      "price": 4688,
+      "currency": "USD",
+      "city": "Ibb",
+      "district": "Al-Mashannah",
+      "bedrooms": 5,
+      "bathrooms": 1,
+      "area": 274,
+      "propertyType": "apartment",
+      "heatingType": "central",
+      "amenities": [
+        "garden",
+        "wifi",
+        "gym",
+        "pool"
+      ],
+      "isAvailable": true,
+      "createdAt": "2025-03-21T11:31:51.6329712Z",
+      "updatedAt": "2025-07-12T11:31:51.6329713Z",
+      "owner": {
+        "name": "Owner 50",
+        "phone": "\u002B967-374608256",
+        "email": "owner50@example.com",
+        "isVerified": false
+      },
+      "location": {
+        "latitude": 15.39534906621424,
+        "longitude": 44.162429562485514,
+        "fullAddress": "Street 69, Ibb",
+        "postalCode": "53004"
+      },
+      "images": [],
+      "rating": 3.6,
+      "reviewsCount": 25,
+      "tags": [
+        "ibb",
+        "apartment",
+        "modern"
+      ],
+      "status": 0,
+      "additionalInfo": {
+        "furnished": true,
+        "petFriendly": false,
+        "yearBuilt": 2001
+      }
+    },
+    "prop-007": {
+      "id": "prop-007",
+      "title": "Villa in Taiz - Unit 7",
+      "description": "Beautiful villa located in Taiz with modern amenities.",
+      "price": 4729,
+      "currency": "USD",
+      "city": "Taiz",
+      "district": "Al-Shamayatayn",
+      "bedrooms": 4,
+      "bathrooms": 1,
+      "area": 134,
+      "propertyType": "villa",
+      "heatingType": "gas",
+      "amenities": [
+        "security",
+        "pool"
+      ],
+      "isAvailable": true,
+      "createdAt": "2024-10-05T11:31:51.6328311Z",
+      "updatedAt": "2025-07-17T11:31:51.6328311Z",
+      "owner": {
+        "name": "Owner 7",
+        "phone": "\u002B967-899200782",
+        "email": "owner7@example.com",
+        "isVerified": true
+      },
+      "location": {
+        "latitude": 15.338356177178285,
+        "longitude": 44.16871250066707,
+        "fullAddress": "Street 23, Taiz",
+        "postalCode": "85024"
+      },
+      "images": [],
+      "rating": 3.6,
+      "reviewsCount": 4,
+      "tags": [
+        "taiz",
+        "villa",
+        "modern"
+      ],
+      "status": 0,
+      "additionalInfo": {
+        "furnished": false,
+        "petFriendly": true,
+        "yearBuilt": 2019
+      }
+    },
+    "prop-013": {
+      "id": "prop-013",
+      "title": "House in Taiz - Unit 13",
+      "description": "Beautiful house located in Taiz with modern amenities.",
+      "price": 2057,
+      "currency": "USD",
+      "city": "Taiz",
+      "district": "Al-Qahirah",
+      "bedrooms": 1,
+      "bathrooms": 2,
+      "area": 55,
+      "propertyType": "house",
+      "heatingType": "central",
+      "amenities": [
+        "garden",
+        "pool"
+      ],
+      "isAvailable": true,
+      "createdAt": "2024-08-25T11:31:51.6328518Z",
+      "updatedAt": "2025-07-01T11:31:51.6328519Z",
+      "owner": {
+        "name": "Owner 13",
+        "phone": "\u002B967-843203573",
+        "email": "owner13@example.com",
+        "isVerified": true
+      },
+      "location": {
+        "latitude": 15.379225801178732,
+        "longitude": 44.15388631065418,
+        "fullAddress": "Street 79, Taiz",
+        "postalCode": "35959"
+      },
+      "images": [],
+      "rating": 3.2,
+      "reviewsCount": 2,
+      "tags": [
+        "taiz",
+        "house",
+        "modern"
+      ],
+      "status": 0,
+      "additionalInfo": {
+        "furnished": false,
+        "petFriendly": false,
+        "yearBuilt": 1993
+      }
+    },
+    "prop-030": {
+      "id": "prop-030",
+      "title": "Apartment in Ibb - Unit 30",
+      "description": "Beautiful apartment located in Ibb with modern amenities.",
+      "price": 468,
+      "currency": "USD",
+      "city": "Ibb",
+      "district": "Yarim",
+      "bedrooms": 1,
+      "bathrooms": 3,
+      "area": 263,
+      "propertyType": "apartment",
+      "heatingType": "electric",
+      "amenities": [
+        "security",
+        "gym",
+        "parking"
+      ],
+      "isAvailable": true,
+      "createdAt": "2025-05-04T11:31:51.6329125Z",
+      "updatedAt": "2025-07-09T11:31:51.6329126Z",
+      "owner": {
+        "name": "Owner 30",
+        "phone": "\u002B967-602505803",
+        "email": "owner30@example.com",
+        "isVerified": true
+      },
+      "location": {
+        "latitude": 15.320360732205287,
+        "longitude": 44.182053996254254,
+        "fullAddress": "Street 58, Ibb",
+        "postalCode": "16865"
+      },
+      "images": [],
+      "rating": 2.9,
+      "reviewsCount": 33,
+      "tags": [
+        "ibb",
+        "apartment",
+        "modern"
+      ],
+      "status": 0,
+      "additionalInfo": {
+        "furnished": true,
+        "petFriendly": false,
+        "yearBuilt": 2006
+      }
+    },
+    "prop-018": {
+      "id": "prop-018",
+      "title": "House in Sana\u0027a - Unit 18",
+      "description": "Beautiful house located in Sana\u0027a with modern amenities.",
+      "price": 4931,
+      "currency": "USD",
+      "city": "Sana\u0027a",
+      "district": "Al-Sitteen",
+      "bedrooms": 4,
+      "bathrooms": 1,
+      "area": 168,
+      "propertyType": "house",
+      "heatingType": "individual",
+      "amenities": [
+        "parking",
+        "elevator",
+        "pool",
+        "garden"
+      ],
+      "isAvailable": true,
+      "createdAt": "2025-03-28T11:31:51.6328716Z",
+      "updatedAt": "2025-07-05T11:31:51.6328717Z",
+      "owner": {
+        "name": "Owner 18",
+        "phone": "\u002B967-347768843",
+        "email": "owner18@example.com",
+        "isVerified": false
+      },
+      "location": {
+        "latitude": 15.367834409614856,
+        "longitude": 44.14542924099249,
+        "fullAddress": "Street 13, Sana\u0027a",
+        "postalCode": "25532"
+      },
+      "images": [],
+      "rating": 1.9,
+      "reviewsCount": 10,
+      "tags": [
+        "sana\u0027a",
+        "house",
+        "modern"
+      ],
+      "status": 0,
+      "additionalInfo": {
+        "furnished": true,
+        "petFriendly": false,
+        "yearBuilt": 2020
+      }
+    },
+    "prop-039": {
+      "id": "prop-039",
+      "title": "House in Taiz - Unit 39",
+      "description": "Beautiful house located in Taiz with modern amenities.",
+      "price": 1415,
+      "currency": "USD",
+      "city": "Taiz",
+      "district": "Al-Shamayatayn",
+      "bedrooms": 1,
+      "bathrooms": 1,
+      "area": 237,
+      "propertyType": "house",
+      "heatingType": "central",
+      "amenities": [
+        "wifi",
+        "pool",
+        "parking",
+        "gym"
+      ],
+      "isAvailable": true,
+      "createdAt": "2024-09-09T11:31:51.632939Z",
+      "updatedAt": "2025-07-02T11:31:51.6329391Z",
+      "owner": {
+        "name": "Owner 39",
+        "phone": "\u002B967-265536467",
+        "email": "owner39@example.com",
+        "isVerified": true
+      },
+      "location": {
+        "latitude": 15.396654421299909,
+        "longitude": 44.17287411997089,
+        "fullAddress": "Street 6, Taiz",
+        "postalCode": "30338"
+      },
+      "images": [],
+      "rating": 1.8,
+      "reviewsCount": 47,
+      "tags": [
+        "taiz",
+        "house",
+        "modern"
+      ],
+      "status": 0,
+      "additionalInfo": {
+        "furnished": true,
+        "petFriendly": false,
+        "yearBuilt": 1994
+      }
+    },
+    "prop-022": {
+      "id": "prop-022",
+      "title": "Apartment in Ibb - Unit 22",
+      "description": "Beautiful apartment located in Ibb with modern amenities.",
+      "price": 1079,
+      "currency": "USD",
+      "city": "Ibb",
+      "district": "Hubaysh",
+      "bedrooms": 1,
+      "bathrooms": 3,
+      "area": 184,
+      "propertyType": "apartment",
+      "heatingType": "central",
+      "amenities": [
+        "security",
+        "wifi"
+      ],
+      "isAvailable": true,
+      "createdAt": "2024-12-22T11:31:51.6328851Z",
+      "updatedAt": "2025-07-03T11:31:51.6328851Z",
+      "owner": {
+        "name": "Owner 22",
+        "phone": "\u002B967-628364784",
+        "email": "owner22@example.com",
+        "isVerified": false
+      },
+      "location": {
+        "latitude": 15.393774406260613,
+        "longitude": 44.23702035274544,
+        "fullAddress": "Street 18, Ibb",
+        "postalCode": "43276"
+      },
+      "images": [],
+      "rating": 2.9,
+      "reviewsCount": 22,
+      "tags": [
+        "ibb",
+        "apartment",
+        "modern"
+      ],
+      "status": 0,
+      "additionalInfo": {
+        "furnished": true,
+        "petFriendly": false,
+        "yearBuilt": 1990
+      }
+    },
+    "prop-043": {
+      "id": "prop-043",
+      "title": "Studio in Taiz - Unit 43",
+      "description": "Beautiful studio located in Taiz with modern amenities.",
+      "price": 4953,
+      "currency": "USD",
+      "city": "Taiz",
+      "district": "Al-Qahirah",
+      "bedrooms": 2,
+      "bathrooms": 2,
+      "area": 97,
+      "propertyType": "studio",
+      "heatingType": "gas",
+      "amenities": [
+        "wifi",
+        "gym"
+      ],
+      "isAvailable": true,
+      "createdAt": "2025-04-20T11:31:51.6329501Z",
+      "updatedAt": "2025-06-30T11:31:51.6329501Z",
+      "owner": {
+        "name": "Owner 43",
+        "phone": "\u002B967-231688231",
+        "email": "owner43@example.com",
+        "isVerified": false
+      },
+      "location": {
+        "latitude": 15.353033332249538,
+        "longitude": 44.150650836004715,
+        "fullAddress": "Street 99, Taiz",
+        "postalCode": "27142"
+      },
+      "images": [],
+      "rating": 1.4,
+      "reviewsCount": 7,
+      "tags": [
+        "taiz",
+        "studio",
+        "modern"
+      ],
+      "status": 0,
+      "additionalInfo": {
+        "furnished": true,
+        "petFriendly": true,
+        "yearBuilt": 2009
+      }
+    },
+    "prop-019": {
+      "id": "prop-019",
+      "title": "House in Sana\u0027a - Unit 19",
+      "description": "Beautiful house located in Sana\u0027a with modern amenities.",
+      "price": 2948,
+      "currency": "USD",
+      "city": "Sana\u0027a",
+      "district": "Al-Wahdah",
+      "bedrooms": 5,
+      "bathrooms": 1,
+      "area": 81,
+      "propertyType": "house",
+      "heatingType": "central",
+      "amenities": [
+        "wifi",
+        "garden",
+        "parking",
+        "elevator"
+      ],
+      "isAvailable": true,
+      "createdAt": "2025-04-07T11:31:51.6328738Z",
+      "updatedAt": "2025-07-21T11:31:51.6328739Z",
+      "owner": {
+        "name": "Owner 19",
+        "phone": "\u002B967-342405214",
+        "email": "owner19@example.com",
+        "isVerified": false
+      },
+      "location": {
+        "latitude": 15.334492572018082,
+        "longitude": 44.1658882479616,
+        "fullAddress": "Street 16, Sana\u0027a",
+        "postalCode": "68398"
+      },
+      "images": [],
+      "rating": 3.5,
+      "reviewsCount": 21,
+      "tags": [
+        "sana\u0027a",
+        "house",
+        "modern"
+      ],
+      "status": 0,
+      "additionalInfo": {
+        "furnished": false,
+        "petFriendly": false,
+        "yearBuilt": 2014
+      }
+    },
+    "prop-036": {
+      "id": "prop-036",
+      "title": "House in Sana\u0027a - Unit 36",
+      "description": "Beautiful house located in Sana\u0027a with modern amenities.",
+      "price": 2496,
+      "currency": "USD",
+      "city": "Sana\u0027a",
+      "district": "Al-Thawra",
+      "bedrooms": 5,
+      "bathrooms": 3,
+      "area": 179,
+      "propertyType": "house",
+      "heatingType": "individual",
+      "amenities": [
+        "parking",
+        "security",
+        "garden"
+      ],
+      "isAvailable": true,
+      "createdAt": "2025-05-11T11:31:51.6329291Z",
+      "updatedAt": "2025-07-18T11:31:51.6329292Z",
+      "owner": {
+        "name": "Owner 36",
+        "phone": "\u002B967-661359584",
+        "email": "owner36@example.com",
+        "isVerified": true
+      },
+      "location": {
+        "latitude": 15.385574374458463,
+        "longitude": 44.16859594178181,
+        "fullAddress": "Street 28, Sana\u0027a",
+        "postalCode": "63607"
+      },
+      "images": [],
+      "rating": 2.3,
+      "reviewsCount": 32,
+      "tags": [
+        "sana\u0027a",
+        "house",
+        "modern"
+      ],
+      "status": 0,
+      "additionalInfo": {
+        "furnished": true,
+        "petFriendly": false,
+        "yearBuilt": 2009
+      }
+    },
+    "prop-002": {
+      "id": "prop-002",
+      "title": "Villa in Hodeidah - Unit 2",
+      "description": "Beautiful villa located in Hodeidah with modern amenities.",
+      "price": 2107,
+      "currency": "USD",
+      "city": "Hodeidah",
+      "district": "Al-Mina",
+      "bedrooms": 1,
+      "bathrooms": 1,
+      "area": 245,
+      "propertyType": "villa",
+      "heatingType": "central",
+      "amenities": [
+        "security",
+        "wifi"
+      ],
+      "isAvailable": true,
+      "createdAt": "2025-06-13T11:31:51.6327996Z",
+      "updatedAt": "2025-07-17T11:31:51.6327999Z",
+      "owner": {
+        "name": "Owner 2",
+        "phone": "\u002B967-795185491",
+        "email": "owner2@example.com",
+        "isVerified": false
+      },
+      "location": {
+        "latitude": 15.384214590739466,
+        "longitude": 44.155364648477345,
+        "fullAddress": "Street 5, Hodeidah",
+        "postalCode": "64409"
+      },
+      "images": [],
+      "rating": 3.1,
+      "reviewsCount": 2,
+      "tags": [
+        "hodeidah",
+        "villa",
+        "modern"
+      ],
+      "status": 0,
+      "additionalInfo": {
+        "furnished": false,
+        "petFriendly": true,
+        "yearBuilt": 2011
+      }
+    },
+    "prop-023": {
+      "id": "prop-023",
+      "title": "Studio in Taiz - Unit 23",
+      "description": "Beautiful studio located in Taiz with modern amenities.",
+      "price": 2053,
+      "currency": "USD",
+      "city": "Taiz",
+      "district": "Mawza",
+      "bedrooms": 1,
+      "bathrooms": 2,
+      "area": 269,
+      "propertyType": "studio",
+      "heatingType": "electric",
+      "amenities": [
+        "parking",
+        "wifi",
+        "garden",
+        "security"
+      ],
+      "isAvailable": true,
+      "createdAt": "2025-07-15T11:31:51.6328872Z",
+      "updatedAt": "2025-07-07T11:31:51.6328873Z",
+      "owner": {
+        "name": "Owner 23",
+        "phone": "\u002B967-956286205",
+        "email": "owner23@example.com",
+        "isVerified": true
+      },
+      "location": {
+        "latitude": 15.3569135158829,
+        "longitude": 44.194025811655926,
+        "fullAddress": "Street 9, Taiz",
+        "postalCode": "48563"
+      },
+      "images": [],
+      "rating": 1.4,
+      "reviewsCount": 5,
+      "tags": [
+        "taiz",
+        "studio",
+        "modern"
+      ],
+      "status": 0,
+      "additionalInfo": {
+        "furnished": true,
+        "petFriendly": true,
+        "yearBuilt": 2020
+      }
+    },
+    "prop-040": {
+      "id": "prop-040",
+      "title": "Studio in Aden - Unit 40",
+      "description": "Beautiful studio located in Aden with modern amenities.",
+      "price": 300,
+      "currency": "USD",
+      "city": "Aden",
+      "district": "Al-Mualla",
+      "bedrooms": 3,
+      "bathrooms": 1,
+      "area": 292,
+      "propertyType": "studio",
+      "heatingType": "central",
+      "amenities": [
+        "gym",
+        "elevator"
+      ],
+      "isAvailable": true,
+      "createdAt": "2025-05-20T11:31:51.632941Z",
+      "updatedAt": "2025-06-26T11:31:51.6329411Z",
+      "owner": {
+        "name": "Owner 40",
+        "phone": "\u002B967-567334821",
+        "email": "owner40@example.com",
+        "isVerified": true
+      },
+      "location": {
+        "latitude": 15.348538761865505,
+        "longitude": 44.147060350363176,
+        "fullAddress": "Street 68, Aden",
+        "postalCode": "20301"
+      },
+      "images": [],
+      "rating": 4.2,
+      "reviewsCount": 8,
+      "tags": [
+        "aden",
+        "studio",
+        "modern"
+      ],
+      "status": 0,
+      "additionalInfo": {
+        "furnished": false,
+        "petFriendly": false,
+        "yearBuilt": 2018
+      }
+    },
+    "prop-048": {
+      "id": "prop-048",
+      "title": "Studio in Sana\u0027a - Unit 48",
+      "description": "Beautiful studio located in Sana\u0027a with modern amenities.",
+      "price": 339,
+      "currency": "USD",
+      "city": "Sana\u0027a",
+      "district": "Al-Hasaba",
+      "bedrooms": 2,
+      "bathrooms": 1,
+      "area": 119,
+      "propertyType": "studio",
+      "heatingType": "none",
+      "amenities": [
+        "gym",
+        "security"
+      ],
+      "isAvailable": true,
+      "createdAt": "2025-03-14T11:31:51.6329622Z",
+      "updatedAt": "2025-07-23T11:31:51.6329622Z",
+      "owner": {
+        "name": "Owner 48",
+        "phone": "\u002B967-760199405",
+        "email": "owner48@example.com",
+        "isVerified": false
+      },
+      "location": {
+        "latitude": 15.34759540776694,
+        "longitude": 44.19681463806136,
+        "fullAddress": "Street 72, Sana\u0027a",
+        "postalCode": "87909"
+      },
+      "images": [],
+      "rating": 2.4,
+      "reviewsCount": 2,
+      "tags": [
+        "sana\u0027a",
+        "studio",
+        "modern"
+      ],
+      "status": 0,
+      "additionalInfo": {
+        "furnished": true,
+        "petFriendly": false,
+        "yearBuilt": 2003
+      }
+    },
+    "prop-003": {
+      "id": "prop-003",
+      "title": "Apartment in Aden - Unit 3",
+      "description": "Beautiful apartment located in Aden with modern amenities.",
+      "price": 2713,
+      "currency": "USD",
+      "city": "Aden",
+      "district": "Khormaksar",
+      "bedrooms": 1,
+      "bathrooms": 3,
+      "area": 53,
+      "propertyType": "apartment",
+      "heatingType": "individual",
+      "amenities": [
+        "pool",
+        "wifi"
+      ],
+      "isAvailable": false,
+      "createdAt": "2025-07-01T11:31:51.6328078Z",
+      "updatedAt": "2025-07-06T11:31:51.6328079Z",
+      "owner": {
+        "name": "Owner 3",
+        "phone": "\u002B967-131085129",
+        "email": "owner3@example.com",
+        "isVerified": true
+      },
+      "location": {
+        "latitude": 15.412297076668636,
+        "longitude": 44.187119376153746,
+        "fullAddress": "Street 38, Aden",
+        "postalCode": "65493"
+      },
+      "images": [],
+      "rating": 1.2,
+      "reviewsCount": 18,
+      "tags": [
+        "aden",
+        "apartment",
+        "modern"
+      ],
+      "status": 0,
+      "additionalInfo": {
+        "furnished": false,
+        "petFriendly": false,
+        "yearBuilt": 2016
+      }
+    },
+    "prop-020": {
+      "id": "prop-020",
+      "title": "Villa in Ibb - Unit 20",
+      "description": "Beautiful villa located in Ibb with modern amenities.",
+      "price": 4310,
+      "currency": "USD",
+      "city": "Ibb",
+      "district": "Yarim",
+      "bedrooms": 5,
+      "bathrooms": 1,
+      "area": 202,
+      "propertyType": "villa",
+      "heatingType": "individual",
+      "amenities": [
+        "parking",
+        "gym",
+        "security"
+      ],
+      "isAvailable": true,
+      "createdAt": "2025-05-21T11:31:51.632876Z",
+      "updatedAt": "2025-07-23T11:31:51.632876Z",
+      "owner": {
+        "name": "Owner 20",
+        "phone": "\u002B967-143111699",
+        "email": "owner20@example.com",
+        "isVerified": false
+      },
+      "location": {
+        "latitude": 15.41110142151029,
+        "longitude": 44.201369166853084,
+        "fullAddress": "Street 10, Ibb",
+        "postalCode": "83104"
+      },
+      "images": [],
+      "rating": 4.5,
+      "reviewsCount": 9,
+      "tags": [
+        "ibb",
+        "villa",
+        "modern"
+      ],
+      "status": 0,
+      "additionalInfo": {
+        "furnished": true,
+        "petFriendly": false,
+        "yearBuilt": 2004
+      }
+    },
+    "prop-028": {
+      "id": "prop-028",
+      "title": "Villa in Ibb - Unit 28",
+      "description": "Beautiful villa located in Ibb with modern amenities.",
+      "price": 3623,
+      "currency": "USD",
+      "city": "Ibb",
+      "district": "Al-Nadi",
+      "bedrooms": 5,
+      "bathrooms": 3,
+      "area": 183,
+      "propertyType": "villa",
+      "heatingType": "individual",
+      "amenities": [
+        "security",
+        "elevator"
+      ],
+      "isAvailable": true,
+      "createdAt": "2025-06-22T11:31:51.6329023Z",
+      "updatedAt": "2025-07-19T11:31:51.6329023Z",
+      "owner": {
+        "name": "Owner 28",
+        "phone": "\u002B967-502324045",
+        "email": "owner28@example.com",
+        "isVerified": false
+      },
+      "location": {
+        "latitude": 15.35477203480274,
+        "longitude": 44.15576690551023,
+        "fullAddress": "Street 65, Ibb",
+        "postalCode": "24547"
+      },
+      "images": [],
+      "rating": 1.2,
+      "reviewsCount": 22,
+      "tags": [
+        "ibb",
+        "villa",
+        "modern"
+      ],
+      "status": 0,
+      "additionalInfo": {
+        "furnished": true,
+        "petFriendly": false,
+        "yearBuilt": 2015
+      }
+    },
+    "prop-049": {
+      "id": "prop-049",
+      "title": "House in Ibb - Unit 49",
+      "description": "Beautiful house located in Ibb with modern amenities.",
+      "price": 1899,
+      "currency": "USD",
+      "city": "Ibb",
+      "district": "Dhi As-Sufal",
+      "bedrooms": 2,
+      "bathrooms": 1,
+      "area": 190,
+      "propertyType": "house",
+      "heatingType": "individual",
+      "amenities": [
+        "pool",
+        "wifi",
+        "gym"
+      ],
+      "isAvailable": true,
+      "createdAt": "2025-04-13T11:31:51.6329688Z",
+      "updatedAt": "2025-07-09T11:31:51.6329689Z",
+      "owner": {
+        "name": "Owner 49",
+        "phone": "\u002B967-469641460",
+        "email": "owner49@example.com",
+        "isVerified": true
+      },
+      "location": {
+        "latitude": 15.350275958330407,
+        "longitude": 44.21965810761166,
+        "fullAddress": "Street 42, Ibb",
+        "postalCode": "14025"
+      },
+      "images": [],
+      "rating": 4.2,
+      "reviewsCount": 17,
+      "tags": [
+        "ibb",
+        "house",
+        "modern"
+      ],
+      "status": 0,
+      "additionalInfo": {
+        "furnished": false,
+        "petFriendly": false,
+        "yearBuilt": 1990
+      }
+    },
+    "prop-008": {
+      "id": "prop-008",
+      "title": "Studio in Hodeidah - Unit 8",
+      "description": "Beautiful studio located in Hodeidah with modern amenities.",
+      "price": 3628,
+      "currency": "USD",
+      "city": "Hodeidah",
+      "district": "Al-Mina",
+      "bedrooms": 5,
+      "bathrooms": 2,
+      "area": 180,
+      "propertyType": "studio",
+      "heatingType": "none",
+      "amenities": [
+        "elevator",
+        "pool",
+        "garden"
+      ],
+      "isAvailable": true,
+      "createdAt": "2025-05-13T11:31:51.632835Z",
+      "updatedAt": "2025-07-09T11:31:51.632835Z",
+      "owner": {
+        "name": "Owner 8",
+        "phone": "\u002B967-809774472",
+        "email": "owner8@example.com",
+        "isVerified": true
+      },
+      "location": {
+        "latitude": 15.339255115944454,
+        "longitude": 44.23447442602435,
+        "fullAddress": "Street 6, Hodeidah",
+        "postalCode": "15011"
+      },
+      "images": [],
+      "rating": 1.9,
+      "reviewsCount": 15,
+      "tags": [
+        "hodeidah",
+        "studio",
+        "modern"
+      ],
+      "status": 0,
+      "additionalInfo": {
+        "furnished": false,
+        "petFriendly": false,
+        "yearBuilt": 1999
+      }
+    },
+    "prop-014": {
+      "id": "prop-014",
+      "title": "Studio in Taiz - Unit 14",
+      "description": "Beautiful studio located in Taiz with modern amenities.",
+      "price": 4271,
+      "currency": "USD",
+      "city": "Taiz",
+      "district": "Al-Shamayatayn",
+      "bedrooms": 5,
+      "bathrooms": 2,
+      "area": 72,
+      "propertyType": "studio",
+      "heatingType": "gas",
+      "amenities": [
+        "security",
+        "pool",
+        "parking",
+        "garden"
+      ],
+      "isAvailable": true,
+      "createdAt": "2024-08-18T11:31:51.6328543Z",
+      "updatedAt": "2025-06-30T11:31:51.6328543Z",
+      "owner": {
+        "name": "Owner 14",
+        "phone": "\u002B967-268034352",
+        "email": "owner14@example.com",
+        "isVerified": true
+      },
+      "location": {
+        "latitude": 15.416031637540009,
+        "longitude": 44.22163109497569,
+        "fullAddress": "Street 81, Taiz",
+        "postalCode": "49946"
+      },
+      "images": [],
+      "rating": 4.6,
+      "reviewsCount": 9,
+      "tags": [
+        "taiz",
+        "studio",
+        "modern"
+      ],
+      "status": 0,
+      "additionalInfo": {
+        "furnished": false,
+        "petFriendly": true,
+        "yearBuilt": 2002
+      }
+    },
+    "prop-029": {
+      "id": "prop-029",
+      "title": "Villa in Taiz - Unit 29",
+      "description": "Beautiful villa located in Taiz with modern amenities.",
+      "price": 2185,
+      "currency": "USD",
+      "city": "Taiz",
+      "district": "Mawza",
+      "bedrooms": 5,
+      "bathrooms": 1,
+      "area": 200,
+      "propertyType": "villa",
+      "heatingType": "none",
+      "amenities": [
+        "gym",
+        "garden"
+      ],
+      "isAvailable": true,
+      "createdAt": "2025-02-11T11:31:51.6329073Z",
+      "updatedAt": "2025-07-12T11:31:51.6329074Z",
+      "owner": {
+        "name": "Owner 29",
+        "phone": "\u002B967-866491557",
+        "email": "owner29@example.com",
+        "isVerified": true
+      },
+      "location": {
+        "latitude": 15.325803736400607,
+        "longitude": 44.226831219184135,
+        "fullAddress": "Street 15, Taiz",
+        "postalCode": "81319"
+      },
+      "images": [],
+      "rating": 3,
+      "reviewsCount": 18,
+      "tags": [
+        "taiz",
+        "villa",
+        "modern"
+      ],
+      "status": 0,
+      "additionalInfo": {
+        "furnished": true,
+        "petFriendly": false,
+        "yearBuilt": 2016
+      }
+    },
+    "prop-046": {
+      "id": "prop-046",
+      "title": "House in Sana\u0027a - Unit 46",
+      "description": "Beautiful house located in Sana\u0027a with modern amenities.",
+      "price": 1898,
+      "currency": "USD",
+      "city": "Sana\u0027a",
+      "district": "Al-Wahdah",
+      "bedrooms": 1,
+      "bathrooms": 3,
+      "area": 232,
+      "propertyType": "house",
+      "heatingType": "central",
+      "amenities": [
+        "gym",
+        "parking",
+        "security"
+      ],
+      "isAvailable": true,
+      "createdAt": "2025-04-15T11:31:51.6329577Z",
+      "updatedAt": "2025-07-09T11:31:51.6329577Z",
+      "owner": {
+        "name": "Owner 46",
+        "phone": "\u002B967-960142041",
+        "email": "owner46@example.com",
+        "isVerified": true
+      },
+      "location": {
+        "latitude": 15.398983550933556,
+        "longitude": 44.22175118767133,
+        "fullAddress": "Street 25, Sana\u0027a",
+        "postalCode": "28094"
+      },
+      "images": [],
+      "rating": 3.7,
+      "reviewsCount": 13,
+      "tags": [
+        "sana\u0027a",
+        "house",
+        "modern"
+      ],
+      "status": 0,
+      "additionalInfo": {
+        "furnished": true,
+        "petFriendly": false,
+        "yearBuilt": 2004
+      }
+    },
+    "prop-035": {
+      "id": "prop-035",
+      "title": "Studio in Aden - Unit 35",
+      "description": "Beautiful studio located in Aden with modern amenities.",
+      "price": 3234,
+      "currency": "USD",
+      "city": "Aden",
+      "district": "Dar Saad",
+      "bedrooms": 5,
+      "bathrooms": 3,
+      "area": 112,
+      "propertyType": "studio",
+      "heatingType": "individual",
+      "amenities": [
+        "garden",
+        "elevator"
+      ],
+      "isAvailable": false,
+      "createdAt": "2025-01-06T11:31:51.632927Z",
+      "updatedAt": "2025-07-05T11:31:51.632927Z",
+      "owner": {
+        "name": "Owner 35",
+        "phone": "\u002B967-913455387",
+        "email": "owner35@example.com",
+        "isVerified": false
+      },
+      "location": {
+        "latitude": 15.410156079643386,
+        "longitude": 44.15614522545745,
+        "fullAddress": "Street 87, Aden",
+        "postalCode": "78048"
+      },
+      "images": [],
+      "rating": 1.4,
+      "reviewsCount": 26,
+      "tags": [
+        "aden",
+        "studio",
+        "modern"
+      ],
+      "status": 0,
+      "additionalInfo": {
+        "furnished": true,
+        "petFriendly": false,
+        "yearBuilt": 2021
+      }
+    },
+    "prop-015": {
+      "id": "prop-015",
+      "title": "Studio in Taiz - Unit 15",
+      "description": "Beautiful studio located in Taiz with modern amenities.",
+      "price": 4450,
+      "currency": "USD",
+      "city": "Taiz",
+      "district": "Al-Mudhaffar",
+      "bedrooms": 5,
+      "bathrooms": 1,
+      "area": 188,
+      "propertyType": "studio",
+      "heatingType": "none",
+      "amenities": [
+        "pool",
+        "garden"
+      ],
+      "isAvailable": true,
+      "createdAt": "2025-03-31T11:31:51.6328564Z",
+      "updatedAt": "2025-07-21T11:31:51.6328564Z",
+      "owner": {
+        "name": "Owner 15",
+        "phone": "\u002B967-279293271",
+        "email": "owner15@example.com",
+        "isVerified": true
+      },
+      "location": {
+        "latitude": 15.330962517523563,
+        "longitude": 44.156315865266755,
+        "fullAddress": "Street 46, Taiz",
+        "postalCode": "44406"
+      },
+      "images": [],
+      "rating": 3.3,
+      "reviewsCount": 49,
+      "tags": [
+        "taiz",
+        "studio",
+        "modern"
+      ],
+      "status": 0,
+      "additionalInfo": {
+        "furnished": true,
+        "petFriendly": false,
+        "yearBuilt": 2023
+      }
+    },
+    "prop-032": {
+      "id": "prop-032",
+      "title": "Apartment in Ibb - Unit 32",
+      "description": "Beautiful apartment located in Ibb with modern amenities.",
+      "price": 1673,
+      "currency": "USD",
+      "city": "Ibb",
+      "district": "Al-Nadi",
+      "bedrooms": 5,
+      "bathrooms": 3,
+      "area": 142,
+      "propertyType": "apartment",
+      "heatingType": "none",
+      "amenities": [
+        "wifi",
+        "garden",
+        "gym"
+      ],
+      "isAvailable": true,
+      "createdAt": "2025-03-24T11:31:51.6329171Z",
+      "updatedAt": "2025-07-11T11:31:51.6329172Z",
+      "owner": {
+        "name": "Owner 32",
+        "phone": "\u002B967-487442735",
+        "email": "owner32@example.com",
+        "isVerified": true
+      },
+      "location": {
+        "latitude": 15.407614877568285,
+        "longitude": 44.18764381251049,
+        "fullAddress": "Street 31, Ibb",
+        "postalCode": "61027"
+      },
+      "images": [],
+      "rating": 1.6,
+      "reviewsCount": 44,
+      "tags": [
+        "ibb",
+        "apartment",
+        "modern"
+      ],
+      "status": 0,
+      "additionalInfo": {
+        "furnished": true,
+        "petFriendly": true,
+        "yearBuilt": 2001
+      }
+    },
+    "prop-012": {
+      "id": "prop-012",
+      "title": "Studio in Taiz - Unit 12",
+      "description": "Beautiful studio located in Taiz with modern amenities.",
+      "price": 4779,
+      "currency": "USD",
+      "city": "Taiz",
+      "district": "Al-Mudhaffar",
+      "bedrooms": 2,
+      "bathrooms": 2,
+      "area": 228,
+      "propertyType": "studio",
+      "heatingType": "gas",
+      "amenities": [
+        "garden",
+        "wifi",
+        "security",
+        "gym"
+      ],
+      "isAvailable": true,
+      "createdAt": "2025-06-20T11:31:51.6328477Z",
+      "updatedAt": "2025-07-19T11:31:51.6328477Z",
+      "owner": {
+        "name": "Owner 12",
+        "phone": "\u002B967-817235955",
+        "email": "owner12@example.com",
+        "isVerified": true
+      },
+      "location": {
+        "latitude": 15.410117681260182,
+        "longitude": 44.23496268389838,
+        "fullAddress": "Street 50, Taiz",
+        "postalCode": "28757"
+      },
+      "images": [],
+      "rating": 4.8,
+      "reviewsCount": 44,
+      "tags": [
+        "taiz",
+        "studio",
+        "modern"
+      ],
+      "status": 0,
+      "additionalInfo": {
+        "furnished": true,
+        "petFriendly": false,
+        "yearBuilt": 2018
+      }
+    },
+    "prop-024": {
+      "id": "prop-024",
+      "title": "Studio in Ibb - Unit 24",
+      "description": "Beautiful studio located in Ibb with modern amenities.",
+      "price": 3443,
+      "currency": "USD",
+      "city": "Ibb",
+      "district": "Hubaysh",
+      "bedrooms": 4,
+      "bathrooms": 1,
+      "area": 255,
+      "propertyType": "studio",
+      "heatingType": "electric",
+      "amenities": [
+        "security",
+        "wifi",
+        "elevator",
+        "parking"
+      ],
+      "isAvailable": false,
+      "createdAt": "2024-10-09T11:31:51.6328895Z",
+      "updatedAt": "2025-07-09T11:31:51.6328895Z",
+      "owner": {
+        "name": "Owner 24",
+        "phone": "\u002B967-540921190",
+        "email": "owner24@example.com",
+        "isVerified": false
+      },
+      "location": {
+        "latitude": 15.362534337311208,
+        "longitude": 44.152032126988765,
+        "fullAddress": "Street 70, Ibb",
+        "postalCode": "32264"
+      },
+      "images": [],
+      "rating": 1.6,
+      "reviewsCount": 20,
+      "tags": [
+        "ibb",
+        "studio",
+        "modern"
+      ],
+      "status": 0,
+      "additionalInfo": {
+        "furnished": true,
+        "petFriendly": false,
+        "yearBuilt": 1993
+      }
+    },
+    "prop-045": {
+      "id": "prop-045",
+      "title": "House in Sana\u0027a - Unit 45",
+      "description": "Beautiful house located in Sana\u0027a with modern amenities.",
+      "price": 1507,
+      "currency": "USD",
+      "city": "Sana\u0027a",
+      "district": "Al-Wahdah",
+      "bedrooms": 5,
+      "bathrooms": 2,
+      "area": 199,
+      "propertyType": "house",
+      "heatingType": "electric",
+      "amenities": [
+        "garden",
+        "wifi"
+      ],
+      "isAvailable": true,
+      "createdAt": "2025-07-22T11:31:51.6329557Z",
+      "updatedAt": "2025-07-02T11:31:51.6329558Z",
+      "owner": {
+        "name": "Owner 45",
+        "phone": "\u002B967-814673642",
+        "email": "owner45@example.com",
+        "isVerified": true
+      },
+      "location": {
+        "latitude": 15.351997494978736,
+        "longitude": 44.240905794113836,
+        "fullAddress": "Street 94, Sana\u0027a",
+        "postalCode": "62495"
+      },
+      "images": [],
+      "rating": 1.5,
+      "reviewsCount": 45,
+      "tags": [
+        "sana\u0027a",
+        "house",
+        "modern"
+      ],
+      "status": 0,
+      "additionalInfo": {
+        "furnished": false,
+        "petFriendly": false,
+        "yearBuilt": 1995
+      }
+    },
+    "prop-038": {
+      "id": "prop-038",
+      "title": "House in Taiz - Unit 38",
+      "description": "Beautiful house located in Taiz with modern amenities.",
+      "price": 2900,
+      "currency": "USD",
+      "city": "Taiz",
+      "district": "Al-Qahirah",
+      "bedrooms": 4,
+      "bathrooms": 1,
+      "area": 270,
+      "propertyType": "house",
+      "heatingType": "none",
+      "amenities": [
+        "garden",
+        "pool",
+        "parking",
+        "elevator"
+      ],
+      "isAvailable": true,
+      "createdAt": "2025-02-24T11:31:51.6329367Z",
+      "updatedAt": "2025-07-07T11:31:51.6329368Z",
+      "owner": {
+        "name": "Owner 38",
+        "phone": "\u002B967-990426599",
+        "email": "owner38@example.com",
+        "isVerified": false
+      },
+      "location": {
+        "latitude": 15.353262842821453,
+        "longitude": 44.177858463397655,
+        "fullAddress": "Street 13, Taiz",
+        "postalCode": "34351"
+      },
+      "images": [],
+      "rating": 3.7,
+      "reviewsCount": 8,
+      "tags": [
+        "taiz",
+        "house",
+        "modern"
+      ],
+      "status": 0,
+      "additionalInfo": {
+        "furnished": true,
+        "petFriendly": true,
+        "yearBuilt": 1992
+      }
+    },
+    "prop-004": {
+      "id": "prop-004",
+      "title": "House in Taiz - Unit 4",
+      "description": "Beautiful house located in Taiz with modern amenities.",
+      "price": 1063,
+      "currency": "USD",
+      "city": "Taiz",
+      "district": "Al-Qahirah",
+      "bedrooms": 3,
+      "bathrooms": 1,
+      "area": 244,
+      "propertyType": "house",
+      "heatingType": "individual",
+      "amenities": [
+        "elevator",
+        "gym",
+        "wifi",
+        "garden"
+      ],
+      "isAvailable": false,
+      "createdAt": "2025-06-05T11:31:51.632813Z",
+      "updatedAt": "2025-07-18T11:31:51.632813Z",
+      "owner": {
+        "name": "Owner 4",
+        "phone": "\u002B967-632496214",
+        "email": "owner4@example.com",
+        "isVerified": true
+      },
+      "location": {
+        "latitude": 15.418102159197398,
+        "longitude": 44.21762230384379,
+        "fullAddress": "Street 67, Taiz",
+        "postalCode": "74344"
+      },
+      "images": [],
+      "rating": 2.2,
+      "reviewsCount": 27,
+      "tags": [
+        "taiz",
+        "house",
+        "modern"
+      ],
+      "status": 0,
+      "additionalInfo": {
+        "furnished": true,
+        "petFriendly": false,
+        "yearBuilt": 1990
+      }
+    },
+    "prop-025": {
+      "id": "prop-025",
+      "title": "Villa in Sana\u0027a - Unit 25",
+      "description": "Beautiful villa located in Sana\u0027a with modern amenities.",
+      "price": 1990,
+      "currency": "USD",
+      "city": "Sana\u0027a",
+      "district": "Al-Hasaba",
+      "bedrooms": 5,
+      "bathrooms": 1,
+      "area": 72,
+      "propertyType": "villa",
+      "heatingType": "electric",
+      "amenities": [
+        "gym",
+        "garden",
+        "parking",
+        "elevator"
+      ],
+      "isAvailable": true,
+      "createdAt": "2024-10-24T11:31:51.6328946Z",
+      "updatedAt": "2025-07-23T11:31:51.6328946Z",
+      "owner": {
+        "name": "Owner 25",
+        "phone": "\u002B967-646923092",
+        "email": "owner25@example.com",
+        "isVerified": true
+      },
+      "location": {
+        "latitude": 15.35054282420424,
+        "longitude": 44.177304652195566,
+        "fullAddress": "Street 31, Sana\u0027a",
+        "postalCode": "88555"
+      },
+      "images": [],
+      "rating": 3.1,
+      "reviewsCount": 43,
+      "tags": [
+        "sana\u0027a",
+        "villa",
+        "modern"
+      ],
+      "status": 0,
+      "additionalInfo": {
+        "furnished": true,
+        "petFriendly": false,
+        "yearBuilt": 1993
+      }
+    },
+    "prop-042": {
+      "id": "prop-042",
+      "title": "Apartment in Taiz - Unit 42",
+      "description": "Beautiful apartment located in Taiz with modern amenities.",
+      "price": 3346,
+      "currency": "USD",
+      "city": "Taiz",
+      "district": "Salah",
+      "bedrooms": 3,
+      "bathrooms": 1,
+      "area": 190,
+      "propertyType": "apartment",
+      "heatingType": "none",
+      "amenities": [
+        "elevator",
+        "parking",
+        "security",
+        "garden"
+      ],
+      "isAvailable": false,
+      "createdAt": "2025-03-09T11:31:51.6329479Z",
+      "updatedAt": "2025-07-18T11:31:51.632948Z",
+      "owner": {
+        "name": "Owner 42",
+        "phone": "\u002B967-229740961",
+        "email": "owner42@example.com",
+        "isVerified": true
+      },
+      "location": {
+        "latitude": 15.354022464438259,
+        "longitude": 44.14881742656036,
+        "fullAddress": "Street 22, Taiz",
+        "postalCode": "99979"
+      },
+      "images": [],
+      "rating": 2.5,
+      "reviewsCount": 35,
+      "tags": [
+        "taiz",
+        "apartment",
+        "modern"
+      ],
+      "status": 0,
+      "additionalInfo": {
+        "furnished": true,
+        "petFriendly": false,
+        "yearBuilt": 2011
+      }
+    },
+    "prop-031": {
+      "id": "prop-031",
+      "title": "Apartment in Aden - Unit 31",
+      "description": "Beautiful apartment located in Aden with modern amenities.",
+      "price": 1587,
+      "currency": "USD",
+      "city": "Aden",
+      "district": "Khormaksar",
+      "bedrooms": 1,
+      "bathrooms": 1,
+      "area": 211,
+      "propertyType": "apartment",
+      "heatingType": "gas",
+      "amenities": [
+        "pool",
+        "wifi",
+        "security",
+        "parking"
+      ],
+      "isAvailable": true,
+      "createdAt": "2024-10-10T11:31:51.632915Z",
+      "updatedAt": "2025-07-16T11:31:51.632915Z",
+      "owner": {
+        "name": "Owner 31",
+        "phone": "\u002B967-945906954",
+        "email": "owner31@example.com",
+        "isVerified": true
+      },
+      "location": {
+        "latitude": 15.333064029451863,
+        "longitude": 44.15977012342157,
+        "fullAddress": "Street 59, Aden",
+        "postalCode": "22310"
+      },
+      "images": [],
+      "rating": 4.6,
+      "reviewsCount": 41,
+      "tags": [
+        "aden",
+        "apartment",
+        "modern"
+      ],
+      "status": 0,
+      "additionalInfo": {
+        "furnished": false,
+        "petFriendly": false,
+        "yearBuilt": 2002
+      }
+    },
+    "prop-005": {
+      "id": "prop-005",
+      "title": "Studio in Aden - Unit 5",
+      "description": "Beautiful studio located in Aden with modern amenities.",
+      "price": 870,
+      "currency": "USD",
+      "city": "Aden",
+      "district": "Crater",
+      "bedrooms": 2,
+      "bathrooms": 1,
+      "area": 237,
+      "propertyType": "studio",
+      "heatingType": "central",
+      "amenities": [
+        "parking",
+        "gym"
+      ],
+      "isAvailable": true,
+      "createdAt": "2025-07-21T11:31:51.6328244Z",
+      "updatedAt": "2025-07-23T11:31:51.6328245Z",
+      "owner": {
+        "name": "Owner 5",
+        "phone": "\u002B967-856446075",
+        "email": "owner5@example.com",
+        "isVerified": true
+      },
+      "location": {
+        "latitude": 15.343207365365238,
+        "longitude": 44.23362196691363,
+        "fullAddress": "Street 84, Aden",
+        "postalCode": "35149"
+      },
+      "images": [],
+      "rating": 3.2,
+      "reviewsCount": 31,
+      "tags": [
+        "aden",
+        "studio",
+        "modern"
+      ],
+      "status": 0,
+      "additionalInfo": {
+        "furnished": true,
+        "petFriendly": false,
+        "yearBuilt": 2000
+      }
+    },
+    "prop-011": {
+      "id": "prop-011",
+      "title": "Apartment in Hodeidah - Unit 11",
+      "description": "Beautiful apartment located in Hodeidah with modern amenities.",
+      "price": 2280,
+      "currency": "USD",
+      "city": "Hodeidah",
+      "district": "Al-Hali",
+      "bedrooms": 1,
+      "bathrooms": 3,
+      "area": 188,
+      "propertyType": "apartment",
+      "heatingType": "none",
+      "amenities": [
+        "parking",
+        "gym"
+      ],
+      "isAvailable": true,
+      "createdAt": "2024-11-22T11:31:51.6328453Z",
+      "updatedAt": "2025-07-13T11:31:51.6328454Z",
+      "owner": {
+        "name": "Owner 11",
+        "phone": "\u002B967-689209807",
+        "email": "owner11@example.com",
+        "isVerified": true
+      },
+      "location": {
+        "latitude": 15.389071039641681,
+        "longitude": 44.16355961570077,
+        "fullAddress": "Street 31, Hodeidah",
+        "postalCode": "58636"
+      },
+      "images": [],
+      "rating": 4.3,
+      "reviewsCount": 34,
+      "tags": [
+        "hodeidah",
+        "apartment",
+        "modern"
+      ],
+      "status": 0,
+      "additionalInfo": {
+        "furnished": false,
+        "petFriendly": false,
+        "yearBuilt": 2015
+      }
+    }
+  },
+  "metadata": {
+    "createdAt": "2025-07-25T11:31:51.618619Z",
+    "lastUpdated": "2025-07-25T11:31:51.7370526Z",
+    "itemCount": 49,
+    "version": "1.0.0"
+  },
+  "statistics": {
+    "indexId": "",
+    "indexName": "",
+    "indexCreatedAt": "2025-07-25T11:31:51.618619Z",
+    "lastOperationTime": "00:00:00.0000731",
+    "currentItemCount": 49,
+    "totalItems": 0,
+    "indexedItemsCount": 0,
+    "searchesPerSecond": 0,
+    "indexSizeBytes": 0,
+    "averageSearchTimeMs": 2.737475,
+    "averageSearchTime": 2.737475,
+    "averageInsertionTimeMs": 0,
+    "averageUpdateTimeMs": 0,
+    "averageDeletionTimeMs": 0,
+    "totalCreateOperations": 0,
+    "totalAddOperations": 50,
+    "totalUpdateOperations": 1,
+    "totalRemoveOperations": 1,
+    "totalSearchOperations": 4,
+    "totalSaveOperations": 1,
+    "totalLoadOperations": 0,
+    "totalRebuildOperations": 1,
+    "totalClearOperations": 0,
+    "searchOperationsCount": 0,
+    "insertionOperationsCount": 0,
+    "updateOperationsCount": 0,
+    "deletionOperationsCount": 0,
+    "successRate": 0,
+    "memoryUsageMb": 0,
+    "throughputOpsPerSecond": 0,
+    "efficiencyRatio": 0,
+    "rebuildCount": 0,
+    "lastRebuildTime": null,
+    "statisticsStartTime": "2025-07-25T11:31:51.6179405Z",
+    "lastUpdated": "2025-07-25T11:31:51.7370526Z",
+    "fieldStatistics": {},
+    "cacheStatistics": {
+      "cacheSizeBytes": 0,
+      "cachedItemsCount": 0,
+      "cacheHits": 0,
+      "cacheMisses": 0,
+      "cacheHitRatio": 0,
+      "cacheEvictions": 0,
+      "averageCacheAccessTimeMs": 0,
+      "lastCleanupTime": null
+    },
+    "additionalDetails": {}
+  }
+}

@@ -1,0 +1,458 @@
+
+# Admin Endpoints (180)
+
+## AmenitiesController (9)
+- POST /api/admin/amenities
+- PUT /api/admin/amenities/{amenityId}
+- DELETE /api/admin/amenities/{amenityId}
+- GET /api/admin/amenities
+- GET /api/admin/amenities/property/{propertyId}
+- GET /api/admin/amenities/type/{propertyTypeId}
+- POST /api/admin/amenities/{amenityId}/assign/property/{propertyId}
+- POST /api/admin/amenities/{amenityId}/assign/property-type/{propertyTypeId}
+- PUT /api/admin/amenities/{amenityId}/update/property/{propertyId}
+
+## AuditLogsController (4)
+- GET /api/admin/auditlogs/activity-logs
+- GET /api/admin/auditlogs/audit-logs
+- GET /api/admin/auditlogs/customer-activity-logs
+- GET /api/admin/auditlogs/property-activity-logs
+
+## BookingsController (13)
+- POST /api/admin/bookings/{bookingId}/cancel
+- PUT /api/admin/bookings/{bookingId}/update
+- GET /api/admin/bookings/{bookingId}
+- GET /api/admin/bookings/property/{propertyId}
+- GET /api/admin/bookings/status
+- GET /api/admin/bookings/unit/{unitId}
+- GET /api/admin/bookings/user/{userId}
+- GET /api/admin/bookings/{bookingId}/services
+- GET /api/admin/bookings/report
+- GET /api/admin/bookings/trends
+- GET /api/admin/bookings/window-analysis/{propertyId}
+- GET /api/admin/bookings/by-date-range
+
+## DashboardController (15)
+- POST /api/admin/dashboard/dashboard
+- POST /api/admin/dashboard/dashboard/export
+- GET /api/admin/dashboard/dashboard/customer-report
+- GET /api/admin/dashboard/dashboard/financial-summary
+- POST /api/admin/dashboard/dashboard/performance
+- POST /api/admin/dashboard/dashboard/performance-comparison
+- POST /api/admin/dashboard/dashboard/occupancy-rate
+- POST /api/admin/dashboard/dashboard/occupancy-report
+- POST /api/admin/dashboard/dashboard/revenue-report
+- POST /api/admin/dashboard/dashboard/cancellation-analysis
+- POST /api/admin/dashboard/dashboard/revenue-breakdown
+- POST /api/admin/dashboard/dashboard/user-acquisition-funnel
+- POST /api/admin/dashboard/dashboard/customer-cohort-analysis
+- GET /api/admin/dashboard/dashboard/review-sentiment-analysis/{propertyId}
+- GET /api/admin/dashboard/dashboard/top-properties/{count}
+
+## FieldGroupsController (7)
+- POST /api/admin/fieldgroups
+- PUT /api/admin/fieldgroups/{groupId}
+- DELETE /api/admin/fieldgroups/{groupId}
+- POST /api/admin/fieldgroups/reorder
+- GET /api/admin/fieldgroups/{groupId}
+- GET /api/admin/fieldgroups/property-type/{propertyTypeId}
+- POST /api/admin/fieldgroups/{groupId}/assign-field
+
+## FieldTypesController (7)
+- POST /api/admin/fieldtypes
+- PUT /api/admin/fieldtypes/{fieldTypeId}
+- DELETE /api/admin/fieldtypes/{fieldTypeId}
+- PATCH /api/admin/fieldtypes/{fieldTypeId}/toggle-status
+- GET /api/admin/fieldtypes
+- GET /api/admin/fieldtypes/{fieldTypeId}
+- GET /api/admin/fieldtypes/search
+
+## NotificationsController (3)
+- POST /api/admin/notifications
+- GET /api/admin/notifications
+- GET /api/admin/notifications/user/{userId}
+
+## PaymentsController (8)
+- POST /api/admin/payments/refund
+- POST /api/admin/payments/void
+- PUT /api/admin/payments/{paymentId}/status
+- GET /api/admin/payments/{paymentId}
+- GET /api/admin/payments/booking/{bookingId}
+- GET /api/admin/payments/method/{paymentMethod}
+- GET /api/admin/payments/status
+- GET /api/admin/payments/user/{userId}
+
+## PropertiesController (12)
+- POST /api/admin/properties
+- PUT /api/admin/properties/{propertyId}
+- DELETE /api/admin/properties/{propertyId}
+- POST /api/admin/properties/{propertyId}/approve
+- POST /api/admin/properties/{propertyId}/reject
+- GET /api/admin/properties
+- GET /api/admin/properties/pending
+- GET /api/admin/properties/{propertyId}
+- GET /api/admin/properties/{propertyId}/details
+- GET /api/admin/properties/{propertyId}/for-edit
+- GET /api/admin/properties/form-fields/{propertyTypeId}
+- GET /api/admin/properties/{propertyId}/amenities
+
+## PropertyImagesController (7)
+- POST /api/admin/propertyimages
+- PUT /api/admin/propertyimages/{imageId}
+- DELETE /api/admin/propertyimages/{imageId}
+- POST /api/admin/propertyimages/{imageId}/assign/property/{propertyId}
+- POST /api/admin/propertyimages/{imageId}/assign/unit/{unitId}
+- GET /api/admin/propertyimages
+- GET /api/admin/propertyimages/{propertyId}/stats
+
+## PropertyPoliciesController (6)
+- POST /api/admin/propertypolicies
+- PUT /api/admin/propertypolicies/{policyId}
+- DELETE /api/admin/propertypolicies/{policyId}
+- GET /api/admin/propertypolicies
+- GET /api/admin/propertypolicies/{policyId}
+- GET /api/admin/propertypolicies/by-type
+
+## PropertyServicesController (6)
+- POST /api/admin/propertyservices
+- PUT /api/admin/propertyservices/{serviceId}
+- DELETE /api/admin/propertyservices/{serviceId}
+- GET /api/admin/propertyservices/property/{propertyId}
+- GET /api/admin/propertyservices/{serviceId}
+- GET /api/admin/propertyservices/type/{serviceType}
+
+## PropertyTypesController (5)
+- POST /api/admin/propertytypes
+- PUT /api/admin/propertytypes/{propertyTypeId}
+- DELETE /api/admin/propertytypes/{propertyTypeId}
+- GET /api/admin/propertytypes
+- GET /api/admin/propertytypes/{propertyTypeId}
+
+## ReportsController (7)
+- POST /api/admin/reports
+- PUT /api/admin/reports/{reportId}
+- DELETE /api/admin/reports/{reportId}
+- GET /api/admin/reports
+- GET /api/admin/reports/{reportId}
+- GET /api/admin/reports/property/{propertyId}
+- GET /api/admin/reports/reported-user/{reportedUserId}
+
+## ReviewsController (6)
+- POST /api/admin/reviews/{reviewId}/approve
+- DELETE /api/admin/reviews/{reviewId}
+- GET /api/admin/reviews/booking/{bookingId}
+- GET /api/admin/reviews/property/{propertyId}
+- GET /api/admin/reviews/user/{userId}
+- GET /api/admin/reviews/pending
+
+## RolesController (4)
+- POST /api/admin/roles
+- PUT /api/admin/roles/{roleId}
+- DELETE /api/admin/roles/{roleId}
+- GET /api/admin/roles
+
+## SearchFiltersController (7)
+- POST /api/admin/searchfilters
+- PUT /api/admin/searchfilters/{filterId}
+- DELETE /api/admin/searchfilters/{filterId}
+- PATCH /api/admin/searchfilters/{filterId}/toggle-status
+- GET /api/admin/searchfilters
+- GET /api/admin/searchfilters/{filterId}
+- GET /api/admin/searchfilters/searchable-fields
+
+## StaffController (6)
+- POST /api/admin/staff/add
+- PUT /api/admin/staff/update
+- POST /api/admin/staff/remove
+- GET /api/admin/staff/by-position
+- GET /api/admin/staff/by-property
+- GET /api/admin/staff/by-user
+
+## UnitFieldValuesController (7)
+- POST /api/admin/unitfieldvalues
+- PUT /api/admin/unitfieldvalues/{valueId}
+- DELETE /api/admin/unitfieldvalues/{valueId}
+- POST /api/admin/unitfieldvalues/bulk-update
+- GET /api/admin/unitfieldvalues
+- GET /api/admin/unitfieldvalues/grouped
+- GET /api/admin/unitfieldvalues/{valueId}
+
+## UnitTypeFieldsController (12)
+- POST /api/admin/unit-type-fields
+- PUT /api/admin/unit-type-fields/{fieldId}
+- DELETE /api/admin/unit-type-fields/{fieldId}
+- PATCH /api/admin/unit-type-fields/{fieldId}/toggle-status
+- POST /api/admin/unit-type-fields/reorder
+- GET /api/admin/unit-type-fields/property-type/{propertyTypeId}
+- GET /api/admin/unit-type-fields/{fieldId}
+- GET /api/admin/unit-type-fields/grouped
+- POST /api/admin/unit-type-fields/{groupId}/assign-fields
+- POST /api/admin/unit-type-fields/bulk-assign-fields
+- POST /api/admin/unit-type-fields/{groupId}/remove-field
+- POST /api/admin/unit-type-fields/reorder-fields
+
+## UnitTypesController (5)
+- POST /api/admin/unittypes
+- PUT /api/admin/unittypes/{unitTypeId}
+- DELETE /api/admin/unittypes/{unitTypeId}
+- GET /api/admin/unittypes/{unitTypeId}
+- GET /api/admin/unittypes/property-type/{propertyTypeId}
+
+## UnitsController (11)
+- POST /api/admin/units
+- PUT /api/admin/units/{id}
+- DELETE /api/admin/units/{id}
+- GET /api/admin/units/{id}
+- GET /api/admin/units/property/{propertyId}
+- POST /api/admin/units/bulk-availability
+- GET /api/admin/units/type/{unitTypeId}
+- GET /api/admin/units/{unitId}/availability
+- GET /api/admin/units/{unitId}/for-edit
+- GET /api/admin/units/{unitId}/details
+- GET /api/admin/units/{unitId}/images
+
+## UploadImageController (1)
+- POST /api/admin/uploadimage
+
+## UsersController (13)
+- GET /api/admin/users/search
+- GET /api/admin/users
+- GET /api/admin/users/{id}
+- POST /api/admin/users
+- PUT /api/admin/users/{id}
+- POST /api/admin/users/{id}/activate
+- POST /api/admin/users/{id}/deactivate
+- POST /api/admin/users/{id}/assign-role
+- GET /api/admin/users/by-role
+- GET /api/admin/users/{id}/activity-log
+- GET /api/admin/users/{id}/lifetime-stats
+- GET /api/admin/users/{id}/notifications
+- GET /api/admin/users/{id}/roles
+
+---
+
+# Property Endpoints (150)
+
+## AmenitiesController (5)
+- GET /api/property/amenities
+- GET /api/property/amenities/property/{propertyId}
+- GET /api/property/amenities/type/{propertyTypeId}
+- POST /api/property/amenities/{amenityId}/assign/{propertyId}
+- PUT /api/property/amenities/{amenityId}/update/property/{propertyId}
+
+## AuditLogsController (2)
+- GET /api/property/auditlogs/customer-activity-logs
+- GET /api/property/auditlogs/property-activity-logs
+
+## BookingsController (19)
+- POST /api/property/bookings/create
+- POST /api/property/bookings/cancel
+- POST /api/property/bookings/check-in
+- POST /api/property/bookings/check-out
+- POST /api/property/bookings/complete
+- POST /api/property/bookings/confirm
+- POST /api/property/bookings/add-service-to-booking
+- POST /api/property/bookings/remove-service-from-booking
+- PUT /api/property/bookings/{bookingId}/update
+- GET /api/property/bookings
+- GET /api/property/bookings/{bookingId}
+- GET /api/property/bookings/status
+- GET /api/property/bookings/unit/{unitId}
+- GET /api/property/bookings/user/{userId}
+- GET /api/property/bookings/{bookingId}/services
+- GET /api/property/bookings/report
+- GET /api/property/bookings/trends
+- GET /api/property/bookings/window-analysis/{propertyId}
+- GET /api/property/bookings/by-date-range
+
+## DashboardController (13)
+- POST /api/property/dashboard/dashboard/owner
+- POST /api/property/dashboard/dashboard/export
+- GET /api/property/dashboard/dashboard/customer-report
+- GET /api/property/dashboard/dashboard/financial-summary
+- POST /api/property/dashboard/dashboard/performance
+- POST /api/property/dashboard/dashboard/performance-comparison
+- POST /api/property/dashboard/dashboard/occupancy-rate
+- POST /api/property/dashboard/dashboard/occupancy-report
+- POST /api/property/dashboard/dashboard/revenue-report
+- POST /api/property/dashboard/dashboard/cancellation-analysis
+- POST /api/property/dashboard/dashboard/revenue-breakdown
+- POST /api/property/dashboard/dashboard/user-acquisition-funnel
+- GET /api/property/dashboard/dashboard/top-properties/{count}
+
+## FieldGroupsController (2)
+- GET /api/property/fieldgroups/{groupId}
+- GET /api/property/fieldgroups/property-type/{propertyTypeId}
+
+## NotificationsController (3)
+- POST /api/property/notifications
+- GET /api/property/notifications
+- GET /api/property/notifications/user/{userId}
+
+## PaymentsController (9)
+- POST /api/property/payments/process
+- POST /api/property/payments/refund
+- POST /api/property/payments/void
+- PUT /api/property/payments/{paymentId}/status
+- GET /api/property/payments/{paymentId}
+- GET /api/property/payments/booking/{bookingId}
+- GET /api/property/payments/status
+- GET /api/property/payments/user/{userId}
+- GET /api/property/payments/method/{paymentMethod}
+
+## PropertiesController (12)
+- GET /api/property/properties/{id}
+- POST /api/property/properties
+- PUT /api/property/properties/{id}
+- DELETE /api/property/properties/{id}
+- GET /api/property/properties/{id}/details
+- GET /api/property/properties/{id}/for-edit
+- GET /api/property/properties/form-fields/{propertyTypeId}
+- GET /api/property/properties/by-city
+- GET /api/property/properties/owner/{ownerId}
+- GET /api/property/properties/type/{propertyTypeId}
+- GET /api/property/properties/{propertyId}/rating-stats
+- GET /api/property/properties/{propertyId}/amenities
+
+## PropertyImagesController (7)
+- POST /api/property/propertyimages
+- PUT /api/property/propertyimages/{imageId}
+- DELETE /api/property/propertyimages/{imageId}
+- POST /api/property/propertyimages/{imageId}/assign/property/{propertyId}
+- POST /api/property/propertyimages/{imageId}/assign/unit/{unitId}
+- GET /api/property/propertyimages
+- GET /api/property/propertyimages/{propertyId}/stats
+
+## PropertyPoliciesController (6)
+- POST /api/property/propertypolicies
+- PUT /api/property/propertypolicies/{policyId}
+- DELETE /api/property/propertypolicies/{policyId}
+- GET /api/property/propertypolicies
+- GET /api/property/propertypolicies/{policyId}
+- GET /api/property/propertypolicies/by-type
+
+## PropertyServicesController (6)
+- POST /api/property/propertyservices
+- PUT /api/property/propertyservices/{serviceId}
+- DELETE /api/property/propertyservices/{serviceId}
+- GET /api/property/propertyservices/property/{propertyId}
+- GET /api/property/propertyservices/{serviceId}
+- GET /api/property/propertyservices/type/{serviceType}
+
+## PropertyTypesController (2)
+- GET /api/property/propertytypes
+- GET /api/property/propertytypes/{propertyTypeId}
+
+## ReportsController (7)
+- POST /api/property/reports
+- PUT /api/property/reports/{reportId}
+- DELETE /api/property/reports/{reportId}
+- GET /api/property/reports
+- GET /api/property/reports/{reportId}
+- GET /api/property/reports/property/{propertyId}
+- GET /api/property/reports/reported-user/{reportedUserId}
+
+## ReviewsController (6)
+- POST /api/property/reviews/{reviewId}/approve
+- DELETE /api/property/reviews/{reviewId}
+- POST /api/property/reviews/{reviewId}/respond
+- GET /api/property/reviews/booking/{bookingId}
+- GET /api/property/reviews/property/{propertyId}
+- GET /api/property/reviews/user/{userId}
+
+## SearchFiltersController (3)
+- GET /api/property/searchfilters
+- GET /api/property/searchfilters/{filterId}
+- GET /api/property/searchfilters/searchable-fields
+
+## StaffController (6)
+- POST /api/property/staff/add
+- PUT /api/property/staff/update
+- POST /api/property/staff/remove
+- GET /api/property/staff/by-position
+- GET /api/property/staff/by-property
+- GET /api/property/staff/by-user
+
+## UnitFieldValuesController (10)
+- POST /api/property/unitfieldvalues
+- PUT /api/property/unitfieldvalues/{valueId}
+- DELETE /api/property/unitfieldvalues/{valueId}
+- POST /api/property/unitfieldvalues/bulk-update
+- POST /api/property/unitfieldvalues/bulk-create
+- POST /api/property/unitfieldvalues/bulk-delete
+- POST /api/property/unitfieldvalues/bulk-update-value
+- GET /api/property/unitfieldvalues
+- GET /api/property/unitfieldvalues/grouped
+- GET /api/property/unitfieldvalues/{valueId}
+
+## UnitTypeFieldsController (3)
+- GET /api/property/unit-type-fields/property-type/{propertyTypeId}
+- GET /api/property/unit-type-fields/{fieldId}
+- GET /api/property/unit-type-fields/grouped
+
+## UnitTypesController (5)
+- POST /api/property/unittypes
+- PUT /api/property/unittypes/{unitTypeId}
+- DELETE /api/property/unittypes/{unitTypeId}
+- GET /api/property/unittypes/{unitTypeId}
+- GET /api/property/unittypes/property-type/{propertyTypeId}
+
+## UnitsController (15)
+- GET /api/property/units/{id}
+- GET /api/property/units/property/{propertyId}
+- POST /api/property/units
+- POST /api/property/units/with-field-values
+- PUT /api/property/units/{id}
+- DELETE /api/property/units/{id}
+- POST /api/property/units/{id}/availability
+- POST /api/property/units/bulk-availability
+- GET /api/property/units/available
+- GET /api/property/units/{unitId}/details
+- GET /api/property/units/type/{unitTypeId}
+- GET /api/property/units/{id}/availability
+- GET /api/property/units/{id}/for-edit
+- GET /api/property/units/{id}/images
+
+## UploadImageController (1)
+- POST /api/property/uploadimage
+
+## UsersController (9)
+- POST /api/property/users/register
+- PUT /api/property/users/{userId}
+- GET /api/property/users/{userId}
+- GET /api/property/users/by-role
+- GET /api/property/users/by-email
+- GET /api/property/users/search
+- GET /api/property/users/{userId}/activity-log
+- GET /api/property/users/{userId}/lifetime-stats
+- GET /api/property/users/{userId}/notifications
+
+---
+
+# Common Endpoints (16)
+
+## AuthController (8)
+- POST /api/common/auth/login
+- POST /api/common/auth/refresh-token
+- POST /api/common/auth/forgot-password
+- POST /api/common/auth/reset-password
+- POST /api/common/auth/resend-email-verification
+- POST /api/common/auth/resend-password-reset
+- POST /api/common/auth/verify-email
+- POST /api/common/auth/change-password
+
+## NotificationsController (2)
+- POST /api/common/notifications/mark-all-read
+- POST /api/common/notifications/{notificationId}/read
+
+## PropertiesController (1)
+- GET /api/common/properties/search
+
+## SearchController (2)
+- POST /api/common/search/properties
+- POST /api/common/search/units
+
+## UsersController (3)
+- GET /api/common/users/current
+- PUT /api/common/users/profile-picture
+- PUT /api/common/users/settings

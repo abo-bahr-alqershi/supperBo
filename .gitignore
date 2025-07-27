@@ -1,0 +1,90 @@
+# Ignore build results
+bin/
+obj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.cache
+*.log
+*.vs/
+.vscode/
+*.db
+*.DS_Store
+*.swp
+*.sln.ide
+*.sln.iml
+*.sln.cache
+*.sln.ide
+*.sln.iml
+*.sln.cache
+*.ncrunch*
+_ReSharper*/
+[Tt]est[Rr]esult*/
+*.nupkg
+*.snupkg
+*.nuget/
+*.vspscc
+*.vssscc
+*.pdb
+*.mdb
+*.dbmdl
+*.bak
+*.tmp
+*.pidb
+*.svd
+*.scc
+*.psess
+*.vsp
+*.vspx
+*.sap
+*.cachefile
+*.ide
+*.iml
+*.orig
+*.rej
+*.sdf
+*.opensdf
+*.VC.db
+*.VC.VC.opendb
+*.vscode/
+# Rider
+.idea/
+*.sln.iml
+# JetBrains
+.idea/
+*.dotCover
+# OS
+Thumbs.db
+.DS_Store
+# Others
+packages/
+project.lock.json
+project.fragment.lock.json
+artifacts/
+# Dotnet tools
+.tools/
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

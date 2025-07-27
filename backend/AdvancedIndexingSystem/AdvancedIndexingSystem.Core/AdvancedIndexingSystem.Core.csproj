@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
+    <Authors>Advanced Indexing System Developer</Authors>
+    <Company>Advanced Indexing Solutions</Company>
+    <Product>Advanced Dynamic Indexing System</Product>
+    <Description>نظام فهرسة متقدم وديناميكي للبحث السريع والدقيق - Advanced Dynamic Indexing System for Fast and Accurate Search</Description>
+    <Copyright>Copyright © 2025 Advanced Indexing Solutions</Copyright>
+    <PackageVersion>1.0.0</PackageVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="System.Collections.Concurrent" Version="4.3.0" />
+    <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4" />
+  </ItemGroup>
+
+</Project>

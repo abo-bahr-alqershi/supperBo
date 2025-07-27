@@ -1,0 +1,616 @@
+{
+  "نظام_الفهرسة_المتقدم_والديناميكي": {
+    "وصف_النظام": "نظام فهرسة متقدم وديناميكي للبحث السريع والدقيق في البيانات",
+    "system_description": "Advanced Dynamic Indexing System for Fast and Accurate Data Search",
+    "تاريخ_التكوين": "2025-01-23T12:00:00Z",
+    "configuration_date": "2025-01-23T12:00:00Z",
+    "إصدار_النظام": "1.0.0",
+    "system_version": "1.0.0",
+    
+    "فهارس_النظام": {
+      "system_indices": {
+        
+        "فهرس_الأسعار": {
+          "price_index": {
+            "معرف_الفهرس": "price-index-001",
+            "index_id": "price-index-001",
+            "اسم_الفهرس": "PriceIndex",
+            "index_name": "PriceIndex",
+            "الاسم_العربي": "فهرس الأسعار",
+            "arabic_name": "فهرس الأسعار",
+            "نوع_الفهرس": "PriceIndex",
+            "index_type": "PriceIndex",
+            "الأولوية": "High",
+            "priority": "High",
+            "الحالة": "Active",
+            "status": "Active",
+            "آخر_تحديث": "2025-01-23T12:00:00Z",
+            "last_updated": "2025-01-23T12:00:00Z",
+            
+            "الحقول_المفهرسة": ["price", "currency", "price_range", "price_category"],
+            "indexed_fields": ["price", "currency", "price_range", "price_category"],
+            
+            "نطاقات_الأسعار": {
+              "price_ranges": {
+                "0-500": {
+                  "العدد": 450,
+                  "count": 450,
+                  "الوصف": "اقتصادي",
+                  "description": "Budget"
+                },
+                "501-1000": {
+                  "العدد": 320,
+                  "count": 320,
+                  "الوصف": "متوسط",
+                  "description": "Mid-range"
+                },
+                "1001-2000": {
+                  "العدد": 280,
+                  "count": 280,
+                  "الوصف": "فوق المتوسط",
+                  "description": "Above average"
+                },
+                "2001-5000": {
+                  "العدد": 200,
+                  "count": 200,
+                  "الوصف": "فاخر",
+                  "description": "Luxury"
+                },
+                "5000+": {
+                  "العدد": 150,
+                  "count": 150,
+                  "الوصف": "ممتاز",
+                  "description": "Premium"
+                }
+              }
+            },
+            
+            "إعدادات_مخصصة": {
+              "custom_settings": {
+                "العملة_الافتراضية": "USD",
+                "default_currency": "USD",
+                "حجم_النطاق_التلقائي": 500,
+                "auto_range_size": 500,
+                "إنشاء_نطاقات_تلقائي": true,
+                "auto_generate_ranges": true,
+                "دعم_عملات_متعددة": true,
+                "multi_currency_support": true
+              }
+            }
+          }
+        },
+        
+        "فهرس_المدن": {
+          "city_index": {
+            "معرف_الفهرس": "city-index-001",
+            "index_id": "city-index-001",
+            "اسم_الفهرس": "CityIndex",
+            "index_name": "CityIndex",
+            "الاسم_العربي": "فهرس المدن",
+            "arabic_name": "فهرس المدن",
+            "نوع_الفهرس": "CityIndex",
+            "index_type": "CityIndex",
+            "الأولوية": "Critical",
+            "priority": "Critical",
+            "الحالة": "Active",
+            "status": "Active",
+            
+            "المدن_المدعومة": {
+              "supported_cities": {
+                "صنعاء": {
+                  "sana": {
+                    "العدد": 450,
+                    "count": 450,
+                    "متوسط_السعر": 1250,
+                    "average_price": 1250,
+                    "أعلى_سعر": 4500,
+                    "max_price": 4500,
+                    "أدنى_سعر": 250,
+                    "min_price": 250
+                  }
+                },
+                "عدن": {
+                  "aden": {
+                    "العدد": 320,
+                    "count": 320,
+                    "متوسط_السعر": 890,
+                    "average_price": 890,
+                    "أعلى_سعر": 3200,
+                    "max_price": 3200,
+                    "أدنى_سعر": 180,
+                    "min_price": 180
+                  }
+                },
+                "تعز": {
+                  "taiz": {
+                    "العدد": 280,
+                    "count": 280,
+                    "متوسط_السعر": 680,
+                    "average_price": 680,
+                    "أعلى_سعر": 2800,
+                    "max_price": 2800,
+                    "أدنى_سعر": 120,
+                    "min_price": 120
+                  }
+                },
+                "الحديدة": {
+                  "hodeidah": {
+                    "العدد": 200,
+                    "count": 200,
+                    "متوسط_السعر": 580,
+                    "average_price": 580,
+                    "أعلى_سعر": 2200,
+                    "max_price": 2200,
+                    "أدنى_سعر": 100,
+                    "min_price": 100
+                  }
+                },
+                "إب": {
+                  "ibb": {
+                    "العدد": 150,
+                    "count": 150,
+                    "متوسط_السعر": 480,
+                    "average_price": 480,
+                    "أعلى_سعر": 1800,
+                    "max_price": 1800,
+                    "أدنى_سعر": 90,
+                    "min_price": 90
+                  }
+                }
+              }
+            }
+          }
+        },
+        
+        "فهرس_المرافق": {
+          "amenity_index": {
+            "معرف_الفهرس": "amenity-index-001",
+            "index_id": "amenity-index-001",
+            "اسم_الفهرس": "AmenityIndex",
+            "index_name": "AmenityIndex",
+            "الاسم_العربي": "فهرس المرافق",
+            "arabic_name": "فهرس المرافق",
+            "نوع_الفهرس": "AmenityIndex",
+            "index_type": "AmenityIndex",
+            
+            "المرافق_المدعومة": {
+              "supported_amenities": {
+                "wifi": {
+                  "الاسم_العربي": "واي فاي",
+                  "arabic_name": "واي فاي",
+                  "العدد": 1200,
+                  "count": 1200,
+                  "النسبة": 80.0,
+                  "percentage": 80.0
+                },
+                "parking": {
+                  "الاسم_العربي": "موقف سيارات",
+                  "arabic_name": "موقف سيارات",
+                  "العدد": 900,
+                  "count": 900,
+                  "النسبة": 60.0,
+                  "percentage": 60.0
+                },
+                "elevator": {
+                  "الاسم_العربي": "مصعد",
+                  "arabic_name": "مصعد",
+                  "العدد": 800,
+                  "count": 800,
+                  "النسبة": 53.3,
+                  "percentage": 53.3
+                },
+                "security": {
+                  "الاسم_العربي": "أمن وحراسة",
+                  "arabic_name": "أمن وحراسة",
+                  "العدد": 600,
+                  "count": 600,
+                  "النسبة": 40.0,
+                  "percentage": 40.0
+                },
+                "pool": {
+                  "الاسم_العربي": "مسبح",
+                  "arabic_name": "مسبح",
+                  "العدد": 300,
+                  "count": 300,
+                  "النسبة": 20.0,
+                  "percentage": 20.0
+                },
+                "gym": {
+                  "الاسم_العربي": "صالة رياضية",
+                  "arabic_name": "صالة رياضية",
+                  "العدد": 250,
+                  "count": 250,
+                  "النسبة": 16.7,
+                  "percentage": 16.7
+                }
+              }
+            }
+          }
+        },
+        
+        "الفهارس_الديناميكية": {
+          "dynamic_indices": {
+            
+            "حقل_عدد_الغرف": {
+              "bedrooms_field": {
+                "معرف_الحقل": "field-bedrooms-001",
+                "field_id": "field-bedrooms-001",
+                "اسم_الحقل": "bedrooms",
+                "field_name": "bedrooms",
+                "الاسم_العربي": "عدد غرف النوم",
+                "arabic_name": "عدد غرف النوم",
+                "نوع_البيانات": "Number",
+                "data_type": "Number",
+                "مطلوب": false,
+                "required": false,
+                "قابل_للبحث": true,
+                "searchable": true,
+                "قابل_للفرز": true,
+                "sortable": true,
+                
+                "قواعد_التحقق": {
+                  "validation_rules": {
+                    "أدنى_قيمة": 1,
+                    "min_value": 1,
+                    "أعلى_قيمة": 10,
+                    "max_value": 10,
+                    "رسالة_الخطأ": "عدد غرف النوم يجب أن يكون بين 1 و 10",
+                    "error_message": "Number of bedrooms must be between 1 and 10"
+                  }
+                },
+                
+                "النطاقات_المخصصة": {
+                  "custom_ranges": {
+                    "1-2": {
+                      "العدد": 600,
+                      "count": 600,
+                      "الوصف": "استوديو وغرفة واحدة",
+                      "description": "Studio and one bedroom"
+                    },
+                    "3-4": {
+                      "العدد": 700,
+                      "count": 700,
+                      "الوصف": "عائلي متوسط",
+                      "description": "Medium family"
+                    },
+                    "5+": {
+                      "العدد": 200,
+                      "count": 200,
+                      "الوصف": "عائلي كبير",
+                      "description": "Large family"
+                    }
+                  }
+                }
+              }
+            },
+            
+            "حقل_نوع_التدفئة": {
+              "heating_type_field": {
+                "معرف_الحقل": "field-heating-002",
+                "field_id": "field-heating-002",
+                "اسم_الحقل": "heating_type",
+                "field_name": "heating_type",
+                "الاسم_العربي": "نوع التدفئة",
+                "arabic_name": "نوع التدفئة",
+                "نوع_البيانات": "Select",
+                "data_type": "Select",
+                
+                "القيم_المسموحة": {
+                  "allowed_values": {
+                    "مركزية": {
+                      "central": {
+                        "العدد": 300,
+                        "count": 300,
+                        "النسبة": 20.0,
+                        "percentage": 20.0
+                      }
+                    },
+                    "فردية": {
+                      "individual": {
+                        "العدد": 450,
+                        "count": 450,
+                        "النسبة": 30.0,
+                        "percentage": 30.0
+                      }
+                    },
+                    "غاز": {
+                      "gas": {
+                        "العدد": 350,
+                        "count": 350,
+                        "النسبة": 23.3,
+                        "percentage": 23.3
+                      }
+                    },
+                    "كهربائية": {
+                      "electric": {
+                        "العدد": 250,
+                        "count": 250,
+                        "النسبة": 16.7,
+                        "percentage": 16.7
+                      }
+                    },
+                    "بدون": {
+                      "none": {
+                        "العدد": 150,
+                        "count": 150,
+                        "النسبة": 10.0,
+                        "percentage": 10.0
+                      }
+                    }
+                  }
+                },
+                
+                "القيمة_الافتراضية": "بدون",
+                "default_value": "بدون"
+              }
+            },
+            
+            "حقل_المساحة": {
+              "area_field": {
+                "معرف_الحقل": "field-area-003",
+                "field_id": "field-area-003",
+                "اسم_الحقل": "area",
+                "field_name": "area",
+                "الاسم_العربي": "المساحة بالمتر المربع",
+                "arabic_name": "المساحة بالمتر المربع",
+                "نوع_البيانات": "Number",
+                "data_type": "Number",
+                
+                "النطاقات_التلقائية": {
+                  "auto_ranges": {
+                    "50-100": {
+                      "العدد": 400,
+                      "count": 400,
+                      "الوصف": "مساحة صغيرة",
+                      "description": "Small area"
+                    },
+                    "101-150": {
+                      "العدد": 500,
+                      "count": 500,
+                      "الوصف": "مساحة متوسطة",
+                      "description": "Medium area"
+                    },
+                    "151-250": {
+                      "العدد": 400,
+                      "count": 400,
+                      "الوصف": "مساحة كبيرة",
+                      "description": "Large area"
+                    },
+                    "251+": {
+                      "العدد": 200,
+                      "count": 200,
+                      "الوصف": "مساحة كبيرة جداً",
+                      "description": "Very large area"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    
+    "أمثلة_الاستعلامات": {
+      "sample_queries": {
+        
+        "بحث_بسيط": {
+          "simple_search": {
+            "الوصف": "البحث عن عقارات في مدينة صنعاء",
+            "description": "Search for properties in Sana'a city",
+            "معايير_البحث": {
+              "search_criteria": [
+                {
+                  "اسم_الحقل": "city",
+                  "field_name": "city",
+                  "نوع_المعيار": "ExactMatch",
+                  "criterion_type": "ExactMatch",
+                  "القيمة": "صنعاء",
+                  "value": "صنعاء"
+                }
+              ]
+            },
+            "النتيجة_المتوقعة": {
+              "expected_result": {
+                "العدد_الإجمالي": 450,
+                "total_count": 450,
+                "وقت_التنفيذ": "5.2ms",
+                "execution_time": "5.2ms"
+              }
+            }
+          }
+        },
+        
+        "بحث_متقدم": {
+          "advanced_search": {
+            "الوصف": "البحث عن عقارات في مدن متعددة بنطاق سعري محدد",
+            "description": "Search for properties in multiple cities with specific price range",
+            "معايير_البحث": {
+              "search_criteria": [
+                {
+                  "اسم_الحقل": "city",
+                  "field_name": "city",
+                  "نوع_المعيار": "InList",
+                  "criterion_type": "InList",
+                  "القيم": ["صنعاء", "عدن", "تعز"],
+                  "values": ["صنعاء", "عدن", "تعز"]
+                },
+                {
+                  "اسم_الحقل": "price",
+                  "field_name": "price",
+                  "نوع_المعيار": "InRange",
+                  "criterion_type": "InRange",
+                  "أدنى_قيمة": 500,
+                  "min_value": 500,
+                  "أعلى_قيمة": 2000,
+                  "max_value": 2000
+                },
+                {
+                  "اسم_الحقل": "amenities",
+                  "field_name": "amenities",
+                  "نوع_المعيار": "Contains",
+                  "criterion_type": "Contains",
+                  "القيمة": "wifi",
+                  "value": "wifi",
+                  "مطلوب": false,
+                  "required": false
+                }
+              ]
+            },
+            "معايير_الفرز": {
+              "sort_criteria": [
+                {
+                  "اسم_الحقل": "price",
+                  "field_name": "price",
+                  "الاتجاه": "Ascending",
+                  "direction": "Ascending",
+                  "الأولوية": 1,
+                  "priority": 1
+                }
+              ]
+            },
+            "النتيجة_المتوقعة": {
+              "expected_result": {
+                "العدد_الإجمالي": 125,
+                "total_count": 125,
+                "وقت_التنفيذ": "12.8ms",
+                "execution_time": "12.8ms",
+                "الفهارس_المستخدمة": ["city-index-001", "price-index-001", "amenity-index-001"],
+                "used_indices": ["city-index-001", "price-index-001", "amenity-index-001"]
+              }
+            }
+          }
+        },
+        
+        "بحث_ديناميكي": {
+          "dynamic_search": {
+            "الوصف": "البحث باستخدام الحقول الديناميكية",
+            "description": "Search using dynamic fields",
+            "معايير_البحث": {
+              "search_criteria": [
+                {
+                  "اسم_الحقل": "bedrooms",
+                  "field_name": "bedrooms",
+                  "نوع_المعيار": "InRange",
+                  "criterion_type": "InRange",
+                  "أدنى_قيمة": 2,
+                  "min_value": 2,
+                  "أعلى_قيمة": 4,
+                  "max_value": 4
+                },
+                {
+                  "اسم_الحقل": "heating_type",
+                  "field_name": "heating_type",
+                  "نوع_المعيار": "InList",
+                  "criterion_type": "InList",
+                  "القيم": ["مركزية", "فردية"],
+                  "values": ["مركزية", "فردية"]
+                },
+                {
+                  "اسم_الحقل": "area",
+                  "field_name": "area",
+                  "نوع_المعيار": "GreaterThan",
+                  "criterion_type": "GreaterThan",
+                  "القيمة": 100,
+                  "value": 100
+                }
+              ]
+            },
+            "النتيجة_المتوقعة": {
+              "expected_result": {
+                "العدد_الإجمالي": 85,
+                "total_count": 85,
+                "وقت_التنفيذ": "18.5ms",
+                "execution_time": "18.5ms"
+              }
+            }
+          }
+        }
+      }
+    },
+    
+    "معايير_الأداء": {
+      "performance_metrics": {
+        "إحصائيات_النظام": {
+          "system_statistics": {
+            "إجمالي_العقارات": 1500,
+            "total_properties": 1500,
+            "عدد_الفهارس_النشطة": 4,
+            "active_indices_count": 4,
+            "عدد_الحقول_الديناميكية": 3,
+            "dynamic_fields_count": 3,
+            "حجم_الفهارس_الكلي": "3.2MB",
+            "total_indices_size": "3.2MB",
+            "آخر_تحديث": "2025-01-23T12:00:00Z",
+            "last_update": "2025-01-23T12:00:00Z"
+          }
+        },
+        
+        "أداء_البحث": {
+          "search_performance": {
+            "متوسط_وقت_البحث_البسيط": "5.2ms",
+            "avg_simple_search_time": "5.2ms",
+            "متوسط_وقت_البحث_المتقدم": "12.8ms",
+            "avg_advanced_search_time": "12.8ms",
+            "متوسط_وقت_البحث_الديناميكي": "18.5ms",
+            "avg_dynamic_search_time": "18.5ms",
+            "معدل_البحث_في_الثانية": 180.5,
+            "searches_per_second": 180.5,
+            "معدل_النجاح": 99.8,
+            "success_rate": 99.8
+          }
+        },
+        
+        "أداء_التحديث": {
+          "update_performance": {
+            "متوسط_وقت_الإضافة": "3.1ms",
+            "avg_add_time": "3.1ms",
+            "متوسط_وقت_التحديث": "4.2ms",
+            "avg_update_time": "4.2ms",
+            "متوسط_وقت_الحذف": "2.8ms",
+            "avg_delete_time": "2.8ms",
+            "معدل_التحديث_في_الثانية": 320.0,
+            "updates_per_second": 320.0
+          }
+        }
+      }
+    },
+    
+    "فوائد_النظام": {
+      "system_benefits": {
+        "السرعة": {
+          "speed": {
+            "الوصف": "بحث فوري في آلاف العقارات خلال أجزاء من الثانية",
+            "description": "Instant search through thousands of properties in milliseconds",
+            "النسبة_المئوية_للتحسن": 95,
+            "improvement_percentage": 95
+          }
+        },
+        "الدقة": {
+          "accuracy": {
+            "الوصف": "نتائج دقيقة 100% مع آخر التحديثات",
+            "description": "100% accurate results with latest updates",
+            "معدل_الدقة": 100.0,
+            "accuracy_rate": 100.0
+          }
+        },
+        "المرونة": {
+          "flexibility": {
+            "الوصف": "دعم الحقول المخصصة والمعايير المعقدة",
+            "description": "Support for custom fields and complex criteria",
+            "عدد_أنواع_البحث_المدعومة": 14,
+            "supported_search_types": 14
+          }
+        },
+        "الكفاءة": {
+          "efficiency": {
+            "الوصف": "استهلاك ذاكرة أقل بـ 70% من الطرق التقليدية",
+            "description": "70% less memory usage than traditional methods",
+            "توفير_الذاكرة": 70,
+            "memory_savings": 70
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="TestNewFeatures.cs" />
+    <Compile Include="AdvancedIndexingSystem.Core/Services/CompressionService.cs" />
+    <Compile Include="AdvancedIndexingSystem.Core/Models/PerformanceModels.cs" />
+    <Compile Include="AdvancedIndexingSystem.Core/Models/SearchModels.cs" />
+    <Compile Include="AdvancedIndexingSystem.Core/Models/IndexTypes.cs" />
+    <Compile Include="AdvancedIndexingSystem.Core/Models/IndexConfiguration.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+  </ItemGroup>
+
+</Project>
