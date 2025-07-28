@@ -9,7 +9,7 @@ using System.ComponentModel.DataAnnotations;
 /// Property entity
 /// </summary>
 [Display(Name = "كيان الكيان")]
-public class Property : BaseEntity
+public partial class Property : BaseEntity
 {
     /// <summary>
     /// معرف المالك

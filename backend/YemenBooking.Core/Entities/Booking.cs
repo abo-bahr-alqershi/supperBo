@@ -11,7 +11,7 @@ using System.ComponentModel.DataAnnotations;
 /// Booking entity
 /// </summary>
 [Display(Name = "كيان الحجز")]
-public class Booking : BaseEntity
+public partial class Booking : BaseEntity
 {
     /// <summary>
     /// معرف المستخدم

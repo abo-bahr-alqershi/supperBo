@@ -99,7 +99,7 @@ namespace YemenBooking.Application.DTOs.PropertySearch
     /// DTO لفلتر نوع العقار
     /// Property type filter DTO
     /// </summary>
-    public class PropertyTypeFilterDto
+    public partial class PropertyTypeFilterDto
     {
         /// <summary>
         /// معرف نوع العقار
@@ -126,7 +126,7 @@ namespace YemenBooking.Application.DTOs.PropertySearch
     /// DTO لفلتر وسيلة الراحة
     /// Amenity filter DTO
     /// </summary>
-    public class AmenityFilterDto
+    public partial class AmenityFilterDto
     {
         /// <summary>
         /// معرف وسيلة الراحة
@@ -157,7 +157,7 @@ namespace YemenBooking.Application.DTOs.PropertySearch
     /// DTO لفلتر نوع الوحدة
     /// Unit type filter DTO
     /// </summary>
-    public class UnitTypeFilterDto
+    public partial class UnitTypeFilterDto
     {
         /// <summary>
         /// معرف نوع الوحدة

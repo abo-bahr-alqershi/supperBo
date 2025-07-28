@@ -10,7 +10,12 @@ public enum PaymentStatus
     /// ناجح
     /// Successful
     /// </summary>
-    Successful,
+    Successful = 0,
+    
+    /// <summary>
+    /// مكتمل (مرادف لـ Successful لضمان التوافق مع شيفرة MobileApp)
+    /// </summary>
+    Completed = Successful,
     
     /// <summary>
     /// فاشل

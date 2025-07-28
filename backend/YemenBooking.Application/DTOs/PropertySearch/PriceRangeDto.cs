@@ -6,7 +6,7 @@ namespace YemenBooking.Application.DTOs.PropertySearch
     /// <summary>
     /// النطاق السعري
     /// </summary>
-    public class PriceRangeDto
+    public partial class PriceRangeDto
     {
         /// <summary>
         /// الحد الأدنى للسعر
