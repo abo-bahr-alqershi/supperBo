@@ -64,6 +64,12 @@ public interface IBookingRepository : IRepository<Booking>
     Task<bool> CheckActiveBookingsAsync(Guid unitId, CancellationToken cancellationToken = default);
 
     /// <summary>
+    /// الحصول على الحجوزات المتضاربة مع الفترة
+    /// Get bookings that conflict with given period
+    /// </summary>
+    Task<IEnumerable<Booking>> GetConflictingBookingsAsync(Guid unitId, DateTime checkIn, DateTime checkOut, CancellationToken cancellationToken = default);
+
+    /// <summary>
     /// الحصول على حجوزات المستخدم
     /// Get bookings by user
     /// </summary>

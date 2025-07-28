@@ -1,6 +1,7 @@
 using MediatR;
+using YBQuery = YemenBooking.Application.Queries.MobileApp.SearchFilters.GetSearchFiltersQuery;
 using Microsoft.Extensions.Logging;
-using YemenBooking.Application.Queries.MobileApp.SearchFilters;
+
 using YemenBooking.Application.DTOs;
 using YemenBooking.Application.DTOs.PropertySearch;
 using YemenBooking.Core.Interfaces.Repositories;
@@ -11,7 +12,7 @@ namespace YemenBooking.Application.Handlers.Queries.MobileApp.SearchFilters;
 /// معالج استعلام الحصول على فلاتر البحث المتاحة
 /// Handler for get search filters query
 /// </summary>
-public class GetSearchFiltersQueryHandler : IRequestHandler<GetSearchFiltersQuery, ResultDto<SearchFiltersDto>>
+public class GetSearchFiltersQueryHandler : IRequestHandler<YBQuery, ResultDto<SearchFiltersDto>>
 {
     private readonly IPropertyRepository _propertyRepository;
     private readonly IPropertyTypeRepository _propertyTypeRepository;
@@ -49,7 +50,7 @@ public class GetSearchFiltersQueryHandler : IRequestHandler<GetSearchFiltersQuer
     /// <param name="request">طلب الاستعلام</param>
     /// <param name="cancellationToken">رمز الإلغاء</param>
     /// <returns>فلاتر البحث المتاحة</returns>
-    public async Task<ResultDto<SearchFiltersDto>> Handle(GetSearchFiltersQuery request, CancellationToken cancellationToken)
+    public async Task<ResultDto<SearchFiltersDto>> Handle(YBQuery request, CancellationToken cancellationToken)
     {
         try
         {
@@ -296,8 +297,8 @@ public class GetSearchFiltersQueryHandler : IRequestHandler<GetSearchFiltersQuer
         try
         {
             var starRatings = properties
-                .Where(p => p.StarRating.HasValue && p.StarRating.Value > 0)
-                .Select(p => p.StarRating!.Value)
+                .Where(p => p.StarRating != 0 && p.StarRating > 0)
+                .Select(p => p.StarRating)
                 .Distinct()
                 .OrderBy(r => r)
                 .ToList();
@@ -337,7 +338,7 @@ public class GetSearchFiltersQueryHandler : IRequestHandler<GetSearchFiltersQuer
                 var units = await _unitRepository.GetActiveByPropertyIdAsync(property.Id, cancellationToken);
                 if (units != null && units.Any())
                 {
-                    var propertyMaxCapacity = units.Max(u => u.MaxGuests);
+                    var propertyMaxCapacity = units.Max(u => u.MaxCapacity);
                     maxCapacities.Add(propertyMaxCapacity);
                 }
             }

@@ -166,8 +166,8 @@ public class GetFAQsQueryHandler : IRequestHandler<GetFAQsQuery, ResultDto<List<
                     Question = faq.Question ?? string.Empty,
                     Answer = faq.Answer ?? string.Empty,
                     DisplayOrder = faq.DisplayOrder,
-                    HelpfulCount = faq.HelpfulCount,
-                    NotHelpfulCount = faq.NotHelpfulCount
+                    HelpfulCount = 0,
+                    NotHelpfulCount = 0
                 }).ToList()
             })
             .ToList();

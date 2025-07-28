@@ -160,14 +160,14 @@ public class GetCurrencyExchangeRateQueryHandler : IRequestHandler<GetCurrencyEx
                 {
                     // حفظ السعر الجديد في قاعدة البيانات
                     await _currencyExchangeRepository.SaveExchangeRateAsync(
-                        fromCurrency, toCurrency, freshRate.Rate, DateTime.UtcNow, cancellationToken);
+                        fromCurrency, toCurrency, freshRate.Value, DateTime.UtcNow, cancellationToken);
 
                     exchangeRateDto = new CurrencyExchangeRateDto
                     {
                         FromCurrency = fromCurrency,
                         ToCurrency = toCurrency,
-                        ExchangeRate = freshRate.Rate,
-                        ConvertedAmount = request.Amount.HasValue ? request.Amount.Value * freshRate.Rate : null,
+                        ExchangeRate = freshRate.Value,
+                        ConvertedAmount = request.Amount.HasValue ? request.Amount.Value * freshRate.Value : null,
                         LastUpdated = DateTime.UtcNow
                     };
 

@@ -227,8 +227,8 @@ public class ClientGetReviewsSummaryQueryHandler : IRequestHandler<ClientGetRevi
             {
                 // جلب بيانات المستخدم
                 var user = review.Booking?.User;
-                var userName = user?.FirstName ?? "مستخدم مجهول";
-                var userAvatar = user?.ProfilePictureUrl;
+                var userName = user?.Name ?? "مستخدم مجهول";
+                var userAvatar = user?.ProfileImageUrl;
 
                 var clientReview = new ClientReviewDto
                 {
@@ -237,14 +237,15 @@ public class ClientGetReviewsSummaryQueryHandler : IRequestHandler<ClientGetRevi
                     UserName = userName,
                     UserAvatar = userAvatar,
                     Rating = (int)Math.Round(review.AverageRating),
-                    Title = review.Title ?? string.Empty,
+                    // Title removed: entity lacks Title property
+                    //Title = review.Title ?? string.Empty,
                     Comment = review.Comment ?? string.Empty,
                     CreatedAt = review.CreatedAt,
                     Images = review.Images?.Select(img => new ClientReviewImageDto
                     {
                         Id = img.Id,
                         Url = img.Url ?? string.Empty,
-                        ThumbnailUrl = img.ThumbnailUrl ?? img.Url ?? string.Empty,
+                        ThumbnailUrl = img.Url ?? string.Empty,
                         Caption = img.Caption,
                         DisplayOrder = img.DisplayOrder
                     }).OrderBy(img => img.DisplayOrder).ToList() ?? new List<ClientReviewImageDto>(),

@@ -61,6 +61,12 @@ public interface IUnitRepository : IRepository<Unit>
     /// </summary>
     Task<IEnumerable<Unit>> GetUnitsByTypeAsync(Guid unitTypeId, CancellationToken cancellationToken = default);
 
+    /// <summary>
+    /// الحصول على الوحدات المتاحة (نشطة) لعقار معين
+    /// Get active (available) units for a property
+    /// </summary>
+    Task<IEnumerable<Unit>> GetActiveByPropertyIdAsync(Guid propertyId, CancellationToken cancellationToken = default);
+
         /// <summary>
     /// الحصول على الكيان بواسطة المعرف
     /// Get property by id

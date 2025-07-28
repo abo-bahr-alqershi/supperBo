@@ -45,6 +45,12 @@ namespace YemenBooking.Core.Interfaces.Services
         Task<string> UploadImageAsync(Stream imageStream, string fileName, int maxWidth = 1920, int maxHeight = 1080, int quality = 85, string folder = "images");
 
         /// <summary>
+        /// رفع صورة الملف الشخصي للمستخدم وإرجاع الرابط
+        /// Upload user profile image and return URL
+        /// </summary>
+        Task<string> UploadProfileImageAsync(Stream imageStream, string fileName, CancellationToken cancellationToken = default);
+
+        /// <summary>
         /// حذف ملف
         /// Delete file
         /// </summary>

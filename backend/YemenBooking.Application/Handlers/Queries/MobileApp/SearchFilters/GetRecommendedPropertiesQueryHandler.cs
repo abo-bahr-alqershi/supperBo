@@ -290,9 +290,9 @@ public class GetRecommendedPropertiesQueryHandler : IRequestHandler<GetRecommend
             }
 
             // إذا كان نوع العقار مفضل
-            if (userPreferences.PreferredPropertyTypes.Contains(property.PropertyTypeId))
+            if (userPreferences.PreferredPropertyTypes.Contains(property.TypeId))
             {
-                var typeIndex = userPreferences.PreferredPropertyTypes.IndexOf(property.PropertyTypeId);
+                var typeIndex = userPreferences.PreferredPropertyTypes.IndexOf(property.TypeId);
                 score += (3 - typeIndex) * 25; // نقاط أكثر للأنواع الأكثر تفضيلاً
             }
 
@@ -300,9 +300,9 @@ public class GetRecommendedPropertiesQueryHandler : IRequestHandler<GetRecommend
             var units = await _unitRepository.GetActiveByPropertyIdAsync(property.Id, cancellationToken);
             if (units != null && units.Any() && userPreferences.AverageBudget > 0)
             {
-                var minPrice = units.Min(u => u.BasePrice);
-                var budgetDifference = Math.Abs(minPrice - userPreferences.AverageBudget);
-                var budgetScore = Math.Max(0, 50 - (budgetDifference / userPreferences.AverageBudget * 100));
+                var minPriceDecimal = units.Min(u => (decimal)u.BasePrice);
+                var budgetDifference = Math.Abs((double)(minPriceDecimal - userPreferences.AverageBudget));
+                var budgetScore = Math.Max(0, 50 - (budgetDifference / (double)userPreferences.AverageBudget * 100));
                 score += budgetScore;
             }
 
@@ -314,9 +314,9 @@ public class GetRecommendedPropertiesQueryHandler : IRequestHandler<GetRecommend
             }
 
             // نقاط للعقارات عالية التقييم
-            if (property.StarRating.HasValue && property.StarRating.Value >= 4)
+            if (property.StarRating >= 4)
             {
-                score += property.StarRating.Value * 10;
+                score += property.StarRating * 10;
             }
 
             return Math.Max(0, score);
@@ -351,7 +351,7 @@ public class GetRecommendedPropertiesQueryHandler : IRequestHandler<GetRecommend
 
             // جلب أقل سعر
             var units = await _unitRepository.GetActiveByPropertyIdAsync(property.Id, cancellationToken);
-            var minPrice = units?.Any() == true ? units.Min(u => u.BasePrice) : 0;
+            var minPrice = units?.Any() == true ? units.Min(u => (decimal)u.BasePrice) : 0m;
 
             return new PropertySearchResultDto
             {
@@ -360,7 +360,7 @@ public class GetRecommendedPropertiesQueryHandler : IRequestHandler<GetRecommend
                 Description = property.Description ?? string.Empty,
                 Address = property.Address ?? string.Empty,
                 City = property.City ?? string.Empty,
-                StarRating = property.StarRating ?? 0,
+                StarRating = property.StarRating,
                 AverageRating = Math.Round(averageRating, 1),
                 ReviewsCount = reviewsCount,
                 MinPrice = minPrice,

@@ -9,6 +9,12 @@ namespace YemenBooking.Core.Interfaces.Repositories;
 public interface IFavoriteRepository
 {
     /// <summary>
+    /// الحصول على مفضلات المستخدم
+    /// Get all favorites for a user
+    /// </summary>
+    Task<IEnumerable<Favorite>> GetByUserIdAsync(Guid userId, CancellationToken cancellationToken = default);
+
+    /// <summary>
     /// الحصول على مفضلات المستخدم مع التصفح
     /// Get user favorites with pagination
     /// </summary>

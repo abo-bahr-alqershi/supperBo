@@ -20,6 +20,12 @@ public interface IPropertyImageRepository : IRepository<PropertyImage>
     Task<PropertyImage> CreatePropertyImageAsync(PropertyImage propertyImage, CancellationToken cancellationToken = default);
 
     /// <summary>
+    /// الحصول على الصور لعقار معين
+    /// Get images by property id (alias)
+    /// </summary>
+    Task<IEnumerable<PropertyImage>> GetByPropertyIdAsync(Guid propertyId, CancellationToken cancellationToken = default);
+
+    /// <summary>
     /// الحصول على صورة الكيان بناء على المعرف
     /// Get property image by ID
     /// </summary>

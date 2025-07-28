@@ -40,6 +40,18 @@ namespace YemenBooking.Application.DTOs.PropertySearch
         public List<int> StarRatings { get; set; } = new();
 
         /// <summary>
+        /// قائمة المدن المتاحة كنصوص بسيطة
+        /// Flat list of available cities
+        /// </summary>
+        public List<string> AvailableCities { get; set; } = new();
+
+        /// <summary>
+        /// الحد الأقصى للسعة الاستيعابية للضيوف
+        /// Maximum guest capacity across properties
+        /// </summary>
+        public int MaxGuestCapacity { get; set; } = 0;
+
+        /// <summary>
         /// أنواع الوحدات المتاحة
         /// Available unit types
         /// </summary>

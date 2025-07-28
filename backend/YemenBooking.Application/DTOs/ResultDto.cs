@@ -76,6 +76,14 @@ public class ResultDto<T>
     {
         return Ok(data, arabicMessage, englishMessage);
     }
+    
+    /// <summary>
+    /// Alias named Success to match handler usage
+    /// </summary>
+    public static ResultDto<T> SuccessResult(T data, string? arabicMessage = null, string? englishMessage = null)
+    {
+        return Ok(data, arabicMessage, englishMessage);
+    }
         
     /// <summary>
     /// إنشاء نتيجة فاشلة
@@ -192,6 +200,13 @@ public class ResultDto
     /// Alias for Ok, to maintain existing Succeeded calls.
     /// </summary>
     public static ResultDto Succeeded(string? arabicMessage = null, string? englishMessage = null)
+    {
+        return Ok(arabicMessage, englishMessage);
+    }
+    /// <summary>
+    /// Alias named Success to match handler usage
+    /// </summary>
+    public static ResultDto SuccessResult(string? arabicMessage = null, string? englishMessage = null)
     {
         return Ok(arabicMessage, englishMessage);
     }

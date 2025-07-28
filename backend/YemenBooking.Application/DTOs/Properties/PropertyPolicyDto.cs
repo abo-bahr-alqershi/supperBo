@@ -4,6 +4,9 @@ namespace YemenBooking.Application.DTOs.Properties
     /// DTO لسياسة الكيان
     /// DTO for property policy
     /// </summary>
+    using System.Collections.Generic;
+using System;
+
     public class PropertyPolicyDto
     {
         /// <summary>
@@ -23,5 +26,30 @@ namespace YemenBooking.Application.DTOs.Properties
         /// Is active
         /// </summary>
         public bool IsActive { get; set; } = true;
+
+        // ---------------- Mobile App specific properties ----------------
+        /// <summary>
+        /// معرف السياسة
+        /// Policy identifier
+        /// </summary>
+        public Guid Id { get; set; }
+
+        /// <summary>
+        /// نوع السياسة (check_in, check_out, cancellation, etc.)
+        /// Policy type
+        /// </summary>
+        public string Type { get; set; } = string.Empty;
+
+        /// <summary>
+        /// وصف السياسة
+        /// Policy description
+        /// </summary>
+        public string Description { get; set; } = string.Empty;
+
+        /// <summary>
+        /// قواعد السياسة (قابلة للتسلسل إلى JSON)
+        /// Policy rules (serialisable to JSON)
+        /// </summary>
+        public Dictionary<string, object> Rules { get; set; } = new();
     }
 } 

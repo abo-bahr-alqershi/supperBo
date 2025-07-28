@@ -76,6 +76,13 @@ namespace YemenBooking.Infrastructure.Repositories
         public async Task<IEnumerable<Unit>> GetUnitsByTypeAsync(Guid unitTypeId, CancellationToken cancellationToken = default)
             => await _dbSet.Where(u => u.UnitTypeId == unitTypeId).ToListAsync(cancellationToken);
 
+        /// <summary>
+        /// الحصول على الوحدات المتاحة (نشطة) لعقار معين
+        /// Get active (available) units for a property
+        /// </summary>
+        public async Task<IEnumerable<Unit>> GetActiveByPropertyIdAsync(Guid propertyId, CancellationToken cancellationToken = default)
+            => await _dbSet.Where(u => u.PropertyId == propertyId && u.IsAvailable).ToListAsync(cancellationToken);
+
         public async Task<Property?> GetPropertyByIdAsync(Guid propertyId, CancellationToken cancellationToken = default)
             => await _context.Set<Property>().FirstOrDefaultAsync(p => p.Id == propertyId, cancellationToken);
 

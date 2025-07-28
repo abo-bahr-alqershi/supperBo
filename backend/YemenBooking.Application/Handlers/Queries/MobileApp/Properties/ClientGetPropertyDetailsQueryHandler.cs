@@ -58,7 +58,7 @@ public class ClientGetPropertyDetailsQueryHandler : IRequestHandler<GetPropertyD
 
             _logger.LogInformation("تم جلب تفاصيل الكيان {PropertyId} بنجاح", request.PropertyId);
 
-            return ResultDto<PropertyDetailsDto>.Success(propertyDetails);
+            return ResultDto<PropertyDetailsDto>.SuccessResult(propertyDetails);
         }
         catch (Exception ex)
         {

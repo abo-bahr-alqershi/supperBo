@@ -33,6 +33,9 @@ namespace YemenBooking.Infrastructure.Repositories
         public async Task<User?> GetUserByEmailAsync(string email, CancellationToken cancellationToken = default)
             => await _dbSet.FirstOrDefaultAsync(u => u.Email == email, cancellationToken);
 
+        public async Task<User?> GetByPhoneAsync(string phone, CancellationToken cancellationToken = default)
+            => await _dbSet.FirstOrDefaultAsync(u => u.Phone == phone, cancellationToken);
+
         public async Task<bool> CheckEmailExistsAsync(string email, CancellationToken cancellationToken = default)
             => await _dbSet.AnyAsync(u => u.Email == email, cancellationToken);
 

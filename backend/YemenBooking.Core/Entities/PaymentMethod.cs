@@ -74,6 +74,12 @@ public class PaymentMethod
     public bool IsAvailableForClients { get; set; } = true;
 
     /// <summary>
+    /// هل تتطلب تحقق إضافي من الهوية
+    /// Indicates if this payment method requires extra identity verification
+    /// </summary>
+    public bool RequiresVerification { get; set; } = false;
+
+    /// <summary>
     /// العملات المدعومة (JSON)
     /// Supported currencies (JSON)
     /// </summary>

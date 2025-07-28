@@ -51,5 +51,11 @@ namespace YemenBooking.Core.Interfaces.Services
         /// <param name="verificationCode">رمز التحقق</param>
         /// <returns>نتيجة العملية</returns>
         Task<bool> DeleteVerificationCodeAsync(string email, string verificationCode);
+
+        /// <summary>
+        /// تسجيل محاولة إرسال أخرى لفرض قيود معدل الإرسال
+        /// Record another send attempt to enforce rate limiting
+        /// </summary>
+        Task<bool> RecordSendAttemptAsync(string email, CancellationToken cancellationToken = default);
     }
 }

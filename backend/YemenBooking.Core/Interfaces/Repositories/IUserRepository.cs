@@ -27,6 +27,12 @@ public interface IUserRepository : IRepository<User>
     Task<User?> GetUserByEmailAsync(string email, CancellationToken cancellationToken = default);
 
     /// <summary>
+    /// الحصول على مستخدم بواسطة الهاتف
+    /// Get user by phone number
+    /// </summary>
+    Task<User?> GetByPhoneAsync(string phone, CancellationToken cancellationToken = default);
+
+    /// <summary>
     /// التحقق من وجود البريد الإلكتروني
     /// Check if email exists
     /// </summary>

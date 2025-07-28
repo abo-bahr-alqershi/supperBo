@@ -110,6 +110,12 @@ public class Property : BaseEntity
     public decimal AverageRating { get; set; } = 0m;
     
     /// <summary>
+    /// هل العقار مميز لعرضه في الواجهة
+    /// Whether property is featured to show in listing
+    /// </summary>
+    public bool IsFeatured { get; set; } = false;
+    
+    /// <summary>
     /// المالك المرتبط بالكيان
     /// Owner associated with the property
     /// </summary>

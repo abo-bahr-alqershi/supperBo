@@ -45,6 +45,12 @@ namespace YemenBooking.Application.DTOs.Statistics
         public decimal AverageRating { get; set; }
 
         /// <summary>
+        /// متوسط السعر
+        /// Average price
+        /// </summary>
+        public decimal AveragePrice { get; set; }
+
+        /// <summary>
         /// متوسط السعر لليلة الواحدة
         /// Average price per night
         /// </summary>

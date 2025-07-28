@@ -78,7 +78,7 @@ public class ClientGetUserNotificationsQueryHandler : IRequestHandler<ClientGetU
                 .Take(request.PageSize)
                 .ToList();
 
-            return ResultDto<PaginatedResult<ClientNotificationDto>>.Success(new PaginatedResult<ClientNotificationDto>
+            return ResultDto<PaginatedResult<ClientNotificationDto>>.SuccessResult(new PaginatedResult<ClientNotificationDto>
             {
                 Items = items,
                 TotalCount = totalCount,

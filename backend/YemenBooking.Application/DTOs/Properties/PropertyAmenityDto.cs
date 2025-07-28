@@ -26,5 +26,29 @@ namespace YemenBooking.Application.DTOs.Properties
         /// الوصف
         /// </summary>
         public string? Description { get; set; }
+
+        /// <summary>
+        /// المعرف العام للمرفق (لاستخدام موحد عبر الأنظمة)
+        /// Global unique identifier for the amenity (used by handlers)
+        /// </summary>
+        public Guid Id { get; set; }
+
+        /// <summary>
+        /// اسم المرفق (يستخدم في واجهة العميل)
+        /// Amenity name
+        /// </summary>
+        public string? Name { get; set; }
+
+        /// <summary>
+        /// رابط أيقونة المرفق
+        /// Icon URL of the amenity
+        /// </summary>
+        public string? IconUrl { get; set; }
+
+        /// <summary>
+        /// فئة المرفق (خدمة، أمان، ترفيه، ...)
+        /// Amenity category (Service, Safety, Entertainment, ...)
+        /// </summary>
+        public string? Category { get; set; }
     }
 } 

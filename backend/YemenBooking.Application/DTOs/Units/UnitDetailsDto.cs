@@ -52,13 +52,13 @@ public class UnitDetailsDto
     /// السعر الأساسي
     /// Base price
     /// </summary>
-    public decimal BasePrice { get; set; }
+    public MoneyDto BasePrice { get; set; } = null!;
     
     /// <summary>
-    /// العملة
-    /// Currency
+    /// العملة (اختياري إذا كان MoneyDto لا يغطي)
+    /// Currency (optional if MoneyDto covers it)
     /// </summary>
-    public string Currency { get; set; } = string.Empty;
+    public string? Currency { get; set; }
     
     /// <summary>
     /// السعة القصوى
@@ -97,16 +97,22 @@ public class UnitDetailsDto
     public List<UnitImageDto> Images { get; set; } = new();
     
     /// <summary>
-    /// الميزات المخصصة
-    /// Custom features
+    /// الميزات المخصصة (JSON string)
+    /// Custom features (JSON string)
     /// </summary>
-    public Dictionary<string, object> CustomFeatures { get; set; } = new();
+    public string CustomFeatures { get; set; } = string.Empty;
     
     /// <summary>
     /// قيم الحقول الديناميكية
     /// Dynamic field values
     /// </summary>
     public List<UnitFieldValueDto> FieldValues { get; set; } = new();
+
+    /// <summary>
+    /// مجموعات الحقول مع القيم (ديناميكية)
+    /// Dynamic field groups with values
+    /// </summary>
+    public List<FieldGroupWithValuesDto> DynamicFields { get; set; } = new();
     
     /// <summary>
     /// قواعد التسعير المطبقة

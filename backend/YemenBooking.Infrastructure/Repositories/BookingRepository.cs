@@ -112,6 +112,17 @@ namespace YemenBooking.Infrastructure.Repositories
             => await _dbSet.AnyAsync(b => b.UnitId == unitId && b.Status == BookingStatus.Confirmed, cancellationToken);
 
         /// <summary>
+        /// الحصول على الحجوزات المتضاربة مع الفترة المحددة
+        /// Get bookings that conflict with the given period for a unit
+        /// </summary>
+        public async Task<IEnumerable<Booking>> GetConflictingBookingsAsync(Guid unitId, DateTime checkIn, DateTime checkOut, CancellationToken cancellationToken = default)
+            => await _dbSet
+                .Where(b => b.UnitId == unitId &&
+                            (b.Status == BookingStatus.Pending || b.Status == BookingStatus.Confirmed) &&
+                            !(b.CheckOut <= checkIn || b.CheckIn >= checkOut))
+                .ToListAsync(cancellationToken);
+
+        /// <summary>
         /// جلب الحجوزات الخاصة بمستخدم
         /// </summary>
         public async Task<IEnumerable<Booking>> GetBookingsByUserAsync(Guid userId, CancellationToken cancellationToken = default)

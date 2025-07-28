@@ -49,6 +49,12 @@ public class Unit : BaseEntity
     public int MaxCapacity { get; set; }
     
     /// <summary>
+    /// نسبة الخصم الافتراضية للوحدة (0-100)
+    /// Default discount percentage for the unit (0-100)
+    /// </summary>
+    public decimal DiscountPercentage { get; set; } = 0;
+    
+    /// <summary>
     /// الميزات المخصصة للوحدة (JSON)
     /// Custom features of the unit (JSON)
     /// </summary>

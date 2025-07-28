@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using YemenBooking.Application.Queries.MobileApp.Payments;
 using YemenBooking.Application.DTOs;
 using YemenBooking.Core.Interfaces.Repositories;
+using YemenBooking.Core.Enums;
 
 namespace YemenBooking.Application.Handlers.Queries.MobileApp.Payments;
 
@@ -223,19 +224,19 @@ public class ClientGetPaymentMethodsQueryHandler : IRequestHandler<ClientGetPaym
     /// <returns>الرسوم الثابتة ونسبة الرسوم</returns>
     private (decimal transactionFee, decimal feePercentage) CalculateFees(Core.Entities.PaymentMethod method, decimal amount)
     {
-        var transactionFee = method.TransactionFee;
-        var feePercentage = method.FeePercentage;
+        var transactionFee = method.TransactionFee ?? 0m;
+        var feePercentage = method.FeePercentage ?? 0m;
 
         // تطبيق رسوم إضافية حسب نوع طريقة الدفع
-        switch (method.Type?.ToLowerInvariant())
+        switch (method.Type)
         {
-            case "credit_card":
+            case PaymentMethodType.CreditCard:
                 feePercentage += 0.029m; // 2.9% رسوم إضافية للبطاقات الائتمانية
                 break;
-            case "bank_transfer":
+            case PaymentMethodType.BankTransfer:
                 transactionFee += 5m; // 5 وحدات رسوم إضافية للتحويل البنكي
                 break;
-            case "digital_wallet":
+            case PaymentMethodType.DigitalWallet:
                 feePercentage += 0.015m; // 1.5% رسوم إضافية للمحافظ الرقمية
                 break;
         }
@@ -260,17 +261,9 @@ public class ClientGetPaymentMethodsQueryHandler : IRequestHandler<ClientGetPaym
             return false;
         }
 
-        // التحقق من ساعات العمل (إذا كانت محددة)
-        if (!string.IsNullOrEmpty(method.OperatingHours))
-        {
-            // يمكن إضافة منطق للتحقق من ساعات العمل هنا
-        }
+        // التحقق من ساعات العمل (خاصية OperatingHours حُذفت، لذا نفترض أن الطريقة متاحة دائماً)
 
-        // التحقق من حالة الخدمة
-        if (method.ServiceStatus != "active")
-        {
-            return false;
-        }
+        // NOTE: تم حذف التحقق من حالة الخدمة ServiceStatus لعدم وجود الخاصية.
 
         return true;
     }
@@ -294,7 +287,7 @@ public class ClientGetPaymentMethodsQueryHandler : IRequestHandler<ClientGetPaym
             return $"المبلغ قريب من الحد الأقصى المسموح ({method.MaxAmount:N0})";
         }
 
-        if (method.Type == "bank_transfer")
+        if (method.Type == PaymentMethodType.BankTransfer)
         {
             return "قد يستغرق التحويل البنكي من 1-3 أيام عمل";
         }

@@ -17,6 +17,7 @@ public class User : BaseEntity
     /// </summary>
     [Display(Name = "اسم المستخدم")]
     public string Name { get; set; }
+
     
     /// <summary>
     /// البريد الإلكتروني للمستخدم
@@ -45,6 +46,16 @@ public class User : BaseEntity
     /// </summary>
     [Display(Name = "صورة المستخدم")]
     public string ProfileImage { get; set; }
+    
+    /// <summary>
+    /// رابط صورة الملف الشخصي (متوافق مع معالجات الموبايل)
+    /// Profile image URL (alias for ProfileImage)
+    /// </summary>
+    public string ProfileImageUrl
+    {
+        get => ProfileImage;
+        set => ProfileImage = value;
+    }
 
     /// <summary>
     /// تاريخ إنشاء حساب المستخدم

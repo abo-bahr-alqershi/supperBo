@@ -44,6 +44,30 @@ namespace YemenBooking.Core.Entities
         public DiscountType DiscountType { get; set; }
 
         /// <summary>
+        /// نسبة الخصم المئوية (اختياري)
+        /// Discount percentage (optional)
+        /// </summary>
+        public decimal DiscountPercentage { get; set; }
+
+        /// <summary>
+        /// مبلغ الخصم الثابت (اختياري)
+        /// Discount amount (optional)
+        /// </summary>
+        public decimal DiscountAmount { get; set; }
+
+        /// <summary>
+        /// تاريخ انتهاء العرض (اختياري)
+        /// Offer expiry date (optional)
+        /// </summary>
+        public DateTime? ExpiryDate { get; set; }
+
+        /// <summary>
+        /// لون مميز لعرض شارة في الواجهة
+        /// Highlight color for displaying badge
+        /// </summary>
+        public string? Color { get; set; } = "#FF6B6B";
+
+        /// <summary>
         /// الحد الأدنى للمبلغ لتطبيق العرض
         /// Minimum amount to apply offer
         /// </summary>

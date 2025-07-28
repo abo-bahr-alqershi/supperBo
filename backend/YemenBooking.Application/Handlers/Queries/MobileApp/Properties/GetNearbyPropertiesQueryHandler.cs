@@ -83,7 +83,7 @@ public class GetNearbyPropertiesQueryHandler : IRequestHandler<GetNearbyProperti
             }
 
             // حساب المسافة وفلترة العقارات ضمن نصف القطر المحدد
-            var nearbyProperties = new List<(Core.Entities.Property property, double distance)>();
+            var nearbyProperties = new List<(Core.Entities.Property Property, double Distance)>();
 
             foreach (var property in allProperties)
             {
@@ -101,7 +101,7 @@ public class GetNearbyPropertiesQueryHandler : IRequestHandler<GetNearbyProperti
                 // إضافة العقار إذا كان ضمن نصف القطر المحدد
                 if (distance <= request.RadiusKm)
                 {
-                    nearbyProperties.Add((property, distance));
+                    nearbyProperties.Add((Property: property, Distance: distance));
                 }
             }
 
@@ -117,7 +117,7 @@ public class GetNearbyPropertiesQueryHandler : IRequestHandler<GetNearbyProperti
 
             // ترتيب العقارات حسب المسافة
             var sortedProperties = nearbyProperties
-                .OrderBy(p => p.distance)
+                .OrderBy(p => p.Distance)
                 .Take(request.MaxResults)
                 .ToList();
 
@@ -264,14 +264,14 @@ public class GetNearbyPropertiesQueryHandler : IRequestHandler<GetNearbyProperti
             }
 
             // العثور على أقل سعر أساسي
-            var minBasePrice = units.Min(u => u.BasePrice);
+            var minBasePrice = units.Min(u => (decimal)u.BasePrice);
 
             // تطبيق أي خصومات متاحة
-            var unitsWithDiscounts = units.Where(u => u.DiscountPercentage > 0);
+            var unitsWithDiscounts = units.Where(u => u.DiscountPercentage > 0).ToList();
             if (unitsWithDiscounts.Any())
             {
                 var minDiscountedPrice = unitsWithDiscounts.Min(u => 
-                    u.BasePrice - (u.BasePrice * u.DiscountPercentage / 100));
+                    (decimal)u.BasePrice - ((decimal)u.BasePrice * u.DiscountPercentage / 100));
                 
                 return Math.Min(minBasePrice, minDiscountedPrice);
             }

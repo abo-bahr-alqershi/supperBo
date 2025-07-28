@@ -388,12 +388,23 @@ public class GetUnitDetailsQueryHandler : IRequestHandler<GetUnitDetailsQuery, R
         // رسوم الخدمة (2% من المبلغ الأساسي)
         fees += baseAmount * 0.02m;
 
-        // رسوم التنظيف (إذا كانت محددة في الوحدة)
-        if (unit.CustomFeatures?.ContainsKey("cleaning_fee") == true)
+        // رسوم التنظيف (إذا كانت محددة في ميزات الوحدة المخصصة بصيغة JSON)
+        if (!string.IsNullOrWhiteSpace(unit.CustomFeatures))
         {
-            if (decimal.TryParse(unit.CustomFeatures["cleaning_fee"].ToString(), out var cleaningFee))
+            try
             {
-                fees += cleaningFee;
+                var features = JsonSerializer.Deserialize<Dictionary<string, object>>(unit.CustomFeatures);
+                if (features != null && features.TryGetValue("cleaning_fee", out var feeObj))
+                {
+                    if (decimal.TryParse(feeObj?.ToString(), out var cleaningFee))
+                    {
+                        fees += cleaningFee;
+                    }
+                }
+            }
+            catch (JsonException)
+            {
+                // تجاهل إذا كانت JSON غير صالح
             }
         }
 

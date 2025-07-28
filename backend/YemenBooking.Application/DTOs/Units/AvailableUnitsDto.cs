@@ -1,5 +1,5 @@
-using System;
-using System.Collections.Generic;
+
+
 using YemenBooking.Application.DTOs;
 
 namespace YemenBooking.Application.DTOs.Units;
@@ -93,7 +93,7 @@ public class AvailableUnitDto
     /// قيم الحقول الديناميكية
     /// Dynamic field values
     /// </summary>
-    public List<UnitFieldValueDto> FieldValues { get; set; } = new();
+    public List<UnitFieldSimpleDto> FieldValues { get; set; } = new();
 }
 
 /// <summary>
@@ -131,7 +131,10 @@ public class UnitImageDto
 /// بيانات قيمة الحقل
 /// Unit field value data transfer object
 /// </summary>
-public class UnitFieldValueDto
+
+
+
+public class UnitFieldSimpleDto
 {
     /// <summary>
     /// اسم الحقل
@@ -156,4 +159,12 @@ public class UnitFieldValueDto
     /// Field type
     /// </summary>
     public string FieldType { get; set; } = string.Empty;
+    // Extended properties for internal mapping
+    public Guid ValueId { get; set; }
+    public Guid UnitId { get; set; }
+    public Guid FieldId { get; set; }
+    public string FieldValue { get; set; } = string.Empty;
+    public UnitTypeFieldDto Field { get; set; }
+    public DateTime CreatedAt { get; set; }
+    public DateTime UpdatedAt { get; set; }
 }

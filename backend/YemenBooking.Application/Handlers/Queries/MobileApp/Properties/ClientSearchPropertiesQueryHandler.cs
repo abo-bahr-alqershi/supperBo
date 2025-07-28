@@ -2,6 +2,7 @@ using MediatR;
 using Microsoft.Extensions.Logging;
 using YemenBooking.Application.DTOs;
 using YemenBooking.Application.DTOs.Properties;
+using PSResultDto = YemenBooking.Application.DTOs.PropertySearch.PropertySearchResultDto;
 using YemenBooking.Application.Queries.MobileApp.Properties;
 using YemenBooking.Core.Interfaces.Repositories;
 using YemenBooking.Core.Interfaces;
@@ -57,7 +58,7 @@ public class ClientSearchPropertiesQueryHandler : IRequestHandler<SearchProperti
             _logger.LogError(ex, "خطأ أثناء البحث عن الكيانات");
             return new SearchPropertiesResponse
             {
-                Properties = new List<PropertySearchResultDto>(),
+                Properties = new List<PSResultDto>(),
                 TotalCount = 0,
                 CurrentPage = request.PageNumber,
                 TotalPages = 0
@@ -75,7 +76,7 @@ public class ClientSearchPropertiesQueryHandler : IRequestHandler<SearchProperti
         {
             return new SearchPropertiesResponse
             {
-                Properties = new List<PropertySearchResultDto>(),
+                Properties = new List<PSResultDto>(),
                 TotalCount = 0,
                 CurrentPage = 1,
                 TotalPages = 0
@@ -86,7 +87,7 @@ public class ClientSearchPropertiesQueryHandler : IRequestHandler<SearchProperti
         {
             return new SearchPropertiesResponse
             {
-                Properties = new List<PropertySearchResultDto>(),
+                Properties = new List<PSResultDto>(),
                 TotalCount = 0,
                 CurrentPage = request.PageNumber,
                 TotalPages = 0
@@ -97,7 +98,7 @@ public class ClientSearchPropertiesQueryHandler : IRequestHandler<SearchProperti
         {
             return new SearchPropertiesResponse
             {
-                Properties = new List<PropertySearchResultDto>(),
+                Properties = new List<PSResultDto>(),
                 TotalCount = 0,
                 CurrentPage = request.PageNumber,
                 TotalPages = 0
@@ -108,7 +109,7 @@ public class ClientSearchPropertiesQueryHandler : IRequestHandler<SearchProperti
         {
             return new SearchPropertiesResponse
             {
-                Properties = new List<PropertySearchResultDto>(),
+                Properties = new List<PSResultDto>(),
                 TotalCount = 0,
                 CurrentPage = request.PageNumber,
                 TotalPages = 0
@@ -174,7 +175,7 @@ public class ClientSearchPropertiesQueryHandler : IRequestHandler<SearchProperti
             .ToList();
 
         // تحويل إلى DTOs
-        var propertyDtos = new List<PropertySearchResultDto>();
+        var propertyDtos = new List<PSResultDto>();
         foreach (var property in paginatedProperties)
         {
             var dto = await MapToSearchResultDto(property, request);
@@ -211,9 +212,9 @@ public class ClientSearchPropertiesQueryHandler : IRequestHandler<SearchProperti
     /// تحويل الكيان إلى DTO
     /// Map property to search result DTO
     /// </summary>
-    private async Task<PropertySearchResultDto> MapToSearchResultDto(Core.Entities.Property property, SearchPropertiesQuery request)
+    private async Task<PSResultDto> MapToSearchResultDto(Core.Entities.Property property, SearchPropertiesQuery request)
     {
-        var dto = new PropertySearchResultDto
+        var dto = new PSResultDto
         {
             Id = property.Id,
             Name = property.Name,

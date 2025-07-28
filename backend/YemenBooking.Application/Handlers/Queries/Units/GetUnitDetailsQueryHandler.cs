@@ -110,7 +110,7 @@ namespace YemenBooking.Application.Handlers.Queries.Units
                 BookingCount = unit.BookingCount,
                 PropertyName = unit.Property.Name,
                 UnitTypeName = unit.UnitType.Name,
-                PricingMethod = unit.PricingMethod,
+                PricingMethod = unit.PricingMethod.ToString(),
                 FieldValues = unit.FieldValues.Select(fv => new UnitFieldValueDto
                 {
                     FieldId = fv.UnitTypeFieldId,

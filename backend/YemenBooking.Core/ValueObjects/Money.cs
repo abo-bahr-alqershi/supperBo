@@ -109,6 +109,12 @@ public record Money
     /// تنسيق المبلغ للعرض
     /// Format amount for display
     /// </summary>
+    /// <summary>
+    /// التحويل الضمني إلى decimal لإرجاع المبلغ فقط
+    /// Implicit conversion to decimal (amount)
+    /// </summary>
+    public static implicit operator decimal(Money money) => money.Amount;
+
     public override string ToString()
     {
         return $"{Amount:N2} {Currency}";

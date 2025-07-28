@@ -67,6 +67,12 @@ public class Payment : BaseEntity
     /// </summary>
     [Display(Name = "معرف المستخدم الذي قام بمعالجة الدفع")]
     public Guid ProcessedBy { get; set; }
+
+    /// <summary>
+    /// تاريخ معالجة الدفع (توافق نقاط نهاية الموبايل)
+    /// Payment processed date
+    /// </summary>
+    public DateTime? ProcessedAt { get; set; }
     
     /// <summary>
     /// الحجز المرتبط بالدفع

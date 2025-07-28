@@ -7,6 +7,8 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using YemenBooking.Application.DTOs;
+using YemenBooking.Application.DTOs.Units;
+using YemenBooking.Application.DTOs.Amenities;
 using YemenBooking.Application.DTOs.Properties;
 using YemenBooking.Application.Queries.Properties;
 using YemenBooking.Application.Queries.CP.Properties;
@@ -117,7 +119,7 @@ namespace YemenBooking.Application.Handlers.Queries.Properties
                         Status = i.Status,
                         AssociationType = i.PropertyId != null ? "Property" : "Unit"
                     }).ToList(),
-                    Units = property.Units.Select(u => new UnitDto
+                    Units = property.Units.Select(u => new UnitDetailsDto
                     {
                         Id = u.Id,
                         PropertyId = u.PropertyId,
@@ -132,7 +134,7 @@ namespace YemenBooking.Application.Handlers.Queries.Properties
                         IsAvailable = u.IsAvailable,
                         PropertyName = property.Name,
                         UnitTypeName = u.UnitType.Name,
-                        PricingMethod = u.PricingMethod,
+                        PricingMethod = u.PricingMethod.ToString(),
                         FieldValues = u.FieldValues.OrderBy(fv => fv.CreatedAt).Select(fv => new UnitFieldValueDto
                         {
                             ValueId = fv.Id,
@@ -162,7 +164,7 @@ namespace YemenBooking.Application.Handlers.Queries.Properties
                             UpdatedAt = fv.UpdatedAt
                         }).ToList()
                     }).ToList(),
-                    Amenities = property.Amenities.Select(pa => new AmenityDto
+                    Amenities = property.Amenities.Select(pa => new PropertyAmenityDto
                     {
                         Id = pa.PropertyTypeAmenity.AmenityId,
                         Name = pa.PropertyTypeAmenity.Amenity.Name,

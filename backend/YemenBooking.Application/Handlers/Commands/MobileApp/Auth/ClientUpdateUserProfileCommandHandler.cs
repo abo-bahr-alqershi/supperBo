@@ -190,9 +190,7 @@ public class ClientUpdateUserProfileCommandHandler : IRequestHandler<ClientUpdat
     /// <param name="cancellationToken">رمز الإلغاء</param>
     private async Task UpdateUserProfile(dynamic user, ClientUpdateUserProfileCommand request, CancellationToken cancellationToken)
     {
-        // تحديث الاسم
-        user.FirstName = request.FirstName.Trim();
-        user.LastName = request.LastName.Trim();
+        // تحديث الاسم الكامل
         user.Name = $"{request.FirstName.Trim()} {request.LastName.Trim()}";
 
         // تحديث رقم الهاتف
@@ -233,7 +231,7 @@ public class ClientUpdateUserProfileCommandHandler : IRequestHandler<ClientUpdat
         // تحديث صورة الملف الشخصي
         if (!string.IsNullOrWhiteSpace(request.ProfilePictureUrl))
         {
-            user.ProfilePictureUrl = request.ProfilePictureUrl;
+            user.ProfileImageUrl = request.ProfilePictureUrl;
         }
 
         // تحديث اللغة المفضلة
@@ -272,7 +270,7 @@ public class ClientUpdateUserProfileCommandHandler : IRequestHandler<ClientUpdat
             FullName = user.Name,
             Email = user.Email,
             PhoneNumber = user.PhoneNumber,
-            ProfilePictureUrl = user.ProfilePictureUrl,
+            ProfilePictureUrl = user.ProfileImageUrl,
             UpdatedAt = user.UpdatedAt,
             IsProfileComplete = completionPercentage >= 80m,
             CompletionPercentage = completionPercentage
@@ -289,15 +287,14 @@ public class ClientUpdateUserProfileCommandHandler : IRequestHandler<ClientUpdat
     {
         var fields = new[]
         {
-            !string.IsNullOrWhiteSpace(user.FirstName),
-            !string.IsNullOrWhiteSpace(user.LastName),
-            !string.IsNullOrWhiteSpace(user.Email),
+            !string.IsNullOrWhiteSpace(user.Name),
+                        !string.IsNullOrWhiteSpace(user.Email),
             !string.IsNullOrWhiteSpace(user.PhoneNumber),
             user.DateOfBirth != null,
             !string.IsNullOrWhiteSpace(user.Gender),
             !string.IsNullOrWhiteSpace(user.Country),
             !string.IsNullOrWhiteSpace(user.City),
-            !string.IsNullOrWhiteSpace(user.ProfilePictureUrl),
+            !string.IsNullOrWhiteSpace(user.ProfileImageUrl),
             user.IsEmailVerified
         };
 

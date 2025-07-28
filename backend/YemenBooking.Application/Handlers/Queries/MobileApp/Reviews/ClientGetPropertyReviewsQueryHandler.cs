@@ -101,7 +101,7 @@ public class ClientGetPropertyReviewsQueryHandler : IRequestHandler<ClientGetPro
                 .Take(request.PageSize)
                 .ToList();
 
-            return ResultDto<PaginatedResult<ClientReviewDto>>.Success(new PaginatedResult<ClientReviewDto>
+            return ResultDto<PaginatedResult<ClientReviewDto>>.SuccessResult(new PaginatedResult<ClientReviewDto>
             {
                 Items = items,
                 TotalCount = totalCount,
