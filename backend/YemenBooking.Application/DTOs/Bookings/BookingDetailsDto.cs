@@ -10,6 +10,28 @@ namespace YemenBooking.Application.DTOs.Bookings
     /// </summary>
     public class BookingDetailsDto
     {
+        // New properties to align with MobileApp handler expectations
+        public string PropertyAddress { get; set; } = string.Empty;
+
+        public DateTime CheckIn { get; set; }
+        public DateTime CheckOut { get; set; }
+
+        public int GuestsCount { get; set; }
+
+        public DateTime BookedAt { get; set; }
+        public string? BookingSource { get; set; }
+        public string? CancellationReason { get; set; }
+        public bool IsWalkIn { get; set; }
+        public decimal? PlatformCommissionAmount { get; set; }
+        public DateTime? ActualCheckInDate { get; set; }
+        public DateTime? ActualCheckOutDate { get; set; }
+        public decimal? FinalAmount { get; set; }
+        public int? CustomerRating { get; set; }
+        public string? CompletionNotes { get; set; }
+
+        public List<BookingServiceDto> Services { get; set; } = new();
+        public List<PaymentDto> Payments { get; set; } = new();
+        public List<string> UnitImages { get; set; } = new();
         /// <summary>
         /// معرف الحجز
         /// Booking ID

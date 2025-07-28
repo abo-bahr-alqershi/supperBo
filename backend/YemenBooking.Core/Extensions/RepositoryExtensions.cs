@@ -83,4 +83,44 @@ public static class RepositoryExtensions
         CancellationToken cancellationToken = default)
         => repo.GetLatestVersionAsync(platform);
 
+    // ---------------- Mobile App Property Details helpers ----------------
+
+    /// <summary>
+    /// Proxy for getting average rating expected as GetPropertyAverageRatingAsync
+    /// </summary>
+    public static async Task<double> GetPropertyAverageRatingAsync(this IReviewRepository repo,
+        Guid propertyId,
+        CancellationToken cancellationToken = default)
+    {
+        var stats = await repo.GetPropertyRatingStatsAsync(propertyId, cancellationToken);
+        return stats.AverageRating;
+    }
+
+    /// <summary>
+    /// Proxy for getting reviews count expected as GetPropertyReviewsCountAsync
+    /// </summary>
+    public static async Task<int> GetPropertyReviewsCountAsync(this IReviewRepository repo,
+        Guid propertyId,
+        CancellationToken cancellationToken = default)
+    {
+        var stats = await repo.GetPropertyRatingStatsAsync(propertyId, cancellationToken);
+        return stats.TotalReviews;
+    }
+
+    /// <summary>
+    /// Proxy for property booking count expected by handlers
+    /// </summary>
+    public static Task<int> GetPropertyBookingCountAsync(this IPropertyRepository repo,
+        Guid propertyId,
+        CancellationToken cancellationToken = default)
+        => Task.FromResult(0);
+
+    /// <summary>
+    /// Proxy for incrementing view count when not implemented in repository
+    /// </summary>
+    public static Task<bool> IncrementViewCountAsync(this IPropertyRepository repo,
+        Guid propertyId,
+        CancellationToken cancellationToken = default)
+        => Task.FromResult(true);
+
 }

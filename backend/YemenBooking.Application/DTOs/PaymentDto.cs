@@ -26,7 +26,7 @@ namespace YemenBooking.Application.DTOs
         /// المبلغ المدفوع
         /// Paid amount
         /// </summary>
-        public MoneyDto Amount { get; set; }
+        public decimal Amount { get; set; }
 
         /// <summary>
         /// رقم المعاملة
@@ -39,6 +39,12 @@ namespace YemenBooking.Application.DTOs
         /// Payment method
         /// </summary>
         public PaymentMethodEnum Method { get; set; }
+
+        /// <summary>
+        /// العملة
+        /// Currency
+        /// </summary>
+        public string Currency { get; set; } = "YER";
 
         /// <summary>
         /// حالة الدفع
