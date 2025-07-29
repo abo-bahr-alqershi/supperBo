@@ -8,6 +8,7 @@ using YemenBooking.Application.DTOs;
 using YemenBooking.Core.Entities;
 using YemenBooking.Core.Interfaces.Repositories;
 using YemenBooking.Core.Interfaces.Services;
+using Microsoft.Extensions.Logging;
 
 namespace YemenBooking.Application.Handlers.Commands.Pricing
 {
@@ -20,15 +21,21 @@ namespace YemenBooking.Application.Handlers.Commands.Pricing
         private readonly IPricingRuleRepository _pricingRepository;
         private readonly IMapper _mapper;
         private readonly IAuditService _auditService;
+        private readonly IIndexingService _indexingService;
+        private readonly ILogger<UpdatePricingCommandHandler> _logger;
 
         public UpdatePricingCommandHandler(
             IPricingRuleRepository pricingRepository,
             IMapper mapper,
-            IAuditService auditService)
+            IAuditService auditService,
+            IIndexingService indexingService,
+            ILogger<UpdatePricingCommandHandler> logger)
         {
             _pricingRepository = pricingRepository;
             _mapper = mapper;
             _auditService = auditService;
+            _indexingService = indexingService;
+            _logger = logger;
         }
 
         public async Task<ResultDto<PricingRuleDto>> Handle(UpdatePricingCommand request, CancellationToken cancellationToken)
@@ -57,6 +64,16 @@ namespace YemenBooking.Application.Handlers.Commands.Pricing
                 $"تم تحديث قاعدة التسعير {updated.Id}",
                 Guid.Empty,
                 cancellationToken: cancellationToken);
+
+            try
+            {
+                await _indexingService.UpdatePricingRuleIndexAsync(updated);
+                _logger.LogInformation("تم تحديث فهرس التسعير {PricingRuleId}", updated.Id);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, "فشل في تحديث فهرس التسعير {PricingRuleId}", updated.Id);
+            }
 
             var dto = _mapper.Map<PricingRuleDto>(updated);
             return ResultDto<PricingRuleDto>.Succeeded(dto, "تم تحديث قاعدة التسعير بنجاح");

@@ -9,6 +9,9 @@ using AutoMapper;
 using System.Linq;
 using System.Collections.Generic;
 using System.Threading;
+using MediatR;
+using YemenBooking.Application.Commands.Pricing;
+using YemenBooking.Application.Queries.Pricing;
 
 namespace YemenBooking.Api.Controllers
 {
@@ -20,15 +23,10 @@ namespace YemenBooking.Api.Controllers
     [Route("api/[controller]")]
     public class PricingController : ControllerBase
     {
-        private readonly IPricingRuleRepository _pricingRepository;
-        private readonly IMapper _mapper;
-        private readonly IUnitRepository _unitRepository;
-
-        public PricingController(IPricingRuleRepository pricingRepository, IMapper mapper, IUnitRepository unitRepository)
+        private readonly IMediator _mediator;
+        public PricingController(IMediator mediator)
         {
-            _pricingRepository = pricingRepository;
-            _mapper = mapper;
-            _unitRepository = unitRepository;
+            _mediator = mediator;
         }
 
         /// <summary>
@@ -38,15 +36,13 @@ namespace YemenBooking.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> GetUnitPricing([FromQuery] Guid unitId, [FromQuery] DateTime? startDate, [FromQuery] DateTime? endDate)
         {
-            var list = await _pricingRepository.GetPricingRulesByUnitAsync(unitId, startDate, endDate, CancellationToken.None);
-            var unit = await _unitRepository.GetUnitByIdAsync(unitId, CancellationToken.None);
-            var dtos = list.Select(p =>
+            var result = await _mediator.Send(new GetUnitPricingRulesQuery
             {
-                var dto = _mapper.Map<PricingRuleDto>(p);
-                dto.BasePrice = _mapper.Map<MoneyDto>(unit.BasePrice);
-                return dto;
+                UnitId = unitId,
+                StartDate = startDate,
+                EndDate = endDate
             });
-            return Ok(new { data = dtos });
+            return result.IsSuccess ? Ok(new { data = result.Data }) : BadRequest(new { message = result.Message });
         }
 
         /// <summary>
@@ -56,28 +52,23 @@ namespace YemenBooking.Api.Controllers
         [HttpPost("search")]
         public async Task<IActionResult> SearchPricing([FromBody] PricingSearchRequest request)
         {
-            var data = await _pricingRepository.GetPricingRulesByUnitAsync(
-                request.UnitIds?.FirstOrDefault() ?? Guid.Empty,
-                request.StartDate,
-                request.EndDate,
-                CancellationToken.None);
-            var unitId = request.UnitIds?.FirstOrDefault() ?? Guid.Empty;
-            var unit = await _unitRepository.GetUnitByIdAsync(unitId, CancellationToken.None);
-            var dtos = data
-                .Where(p => request.UnitIds == null || request.UnitIds.Contains(p.UnitId))
-                .Select(p =>
-                {
-                    var dto = _mapper.Map<PricingRuleDto>(p);
-                    dto.BasePrice = _mapper.Map<MoneyDto>(unit.BasePrice);
-                    return dto;
-                })
-                .ToList();
+            var result = await _mediator.Send(new SearchPricingQuery
+            {
+                UnitIds = request.UnitIds,
+                PropertyId = request.PropertyId,
+                StartDate = request.StartDate,
+                EndDate = request.EndDate,
+                PriceTypes = request.PriceTypes,
+                PricingTiers = request.PricingTiers,
+                IncludeConflicts = request.IncludeConflicts
+            });
+            if (!result.IsSuccess) return BadRequest(new { message = result.Message });
             return Ok(new
             {
-                pricing_rules = dtos,
-                conflicts = new object[0],
-                total_count = dtos.Count,
-                has_more = false
+                pricing_rules = result.Data.PricingRules,
+                conflicts = result.Data.Conflicts,
+                total_count = result.Data.TotalCount,
+                has_more = result.Data.HasMore
             });
         }
 
@@ -88,33 +79,22 @@ namespace YemenBooking.Api.Controllers
         [HttpPost]
         public async Task<IActionResult> CreatePricing([FromBody] CreatePricingRequestDto request)
         {
-            if (request.OverrideConflicts != true)
+            var result = await _mediator.Send(new CreatePricingCommand
             {
-                var hasConflict = await _pricingRepository.HasOverlapAsync(request.UnitId, request.StartDate, request.EndDate, CancellationToken.None);
-                if (hasConflict)
-                {
-                    return Conflict(new { message = "يوجد تعارض في قواعد التسعير للفترة المحددة" });
-                }
-            }
-            var entity = new PricingRule
-            {
-                Id = Guid.NewGuid(),
                 UnitId = request.UnitId,
-                PriceType = "base",
+                PriceType = request.PriceType,
                 StartDate = request.StartDate,
                 EndDate = request.EndDate,
-                StartTime = request.StartTime,
-                EndTime = request.EndTime,
                 PriceAmount = request.PriceAmount,
                 PricingTier = request.PricingTier,
+                PercentageChange = request.PercentageChange,
                 MinPrice = request.MinPrice,
                 MaxPrice = request.MaxPrice,
                 Description = request.Description,
-                Currency = request.Currency
-            };
-            var created = await _pricingRepository.CreatePricingRuleAsync(entity);
-            var resultDto = _mapper.Map<PricingRuleDto>(created);
-            return Ok(new { data = resultDto });
+                Currency = request.Currency,
+                OverrideConflicts = request.OverrideConflicts
+            });
+            return result.IsSuccess ? Ok(new { data = result.Data }) : BadRequest(new { message = result.Message });
         }
 
         /// <summary>
@@ -124,26 +104,23 @@ namespace YemenBooking.Api.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdatePricing([FromRoute] Guid id, [FromBody] UpdatePricingRequestDto request)
         {
-            var entity = await _pricingRepository.GetPricingRuleByIdAsync(id, CancellationToken.None);
-            if (entity == null)
-                return NotFound();
-
-            entity.PriceType = "base";
-            entity.StartDate = request.StartDate;
-            entity.EndDate = request.EndDate;
-            entity.StartTime = request.StartTime;
-            entity.EndTime = request.EndTime;
-            entity.PriceAmount = request.PriceAmount;
-            entity.PricingTier = request.PricingTier;
-            entity.MinPrice = request.MinPrice;
-            entity.MaxPrice = request.MaxPrice;
-            entity.Description = request.Description;
-            entity.Currency = request.Currency;
-
-            await _pricingRepository.UpdatePricingRuleAsync(entity);
-
-            var resultDto = _mapper.Map<PricingRuleDto>(entity);
-            return Ok(new { data = resultDto });
+            var result = await _mediator.Send(new UpdatePricingCommand
+            {
+                PricingRuleId = id,
+                UnitId = request.UnitId,
+                PriceType = request.PriceType,
+                StartDate = request.StartDate,
+                EndDate = request.EndDate,
+                PriceAmount = request.PriceAmount,
+                PricingTier = request.PricingTier,
+                PercentageChange = request.PercentageChange,
+                MinPrice = request.MinPrice,
+                MaxPrice = request.MaxPrice,
+                Description = request.Description,
+                Currency = request.Currency,
+                OverrideConflicts = request.OverrideConflicts
+            });
+            return result.IsSuccess ? Ok(new { data = result.Data }) : BadRequest(new { message = result.Message });
         }
 
         /// <summary>
@@ -151,13 +128,10 @@ namespace YemenBooking.Api.Controllers
         /// Delete a pricing rule
         /// </summary>
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeletePricing(Guid id)
+        public async Task<IActionResult> DeletePricing([FromRoute] Guid id)
         {
-            var exists = await _pricingRepository.GetPricingRuleByIdAsync(id, CancellationToken.None);
-            if (exists == null)
-                return NotFound();
-            await _pricingRepository.DeletePricingRuleAsync(id);
-            return NoContent();
+            var result = await _mediator.Send(new DeletePricingCommand { PricingRuleId = id });
+            return result.IsSuccess ? NoContent() : NotFound();
         }
 
         /// <summary>
@@ -167,31 +141,25 @@ namespace YemenBooking.Api.Controllers
         [HttpPost("bulk")]
         public async Task<IActionResult> BulkCreatePricing([FromBody] BulkPricingRequestDto request)
         {
-            var createdEntities = new List<PricingRule>();
-            foreach (var req in request.Requests)
+            var result = await _mediator.Send(new BulkCreatePricingCommand
             {
-                var entity = new PricingRule
+                Requests = request.Requests.Select(r => new CreatePricingCommand
                 {
-                    Id = Guid.NewGuid(),
-                    UnitId = req.UnitId,
-                    PriceType = req.PriceType,
-                    StartDate = req.StartDate,
-                    EndDate = req.EndDate,
-                    StartTime = req.StartTime,
-                    EndTime = req.EndTime,
-                    PriceAmount = req.PriceAmount,
-                    PricingTier = req.PricingTier,
-                    PercentageChange = req.PercentageChange,
-                    MinPrice = req.MinPrice,
-                    MaxPrice = req.MaxPrice,
-                    Description = req.Description,
-                    Currency = req.Currency
-                };
-                var created = await _pricingRepository.CreatePricingRuleAsync(entity);
-                createdEntities.Add(created);
-            }
-            var resultDtos = createdEntities.Select(e => _mapper.Map<PricingRuleDto>(e));
-            return Ok(new { data = resultDtos });
+                    UnitId = r.UnitId,
+                    PriceType = r.PriceType,
+                    StartDate = r.StartDate,
+                    EndDate = r.EndDate,
+                    PriceAmount = r.PriceAmount,
+                    PricingTier = r.PricingTier,
+                    PercentageChange = r.PercentageChange,
+                    MinPrice = r.MinPrice,
+                    MaxPrice = r.MaxPrice,
+                    Description = r.Description,
+                    Currency = r.Currency,
+                    OverrideConflicts = r.OverrideConflicts
+                }).ToList()
+            });
+            return result.IsSuccess ? Ok(new { data = result.Data }) : BadRequest(new { message = result.Message });
         }
 
         /// <summary>
@@ -201,15 +169,15 @@ namespace YemenBooking.Api.Controllers
         [HttpPatch("quick-update/{unitId}")]
         public async Task<IActionResult> QuickUpdatePrice([FromRoute] Guid unitId, [FromBody] QuickUpdatePricingRequestDto request)
         {
-            var list = (await _pricingRepository.GetPricingRulesByUnitAsync(unitId, request.StartDate, request.EndDate, CancellationToken.None)).ToList();
-            foreach (var p in list)
+            var result = await _mediator.Send(new QuickUpdatePricingCommand
             {
-                p.PriceAmount = request.PriceAmount;
-                p.Currency = request.Currency;
-                await _pricingRepository.UpdatePricingRuleAsync(p);
-            }
-            var dtos = list.Select(p => _mapper.Map<PricingRuleDto>(p));
-            return Ok(new { data = dtos });
+                UnitId = unitId,
+                StartDate = request.StartDate,
+                EndDate = request.EndDate,
+                PriceAmount = request.PriceAmount,
+                Currency = request.Currency
+            });
+            return result.IsSuccess ? Ok(new { data = result.Data }) : BadRequest(new { message = result.Message });
         }
 
         /// <summary>

@@ -168,38 +168,32 @@ public class YemenBookingIndexService : IYemenBookingIndexService
 
     private async Task InitializePropertyIndexAsync()
     {
-        // تكوين فهرس العقارات
-        // Property index configuration
+        await _propertyIndex.RebuildIndexAsync();
     }
 
     private async Task InitializeUnitIndexAsync()
     {
-        // تكوين فهرس الوحدات
-        // Unit index configuration
+        await _unitIndex.RebuildIndexAsync();
     }
 
     private async Task InitializePricingIndexAsync()
     {
-        // تكوين فهرس التسعير
-        // Pricing index configuration
+        await _pricingIndex.RebuildIndexAsync();
     }
 
     private async Task InitializeAvailabilityIndexAsync()
     {
-        // تكوين فهرس الإتاحة
-        // Availability index configuration
+        await _availabilityIndex.RebuildIndexAsync();
     }
 
     private async Task InitializeCityIndexAsync()
     {
-        // تكوين فهرس المدن
-        // City index configuration
+        await _cityIndex.RebuildIndexAsync();
     }
 
     private async Task InitializeAmenityIndexAsync()
     {
-        // تكوين فهرس المرافق
-        // Amenity index configuration
+        await _amenityIndex.RebuildIndexAsync();
     }
 
     /// <summary>

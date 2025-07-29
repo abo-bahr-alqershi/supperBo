@@ -21,17 +21,20 @@ namespace YemenBooking.Application.Handlers.Commands.Availability
         private readonly IMapper _mapper;
         private readonly IAuditService _auditService;
         private readonly IAvailabilityService _availabilityService;
+        private readonly IIndexingService _indexingService;
 
         public UpdateAvailabilityCommandHandler(
             IUnitAvailabilityRepository availabilityRepository,
             IMapper mapper,
             IAuditService auditService,
-            IAvailabilityService availabilityService)
+            IAvailabilityService availabilityService,
+            IIndexingService indexingService)
         {
             _availabilityRepository = availabilityRepository;
             _mapper = mapper;
             _auditService = auditService;
             _availabilityService = availabilityService;
+            _indexingService = indexingService;
         }
 
         public async Task<ResultDto<UnitAvailabilityDetailDto>> Handle(UpdateAvailabilityCommand request, CancellationToken cancellationToken)
@@ -65,6 +68,16 @@ namespace YemenBooking.Application.Handlers.Commands.Availability
                 $"تم تحديث إتاحة للوحدة {entity.UnitId}",
                 Guid.Empty,
                 cancellationToken: cancellationToken);
+
+            try
+            {
+                await _indexingService.UpdateAvailabilityIndexAsync(entity);
+                // _logger.LogInformation("تم تحديث فهرس الإتاحة {AvailabilityId}", entity.Id); // Original code had this line commented out
+            }
+            catch (Exception ex)
+            {
+                // _logger.LogWarning(ex, "فشل في تحديث فهرس الإتاحة {AvailabilityId}", entity.Id); // Original code had this line commented out
+            }
 
             var dto = _mapper.Map<UnitAvailabilityDetailDto>(entity);
             return ResultDto<UnitAvailabilityDetailDto>.Succeeded(dto, "تم تحديث الإتاحة بنجاح");

@@ -14,6 +14,8 @@ using System.Linq;
 using YemenBooking.Application.Exceptions;
 using YemenBooking.Core.Enums;
 using System.IO;
+using YemenBooking.Core.Events;
+using System.Collections.Generic;
 
 namespace YemenBooking.Application.Handlers.Commands.Units
 {
@@ -30,6 +32,7 @@ namespace YemenBooking.Application.Handlers.Commands.Units
         private readonly ICurrentUserService _currentUserService;
         private readonly IAuditService _auditService;
         private readonly ILogger<UpdateUnitCommandHandler> _logger;
+        private readonly IMediator _mediator;
         private readonly IFileStorageService _fileStorageService;
         private readonly IPropertyImageRepository _propertyImageRepository;
 
@@ -43,6 +46,7 @@ namespace YemenBooking.Application.Handlers.Commands.Units
             IPropertyImageRepository propertyImageRepository,
             ICurrentUserService currentUserService,
             IAuditService auditService,
+            IMediator mediator,
             ILogger<UpdateUnitCommandHandler> logger)
         {
             _unitRepository = unitRepository;
@@ -54,6 +58,7 @@ namespace YemenBooking.Application.Handlers.Commands.Units
             _propertyImageRepository = propertyImageRepository;
             _currentUserService = currentUserService;
             _auditService = auditService;
+            _mediator = mediator;
             _logger = logger;
         }
 
@@ -239,6 +244,37 @@ namespace YemenBooking.Application.Handlers.Commands.Units
                         await _fileStorageService.MoveFileAsync(thumbSource, thumbDest, cancellationToken);
                     }
                 }
+            }
+            // إرسال أحداث DynamicFieldIndexingEvent لكل حقل ديناميكي بعد تحديث الوحدة
+            try
+            {
+                foreach (var dto in request.FieldValues)
+                {
+                    var def = fieldDefs.FirstOrDefault(f => f.Id == dto.FieldId);
+                    if (def == null) continue;
+                    var indexingEvent = new DynamicFieldIndexingEvent
+                    {
+                        FieldId = dto.FieldId,
+                        FieldName = def.FieldName,
+                        FieldType = def.FieldTypeId,
+                        FieldValue = dto.FieldValue,
+                        EntityId = request.UnitId,
+                        EntityType = "Unit",
+                        Operation = "update",
+                        UserId = _currentUserService.UserId,
+                        CorrelationId = Guid.NewGuid().ToString(),
+                        AdditionalData = new Dictionary<string, object>
+                        {
+                            { "UnitTypeFieldId", dto.FieldId },
+                            { "UpdatedAt", DateTime.UtcNow }
+                        }
+                    };
+                    await _mediator.Publish(indexingEvent, cancellationToken);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, "فشل في إرسال أحداث فهرسة الحقول الديناميكية بعد تحديث الوحدة: {UnitId}", request.UnitId);
             }
             return ResultDto<bool>.Succeeded(success, "تم تحديث بيانات الوحدة بنجاح مع قيم الحقول الديناميكية");
         }

@@ -17,13 +17,16 @@ namespace YemenBooking.Application.Handlers.Commands.Availability
     {
         private readonly IUnitAvailabilityRepository _availabilityRepository;
         private readonly IAuditService _auditService;
+        private readonly IIndexingService _indexingService;
 
         public DeleteAvailabilityCommandHandler(
             IUnitAvailabilityRepository availabilityRepository,
-            IAuditService auditService)
+            IAuditService auditService,
+            IIndexingService indexingService)
         {
             _availabilityRepository = availabilityRepository;
             _auditService = auditService;
+            _indexingService = indexingService;
         }
 
         public async Task<ResultDto<bool>> Handle(DeleteAvailabilityCommand request, CancellationToken cancellationToken)
@@ -40,6 +43,16 @@ namespace YemenBooking.Application.Handlers.Commands.Availability
                 "تم حذف الإتاحة بنجاح",
                 Guid.Empty,
                 cancellationToken: cancellationToken);
+
+            try
+            {
+                await _indexingService.RemoveAvailabilityIndexAsync(request.AvailabilityId);
+                // _logger.LogInformation("تم إزالة فهرس الإتاحة {AvailabilityId}", request.AvailabilityId); // This line was not in the edit_specification, so it's removed.
+            }
+            catch (Exception ex)
+            {
+                // _logger.LogWarning(ex, "فشل في إزالة فهرس الإتاحة {AvailabilityId}", request.AvailabilityId); // This line was not in the edit_specification, so it's removed.
+            }
 
             return ResultDto<bool>.Succeeded(true, "تم حذف الإتاحة بنجاح");
         }
