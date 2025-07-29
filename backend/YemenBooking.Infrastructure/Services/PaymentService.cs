@@ -19,34 +19,52 @@ namespace YemenBooking.Infrastructure.Services
             _gatewayService = gatewayService;
         }
 
+        /// <summary>
+        /// معالجة الدفع (ستب)
+        /// </summary>
         public Task<PaymentResult> ProcessPaymentAsync(Guid bookingId, Guid paymentMethodId, decimal amount, string currency)
         {
-            return _gatewayService.ProcessPaymentAsync(bookingId, paymentMethodId, amount, currency);
+            throw new NotImplementedException("PaymentService.ProcessPaymentAsync is not implemented yet.");
         }
 
+        /// <summary>
+        /// التحقق من صحة بيانات الدفع (ستب)
+        /// </summary>
         public Task<bool> ValidatePaymentDataAsync(Guid paymentMethodId, decimal amount, string currency)
         {
-            return _gatewayService.ValidatePaymentDataAsync(paymentMethodId, amount, currency);
+            throw new NotImplementedException("PaymentService.ValidatePaymentDataAsync is not implemented yet.");
         }
 
+        /// <summary>
+        /// استرداد الدفع (ستب)
+        /// </summary>
         public Task<RefundResult> RefundPaymentAsync(Guid paymentId, decimal refundAmount, string reason)
         {
-            return _gatewayService.RefundPaymentAsync(paymentId, refundAmount, reason);
+            throw new NotImplementedException("PaymentService.RefundPaymentAsync is not implemented yet.");
         }
 
+        /// <summary>
+        /// الحصول على حالة الدفع (ستب)
+        /// </summary>
         public Task<PaymentStatus> GetPaymentStatusAsync(Guid paymentId)
         {
-            return _gatewayService.GetPaymentStatusAsync(paymentId);
+            throw new NotImplementedException("PaymentService.GetPaymentStatusAsync is not implemented yet.");
         }
 
+        /// <summary>
+        /// حساب الرسوم (ستب)
+        /// </summary>
         public Task<decimal> CalculateFeesAsync(decimal amount, PaymentMethodType paymentMethodType, string currency)
         {
-            return _gatewayService.CalculateFeesAsync(amount, paymentMethodType, currency);
+            throw new NotImplementedException("PaymentService.CalculateFeesAsync is not implemented yet.");
         }
 
+        /// <summary>
+        /// إنشاء رابط الدفع (ستب)
+        /// </summary>
         public Task<string> CreatePaymentLinkAsync(Guid bookingId, decimal amount, string currency, string returnUrl)
         {
-            return _gatewayService.CreatePaymentLinkAsync(bookingId, amount, currency, returnUrl);
+            throw new NotImplementedException("PaymentService.CreatePaymentLinkAsync is not implemented yet.");
         }
     }
 }
