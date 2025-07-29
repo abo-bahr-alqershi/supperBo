@@ -9,6 +9,9 @@ using YemenBooking.Application.DTOs;
 using AutoMapper;
 using YemenBooking.Core.Entities;
 using AvailabilitySearchDto = YemenBooking.Application.DTOs.AvailabilitySearchRequest;
+using MediatR;
+using YemenBooking.Application.Commands.Availability;
+using YemenBooking.Application.Queries.Availability;
 
 namespace YemenBooking.Api.Controllers
 {
@@ -20,18 +23,12 @@ namespace YemenBooking.Api.Controllers
     [Route("api/[controller]")]
     public class AvailabilityController : ControllerBase
     {
-        private readonly IUnitAvailabilityRepository _availabilityRepository;
-        private readonly IAvailabilityService _availabilityService;
-        private readonly IMapper _mapper;
+        private readonly IMediator _mediator;
 
         public AvailabilityController(
-            IUnitAvailabilityRepository availabilityRepository,
-            IAvailabilityService availabilityService,
-            IMapper mapper)
+            IMediator mediator)
         {
-            _availabilityRepository = availabilityRepository;
-            _availabilityService = availabilityService;
-            _mapper = mapper;
+            _mediator = mediator;
         }
 
         /// <summary>
@@ -44,12 +41,13 @@ namespace YemenBooking.Api.Controllers
             [FromQuery] DateTime? startDate,
             [FromQuery] DateTime? endDate)
         {
-            var availabilities = await _availabilityRepository.FindAsync(x =>
-                x.UnitId == unitId
-                && (!startDate.HasValue || x.StartDate >= startDate.Value)
-                && (!endDate.HasValue || x.EndDate <= endDate.Value));
-            var dtos = _mapper.Map<IEnumerable<UnitAvailabilityDetailDto>>(availabilities);
-            return Ok(new { data = dtos });
+            var result = await _mediator.Send(new GetUnitAvailabilityQuery
+            {
+                UnitId = unitId,
+                StartDate = startDate,
+                EndDate = endDate
+            });
+            return result.IsSuccess ? Ok(new { data = result.Data }) : BadRequest(new { message = result.Message });
         }
 
         /// <summary>
@@ -57,31 +55,19 @@ namespace YemenBooking.Api.Controllers
         /// Create a new unit availability
         /// </summary>
         [HttpPost]
-        public async Task<IActionResult> CreateAvailability(
-            [FromBody] CreateAvailabilityRequestDto request)
+        public async Task<IActionResult> CreateAvailability([FromBody] CreateAvailabilityRequestDto request)
         {
-            if (request.Status.Equals("unavailable", StringComparison.OrdinalIgnoreCase)
-                && request.OverrideConflicts != true
-                && !(await _availabilityService.CheckAvailabilityAsync(
-                    request.UnitId,
-                    request.StartDate,
-                    request.EndDate)))
+            var result = await _mediator.Send(new CreateAvailabilityCommand
             {
-                return BadRequest(new { message = "لا يمكن إنشاء الإتاحة؛ توجد حجوزات متداخلة في هذه الفترة" });
-            }
-            var entity = new UnitAvailability
-            {
-                Id = Guid.NewGuid(),
                 UnitId = request.UnitId,
                 StartDate = request.StartDate,
                 EndDate = request.EndDate,
                 Status = request.Status,
                 Reason = request.Reason,
-                Notes = request.Notes
-            };
-            await _availabilityRepository.AddAsync(entity);
-            var dto = _mapper.Map<UnitAvailabilityDetailDto>(entity);
-            return Ok(new { data = dto });
+                Notes = request.Notes,
+                OverrideConflicts = request.OverrideConflicts
+            });
+            return result.IsSuccess ? Ok(new { data = result.Data }) : BadRequest(new { message = result.Message });
         }
 
         /// <summary>
@@ -89,21 +75,22 @@ namespace YemenBooking.Api.Controllers
         /// Search for unit availabilities
         /// </summary>
         [HttpPost("search")]
-        public async Task<IActionResult> SearchAvailability(
-            [FromBody] AvailabilitySearchDto request)
+        public async Task<IActionResult> SearchAvailability([FromBody] AvailabilitySearchDto request)
         {
-            var availabilities = await _availabilityRepository.FindAsync(x =>
-                (request.UnitIds == null || request.UnitIds.Contains(x.UnitId))
-                && (!request.StartDate.HasValue || x.StartDate >= request.StartDate.Value)
-                && (!request.EndDate.HasValue || x.EndDate <= request.EndDate.Value)
-                && (request.Statuses == null || request.Statuses.Contains(x.Status)));
-            var dtos = _mapper.Map<IEnumerable<UnitAvailabilityDetailDto>>(availabilities);
+            var result = await _mediator.Send(new SearchAvailabilityQuery
+            {
+                UnitIds = request.UnitIds,
+                StartDate = request.StartDate,
+                EndDate = request.EndDate,
+                Statuses = request.Statuses
+            });
+            if (!result.IsSuccess) return BadRequest(new { message = result.Message });
             return Ok(new
             {
-                availabilities = dtos,
-                conflicts = new object[0],
-                total_count = dtos.Count(),
-                has_more = false
+                availabilities = result.Data.Availabilities,
+                conflicts = result.Data.Conflicts,
+                total_count = result.Data.TotalCount,
+                has_more = result.Data.HasMore
             });
         }
 
@@ -113,33 +100,21 @@ namespace YemenBooking.Api.Controllers
         /// </summary>
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateAvailability(
-            [FromRoute(Name = "id")] Guid id,
+            [FromRoute] Guid id,
             [FromBody] UpdateAvailabilityRequestDto request)
         {
-            var entity = await _availabilityRepository.GetByIdAsync(id);
-            if (entity == null)
-                return NotFound();
-
-            if (request.Status.Equals("unavailable", StringComparison.OrdinalIgnoreCase)
-                && request.OverrideConflicts != true
-                && !(await _availabilityService.CheckAvailabilityAsync(
-                    entity.UnitId,
-                    request.StartDate,
-                    request.EndDate)))
+            var result = await _mediator.Send(new UpdateAvailabilityCommand
             {
-                return BadRequest(new { message = "لا يمكن تحديث الإتاحة؛ توجد حجوزات متداخلة في هذه الفترة" });
-            }
-
-            entity.StartDate = request.StartDate;
-            entity.EndDate = request.EndDate;
-            entity.Status = request.Status;
-            entity.Reason = request.Reason;
-            entity.Notes = request.Notes;
-
-            await _availabilityRepository.UpdateAsync(entity);
-
-            var resultDto = _mapper.Map<UnitAvailabilityDetailDto>(entity);
-            return Ok(new { data = resultDto });
+                AvailabilityId = id,
+                UnitId = request.UnitId,
+                StartDate = request.StartDate,
+                EndDate = request.EndDate,
+                Status = request.Status,
+                Reason = request.Reason,
+                Notes = request.Notes,
+                OverrideConflicts = request.OverrideConflicts
+            });
+            return result.IsSuccess ? Ok(new { data = result.Data }) : BadRequest(new { message = result.Message });
         }
 
         /// <summary>
@@ -147,13 +122,10 @@ namespace YemenBooking.Api.Controllers
         /// Delete a unit availability
         /// </summary>
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAvailability(Guid id)
+        public async Task<IActionResult> DeleteAvailability([FromRoute] Guid id)
         {
-            var exists = await _availabilityRepository.ExistsAsync(id);
-            if (!exists)
-                return NotFound();
-            await _availabilityRepository.DeleteAsync(id);
-            return NoContent();
+            var result = await _mediator.Send(new DeleteAvailabilityCommand { AvailabilityId = id });
+            return result.IsSuccess ? NoContent() : NotFound();
         }
 
         /// <summary>
@@ -161,39 +133,22 @@ namespace YemenBooking.Api.Controllers
         /// Bulk create unit availabilities
         /// </summary>
         [HttpPost("bulk")]
-        public async Task<IActionResult> BulkCreateAvailability(
-            [FromBody] BulkAvailabilityRequestDto request)
+        public async Task<IActionResult> BulkCreateAvailability([FromBody] BulkAvailabilityRequestDto request)
         {
-            var conflicts = new List<object>();
-            foreach (var dto in request.Requests)
+            var result = await _mediator.Send(new BulkCreateAvailabilityCommand
             {
-                if (dto.Status.Equals("unavailable", StringComparison.OrdinalIgnoreCase)
-                    && dto.OverrideConflicts != true
-                    && !(await _availabilityService.CheckAvailabilityAsync(
-                        dto.UnitId,
-                        dto.StartDate,
-                        dto.EndDate)))
+                Requests = request.Requests.Select(r => new CreateAvailabilityCommand
                 {
-                    conflicts.Add(new { dto.UnitId, dto.StartDate, dto.EndDate });
-                }
-            }
-            if (conflicts.Any())
-            {
-                return BadRequest(new { message = "لا يمكن إنشاء الإتاحات؛ توجد حجوزات متداخلة في بعض الفترات", conflicts });
-            }
-            var entities = request.Requests.Select(dto => new UnitAvailability
-            {
-                Id = Guid.NewGuid(),
-                UnitId = dto.UnitId,
-                StartDate = dto.StartDate,
-                EndDate = dto.EndDate,
-                Status = dto.Status,
-                Reason = dto.Reason,
-                Notes = dto.Notes
-            }).ToList();
-            await _availabilityRepository.AddRangeAsync(entities);
-            var resultDtos = _mapper.Map<IEnumerable<UnitAvailabilityDetailDto>>(entities);
-            return Ok(new { data = resultDtos });
+                    UnitId = r.UnitId,
+                    StartDate = r.StartDate,
+                    EndDate = r.EndDate,
+                    Status = r.Status,
+                    Reason = r.Reason,
+                    Notes = r.Notes,
+                    OverrideConflicts = r.OverrideConflicts
+                }).ToList()
+            });
+            return result.IsSuccess ? Ok(new { data = result.Data }) : BadRequest(new { message = result.Message });
         }
 
         /// <summary>
@@ -205,18 +160,14 @@ namespace YemenBooking.Api.Controllers
             [FromRoute] Guid unitId,
             [FromBody] QuickUpdateAvailabilityRequestDto request)
         {
-            if (!request.Status.Equals("available", StringComparison.OrdinalIgnoreCase)
-                && !(await _availabilityService.CheckAvailabilityAsync(
-                    unitId,
-                    request.StartDate,
-                    request.EndDate)))
+            var result = await _mediator.Send(new QuickUpdateAvailabilityCommand
             {
-                return BadRequest(new { message = "لا يمكن حظر الإتاحة؛ توجد حجوزات متداخلة في هذه الفترة" });
-            }
-            await _availabilityRepository.UpdateAvailabilityAsync(unitId, request.StartDate, request.EndDate, request.Status == "available");
-            var overrides = await _availabilityRepository.FindAsync(x => x.UnitId == unitId && x.StartDate >= request.StartDate && x.EndDate <= request.EndDate);
-            var resultDtos = _mapper.Map<IEnumerable<UnitAvailabilityDetailDto>>(overrides);
-            return Ok(new { data = resultDtos });
+                UnitId = unitId,
+                StartDate = request.StartDate,
+                EndDate = request.EndDate,
+                IsAvailable = request.Status.Equals("available", StringComparison.OrdinalIgnoreCase)
+            });
+            return result.IsSuccess ? Ok(new { data = result.Data }) : BadRequest(new { message = result.Message });
         }
     }
 } 
