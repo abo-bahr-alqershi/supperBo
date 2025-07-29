@@ -102,20 +102,21 @@ public class GetUserBookingsQueryHandler : IRequestHandler<GetUserBookingsQuery,
                 );
             }
 
-            // تحويل البيانات إلى DTO
-            var bookingDtos = new List<BookingDto>();
-            
-            foreach (var booking in bookings)
+            // تحويل البيانات إلى DTO بشكل متوازي
+            var bookingDtoTasks = bookings.Select(async booking =>
             {
-                // الحصول على تفاصيل الوحدة والعقار
-                var unit = await _unitRepository.GetByIdAsync(booking.UnitId, cancellationToken);
-                var property = unit != null ? await _propertyRepository.GetByIdAsync(unit.PropertyId, cancellationToken) : null;
-
-                // تحديد إمكانية الإلغاء والتقييم
+                // جلب تفاصيل الوحدة
+                var unitTask = _unitRepository.GetByIdAsync(booking.UnitId, cancellationToken);
+                var unit = await unitTask;
+                // جلب تفاصيل العقار
+                var property = unit != null
+                    ? await _propertyRepository.GetByIdAsync(unit.PropertyId, cancellationToken)
+                    : null;
+                // إمكانية الإلغاء والتقييم
                 var canCancel = CanCancelBooking(booking);
                 var canReview = CanReviewBooking(booking);
-
-                var bookingDto = new BookingDto
+                // إنشاء DTO
+                return new BookingDto
                 {
                     Id = booking.Id,
                     BookingNumber = $"BK-{booking.Id.ToString().Substring(0, 8)}",
@@ -132,12 +133,10 @@ public class GetUserBookingsQueryHandler : IRequestHandler<GetUserBookingsQuery,
                     CanCancel = canCancel,
                     CanReview = canReview
                 };
-
-                bookingDtos.Add(bookingDto);
-            }
-
-            // ترتيب الحجوزات حسب تاريخ الحجز (الأحدث أولاً)
-            bookingDtos = bookingDtos.OrderByDescending(b => b.BookedAt).ToList();
+            });
+            var bookingDtos = (await Task.WhenAll(bookingDtoTasks))
+                .OrderByDescending(b => b.BookedAt)
+                .ToList();
 
             // حساب إجمالي عدد الصفحات
             var totalPages = (int)Math.Ceiling((double)totalCount / request.PageSize);
