@@ -10,6 +10,8 @@ using YemenBooking.Core.Interfaces.Repositories;
 using YemenBooking.Core.Interfaces;
 using YemenBooking.Application.DTOs;
 using YemenBooking.Core.Interfaces.Services;
+using System.Collections.Generic;
+using YemenBooking.Core.Events;
 
 namespace YemenBooking.Application.Handlers.Commands.UnitFieldValues
 {
@@ -29,18 +31,27 @@ namespace YemenBooking.Application.Handlers.Commands.UnitFieldValues
         private readonly ICurrentUserService _currentUserService;
         private readonly IAuditService _auditService;
         private readonly ILogger<DeleteUnitFieldValueCommandHandler> _logger;
+        private readonly IUnitTypeFieldRepository _unitTypeFieldRepository;
+        private readonly IUnitRepository _unitRepository;
+        private readonly IMediator _mediator;
 
         public DeleteUnitFieldValueCommandHandler(
             IUnitFieldValueRepository repository,
             IUnitOfWork unitOfWork,
             ICurrentUserService currentUserService,
             IAuditService auditService,
+            IUnitTypeFieldRepository unitTypeFieldRepository,
+            IUnitRepository unitRepository,
+            IMediator mediator,
             ILogger<DeleteUnitFieldValueCommandHandler> logger)
         {
             _repository = repository;
             _unitOfWork = unitOfWork;
             _currentUserService = currentUserService;
             _auditService = auditService;
+            _unitTypeFieldRepository = unitTypeFieldRepository;
+            _unitRepository = unitRepository;
+            _mediator = mediator;
             _logger = logger;
         }
 
@@ -80,6 +91,38 @@ namespace YemenBooking.Application.Handlers.Commands.UnitFieldValues
 
                 _logger.LogInformation("تم حذف قيمة حقل الوحدة بنجاح: {ValueId}", existing.Id);
             });
+
+            // إرسال حدث فهرسة الحقل الديناميكي بعد الحذف
+            try
+            {
+                var unitTypeField = await _unitTypeFieldRepository.GetByIdAsync(existing.UnitTypeFieldId, cancellationToken);
+                if (unitTypeField != null)
+                {
+                    var indexingEvent = new DynamicFieldIndexingEvent
+                    {
+                        FieldId = existing.Id,
+                        FieldName = unitTypeField.FieldName,
+                        FieldType = unitTypeField.FieldTypeId,
+                        FieldValue = existing.FieldValue,
+                        EntityId = existing.UnitId,
+                        EntityType = "Unit",
+                        Operation = "delete",
+                        UserId = _currentUserService.UserId,
+                        CorrelationId = Guid.NewGuid().ToString(),
+                        AdditionalData = new Dictionary<string, object>
+                        {
+                            { "UnitTypeFieldId", existing.UnitTypeFieldId },
+                            { "DeletedAt", DateTime.UtcNow }
+                        }
+                    };
+                    await _mediator.Publish(indexingEvent);
+                    _logger.LogDebug("تم إرسال حدث فهرسة الحقل الديناميكي للحذف: {FieldName}", unitTypeField.FieldName);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, "فشل في إرسال حدث حذف فهرسة الحقل الديناميكي: {ValueId}", existing.Id);
+            }
 
             return ResultDto<bool>.Ok(true);
         }
