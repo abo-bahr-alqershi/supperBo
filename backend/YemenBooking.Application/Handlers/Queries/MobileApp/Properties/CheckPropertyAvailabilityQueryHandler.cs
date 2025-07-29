@@ -130,36 +130,19 @@ public class CheckPropertyAvailabilityQueryHandler : IRequestHandler<CheckProper
                 return ResultDto<PropertyAvailabilityResponse>.Ok(noCapacityResponse, $"لا توجد وحدات تتسع لـ {request.GuestsCount} ضيف");
             }
 
-            // التحقق من توفر الوحدات في الفترة المطلوبة
-            var availableUnits = new List<Core.Entities.Unit>();
-            var availableUnitTypes = new HashSet<string>();
-            var prices = new List<decimal>();
-
-            foreach (var unit in eligibleUnits)
+            // فلترة الوحدات المتاحة وحساب الأسعار والأنواع بشكل متوازي
+            var availabilityResults = await Task.WhenAll(eligibleUnits.Select(async unit =>
             {
-                // التحقق من عدم وجود حجوزات متضاربة
                 var isAvailable = await IsUnitAvailable(unit.Id, request.CheckInDate, request.CheckOutDate, cancellationToken);
-                
-                if (isAvailable)
-                {
-                    availableUnits.Add(unit);
-                    
-                    // إضافة نوع الوحدة إلى القائمة
-                    var unitType = await _unitTypeRepository.GetByIdAsync(unit.UnitTypeId, cancellationToken);
-                    if (unitType != null && !string.IsNullOrEmpty(unitType.Name))
-                    {
-                        availableUnitTypes.Add(unitType.Name);
-                    }
-
-                    // حساب السعر للفترة المحددة
-                    var unitPrice = await CalculateUnitPrice(unit, request.CheckInDate, request.CheckOutDate, cancellationToken);
-                    if (unitPrice > 0)
-                    {
-                        prices.Add(unitPrice);
-                    }
-                }
-            }
-
+                if (!isAvailable) return null;
+                var unitType = await _unitTypeRepository.GetByIdAsync(unit.UnitTypeId, cancellationToken);
+                var unitPrice = await CalculateUnitPrice(unit, request.CheckInDate, request.CheckOutDate, cancellationToken);
+                return new { Unit = unit, UnitTypeName = unitType?.Name, Price = unitPrice };
+            }));
+            var filteredResults = availabilityResults.Where(r => r != null).ToList();
+            var availableUnits = filteredResults.Select(r => r.Unit).ToList();
+            var availableUnitTypes = filteredResults.Select(r => r.UnitTypeName).Where(name => !string.IsNullOrEmpty(name)).ToList();
+            var prices = filteredResults.Select(r => r.Price).Where(price => price > 0).ToList();
             // إنشاء الاستجابة
             var response = new PropertyAvailabilityResponse
             {
