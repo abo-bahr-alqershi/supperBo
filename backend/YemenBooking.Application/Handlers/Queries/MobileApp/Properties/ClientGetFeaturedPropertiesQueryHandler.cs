@@ -89,45 +89,38 @@ public class ClientGetFeaturedPropertiesQueryHandler : IRequestHandler<ClientGet
                 );
             }
 
-            // تحويل العقارات إلى DTOs مع جلب البيانات المرتبطة
-            var featuredPropertyDtos = new List<ClientFeaturedPropertyDto>();
-
-            foreach (var property in featuredProperties)
+            // تحويل العقارات إلى DTOs مع جلب البيانات المرتبطة بشكل متوازي
+            var featuredPropertyDtos = (await Task.WhenAll(featuredProperties.Select(async property =>
             {
-                // جلب البيانات المرتبطة بالعقار
-                var propertyImages = await _propertyImageRepository.GetByPropertyIdAsync(property.Id, cancellationToken);
-                var propertyReviews = await _reviewRepository.GetByPropertyIdAsync(property.Id, cancellationToken);
-                var propertyAmenities = await _amenityRepository.GetAmenitiesByPropertyAsync(property.Id, cancellationToken);
-                var specialOffer = (await _specialOfferRepository.GetOffersByPropertyIdAsync(property.Id)).FirstOrDefault();
-
-                // حساب الإحصائيات
+                var imagesTask = _propertyImageRepository.GetByPropertyIdAsync(property.Id, cancellationToken);
+                var reviewsTask = _reviewRepository.GetByPropertyIdAsync(property.Id, cancellationToken);
+                var amenitiesTask = _amenityRepository.GetAmenitiesByPropertyAsync(property.Id, cancellationToken);
+                var offersTask = _specialOfferRepository.GetOffersByPropertyIdAsync(property.Id);
+                var bookingRateTask = CalculateBookingRate(property.Id, cancellationToken);
+                var isFavTask = request.UserId.HasValue
+                    ? _favoriteRepository.IsPropertyFavoriteAsync(request.UserId.Value, property.Id, cancellationToken)
+                    : Task.FromResult(false);
+                await Task.WhenAll(imagesTask, reviewsTask, amenitiesTask, offersTask, bookingRateTask, isFavTask);
+                var propertyImages = imagesTask.Result;
+                var propertyReviews = reviewsTask.Result;
+                var propertyAmenities = amenitiesTask.Result;
+                var specialOffer = offersTask.Result.FirstOrDefault();
                 var averageRating = propertyReviews?.Any() == true ? propertyReviews.Average(r => r.AverageRating) : 0;
                 var reviewsCount = propertyReviews?.Count() ?? 0;
-                var bookingRate = await CalculateBookingRate(property.Id, cancellationToken);
-
-                // التحقق من المفضلات
-                var isFavorite = false;
-                if (request.UserId.HasValue)
-                {
-                    isFavorite = await _favoriteRepository.IsPropertyFavoriteAsync(
-                        request.UserId.Value, property.Id, cancellationToken);
-                }
-
-                // حساب المسافة
+                var bookingRate = bookingRateTask.Result;
+                var isFavorite = isFavTask.Result;
                 var distanceKm = CalculateDistance(
                     request.CurrentLatitude, request.CurrentLongitude,
                     property.Latitude, property.Longitude);
-
-                // إنشاء DTO للعقار المميز
-                var featuredPropertyDto = new ClientFeaturedPropertyDto
+                return new ClientFeaturedPropertyDto
                 {
                     Id = property.Id,
                     Name = property.Name ?? string.Empty,
                     ShortDescription = property.ShortDescription ?? string.Empty,
                     City = property.City ?? string.Empty,
                     Address = property.Address ?? string.Empty,
-                    MainImageUrl = propertyImages?.FirstOrDefault(img => img.IsMain)?.Url ?? 
-                                  propertyImages?.FirstOrDefault()?.Url ?? string.Empty,
+                    MainImageUrl = propertyImages?.FirstOrDefault(img => img.IsMain)?.Url
+                        ?? propertyImages?.FirstOrDefault()?.Url ?? string.Empty,
                     ImageGallery = propertyImages?.Take(3).Select(img => img.Url ?? string.Empty).ToList() ?? new List<string>(),
                     StarRating = property.StarRating,
                     AverageRating = Math.Round(averageRating, 1),
@@ -143,9 +136,7 @@ public class ClientGetFeaturedPropertiesQueryHandler : IRequestHandler<ClientGet
                     BookingRate = bookingRate,
                     FeaturedBadge = GetFeaturedBadge(property, bookingRate, averageRating)
                 };
-
-                featuredPropertyDtos.Add(featuredPropertyDto);
-            }
+            }))).ToList();
 
             // ترتيب العقارات حسب الأولوية
             var sortedProperties = SortFeaturedProperties(featuredPropertyDtos, request);

@@ -148,8 +148,10 @@ public class GetPropertyDetailsQueryHandler : IRequestHandler<GetPropertyDetails
             }).ToList() ?? new List<PropertyPolicyDto>();
 
             // الحصول على إحصائيات العقار
-            var averageRating = await _reviewRepository.GetPropertyAverageRatingAsync(property.Id, cancellationToken);
-            var reviewsCount = await _reviewRepository.GetPropertyReviewsCountAsync(property.Id, cancellationToken);
+            // الحصول على إحصائيات التقييم
+            var ratingStats = await _reviewRepository.GetPropertyRatingStatsAsync(property.Id, cancellationToken);
+            var averageRating = ratingStats.AverageRating;
+            var reviewsCount = ratingStats.TotalReviews;
             var bookingCount = await _propertyRepository.GetPropertyBookingCountAsync(property.Id, cancellationToken);
 
             // التحقق من حالة المفضلات

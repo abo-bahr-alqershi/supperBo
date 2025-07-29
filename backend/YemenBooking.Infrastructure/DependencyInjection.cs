@@ -25,6 +25,11 @@ public static class DependencyInjection
 
         // إضافة خدمات أخرى
         services.AddScoped<IIndexingService, IndexingService>();
+        services.AddHttpClient<ICurrencyExchangeService, CurrencyExchangeService>();
+        services.AddScoped<IEmailVerificationService, EmailVerificationService>();
+        services.AddScoped<IFileUploadService, FileUploadService>();
+        services.AddScoped<IPasswordResetService, PasswordResetService>();
+        services.AddScoped<IPaymentService, PaymentService>();
 
         return services;
     }

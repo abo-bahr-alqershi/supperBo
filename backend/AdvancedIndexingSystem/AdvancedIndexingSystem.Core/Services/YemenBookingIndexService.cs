@@ -1438,6 +1438,29 @@ public class PropertySearchRequest
     public decimal? MaxPrice { get; set; }
     public int? MinRating { get; set; }
     public List<string>? AmenityIds { get; set; }
+    /// <summary>
+    /// تاريخ الوصول للفترة المطلوبة
+    /// Check-in date for availability filtering
+    /// </summary>
+    public DateTime? CheckInDate { get; set; }
+
+    /// <summary>
+    /// تاريخ المغادرة للفترة المطلوبة
+    /// Check-out date for availability filtering
+    /// </summary>
+    public DateTime? CheckOutDate { get; set; }
+
+    /// <summary>
+    /// عدد الضيوف للفترة المطلوبة
+    /// Guests count for availability filtering
+    /// </summary>
+    public int? GuestsCount { get; set; }
+
+    /// <summary>
+    /// فلاتر الحقول الديناميكية (مفتاح-قيمة)
+    /// Dynamic field filters
+    /// </summary>
+    public Dictionary<string, object>? DynamicFieldFilters { get; set; }
     public string? SortBy { get; set; }
     public string? SortOrder { get; set; }
     public int PageNumber { get; set; } = 1;
