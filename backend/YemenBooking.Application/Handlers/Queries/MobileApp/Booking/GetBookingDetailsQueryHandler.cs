@@ -84,23 +84,29 @@ public class GetBookingDetailsQueryHandler : IRequestHandler<GetBookingDetailsQu
                 return ResultDto<BookingDetailsDto>.Failed("ليس لديك صلاحية للوصول لهذا الحجز", "ACCESS_DENIED");
             }
 
-            // الحصول على تفاصيل الوحدة والعقار
-            var unit = await _unitRepository.GetByIdAsync(booking.UnitId, cancellationToken);
+            // جلب بيانات الوحدة والخدمات والمدفوعات بشكل متوازٍ
+            var unitTask = _unitRepository.GetByIdAsync(booking.UnitId, cancellationToken);
+            var servicesTask = _bookingServiceRepository.GetBookingServicesAsync(booking.Id, cancellationToken);
+            var paymentsTask = _paymentRepository.GetPaymentsByBookingAsync(booking.Id, cancellationToken);
+
+            var unit = await unitTask;
             if (unit == null)
             {
                 _logger.LogWarning("لم يتم العثور على الوحدة: {UnitId}", booking.UnitId);
                 return ResultDto<BookingDetailsDto>.Failed("بيانات الوحدة غير متاحة", "UNIT_NOT_FOUND");
             }
 
-            var property = await _propertyRepository.GetByIdAsync(unit.PropertyId, cancellationToken);
+            var propertyTask = _propertyRepository.GetByIdAsync(unit.PropertyId, cancellationToken);
+            await Task.WhenAll(propertyTask, servicesTask, paymentsTask);
+
+            var property = propertyTask.Result;
             if (property == null)
             {
                 _logger.LogWarning("لم يتم العثور على العقار: {PropertyId}", unit.PropertyId);
                 return ResultDto<BookingDetailsDto>.Failed("بيانات العقار غير متاحة", "PROPERTY_NOT_FOUND");
             }
 
-            // الحصول على الخدمات المرتبطة بالحجز
-            var bookingServices = await _bookingServiceRepository.GetBookingServicesAsync(booking.Id, cancellationToken);
+            var bookingServices = servicesTask.Result;
             var serviceDtos = bookingServices.Select(bs => new BookingServiceDto
             {
                 Id = bs.ServiceId,
@@ -110,8 +116,7 @@ public class GetBookingDetailsQueryHandler : IRequestHandler<GetBookingDetailsQu
                 Currency = bs.TotalPrice.Currency ?? "YER"
             }).ToList();
 
-            // الحصول على المدفوعات المرتبطة بالحجز
-            var payments = await _paymentRepository.GetPaymentsByBookingAsync(booking.Id, cancellationToken);
+            var payments = paymentsTask.Result;
             var paymentDtos = payments.Select(p => new PaymentDto
             {
                 Id = p.Id,
