@@ -134,6 +134,14 @@ public interface IPropertyRepository : IRepository<Property>
     /// Check active bookings
     /// </summary>
     Task<bool> CheckActiveBookingsAsync(Guid propertyId, CancellationToken cancellationToken = default);
+    /// <summary>
+    /// الحصول على عدد الحجوزات للعقار
+    /// Get total booking count for a property
+    /// </summary>
+    /// <param name="propertyId">معرف العقار</param>
+    /// <param name="cancellationToken">رمز الإلغاء</param>
+    /// <returns>عدد الحجوزات</returns>
+    Task<int> GetPropertyBookingCountAsync(Guid propertyId, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// الحصول على مرافق الكيان

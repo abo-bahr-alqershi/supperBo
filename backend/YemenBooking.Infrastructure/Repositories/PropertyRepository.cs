@@ -100,6 +100,18 @@ namespace YemenBooking.Infrastructure.Repositories
             return await _context.Set<Booking>()
                 .AnyAsync(b => b.Unit.PropertyId == propertyId && b.Status == BookingStatus.Confirmed, cancellationToken);
         }
+        /// <summary>
+        /// الحصول على عدد الحجوزات للعقار
+        /// Get total booking count for a property
+        /// </summary>
+        /// <param name="propertyId">معرف العقار</param>
+        /// <param name="cancellationToken">رمز الإلغاء</param>
+        /// <returns>عدد الحجوزات</returns>
+        public async Task<int> GetPropertyBookingCountAsync(Guid propertyId, CancellationToken cancellationToken = default)
+        {
+            return await _context.Set<Booking>()
+                .CountAsync(b => b.Unit.PropertyId == propertyId, cancellationToken);
+        }
 
         public async Task<IEnumerable<PropertyAmenity>> GetPropertyAmenitiesAsync(Guid propertyId, CancellationToken cancellationToken = default)
             => (await _context.Set<PropertyAmenity>().Where(a => a.PropertyId == propertyId).ToListAsync(cancellationToken));

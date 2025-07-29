@@ -100,21 +100,19 @@ public class GetBookingDetailsQueryHandler : IRequestHandler<GetBookingDetailsQu
             }
 
             // الحصول على الخدمات المرتبطة بالحجز
-            var allBookingServices = await _bookingServiceRepository.GetAllAsync(cancellationToken);
-            var bookingServices = allBookingServices?.Where(bs => bs.BookingId == booking.Id);
-            var serviceDtos = bookingServices?.Select(bs => new BookingServiceDto
+            var bookingServices = await _bookingServiceRepository.GetBookingServicesAsync(booking.Id, cancellationToken);
+            var serviceDtos = bookingServices.Select(bs => new BookingServiceDto
             {
                 Id = bs.ServiceId,
                 Name = bs.Service?.Name ?? string.Empty,
                 Quantity = bs.Quantity,
                 TotalPrice = bs.TotalPrice.Amount,
                 Currency = bs.TotalPrice.Currency ?? "YER"
-            }).ToList() ?? new List<BookingServiceDto>();
+            }).ToList();
 
             // الحصول على المدفوعات المرتبطة بالحجز
-            var allPayments = await _paymentRepository.GetAllAsync(cancellationToken);
-            var payments = allPayments?.Where(p => p.BookingId == booking.Id);
-            var paymentDtos = payments?.Select(p => new PaymentDto
+            var payments = await _paymentRepository.GetPaymentsByBookingAsync(booking.Id, cancellationToken);
+            var paymentDtos = payments.Select(p => new PaymentDto
             {
                 Id = p.Id,
                 Amount = p.Amount,
@@ -123,7 +121,7 @@ public class GetBookingDetailsQueryHandler : IRequestHandler<GetBookingDetailsQu
                 Status = p.Status,
                 PaymentDate = p.PaymentDate,
                 TransactionId = p.TransactionId ?? string.Empty
-            }).ToList() ?? new List<PaymentDto>();
+            }).ToList();
 
             // إنشاء DTO للاستجابة
             var bookingDetailsDto = new BookingDetailsDto
