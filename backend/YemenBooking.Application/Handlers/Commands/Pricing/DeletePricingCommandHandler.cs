@@ -6,6 +6,7 @@ using YemenBooking.Application.Commands.Pricing;
 using YemenBooking.Application.DTOs;
 using YemenBooking.Core.Interfaces.Repositories;
 using YemenBooking.Core.Interfaces.Services;
+using Microsoft.Extensions.Logging;
 
 namespace YemenBooking.Application.Handlers.Commands.Pricing
 {
@@ -17,13 +18,19 @@ namespace YemenBooking.Application.Handlers.Commands.Pricing
     {
         private readonly IPricingRuleRepository _pricingRepository;
         private readonly IAuditService _auditService;
+        private readonly IIndexingService _indexingService;
+        private readonly ILogger<DeletePricingCommandHandler> _logger;
 
         public DeletePricingCommandHandler(
             IPricingRuleRepository pricingRepository,
-            IAuditService auditService)
+            IAuditService auditService,
+            IIndexingService indexingService,
+            ILogger<DeletePricingCommandHandler> logger)
         {
             _pricingRepository = pricingRepository;
             _auditService = auditService;
+            _indexingService = indexingService;
+            _logger = logger;
         }
 
         public async Task<ResultDto<bool>> Handle(DeletePricingCommand request, CancellationToken cancellationToken)
@@ -42,6 +49,16 @@ namespace YemenBooking.Application.Handlers.Commands.Pricing
                 $"تم حذف قاعدة التسعير {request.PricingRuleId}",
                 Guid.Empty,
                 cancellationToken: cancellationToken);
+
+            try
+            {
+                await _indexingService.RemovePricingRuleIndexAsync(request.PricingRuleId);
+                _logger.LogInformation("تم إزالة فهرس التسعير {PricingRuleId}", request.PricingRuleId);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, "فشل في إزالة فهرس التسعير {PricingRuleId}", request.PricingRuleId);
+            }
 
             return ResultDto<bool>.Succeeded(true, "تم حذف قاعدة التسعير بنجاح");
         }
