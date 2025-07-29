@@ -14,6 +14,8 @@ using YemenBooking.Application.Exceptions;
 using System.Linq;
 using YemenBooking.Core.Enums;
 using System.IO;
+using YemenBooking.Core.Events;
+using System.Collections.Generic;
 
 namespace YemenBooking.Application.Handlers.Commands.Units
 {
@@ -34,6 +36,7 @@ namespace YemenBooking.Application.Handlers.Commands.Units
         private readonly IPropertyImageRepository _propertyImageRepository;
         private readonly IIndexingService _indexingService;
         private readonly ILogger<CreateUnitCommandHandler> _logger;
+        private readonly IMediator _mediator;
 
         public CreateUnitCommandHandler(
             IUnitRepository unitRepository,
@@ -47,6 +50,7 @@ namespace YemenBooking.Application.Handlers.Commands.Units
             ICurrentUserService currentUserService,
             IAuditService auditService,
             IIndexingService indexingService,
+            IMediator mediator,
             ILogger<CreateUnitCommandHandler> logger)
         {
             _unitRepository = unitRepository;
@@ -60,6 +64,7 @@ namespace YemenBooking.Application.Handlers.Commands.Units
             _currentUserService = currentUserService;
             _auditService = auditService;
             _indexingService = indexingService;
+            _mediator = mediator;
             _logger = logger;
         }
 
@@ -231,6 +236,38 @@ namespace YemenBooking.Application.Handlers.Commands.Units
             {
                 _logger.LogWarning(ex, "فشل في فهرسة الوحدة {UnitId}، سيتم المحاولة لاحقاً", createdId);
                 // لا نفشل العملية إذا فشلت الفهرسة
+            }
+
+            // إرسال أحداث DynamicFieldIndexingEvent لكل حقل ديناميكي بعد إنشاء الوحدة
+            try
+            {
+                foreach (var dto in request.FieldValues)
+                {
+                    var def = fieldDefs.FirstOrDefault(f => f.Id == dto.FieldId);
+                    if (def == null) continue;
+                    var indexingEvent = new DynamicFieldIndexingEvent
+                    {
+                        FieldId = dto.FieldId,
+                        FieldName = def.FieldName,
+                        FieldType = def.FieldTypeId,
+                        FieldValue = dto.FieldValue,
+                        EntityId = createdId,
+                        EntityType = "Unit",
+                        Operation = "create",
+                        UserId = _currentUserService.UserId,
+                        CorrelationId = Guid.NewGuid().ToString(),
+                        AdditionalData = new Dictionary<string, object>
+                        {
+                            { "UnitTypeFieldId", dto.FieldId },
+                            { "CreatedAt", DateTime.UtcNow }
+                        }
+                    };
+                    await _mediator.Publish(indexingEvent, cancellationToken);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogWarning(ex, "فشل في إرسال أحداث فهرسة الحقول الديناميكية بعد إنشاء الوحدة: {UnitId}", createdId);
             }
 
             return ResultDto<Guid>.Succeeded(createdId, "تم إنشاء الوحدة بنجاح مع قيم الحقول الديناميكية");
