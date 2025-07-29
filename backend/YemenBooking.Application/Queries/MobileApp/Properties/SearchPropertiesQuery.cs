@@ -62,6 +62,12 @@ public class SearchPropertiesQuery : IRequest<ResultDto<SearchPropertiesResponse
     /// وسائل الراحة المطلوبة
     /// </summary>
     public List<Guid> RequiredAmenities { get; set; } = new();
+   
+    /// <summary>
+    /// فلاتر الحقول الديناميكية (مفتاح-قيمة)
+    /// Dynamic field filters
+    /// </summary>
+    public Dictionary<string, object> DynamicFieldFilters { get; set; } = new();
     
     /// <summary>
     /// خط العرض (للبحث بالموقع)

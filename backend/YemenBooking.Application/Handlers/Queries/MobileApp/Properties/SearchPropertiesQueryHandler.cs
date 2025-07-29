@@ -3,7 +3,6 @@ using Microsoft.Extensions.Logging;
 using YemenBooking.Application.Queries.MobileApp.Properties;
 using YemenBooking.Application.DTOs;
 using YemenBooking.Application.DTOs.Properties;
-using YemenBooking.Application.DTOs.PropertySearch;
 using YemenBooking.Core.Interfaces.Repositories;
 using System.Globalization;
 using AdvancedIndexingSystem.Core.Interfaces;
@@ -86,8 +85,14 @@ public class SearchPropertiesQueryHandler : IRequestHandler<SearchPropertiesQuer
                 MaxPrice = request.MaxPrice,
                 MinRating = request.MinStarRating,
                 AmenityIds = request.RequiredAmenities?.Select(id => id.ToString()).ToList(),
+                // إضافة معايير الفترة وعدد الضيوف
+                CheckInDate = request.CheckIn,
+                CheckOutDate = request.CheckOut,
+                GuestsCount = request.GuestsCount,
+                // إضافة فلترة الحقول الديناميكية
+                DynamicFieldFilters = request.DynamicFieldFilters,
                 SortBy = request.SortBy,
-                SortOrder = request.SortBy?.ToLower().EndsWith("_desc") ? "Descending" : "Ascending",
+                SortOrder = (request.SortBy?.ToLower().EndsWith("_desc") ?? false) ? "Descending" : "Ascending",
                 PageNumber = request.PageNumber,
                 PageSize = request.PageSize
             };
@@ -98,22 +103,20 @@ public class SearchPropertiesQueryHandler : IRequestHandler<SearchPropertiesQuer
             {
                 Id = Guid.Parse(item.Id),
                 Name = item.Name,
-                Description = item.Description,
+                PropertyType = item.PropertyType,
                 Address = item.Address,
                 City = item.City,
+                BasePrice = item.MinPrice,
+                Currency = "YER",
                 StarRating = item.StarRating,
                 AverageRating = item.AverageRating,
                 ReviewsCount = 0,
-                MinPrice = item.MinPrice,
-                Currency = "YER",
                 MainImageUrl = item.ImageUrls?.FirstOrDefault() ?? string.Empty,
-                IsRecommended = false,
                 DistanceKm = null,
                 IsAvailable = item.UnitIds.Any(),
-                AvailableUnitsCount = item.UnitIds.Count,
-                PropertyType = item.PropertyType,
-                IsFeatured = false,
-                MainAmenities = item.AmenityIds ?? new List<string>()
+                IsFavorite = false,
+                MainAmenities = item.AmenityIds ?? new List<string>(),
+                MatchPercentage = 0
             }).ToList();
 
             var response = new SearchPropertiesResponse
