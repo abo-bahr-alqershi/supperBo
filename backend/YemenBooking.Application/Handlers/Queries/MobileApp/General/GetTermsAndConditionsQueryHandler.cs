@@ -4,6 +4,7 @@ using YemenBooking.Application.Queries.MobileApp.General;
 using YemenBooking.Application.DTOs;
 using YemenBooking.Application.DTOs.General;
 using YemenBooking.Core.Interfaces.Repositories;
+using YemenBooking.Core.Enums;
 
 namespace YemenBooking.Application.Handlers.Queries.MobileApp.General;
 
@@ -55,7 +56,7 @@ public class GetTermsAndConditionsQueryHandler : IRequestHandler<GetTermsAndCond
 
             // الحصول على الشروط والأحكام من قاعدة البيانات
             var termsAndConditions = await _legalDocumentRepository.GetByTypeAndLanguageAsync(
-                "terms_and_conditions", language, cancellationToken);
+                LegalDocumentType.TermsAndConditions, language, cancellationToken);
 
             if (termsAndConditions == null)
             {
@@ -65,7 +66,7 @@ public class GetTermsAndConditionsQueryHandler : IRequestHandler<GetTermsAndCond
                 if (language != "ar")
                 {
                     termsAndConditions = await _legalDocumentRepository.GetByTypeAndLanguageAsync(
-                        "terms_and_conditions", "ar", cancellationToken);
+                        LegalDocumentType.TermsAndConditions, "ar", cancellationToken);
                 }
 
                 // إذا لم توجد أي نسخة، إنشاء محتوى افتراضي
@@ -99,8 +100,7 @@ public class GetTermsAndConditionsQueryHandler : IRequestHandler<GetTermsAndCond
                 Title = termsAndConditions.Title ?? GetDefaultTitle(language),
                 Content = termsAndConditions.Content ?? GetDefaultContent(language),
                 Version = termsAndConditions.Version ?? "1.0",
-                LastUpdated = termsAndConditions.LastUpdated,
-                EffectiveDate = termsAndConditions.EffectiveDate
+                LastUpdated = termsAndConditions.UpdatedAt ?? termsAndConditions.CreatedAt
             };
 
             _logger.LogInformation("تم الحصول على الشروط والأحكام بنجاح. الإصدار: {Version}, آخر تحديث: {LastUpdated}", 
@@ -180,7 +180,6 @@ public class GetTermsAndConditionsQueryHandler : IRequestHandler<GetTermsAndCond
             Content = GetDefaultContent(language),
             Version = "1.0",
             LastUpdated = DateTime.UtcNow,
-            EffectiveDate = DateTime.UtcNow
         };
     }
 

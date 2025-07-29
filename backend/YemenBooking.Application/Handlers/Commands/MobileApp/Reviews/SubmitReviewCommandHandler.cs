@@ -85,16 +85,17 @@ public class SubmitReviewCommandHandler : IRequestHandler<SubmitReviewCommand, R
                 return ResultDto<SubmitReviewResponse>.Failed("يمكن مراجعة الحجوزات المكتملة فقط", "BOOKING_NOT_COMPLETED");
             }
 
-            // التحقق من تطابق العقار مع الحجز
-            if (booking.PropertyId != request.PropertyId)
+            // التحقق من تطابق العقار مع الحجز (من خلال الوحدة)
+            if (booking.Unit?.PropertyId != request.PropertyId)
             {
                 _logger.LogWarning("عدم تطابق العقار مع الحجز. BookingPropertyId: {BookingPropertyId}, RequestPropertyId: {RequestPropertyId}", 
-                    booking.PropertyId, request.PropertyId);
+                    booking.Unit?.PropertyId, request.PropertyId);
                 return ResultDto<SubmitReviewResponse>.Failed("العقار غير متطابق مع الحجز", "PROPERTY_MISMATCH");
             }
 
             // التحقق من عدم وجود مراجعة مسبقة للحجز
-            var existingReview = await _reviewRepository.GetByBookingIdAsync(request.BookingId, cancellationToken);
+            var existingReviews = await _reviewRepository.GetAllAsync(cancellationToken);
+            var existingReview = existingReviews?.FirstOrDefault(r => r.BookingId == request.BookingId);
             if (existingReview != null)
             {
                 _logger.LogWarning("يوجد مراجعة مسبقة للحجز: {BookingId}", request.BookingId);
@@ -121,22 +122,19 @@ public class SubmitReviewCommandHandler : IRequestHandler<SubmitReviewCommand, R
                 Id = Guid.NewGuid(),
                 BookingId = request.BookingId,
                 PropertyId = request.PropertyId,
-                UserId = booking.UserId,
-                CleanlinessRating = request.Cleanliness,
-                ServiceRating = request.Service,
-                LocationRating = request.Location,
-                ValueRating = request.Value,
-                OverallRating = overallRating,
+                Cleanliness = request.Cleanliness,
+                Service = request.Service,
+                Location = request.Location,
+                Value = request.Value,
+                AverageRating = overallRating,
                 Comment = request.Comment.Trim(),
-                ImageUrls = uploadedImageUrls,
-                Status = ReviewStatus.Pending, // تحتاج موافقة الإدارة
                 CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow
+                IsPendingApproval = true // تحتاج موافقة الإدارة
             };
 
             // حفظ المراجعة
-            var createResult = await _reviewRepository.CreateAsync(review, cancellationToken);
-            if (!createResult)
+            var createResult = await _reviewRepository.AddAsync(review, cancellationToken);
+            if (createResult == null)
             {
                 _logger.LogError("فشل في حفظ المراجعة للحجز: {BookingId}", request.BookingId);
                 
@@ -146,49 +144,13 @@ public class SubmitReviewCommandHandler : IRequestHandler<SubmitReviewCommand, R
                 return ResultDto<SubmitReviewResponse>.Failed("فشل في حفظ المراجعة", "SAVE_FAILED");
             }
 
-            // تحديث إحصائيات العقار
-            try
-            {
-                await _propertyRepository.UpdateRatingStatisticsAsync(request.PropertyId, cancellationToken);
-                _logger.LogInformation("تم تحديث إحصائيات التقييم للعقار: {PropertyId}", request.PropertyId);
-            }
-            catch (Exception statsEx)
-            {
-                _logger.LogWarning(statsEx, "فشل في تحديث إحصائيات التقييم للعقار: {PropertyId}", request.PropertyId);
-            }
+            _logger.LogInformation("تم إنشاء المراجعة بنجاح للعقار: {PropertyId}", request.PropertyId);
 
-            // إرسال تنبيه لمالك العقار
-            try
-            {
-                await _notificationService.NotifyPropertyOwnerOfNewReviewAsync(
-                    property.OwnerId,
-                    review.Id,
-                    request.PropertyId,
-                    overallRating,
-                    cancellationToken);
+            _logger.LogInformation("تم إنشاء المراجعة بنجاح: {ReviewId}", review.Id);
 
-                _logger.LogInformation("تم إرسال تنبيه لمالك العقار بخصوص المراجعة الجديدة: {ReviewId}", review.Id);
-            }
-            catch (Exception notificationEx)
-            {
-                _logger.LogWarning(notificationEx, "فشل في إرسال تنبيه مالك العقار للمراجعة: {ReviewId}", review.Id);
-            }
-
-            // إرسال تنبيه للإدارة للمراجعة
-            try
-            {
-                await _notificationService.NotifyAdminsOfNewReviewAsync(
-                    review.Id,
-                    request.PropertyId,
-                    overallRating,
-                    cancellationToken);
-
-                _logger.LogInformation("تم إرسال تنبيه للإدارة لمراجعة التقييم: {ReviewId}", review.Id);
-            }
-            catch (Exception adminNotificationEx)
-            {
-                _logger.LogWarning(adminNotificationEx, "فشل في إرسال تنبيه الإدارة للمراجعة: {ReviewId}", review.Id);
-            }
+            // ملاحظة: يمكن إضافة إرسال تنبيه للإدارة لاحقاً
+            // Note: Admin notification can be added later
+            _logger.LogInformation("تمت المراجعة وهي في انتظار الموافقة: {ReviewId}", review.Id);
 
             _logger.LogInformation("تم إرسال المراجعة بنجاح: {ReviewId} للحجز: {BookingId}", 
                 review.Id, request.BookingId);
@@ -295,11 +257,14 @@ public class SubmitReviewCommandHandler : IRequestHandler<SubmitReviewCommand, R
                 var imageBytes = Convert.FromBase64String(imagesBase64[i]);
                 var fileName = $"review_{bookingId}_{i + 1}_{DateTime.UtcNow:yyyyMMddHHmmss}";
                 
-                var uploadResult = await _fileUploadService.UploadReviewImageAsync(imageBytes, fileName, cancellationToken);
+                using var imageStream = new MemoryStream(imageBytes);
+                var uploadResult = await _fileUploadService.UploadImageAsync(imageStream, fileName, folder: "reviews");
+                var isSuccess = !string.IsNullOrEmpty(uploadResult);
+                var fileUrl = uploadResult;
                 
-                if (uploadResult.IsSuccess)
+                if (isSuccess)
                 {
-                    uploadedUrls.Add(uploadResult.FileUrl);
+                    uploadedUrls.Add(fileUrl);
                     _logger.LogInformation("تم رفع صورة المراجعة: {FileName}", fileName);
                 }
                 else
@@ -328,7 +293,7 @@ public class SubmitReviewCommandHandler : IRequestHandler<SubmitReviewCommand, R
         {
             try
             {
-                await _fileUploadService.DeleteFileAsync(imageUrl, cancellationToken);
+                await _fileUploadService.DeleteFileAsync(imageUrl);
                 _logger.LogInformation("تم حذف صورة المراجعة: {ImageUrl}", imageUrl);
             }
             catch (Exception ex)

@@ -216,8 +216,8 @@ public class GetRecommendedPropertiesQueryHandler : IRequestHandler<GetRecommend
                 {
                     // المدن المفضلة
                     preferences.PreferredCities = completedBookings
-                        .Where(b => b.Property?.City != null)
-                        .GroupBy(b => b.Property!.City!)
+                        .Where(b => b.Unit?.Property?.City != null)
+                        .GroupBy(b => b.Unit!.Property!.City!)
                         .OrderByDescending(g => g.Count())
                         .Take(3)
                         .Select(g => g.Key)
@@ -225,7 +225,7 @@ public class GetRecommendedPropertiesQueryHandler : IRequestHandler<GetRecommend
 
                     // أنواع العقارات المفضلة
                     preferences.PreferredPropertyTypes = completedBookings
-                        .GroupBy(b => b.Property?.PropertyTypeId)
+                        .GroupBy(b => b.Unit?.Property?.TypeId)
                         .Where(g => g.Key.HasValue)
                         .OrderByDescending(g => g.Count())
                         .Take(3)
@@ -233,7 +233,7 @@ public class GetRecommendedPropertiesQueryHandler : IRequestHandler<GetRecommend
                         .ToList();
 
                     // متوسط المبلغ المنفق
-                    preferences.AverageBudget = completedBookings.Average(b => b.TotalAmount);
+                    preferences.AverageBudget = (decimal)completedBookings.Average(b => b.TotalPrice.Amount);
                 }
             }
 
@@ -272,7 +272,7 @@ public class GetRecommendedPropertiesQueryHandler : IRequestHandler<GetRecommend
             if (reviews != null && reviews.Any())
             {
                 var averageRating = reviews.Average(r => r.AverageRating);
-                score += averageRating * 20; // وزن التقييم
+                score += (double)averageRating * 20; // وزن التقييم
                 score += Math.Min(reviews.Count(), 10) * 5; // وزن عدد المراجعات (حد أقصى 50 نقطة)
             }
 
@@ -300,10 +300,10 @@ public class GetRecommendedPropertiesQueryHandler : IRequestHandler<GetRecommend
             var units = await _unitRepository.GetActiveByPropertyIdAsync(property.Id, cancellationToken);
             if (units != null && units.Any() && userPreferences.AverageBudget > 0)
             {
-                var minPriceDecimal = units.Min(u => (decimal)u.BasePrice);
-                var budgetDifference = Math.Abs((double)(minPriceDecimal - userPreferences.AverageBudget));
-                var budgetScore = Math.Max(0, 50 - (budgetDifference / (double)userPreferences.AverageBudget * 100));
-                score += budgetScore;
+                var minPriceDecimal = (decimal)units.Min(u => u.BasePrice);
+                var budgetDifference = Math.Abs((decimal)(minPriceDecimal - userPreferences.AverageBudget));
+                var budgetScore = Math.Max(0, 50 - (budgetDifference / userPreferences.AverageBudget * 100));
+                score += (double)budgetScore;
             }
 
             // نقاط إضافية للعقارات الجديدة أو المحدثة مؤخراً

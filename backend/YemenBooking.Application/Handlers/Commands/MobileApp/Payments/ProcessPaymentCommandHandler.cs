@@ -2,6 +2,7 @@ using MediatR;
 using Microsoft.Extensions.Logging;
 using YemenBooking.Application.Commands.MobileApp.Payments;
 using YemenBooking.Application.DTOs;
+using YemenBooking.Application.DTOs.Payments;
 using YemenBooking.Core.Interfaces.Services;
 using YemenBooking.Core.Interfaces.Repositories;
 using YemenBooking.Core.Enums;
@@ -13,30 +14,34 @@ namespace YemenBooking.Application.Handlers.Commands.MobileApp.Payments;
 /// معالج أمر معالجة الدفع
 /// Handler for process payment command
 /// </summary>
-public class ProcessPaymentCommandHandler : IRequestHandler<ProcessPaymentCommand, ResultDto<ProcessPaymentResponse>>
+public class ProcessPaymentCommandHandler : IRequestHandler<ProcessPaymentCommand, ResultDto<YemenBooking.Application.DTOs.Payments.ProcessPaymentResponse>>
 {
     private readonly IPaymentService _paymentService;
     private readonly IBookingRepository _bookingRepository;
     private readonly IPaymentRepository _paymentRepository;
+    private readonly IPaymentMethodRepository _paymentMethodRepository;
     private readonly ILogger<ProcessPaymentCommandHandler> _logger;
 
     /// <summary>
     /// منشئ معالج أمر معالجة الدفع
     /// Constructor for process payment command handler
     /// </summary>
-    /// <param name="paymentService">خدمة المدفوعات</param>
+    /// <param name="paymentService">خدمة الدفع</param>
     /// <param name="bookingRepository">مستودع الحجوزات</param>
     /// <param name="paymentRepository">مستودع المدفوعات</param>
+    /// <param name="paymentMethodRepository">مستودع طرق الدفع</param>
     /// <param name="logger">مسجل الأحداث</param>
     public ProcessPaymentCommandHandler(
         IPaymentService paymentService,
         IBookingRepository bookingRepository,
         IPaymentRepository paymentRepository,
+        IPaymentMethodRepository paymentMethodRepository,
         ILogger<ProcessPaymentCommandHandler> logger)
     {
         _paymentService = paymentService;
         _bookingRepository = bookingRepository;
         _paymentRepository = paymentRepository;
+        _paymentMethodRepository = paymentMethodRepository;
         _logger = logger;
     }
 
@@ -47,7 +52,7 @@ public class ProcessPaymentCommandHandler : IRequestHandler<ProcessPaymentComman
     /// <param name="request">طلب معالجة الدفع</param>
     /// <param name="cancellationToken">رمز الإلغاء</param>
     /// <returns>نتيجة العملية</returns>
-    public async Task<ResultDto<ProcessPaymentResponse>> Handle(ProcessPaymentCommand request, CancellationToken cancellationToken)
+    public async Task<ResultDto<YemenBooking.Application.DTOs.Payments.ProcessPaymentResponse>> Handle(ProcessPaymentCommand request, CancellationToken cancellationToken)
     {
         try
         {
@@ -77,15 +82,18 @@ public class ProcessPaymentCommandHandler : IRequestHandler<ProcessPaymentComman
             }
 
             // التحقق من تطابق المبلغ
-            if (request.Amount.Amount != booking.TotalAmount)
+            if (request.Amount.Amount != booking.TotalPrice)
             {
                 _logger.LogWarning("مبلغ الدفع غير متطابق مع مبلغ الحجز. المطلوب: {BookingAmount}, المرسل: {PaymentAmount}", 
-                    booking.TotalAmount, request.Amount.Amount);
+                    booking.TotalPrice, request.Amount.Amount);
                 return ResultDto<ProcessPaymentResponse>.Failed("مبلغ الدفع غير متطابق مع مبلغ الحجز", "AMOUNT_MISMATCH");
             }
 
             // التحقق من عدم وجود دفعة ناجحة مسبقاً
-            var existingPayment = await _paymentRepository.GetSuccessfulPaymentByBookingIdAsync(request.BookingId, cancellationToken);
+            var allPayments = await _paymentRepository.GetAllAsync(cancellationToken);
+            var existingPayment = allPayments?.FirstOrDefault(p => 
+                p.BookingId == request.BookingId && 
+                p.Status == PaymentStatus.Successful);
             if (existingPayment != null)
             {
                 _logger.LogWarning("يوجد دفعة ناجحة مسبقاً للحجز: {BookingId}", request.BookingId);
@@ -101,32 +109,46 @@ public class ProcessPaymentCommandHandler : IRequestHandler<ProcessPaymentComman
             }
 
             // حفظ معلومات الدفع في قاعدة البيانات
-            var payment = await _paymentRepository.CreateAsync(new
+            if (!Enum.TryParse<PaymentMethodType>(request.PaymentMethod.ToString(), true, out var paymentMethodType))
             {
-                Id = paymentResult.PaymentId,
+                _logger.LogError("طريقة الدفع غير صالحة");
+                return ResultDto<ProcessPaymentResponse>.Failed("طريقة الدفع غير صالحة", "INVALID_PAYMENT_METHOD");
+            }
+
+            // البحث عن PaymentMethod entity (تنفيذ مبسط)
+            var allPaymentMethods = await _paymentMethodRepository.GetByTypeAsync(paymentMethodType, cancellationToken);
+            var paymentMethod = allPaymentMethods?.FirstOrDefault();
+            if (paymentMethod == null)
+            {
+                _logger.LogError("لم يتم العثور على طريقة الدفع: {PaymentMethod}", paymentMethodType);
+                return ResultDto<ProcessPaymentResponse>.Failed("طريقة الدفع غير متاحة", "PAYMENT_METHOD_NOT_FOUND");
+            }
+
+            var payment = new YemenBooking.Core.Entities.Payment 
+            {
+                Id = Guid.NewGuid(),
                 BookingId = request.BookingId,
-                Amount = request.Amount.Amount,
-                Currency = request.Amount.Currency,
-                PaymentMethod = request.PaymentMethod,
-                TransactionId = paymentResult.TransactionId,
-                Status = paymentResult.Status,
+                Amount = request.Amount,
+                Method = paymentMethod, // استخدام PaymentMethod entity من Repository
+                TransactionId = paymentResult.TransactionId ?? string.Empty,
+                Status = paymentResult.Success ? PaymentStatus.Successful : PaymentStatus.Failed,
                 ProcessedAt = DateTime.UtcNow,
                 CreatedAt = DateTime.UtcNow
-            }, cancellationToken);
+            };
+            var savedPayment = await _paymentRepository.AddAsync(payment, cancellationToken);
 
-            if (paymentResult.Status == PaymentStatus.Completed)
+            if (paymentResult.Success)
             {
                 // تحديث حالة الحجز إلى مدفوع
                 booking.Status = BookingStatus.Confirmed;
-                booking.PaymentStatus = PaymentStatus.Completed;
                 booking.UpdatedAt = DateTime.UtcNow;
 
                 await _bookingRepository.UpdateAsync(booking, cancellationToken);
 
-                _logger.LogInformation("تم إكمال الدفع بنجاح للحجز: {BookingId}, PaymentId: {PaymentId}", 
-                    request.BookingId, paymentResult.PaymentId);
+                _logger.LogInformation("تم إكمال الدفع بنجاح للحجز: {BookingId}, TransactionId: {TransactionId}", 
+                    request.BookingId, paymentResult.TransactionId);
             }
-            else if (paymentResult.Status == PaymentStatus.Failed)
+            else if (!paymentResult.Success)
             {
                 _logger.LogWarning("فشل في الدفع للحجز: {BookingId}, Reason: {Message}", 
                     request.BookingId, paymentResult.Message);
@@ -160,9 +182,14 @@ public class ProcessPaymentCommandHandler : IRequestHandler<ProcessPaymentComman
         }
 
         // التحقق من طريقة الدفع وبياناتها المطلوبة
-        switch (request.PaymentMethod)
+        if (!Enum.TryParse<PaymentMethodType>(request.PaymentMethod.ToString(), true, out var paymentMethodType))
         {
-            case PaymentMethod.CreditCard:
+            return ResultDto<ProcessPaymentResponse>.Failed("طريقة الدفع غير صالحة", "INVALID_PAYMENT_METHOD");
+        }
+
+        switch (paymentMethodType)
+        {
+            case PaymentMethodType.CreditCard:
                 if (request.CardDetails == null)
                 {
                     return ResultDto<ProcessPaymentResponse>.Failed("تفاصيل البطاقة مطلوبة", "CARD_DETAILS_REQUIRED");
@@ -175,14 +202,14 @@ public class ProcessPaymentCommandHandler : IRequestHandler<ProcessPaymentComman
                 }
                 break;
 
-            case PaymentMethod.Wallet:
+            case PaymentMethodType.DigitalWallet:
                 if (string.IsNullOrWhiteSpace(request.WalletId))
                 {
                     return ResultDto<ProcessPaymentResponse>.Failed("معرف المحفظة الإلكترونية مطلوب", "WALLET_ID_REQUIRED");
                 }
                 break;
 
-            case PaymentMethod.BankTransfer:
+            case PaymentMethodType.BankTransfer:
                 // لا توجد بيانات إضافية مطلوبة للتحويل البنكي
                 break;
 
@@ -266,26 +293,63 @@ public class ProcessPaymentCommandHandler : IRequestHandler<ProcessPaymentComman
         dynamic booking, 
         CancellationToken cancellationToken)
     {
-        return request.PaymentMethod switch
+        if (!Enum.TryParse<PaymentMethodType>(request.PaymentMethod.ToString(), true, out var paymentMethodType))
         {
-            PaymentMethod.CreditCard => await _paymentService.ProcessCreditCardPaymentAsync(
-                request.BookingId,
-                request.Amount,
-                request.CardDetails!,
-                cancellationToken),
+            _logger.LogError("طريقة الدفع غير صالحة");
+            return null;
+        }
 
-            PaymentMethod.Wallet => await _paymentService.ProcessWalletPaymentAsync(
-                request.BookingId,
-                request.Amount,
-                request.WalletId!,
-                cancellationToken),
+        // البحث عن PaymentMethod entity
+        var paymentMethods = await _paymentMethodRepository.GetByTypeAsync(paymentMethodType, cancellationToken);
+        var paymentMethod = paymentMethods?.FirstOrDefault();
+        if (paymentMethod == null)
+        {
+            _logger.LogError("لم يتم العثور على طريقة الدفع: {PaymentMethod}", paymentMethodType);
+            return null;
+        }
 
-            PaymentMethod.BankTransfer => await _paymentService.ProcessBankTransferPaymentAsync(
+        return paymentMethodType switch
+        {
+            PaymentMethodType.CreditCard => ConvertToProcessPaymentResponse(await _paymentService.ProcessPaymentAsync(
                 request.BookingId,
-                request.Amount,
-                cancellationToken),
+                paymentMethod.Id,
+                request.Amount.Amount,
+                request.Amount.Currency ?? "YER")),
+
+            PaymentMethodType.DigitalWallet => ConvertToProcessPaymentResponse(await _paymentService.ProcessPaymentAsync(
+                request.BookingId,
+                paymentMethod.Id,
+                request.Amount.Amount,
+                request.Amount.Currency ?? "YER")),
+
+            PaymentMethodType.BankTransfer => ConvertToProcessPaymentResponse(await _paymentService.ProcessPaymentAsync(
+                request.BookingId,
+                paymentMethod.Id,
+                request.Amount.Amount,
+                request.Amount.Currency ?? "YER")),
 
             _ => null
+        };
+    }
+
+    /// <summary>
+    /// تحويل PaymentResult إلى ProcessPaymentResponse
+    /// </summary>
+    private YemenBooking.Application.DTOs.Payments.ProcessPaymentResponse? ConvertToProcessPaymentResponse(PaymentResult? paymentResult)
+    {
+        if (paymentResult == null)
+            return null;
+
+        return new YemenBooking.Application.DTOs.Payments.ProcessPaymentResponse
+        {
+            TransactionId = paymentResult.TransactionId ?? string.Empty,
+            Success = paymentResult.IsSuccess,
+            Message = paymentResult.Message ?? string.Empty,
+            ProcessedAmount = paymentResult.ProcessedAmount,
+            Fees = paymentResult.Fees,
+            Currency = "YER",
+            ProcessedAt = paymentResult.ProcessedAt,
+            PaymentStatus = paymentResult.IsSuccess ? "Completed" : "Failed"
         };
     }
 }

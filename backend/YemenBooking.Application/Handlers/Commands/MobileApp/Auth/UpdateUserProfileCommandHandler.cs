@@ -125,19 +125,20 @@ public class UpdateUserProfileCommandHandler : IRequestHandler<UpdateUserProfile
                     }
 
                     // رفع الصورة
-                    var uploadResult = await _fileUploadService.UploadProfileImageAsync(
-                        imageBytes, 
-                        request.UserId.ToString(), 
-                        cancellationToken);
+                    using var imageStream = new MemoryStream(imageBytes);
+                    var uploadResult = await _fileUploadService.UploadImageAsync(
+                        imageStream, 
+                        $"profile_{request.UserId}", 
+                        1024 * 1024); // حد أقصى 1MB
 
-                    if (uploadResult.IsSuccess)
+                    if (!string.IsNullOrWhiteSpace(uploadResult))
                     {
                         // حذف الصورة القديمة إذا كانت موجودة
                         if (!string.IsNullOrWhiteSpace(user.ProfileImageUrl))
                         {
                             try
                             {
-                                await _fileUploadService.DeleteFileAsync(user.ProfileImageUrl, cancellationToken);
+                                await _fileUploadService.DeleteFileAsync(user.ProfileImageUrl);
                             }
                             catch (Exception deleteEx)
                             {
@@ -145,8 +146,8 @@ public class UpdateUserProfileCommandHandler : IRequestHandler<UpdateUserProfile
                             }
                         }
 
-                        user.ProfileImageUrl = uploadResult.FileUrl;
-                        newProfileImageUrl = uploadResult.FileUrl;
+                        user.ProfileImageUrl = uploadResult;
+                        newProfileImageUrl = uploadResult;
                         hasChanges = true;
                         _logger.LogInformation("تحديث صورة الملف الشخصي للمستخدم: {UserId}", request.UserId);
                     }
@@ -171,15 +172,10 @@ public class UpdateUserProfileCommandHandler : IRequestHandler<UpdateUserProfile
             if (hasChanges)
             {
                 user.UpdatedAt = DateTime.UtcNow;
-                var updateResult = await _userRepository.UpdateAsync(user, cancellationToken);
+                await _userRepository.UpdateAsync(user, cancellationToken);
                 
-                if (!updateResult)
-                {
-                    _logger.LogError("فشل في حفظ تحديثات الملف الشخصي للمستخدم: {UserId}", request.UserId);
-                    return ResultDto<UpdateUserProfileResponse>.Failed("فشل في حفظ التحديثات", "UPDATE_FAILED");
-                }
+                _logger.LogInformation("تم حفظ تحديثات الملف الشخصي بنجاح للمستخدم: {UserId}", request.UserId);
 
-                _logger.LogInformation("تم تحديث الملف الشخصي بنجاح للمستخدم: {UserId}", request.UserId);
 
                 var response = new UpdateUserProfileResponse
                 {
@@ -188,7 +184,7 @@ public class UpdateUserProfileCommandHandler : IRequestHandler<UpdateUserProfile
                     NewProfileImageUrl = newProfileImageUrl
                 };
 
-                return ResultDto<UpdateUserProfileResponse>.Ok(response, "تم تحديث الملف الشخصي بنجاح");
+                return ResultDto<UpdateUserProfileResponse>.Ok(response);
             }
             else
             {
@@ -200,7 +196,7 @@ public class UpdateUserProfileCommandHandler : IRequestHandler<UpdateUserProfile
                     Message = "لا توجد تغييرات للحفظ"
                 };
 
-                return ResultDto<UpdateUserProfileResponse>.Ok(noChangesResponse, "لا توجد تغييرات للحفظ");
+                return ResultDto<UpdateUserProfileResponse>.Ok(noChangesResponse);
             }
         }
         catch (Exception ex)

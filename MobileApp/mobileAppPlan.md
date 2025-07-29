@@ -42,6 +42,10 @@ lib/
 │   │   ├── date_utils.dart
 │   │   ├── price_calculator.dart
 │   │   └── location_utils.dart
+│   │   
+│   ├── models/
+│   │   ├── paginated_result.dart
+│   │   └── result_dto.dart
 │   │
 │   └── widgets/
 │       ├── app_bar_widget.dart

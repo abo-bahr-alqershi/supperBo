@@ -93,55 +93,29 @@ namespace YemenBooking.Application.Handlers.Queries.Properties
                     CreatedAt = property.CreatedAt,
                     OwnerName = property.Owner.Name,
                     TypeName = property.PropertyType.Name,
-                    Units = request.IncludeUnits
-                        ? property.Units.Select(u => new UnitDto
+                    Units = request.IncludeUnits && property.Units != null
+                        ? property.Units.Select(u => new YemenBooking.Application.DTOs.Units.UnitDetailsDto
                         {
                             Id = u.Id,
                             PropertyId = u.PropertyId,
+                            PropertyName = property.Name ?? string.Empty,
+                            Name = u.Name ?? string.Empty,
                             UnitTypeId = u.UnitTypeId,
-                            Name = u.Name,
-                            BasePrice = new MoneyDto { Amount = u.BasePrice.Amount, Currency = u.BasePrice.Currency },
-                            CustomFeatures = u.CustomFeatures,
+                            UnitTypeName = u.UnitType?.Name ?? string.Empty,
+                            BasePrice = new MoneyDto { Amount = u.BasePrice.Amount, Currency = u.BasePrice.Currency ?? "YER" },
+                            Currency = u.BasePrice.Currency ?? "YER",
+                            MaxCapacity = u.MaxCapacity,
+                            PricingMethod = u.PricingMethod.ToString(),
                             IsAvailable = u.IsAvailable,
-                            PropertyName = property.Name,
-                            UnitTypeName = u.UnitType.Name,
-                            PricingMethod = u.PricingMethod,
-                            FieldValues = u.FieldValues.OrderBy(fv => fv.CreatedAt).Select(fv => new UnitFieldValueDto
-                                {
-                                    ValueId = fv.Id,
-                                    UnitId = fv.UnitId,
-                                    FieldId = fv.UnitTypeFieldId,
-                                    FieldName = fv.UnitTypeField.FieldName,
-                                    DisplayName = fv.UnitTypeField.DisplayName,
-                                    FieldValue = fv.FieldValue,
-                                    Field = new UnitTypeFieldDto
-                                    {
-                                        FieldId = fv.UnitTypeField.Id.ToString(),
-                                        UnitTypeId = fv.UnitTypeField.UnitTypeId.ToString(),
-                                        FieldTypeId = fv.UnitTypeField.FieldTypeId.ToString(),
-                                        FieldName = fv.UnitTypeField.FieldName,
-                                        DisplayName = fv.UnitTypeField.DisplayName,
-                                        Description = fv.UnitTypeField.Description,
-                                        FieldOptions = new Dictionary<string, object>(),
-                                        ValidationRules = new Dictionary<string, object>(),
-                                        IsRequired = fv.UnitTypeField.IsRequired,
-                                        IsSearchable = fv.UnitTypeField.IsSearchable,
-                                        IsPublic = fv.UnitTypeField.IsPublic,
-                                        SortOrder = fv.UnitTypeField.SortOrder,
-                                        Category = fv.UnitTypeField.Category,
-                                        GroupId = string.Empty
-                                    },
-                                    CreatedAt = fv.CreatedAt,
-                                    UpdatedAt = fv.UpdatedAt
-                                }).ToList()
+                            CustomFeatures = u.CustomFeatures ?? string.Empty
                         }).ToList()
-                        : new List<UnitDto>(),
-                    Amenities = property.Amenities.Select(pa => new AmenityDto
+                        : new List<YemenBooking.Application.DTOs.Units.UnitDetailsDto>(),
+                    Amenities = property.Amenities?.Select(pa => new PropertyAmenityDto
                     {
                         Id = pa.PropertyTypeAmenity.AmenityId,
-                        Name = pa.PropertyTypeAmenity.Amenity.Name,
-                        Description = pa.PropertyTypeAmenity.Amenity.Description
-                    }).ToList()
+                        Name = pa.PropertyTypeAmenity.Amenity.Name ?? string.Empty,
+                        Description = pa.PropertyTypeAmenity.Amenity.Description ?? string.Empty
+                    }).ToList() ?? new List<PropertyAmenityDto>()
                 };
 
 

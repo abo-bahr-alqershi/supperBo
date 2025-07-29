@@ -2,7 +2,7 @@ using MediatR;
 using Microsoft.Extensions.Logging;
 using YemenBooking.Application.DTOs;
 using YemenBooking.Application.DTOs.Properties;
-using PSResultDto = YemenBooking.Application.DTOs.PropertySearch.PropertySearchResultDto;
+using PropResultDto = YemenBooking.Application.DTOs.PropertySearch.PropertySearchResultDto;
 using YemenBooking.Application.Queries.MobileApp.Properties;
 using YemenBooking.Core.Interfaces.Repositories;
 using YemenBooking.Core.Interfaces;
@@ -43,7 +43,7 @@ public class ClientSearchPropertiesQueryHandler : IRequestHandler<SearchProperti
             var validationError = ValidateRequest(request);
             if (validationError != null)
             {
-                return validationError;
+                return ResultDto<SearchPropertiesResponse>.Failure(validationError);
             }
 
             // البحث في قاعدة البيانات
@@ -51,18 +51,12 @@ public class ClientSearchPropertiesQueryHandler : IRequestHandler<SearchProperti
 
             _logger.LogInformation("تم العثور على {Count} كيان من أصل {Total}", searchResult.Properties.Count, searchResult.TotalCount);
 
-            return searchResult;
+            return ResultDto<SearchPropertiesResponse>.Ok(searchResult, "تم البحث بنجاح");
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "خطأ أثناء البحث عن الكيانات");
-            return new SearchPropertiesResponse
-            {
-                Properties = new List<PSResultDto>(),
-                TotalCount = 0,
-                CurrentPage = request.PageNumber,
-                TotalPages = 0
-            };
+            return ResultDto<SearchPropertiesResponse>.Failure("حدث خطأ داخلي أثناء تنفيذ عملية البحث");
         }
     }
 
@@ -70,50 +64,27 @@ public class ClientSearchPropertiesQueryHandler : IRequestHandler<SearchProperti
     /// التحقق من صحة طلب البحث
     /// Validate search request
     /// </summary>
-    private SearchPropertiesResponse? ValidateRequest(SearchPropertiesQuery request)
+    private string? ValidateRequest(SearchPropertiesQuery request)
     {
+        // Basic validation rules
         if (request.PageNumber < 1)
         {
-            return new SearchPropertiesResponse
-            {
-                Properties = new List<PSResultDto>(),
-                TotalCount = 0,
-                CurrentPage = 1,
-                TotalPages = 0
-            };
+            return "رقم الصفحة يجب أن يكون 1 أو أكبر";
         }
 
         if (request.PageSize < 1 || request.PageSize > 100)
         {
-            return new SearchPropertiesResponse
-            {
-                Properties = new List<PSResultDto>(),
-                TotalCount = 0,
-                CurrentPage = request.PageNumber,
-                TotalPages = 0
-            };
+            return "حجم الصفحة غير صالح";
         }
 
         if (request.CheckIn.HasValue && request.CheckOut.HasValue && request.CheckIn >= request.CheckOut)
         {
-            return new SearchPropertiesResponse
-            {
-                Properties = new List<PSResultDto>(),
-                TotalCount = 0,
-                CurrentPage = request.PageNumber,
-                TotalPages = 0
-            };
+            return "تاريخ الدخول يجب أن يكون قبل تاريخ الخروج";
         }
 
         if (request.MinPrice.HasValue && request.MaxPrice.HasValue && request.MinPrice > request.MaxPrice)
         {
-            return new SearchPropertiesResponse
-            {
-                Properties = new List<PSResultDto>(),
-                TotalCount = 0,
-                CurrentPage = request.PageNumber,
-                TotalPages = 0
-            };
+            return "الحد الأدنى للسعر أكبر من الحد الأقصى";
         }
 
         return null;
@@ -175,7 +146,7 @@ public class ClientSearchPropertiesQueryHandler : IRequestHandler<SearchProperti
             .ToList();
 
         // تحويل إلى DTOs
-        var propertyDtos = new List<PSResultDto>();
+        var propertyDtos = new List<YemenBooking.Application.DTOs.Properties.PropertySearchResultDto>();
         foreach (var property in paginatedProperties)
         {
             var dto = await MapToSearchResultDto(property, request);
@@ -212,9 +183,9 @@ public class ClientSearchPropertiesQueryHandler : IRequestHandler<SearchProperti
     /// تحويل الكيان إلى DTO
     /// Map property to search result DTO
     /// </summary>
-    private async Task<PSResultDto> MapToSearchResultDto(Core.Entities.Property property, SearchPropertiesQuery request)
+    private async Task<YemenBooking.Application.DTOs.Properties.PropertySearchResultDto> MapToSearchResultDto(Core.Entities.Property property, SearchPropertiesQuery request)
     {
-        var dto = new PSResultDto
+        var dto = new YemenBooking.Application.DTOs.Properties.PropertySearchResultDto
         {
             Id = property.Id,
             Name = property.Name,
@@ -224,10 +195,9 @@ public class ClientSearchPropertiesQueryHandler : IRequestHandler<SearchProperti
             StarRating = property.StarRating,
             AverageRating = property.AverageRating,
             ReviewsCount = await GetReviewsCount(property.Id),
-            MinPrice = GetMinPriceForProperty(property.Id),
+            BasePrice = GetMinPriceForProperty(property.Id),
             Currency = "YER", // عملة افتراضية
             MainImageUrl = GetMainImageUrl(property.Id),
-            IsFavorite = false, // سيتم تحديثه لاحقاً بناءً على المستخدم
             MainAmenities = await GetMainAmenities(property.Id)
         };
 

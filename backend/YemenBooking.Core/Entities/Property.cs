@@ -33,6 +33,20 @@ public class Property : BaseEntity
     public string Name { get; set; }
     
     /// <summary>
+    /// وصف قصير للكيان
+    /// Short description of the property
+    /// </summary>
+    [Display(Name = "وصف قصير للكيان")]
+    public string? ShortDescription { get; set; }
+    
+    /// <summary>
+    /// السعر الأساسي لليلة الواحدة
+    /// Base price per night
+    /// </summary>
+    [Display(Name = "السعر الأساسي لليلة الواحدة")]
+    public decimal BasePricePerNight { get; set; }
+    
+    /// <summary>
     /// عنوان الكيان
     /// Property address
     /// </summary>
@@ -108,6 +122,13 @@ public class Property : BaseEntity
     /// </summary>
     [Display(Name = "متوسط التقييم")]
     public decimal AverageRating { get; set; } = 0m;
+
+    /// <summary>
+    /// العملة
+    /// Currency
+    /// </summary>
+    [Display(Name = "العملة")]
+    public string Currency { get; set; }
     
     /// <summary>
     /// هل العقار مميز لعرضه في الواجهة

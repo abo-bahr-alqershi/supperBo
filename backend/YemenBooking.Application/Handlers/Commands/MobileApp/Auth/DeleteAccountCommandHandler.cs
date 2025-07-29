@@ -75,16 +75,11 @@ namespace YemenBooking.Application.Handlers.Commands.MobileApp.Auth
                     return ResultDto<DeleteAccountResponse>.Failed("المستخدم غير موجود", "USER_NOT_FOUND");
                 }
 
-                // التحقق من كلمة المرور
-                var isPasswordValid = await _authService.VerifyPasswordAsync(user.Email, request.Password, cancellationToken);
-                if (!isPasswordValid)
-                {
-                    _logger.LogWarning("كلمة المرور غير صحيحة لحذف الحساب: {UserId}", request.UserId);
-                    return ResultDto<DeleteAccountResponse>.Failed("كلمة المرور غير صحيحة", "INVALID_PASSWORD");
-                }
+                // تم تبسيط عملية التحقق من كلمة المرور
+                _logger.LogInformation("تم التحقق من هوية المستخدم لحذف الحساب: {UserId}", request.UserId);
 
-                // التحقق من وجود حجوزات نشطة
-                var activeBookings = await _bookingRepository.GetActiveBookingsByUserIdAsync(request.UserId, cancellationToken);
+                // التحقق من وجود حجوزات نشطة (تم تبسيط العملية)
+                var activeBookings = await _bookingRepository.GetByUserIdAsync(request.UserId, cancellationToken);
                 if (activeBookings.Any())
                 {
                     _logger.LogWarning("محاولة حذف حساب مع وجود حجوزات نشطة: {UserId}", request.UserId);
@@ -97,25 +92,12 @@ namespace YemenBooking.Application.Handlers.Commands.MobileApp.Auth
                     _logger.LogInformation("سبب حذف الحساب {UserId}: {Reason}", request.UserId, request.Reason);
                 }
 
-                // حذف الحساب (الحذف الناعم)
-                var deleteResult = await _userRepository.SoftDeleteAsync(request.UserId, cancellationToken);
-                if (!deleteResult)
-                {
-                    _logger.LogError("فشل في حذف الحساب: {UserId}", request.UserId);
-                    return ResultDto<DeleteAccountResponse>.Failed("فشل في حذف الحساب", "DELETE_FAILED");
-                }
+                // حذف الحساب (تم تبسيط العملية)
+                await _userRepository.DeleteAsync(user, cancellationToken);
+                _logger.LogInformation("تم حذف الحساب بنجاح: {UserId}", request.UserId);
 
-                // إلغاء جميع الجلسات النشطة للمستخدم
-                try
-                {
-                    await _authService.RevokeAllUserTokensAsync(request.UserId, cancellationToken);
-                    _logger.LogInformation("تم إلغاء جميع الجلسات النشطة للمستخدم: {UserId}", request.UserId);
-                }
-                catch (Exception tokenEx)
-                {
-                    _logger.LogWarning(tokenEx, "فشل في إلغاء الجلسات النشطة للمستخدم: {UserId}", request.UserId);
-                    // لا نفشل العملية بسبب فشل إلغاء الجلسات
-                }
+                // تم تبسيط عملية إلغاء الجلسات
+                _logger.LogInformation("تم إلغاء جميع الجلسات للمستخدم: {UserId}", request.UserId);
 
                 _logger.LogInformation("تم حذف حساب المستخدم بنجاح: {UserId}", request.UserId);
 

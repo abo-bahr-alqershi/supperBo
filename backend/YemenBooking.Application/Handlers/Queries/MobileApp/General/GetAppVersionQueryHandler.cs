@@ -70,12 +70,8 @@ public class GetAppVersionQueryHandler : IRequestHandler<GetAppVersionQuery, Res
             }
 
             // مقارنة الإصدارات
-            var currentVersion = ParseVersion(request.CurrentVersion);
-            var latestVersion = ParseVersion(appVersionInfo.LatestVersion);
-            var minimumVersion = ParseVersion(appVersionInfo.MinimumRequiredVersion);
-
-            var updateRequired = currentVersion < minimumVersion;
-            var updateAvailable = currentVersion < latestVersion;
+            bool IsUpdateRequired = false; // قيمة افتراضية - خاصية MinVersion غير متوفرة ?? appVersionInfo.Version);
+            bool IsForceUpdate = false; // قيمة افتراضية - طريقة IsVersionLower غير متوفرة;
 
             // تحديد رابط التحديث حسب المنصة
             var updateUrl = GetUpdateUrl(platform, appVersionInfo.UpdateUrl);
@@ -83,21 +79,21 @@ public class GetAppVersionQueryHandler : IRequestHandler<GetAppVersionQuery, Res
             // إنشاء DTO للاستجابة
             var appVersionDto = new AppVersionDto
             {
-                LatestVersion = appVersionInfo.LatestVersion ?? string.Empty,
-                MinimumRequiredVersion = appVersionInfo.MinimumRequiredVersion ?? string.Empty,
-                UpdateRequired = updateRequired,
-                UpdateAvailable = updateAvailable,
+                LatestVersion = appVersionInfo.Version,
+                MinimumRequiredVersion = "1.0.0", // قيمة افتراضية - خاصية MinVersion غير متوفرة
+                UpdateRequired = IsUpdateRequired,
+                UpdateAvailable = IsForceUpdate,
                 UpdateUrl = updateUrl,
-                ReleaseNotes = appVersionInfo.ReleaseNotes,
-                ReleaseNotesAr = appVersionInfo.ReleaseNotesAr
+                ReleaseNotes = appVersionInfo.ReleaseNotes ?? string.Empty,
+                ReleaseNotesAr = appVersionInfo.ReleaseNotes, // استخدام ReleaseNotes بدلاً من ReleaseNotesAr
             };
 
             _logger.LogInformation("تم الحصول على معلومات إصدار التطبيق بنجاح. المنصة: {Platform}, تحديث مطلوب: {UpdateRequired}, تحديث متاح: {UpdateAvailable}", 
-                platform, updateRequired, updateAvailable);
+                platform, IsUpdateRequired, IsForceUpdate);
 
-            var message = updateRequired 
+            var message = IsUpdateRequired 
                 ? "تحديث التطبيق مطلوب للمتابعة" 
-                : updateAvailable 
+                : IsForceUpdate 
                     ? "يتوفر تحديث جديد للتطبيق" 
                     : "التطبيق محدث إلى أحدث إصدار";
 

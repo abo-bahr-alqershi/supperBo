@@ -99,8 +99,12 @@ namespace YemenBooking.Infrastructure.Repositories
         /// </summary>
         public async Task<IEnumerable<Payment>> GetPaymentsByMethodAsync(string method, DateTime? fromDate = null, DateTime? toDate = null, CancellationToken cancellationToken = default)
         {
-            var parsedMethod = Enum.Parse<PaymentMethod>(method, true);
-            var query = _dbSet.Where(p => p.Method == parsedMethod);
+            // البحث عن طريقة الدفع بناءً على الاسم أو الكود
+            var query = _dbSet.Include(p => p.Method)
+                .Where(p => p.Method != null && 
+                           (p.Method.Name.ToLower().Contains(method.ToLower()) || 
+                            p.Method.Code.ToLower() == method.ToLower()));
+            
             if (fromDate.HasValue) query = query.Where(p => p.PaymentDate >= fromDate.Value);
             if (toDate.HasValue) query = query.Where(p => p.PaymentDate <= toDate.Value);
             return await query.ToListAsync(cancellationToken);

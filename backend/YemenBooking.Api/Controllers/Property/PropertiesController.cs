@@ -4,6 +4,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using YemenBooking.Application.Commands.Properties;
 using YemenBooking.Application.Queries.Properties;
+using YemenBooking.Application.Queries.CP.Properties;
 using YemenBooking.Application.Queries.Reviews;
 
 namespace YemenBooking.Api.Controllers.Property

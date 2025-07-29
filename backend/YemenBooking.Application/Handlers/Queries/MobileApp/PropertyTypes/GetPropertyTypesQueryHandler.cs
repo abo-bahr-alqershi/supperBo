@@ -48,7 +48,8 @@ public class GetPropertyTypesQueryHandler : IRequestHandler<GetPropertyTypesQuer
             _logger.LogInformation("بدء استعلام أنواع العقارات");
 
             // الحصول على جميع أنواع العقارات النشطة
-            var propertyTypes = await _propertyTypeRepository.GetAllActiveAsync(cancellationToken);
+            var allPropertyTypes = await _propertyTypeRepository.GetAllAsync(cancellationToken);
+            var propertyTypes = allPropertyTypes?.Where(pt => pt.IsActive);
 
             if (propertyTypes == null || !propertyTypes.Any())
             {
@@ -66,7 +67,7 @@ public class GetPropertyTypesQueryHandler : IRequestHandler<GetPropertyTypesQuer
             foreach (var propertyType in propertyTypes)
             {
                 // حساب عدد العقارات النشطة من هذا النوع
-                var propertiesCount = await _propertyRepository.GetCountByTypeAsync(propertyType.Id, cancellationToken);
+                var propertiesCount = (await _propertyRepository.GetAllAsync(cancellationToken))?.Count(p => p.TypeId == propertyType.Id) ?? 0;
 
                 var propertyTypeDto = new PropertyTypeDto
                 {

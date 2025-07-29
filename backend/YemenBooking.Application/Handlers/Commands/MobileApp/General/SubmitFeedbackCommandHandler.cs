@@ -26,7 +26,7 @@ public class SubmitFeedbackCommandHandler : IRequestHandler<SubmitFeedbackComman
         // TODO: حفظ التعليق في قاعدة البيانات (Feedback table)
         // في الوقت الحالي سنكتفي بإرسال بريد إلى فريق الدعم
         var body = $"نوع: {request.FeedbackType}\nموضوع: {request.Subject}\nمحتوى: {request.Content}";
-        await _emailService.SendAsync("support@yemenbooking.com", "تعليق جديد من التطبيق", body);
+        await _emailService.SendEmailAsync("support@yemenbooking.com", "تعليق جديد من التطبيق", body, true, cancellationToken);
 
         return new SubmitFeedbackResponse
         {

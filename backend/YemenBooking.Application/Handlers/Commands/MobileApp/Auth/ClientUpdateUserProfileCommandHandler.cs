@@ -68,13 +68,7 @@ public class ClientUpdateUserProfileCommandHandler : IRequestHandler<ClientUpdat
 
             // حفظ التغييرات
             user.UpdatedAt = DateTime.UtcNow;
-            var updateResult = await _userRepository.UpdateAsync(user, cancellationToken);
-            
-            if (!updateResult)
-            {
-                _logger.LogError("فشل في حفظ تحديثات الملف الشخصي للمستخدم: {UserId}", request.UserId);
-                return ResultDto<ClientUserProfileResponse>.Failed("فشل في حفظ التحديثات", "UPDATE_FAILED");
-            }
+            await _userRepository.UpdateAsync(user, cancellationToken);
 
             _logger.LogInformation("تم تحديث الملف الشخصي بنجاح للمستخدم: {UserId}", request.UserId);
 

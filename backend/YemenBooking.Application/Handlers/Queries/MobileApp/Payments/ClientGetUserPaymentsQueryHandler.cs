@@ -67,9 +67,10 @@ public class ClientGetUserPaymentsQueryHandler : IRequestHandler<ClientGetUserPa
             }
 
             // الحصول على جميع مدفوعات المستخدم
-            var allPayments = await _paymentRepository.GetByUserIdAsync(request.UserId, cancellationToken);
+            var allPayments = await _paymentRepository.GetAllAsync(cancellationToken);
+            var userPayments = allPayments?.Where(p => p.Booking.UserId == request.UserId).ToList();
             
-            if (allPayments == null || !allPayments.Any())
+            if (userPayments == null || !userPayments.Any())
             {
                 _logger.LogInformation("لا توجد مدفوعات للمستخدم: {UserId}", request.UserId);
                 
@@ -78,8 +79,7 @@ public class ClientGetUserPaymentsQueryHandler : IRequestHandler<ClientGetUserPa
                     Items = new List<ClientPaymentDto>(),
                     TotalCount = 0,
                     PageNumber = request.PageNumber,
-                    PageSize = request.PageSize,
-                    TotalPages = 0
+                    PageSize = request.PageSize
                 };
 
                 return ResultDto<PaginatedResult<ClientPaymentDto>>.Ok(
@@ -106,22 +106,22 @@ public class ClientGetUserPaymentsQueryHandler : IRequestHandler<ClientGetUserPa
                 {
                     Id = payment.Id,
                     BookingId = payment.BookingId,
-                    BookingNumber = booking?.BookingNumber ?? "غير متاح",
-                    PropertyName = booking?.Property?.Name ?? "غير متاح",
+                    BookingNumber = payment.Booking.Id.ToString().Substring(0, 8),
+                    PropertyName = payment.Booking.Unit.Property.Name ?? "غير متاح",
                     UnitName = booking?.Unit?.Name ?? "غير متاح",
-                    Amount = payment.Amount,
-                    Currency = payment.Currency ?? "YER",
-                    PaymentMethod = GetPaymentMethodDisplayName(payment.PaymentMethod),
-                    Status = GetPaymentStatusDisplayName(payment.Status),
+                    Amount = payment.Amount.Amount,
+                    Currency = payment.Amount.Currency ?? "YER",
+                    PaymentMethod = payment.Method?.ToString() ?? "غير محدد",
+                    Status = payment.Status.ToString(),
                     CreatedAt = payment.CreatedAt,
                     ProcessedAt = payment.ProcessedAt,
-                    ExternalReference = payment.ExternalReference,
-                    InvoiceNumber = payment.InvoiceNumber,
-                    Notes = payment.Notes,
-                    FailureReason = payment.FailureReason,
-                    Fees = payment.Fees,
-                    Taxes = payment.Taxes,
-                    NetAmount = payment.Amount - payment.Fees - payment.Taxes,
+                    // ExternalReference = payment.ExternalReference, // خاصية غير موجودة
+                    // InvoiceNumber = payment.InvoiceNumber, // خاصية غير موجودة
+                    // Notes = payment.Notes, // خاصية غير موجودة
+                    // FailureReason = payment.FailureReason, // خاصية غير موجودة
+                    Fees = 0, // قيمة افتراضية - خاصية Fees غير متوفرة
+                    Taxes = 0, // قيمة افتراضية - خاصية Taxes غير متوفرة
+                    NetAmount = payment.Amount.Amount, // استخدام المبلغ الأساسي فقط
                     CanRefund = CanPaymentBeRefunded(payment),
                     RefundExpiryDate = CalculateRefundExpiryDate(payment)
                 };
@@ -143,8 +143,8 @@ public class ClientGetUserPaymentsQueryHandler : IRequestHandler<ClientGetUserPa
                 Items = pagedPayments,
                 TotalCount = totalCount,
                 PageNumber = request.PageNumber,
-                PageSize = request.PageSize,
-                TotalPages = totalPages
+                PageSize = request.PageSize
+                // TotalPages محسوبة تلقائياً في PaginatedResult
             };
 
             _logger.LogInformation("تم العثور على {TotalCount} مدفوعة للمستخدم {UserId}, عرض الصفحة {PageNumber} من {TotalPages}", 
@@ -233,14 +233,14 @@ public class ClientGetUserPaymentsQueryHandler : IRequestHandler<ClientGetUserPa
         if (!string.IsNullOrWhiteSpace(request.Status))
         {
             filteredPayments = filteredPayments.Where(p => 
-                string.Equals(p.Status, request.Status, StringComparison.OrdinalIgnoreCase));
+                string.Equals(p.Status.ToString(), request.Status, StringComparison.OrdinalIgnoreCase));
         }
 
         // فلتر حسب طريقة الدفع
         if (!string.IsNullOrWhiteSpace(request.PaymentMethod))
         {
             filteredPayments = filteredPayments.Where(p => 
-                string.Equals(p.PaymentMethod, request.PaymentMethod, StringComparison.OrdinalIgnoreCase));
+                string.Equals(p.Method.ToString(), request.PaymentMethod, StringComparison.OrdinalIgnoreCase));
         }
 
         // فلتر حسب التاريخ
@@ -319,13 +319,13 @@ public class ClientGetUserPaymentsQueryHandler : IRequestHandler<ClientGetUserPa
     private bool CanPaymentBeRefunded(Core.Entities.Payment payment)
     {
         // لا يمكن استرداد المدفوعات الفاشلة أو الملغاة أو المستردة
-        if (payment.Status?.ToLowerInvariant() is "failed" or "cancelled" or "refunded")
+        if (payment.Status.ToString().ToLowerInvariant() is "failed" or "cancelled" or "refunded")
         {
             return false;
         }
 
         // يجب أن تكون المدفوعة مكتملة
-        if (payment.Status?.ToLowerInvariant() != "completed")
+        if (payment.Status.ToString().ToLowerInvariant() != "completed")
         {
             return false;
         }

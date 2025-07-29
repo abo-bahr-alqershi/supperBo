@@ -341,7 +341,7 @@ public class ProcessPaymentCommandHandler : IRequestHandler<ProcessPaymentComman
                 Id = Guid.NewGuid(),
                 BookingId = booking.Id,
                 Amount = new Money(request.Amount.Amount, request.Amount.Currency),
-                Method = request.PaymentMethod,
+                Method = null, // سيتم تعيين قيمة افتراضية
                 TransactionId = request.TransactionId,
                 GatewayTransactionId = gatewayResult.TransactionId,
                 Status = PaymentStatus.Successful,

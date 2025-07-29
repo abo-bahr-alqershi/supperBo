@@ -181,7 +181,7 @@ public class GetPopularDestinationsQueryHandler : IRequestHandler<GetPopularDest
                 var units = await _unitRepository.GetActiveByPropertyIdAsync(property.Id, cancellationToken);
                 if (units != null && units.Any())
                 {
-                    var propertyPrices = units.Select(u => u.BasePrice).ToList();
+                    var propertyPrices = units.Select(u => u.BasePrice.Amount).ToList();
                     allPrices.AddRange(propertyPrices);
                 }
             }

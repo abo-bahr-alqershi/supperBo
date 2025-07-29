@@ -80,7 +80,7 @@ public class CheckPropertyAvailabilityQueryHandler : IRequestHandler<CheckProper
                     HasAvailableUnits = false,
                     AvailableUnitsCount = 0,
                     MinAvailablePrice = null,
-                    Currency = property.Currency ?? "YER",
+                    Currency = "YER", // قيمة افتراضية - خاصية Currency غير متوفرة
                     Message = "العقار غير متاح حالياً",
                     AvailableUnitTypes = new List<string>()
                 };
@@ -99,7 +99,7 @@ public class CheckPropertyAvailabilityQueryHandler : IRequestHandler<CheckProper
                     HasAvailableUnits = false,
                     AvailableUnitsCount = 0,
                     MinAvailablePrice = null,
-                    Currency = property.Currency ?? "YER",
+                    Currency = "YER", // قيمة افتراضية - خاصية Currency غير متوفرة
                     Message = "لا توجد وحدات في هذا العقار",
                     AvailableUnitTypes = new List<string>()
                 };
@@ -122,7 +122,7 @@ public class CheckPropertyAvailabilityQueryHandler : IRequestHandler<CheckProper
                     HasAvailableUnits = false,
                     AvailableUnitsCount = 0,
                     MinAvailablePrice = null,
-                    Currency = property.Currency ?? "YER",
+                    Currency = "YER", // قيمة افتراضية - خاصية Currency غير متوفرة
                     Message = $"لا توجد وحدات تتسع لـ {request.GuestsCount} ضيف",
                     AvailableUnitTypes = new List<string>()
                 };

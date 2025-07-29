@@ -143,11 +143,14 @@ public class GetUserBookingSummaryQueryHandler : IRequestHandler<GetUserBookingS
             var startDate = new DateTime(year, month, 1);
             var endDate = startDate.AddMonths(1).AddDays(-1);
 
-            var bookings = await _bookingRepository.GetUserBookingsByDateRangeAsync(
-                userId, startDate, endDate, cancellationToken);
+            // استخدام دالة محددة للحصول على حجوزات المستخدم في فترة زمنية
+            var userBookings = await _bookingRepository.GetBookingsByUserAsync(userId, cancellationToken);
+            var bookings = userBookings?.Where(b => 
+                b.CheckIn >= startDate && 
+                b.CheckOut <= endDate);
 
             var bookingsCount = bookings?.Count() ?? 0;
-            var amountSpent = bookings?.Sum(b => b.TotalPrice) ?? 0;
+            var amountSpent = bookings?.Sum(b => b.TotalPrice.Amount) ?? 0;
 
             monthlyBookings.Add(new MonthlyBookingSummaryDto
             {
@@ -171,24 +174,28 @@ public class GetUserBookingSummaryQueryHandler : IRequestHandler<GetUserBookingS
     /// <returns>قائمة أكثر العقارات حجزاً</returns>
     private async Task<List<PropertyBookingFrequencyDto>> GetTopBookedProperties(Guid userId, int limit, CancellationToken cancellationToken)
     {
-        var bookingFrequencies = await _bookingRepository.GetUserTopBookedPropertiesAsync(userId, limit, cancellationToken);
+        var allBookings = await _bookingRepository.GetAllAsync(cancellationToken);
+        var userBookings = allBookings?.Where(b => b.UserId == userId);
+        var topProperties = userBookings?
+            .GroupBy(b => b.Unit.PropertyId)
+            .OrderByDescending(g => g.Count())
+            .Take(limit)
+            .Select(g => g.First().Unit.Property);
         
-        if (bookingFrequencies == null || !bookingFrequencies.Any())
+        if (topProperties == null || !topProperties.Any())
         {
             return new List<PropertyBookingFrequencyDto>();
         }
 
         var result = new List<PropertyBookingFrequencyDto>();
 
-        foreach (var frequency in bookingFrequencies)
+        foreach (var property in topProperties)
         {
-            var property = await _propertyRepository.GetByIdAsync(frequency.PropertyId, cancellationToken);
-            
             result.Add(new PropertyBookingFrequencyDto
             {
                 PropertyName = property?.Name ?? "غير متاح",
                 City = property?.City ?? "غير متاح",
-                BookingsCount = frequency.BookingsCount
+                BookingsCount = userBookings?.Count(b => b.Unit.PropertyId == property.Id) ?? 0
             });
         }
 
@@ -205,17 +212,23 @@ public class GetUserBookingSummaryQueryHandler : IRequestHandler<GetUserBookingS
     /// <returns>قائمة أكثر المدن زيارة</returns>
     private async Task<List<CityVisitFrequencyDto>> GetTopVisitedCities(Guid userId, int limit, CancellationToken cancellationToken)
     {
-        var cityFrequencies = await _bookingRepository.GetUserTopVisitedCitiesAsync(userId, limit, cancellationToken);
+        var allBookings = await _bookingRepository.GetAllAsync(cancellationToken);
+        var userBookings = allBookings?.Where(b => b.UserId == userId);
+        var topCities = userBookings?
+            .GroupBy(b => b.Unit.Property.City)
+            .OrderByDescending(g => g.Count())
+            .Take(limit)
+            .Select(g => g.Key);
         
-        if (cityFrequencies == null || !cityFrequencies.Any())
+        if (topCities == null || !topCities.Any())
         {
             return new List<CityVisitFrequencyDto>();
         }
 
-        return cityFrequencies.Select(cf => new CityVisitFrequencyDto
+        return topCities.Select(city => new CityVisitFrequencyDto
         {
-            CityName = cf.CityName ?? "غير متاح",
-            VisitsCount = cf.VisitsCount
+            CityName = city ?? "غير متاح",
+            VisitsCount = userBookings?.Count(b => b.Unit.Property.City == city) ?? 0
         }).OrderByDescending(c => c.VisitsCount).ToList();
     }
 }

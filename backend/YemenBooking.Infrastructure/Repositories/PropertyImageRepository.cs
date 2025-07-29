@@ -53,6 +53,9 @@ public class PropertyImageRepository : BaseRepository<PropertyImage>, IPropertyI
         return true;
     }
 
+    public async Task<IEnumerable<PropertyImage>> GetByPropertyIdAsync(Guid propertyId, CancellationToken cancellationToken = default)
+        => await GetImagesByPropertyAsync(propertyId, cancellationToken);
+
     public async Task<IEnumerable<PropertyImage>> GetImagesByPropertyAsync(Guid propertyId, CancellationToken cancellationToken = default)
         => await _dbSet
             .Where(pi =>

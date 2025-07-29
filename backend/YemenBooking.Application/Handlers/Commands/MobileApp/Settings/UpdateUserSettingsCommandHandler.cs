@@ -4,6 +4,7 @@ using YemenBooking.Application.Commands.MobileApp.Settings;
 using YemenBooking.Application.DTOs;
 using YemenBooking.Core.Interfaces.Services;
 using YemenBooking.Core.Interfaces.Repositories;
+using YemenBooking.Core.Entities;
 using System.Text.Json;
 
 namespace YemenBooking.Application.Handlers.Commands.MobileApp.Settings;
@@ -161,7 +162,20 @@ public class UpdateUserSettingsCommandHandler : IRequestHandler<UpdateUserSettin
         existingSettings.PreferredCurrency = request.PreferredCurrency.ToUpper();
         existingSettings.TimeZone = request.TimeZone;
         existingSettings.DarkMode = request.DarkMode;
-        existingSettings.AdditionalSettingsJson = request.AdditionalSettingsJson;
+        
+        // تحويل JSON إلى Dictionary إذا تم توفيره
+        if (!string.IsNullOrWhiteSpace(request.AdditionalSettingsJson))
+        {
+            try
+            {
+                existingSettings.AdditionalSettings = JsonSerializer.Deserialize<Dictionary<string, object>>(request.AdditionalSettingsJson);
+            }
+            catch (JsonException)
+            {
+                existingSettings.AdditionalSettings = new Dictionary<string, object>();
+            }
+        }
+        
         existingSettings.UpdatedAt = DateTime.UtcNow;
 
         var updateResult = await _userSettingsRepository.UpdateAsync(existingSettings, cancellationToken);
@@ -190,13 +204,15 @@ public class UpdateUserSettingsCommandHandler : IRequestHandler<UpdateUserSettin
             PreferredCurrency = request.PreferredCurrency.ToUpper(),
             TimeZone = request.TimeZone,
             DarkMode = request.DarkMode,
-            AdditionalSettingsJson = request.AdditionalSettingsJson,
+            AdditionalSettings = !string.IsNullOrWhiteSpace(request.AdditionalSettingsJson) ?
+                JsonSerializer.Deserialize<Dictionary<string, object>>(request.AdditionalSettingsJson) ?? new Dictionary<string, object>() :
+                new Dictionary<string, object>(),
             CreatedAt = DateTime.UtcNow,
             UpdatedAt = DateTime.UtcNow
         };
 
         var createResult = await _userSettingsRepository.CreateAsync(newSettings, cancellationToken);
-        if (!createResult)
+        if (createResult == null)
         {
             _logger.LogError("فشل في إنشاء إعدادات جديدة للمستخدم: {UserId}", request.UserId);
             throw new InvalidOperationException("فشل في إنشاء الإعدادات");

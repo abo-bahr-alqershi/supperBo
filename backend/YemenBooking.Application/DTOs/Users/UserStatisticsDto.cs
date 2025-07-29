@@ -15,6 +15,16 @@ public class UserStatisticsDto
     public Guid UserId { get; set; }
 
     /// <summary>
+    /// تاريخ العضوية (إنشاء الحساب)
+    /// Member since date
+    /// </summary>
+    public DateTime MemberSince
+    {
+        get => RegistrationDate;
+        set => RegistrationDate = value;
+    }
+
+    /// <summary>
     /// إجمالي عدد الحجوزات
     /// Total bookings count
     /// </summary>
@@ -45,6 +55,12 @@ public class UserStatisticsDto
     public int TotalReviews { get; set; }
 
     /// <summary>
+    /// عدد المراجعات المكتوبة
+    /// Reviews written
+    /// </summary>
+    public int ReviewsWritten { get; set; }
+
+    /// <summary>
     /// متوسط تقييم المستخدم
     /// Average user rating
     /// </summary>
@@ -57,6 +73,16 @@ public class UserStatisticsDto
     public int FavoritesCount { get; set; }
 
     /// <summary>
+    /// عدد العقارات المفضلة
+    /// Favorite properties count
+    /// </summary>
+    public int FavoritePropertiesCount
+    {
+        get => FavoritesCount;
+        set => FavoritesCount = value;
+    }
+
+    /// <summary>
     /// إجمالي المبلغ المدفوع
     /// Total amount spent
     /// </summary>
@@ -67,6 +93,22 @@ public class UserStatisticsDto
     /// Currency
     /// </summary>
     public string Currency { get; set; } = "USD";
+
+    /// <summary>
+    /// إجمالي المبلغ المنفق
+    /// Total spent amount
+    /// </summary>
+    public decimal TotalSpent
+    {
+        get => TotalAmountSpent;
+        set => TotalAmountSpent = value;
+    }
+
+    /// <summary>
+    /// إجمالي المبلغ الموفَر من الخصومات
+    /// Total saved amount
+    /// </summary>
+    public decimal TotalSaved { get; set; }
 
     /// <summary>
     /// نقاط الولاء
@@ -109,6 +151,12 @@ public class UserStatisticsDto
     /// Monthly booking rate
     /// </summary>
     public decimal MonthlyBookingRate { get; set; }
+
+    /// <summary>
+    /// عدد المدن التي زارها المستخدم
+    /// Cities visited
+    /// </summary>
+    public int CitiesVisited { get; set; }
 
     /// <summary>
     /// النسبة المئوية لإكمال الحجوزات

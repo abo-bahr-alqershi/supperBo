@@ -26,7 +26,20 @@ public class MarkAllNotificationsAsReadCommandHandler : IRequestHandler<MarkAllN
     {
         _logger.LogInformation("تحديد كل الإشعارات كمقروءة للمستخدم {UserId}", request.UserId);
 
-        var updatedCount = await _notificationRepository.MarkAllNotificationsAsReadAsync(request.UserId, cancellationToken);
+        // الحصول على جميع الإشعارات غير المقروءة للمستخدم
+        var allNotifications = await _notificationRepository.GetAllAsync(cancellationToken);
+        var userNotifications = allNotifications?.Where(n => n.RecipientId == request.UserId).ToList();
+        var unreadNotifications = userNotifications?.Where(n => !n.IsRead).ToList();
+        var updatedCount = 0;
+        
+        // تحديث كل إشعار على حدة
+        foreach (var notification in unreadNotifications)
+        {
+            notification.IsRead = true;
+            notification.ReadAt = DateTime.UtcNow;
+            await _notificationRepository.UpdateAsync(notification, cancellationToken);
+            updatedCount++;
+        }
 
         await _auditService.LogBusinessOperationAsync("MarkAllNotificationsRead", $"تم تحديد {updatedCount} إشعارات مقروءة", request.UserId, "Notification", request.UserId, null, cancellationToken);
 

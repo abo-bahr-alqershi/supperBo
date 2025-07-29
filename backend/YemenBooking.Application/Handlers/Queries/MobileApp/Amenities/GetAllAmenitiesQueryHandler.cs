@@ -44,9 +44,10 @@ public class GetAllAmenitiesQueryHandler : IRequestHandler<GetAllAmenitiesQuery,
             _logger.LogInformation("بدء استعلام الحصول على جميع وسائل الراحة. الفئة: {Category}", request.Category ?? "جميع الفئات");
 
             // الحصول على وسائل الراحة من قاعدة البيانات
+            var allAmenities = await _amenityRepository.GetAllAsync(cancellationToken);
             var amenities = string.IsNullOrWhiteSpace(request.Category)
-                ? await _amenityRepository.GetAllActiveAsync(cancellationToken)
-                : await _amenityRepository.GetByCategoryAsync(request.Category, cancellationToken);
+                ? allAmenities?.Where(a => a.IsActive)
+                : allAmenities?.Where(a => a.IsActive && a.Name.Contains(request.Category, StringComparison.OrdinalIgnoreCase));
 
             if (amenities == null || !amenities.Any())
             {
@@ -64,8 +65,8 @@ public class GetAllAmenitiesQueryHandler : IRequestHandler<GetAllAmenitiesQuery,
                 Id = amenity.Id,
                 Name = amenity.Name,
                 Description = amenity.Description ?? string.Empty,
-                IconUrl = amenity.IconUrl ?? string.Empty,
-                Category = amenity.Category ?? string.Empty
+                IconUrl = string.Empty, // يمكن إضافة هذه الخاصية لاحقاً
+                Category = amenity.Name ?? string.Empty // استخدام الاسم كفئة مؤقتة
             }).ToList();
 
             // ترتيب وسائل الراحة حسب الفئة ثم الاسم

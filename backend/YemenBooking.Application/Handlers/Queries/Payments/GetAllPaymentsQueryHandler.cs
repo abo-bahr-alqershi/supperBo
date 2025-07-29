@@ -55,10 +55,9 @@ namespace YemenBooking.Application.Handlers.Queries.Payments
             {
                 queryable = queryable.Where(p => p.Status == statusEnum);
             }
-            if (!string.IsNullOrWhiteSpace(request.Method)
-                && Enum.TryParse<PaymentMethod>(request.Method, true, out var methodEnum))
+            if (!string.IsNullOrWhiteSpace(request.Method))
             {
-                queryable = queryable.Where(p => p.Method == methodEnum);
+                queryable = queryable.Where(p => p.Method.Name == request.Method);
             }
             if (request.BookingId.HasValue)
                 queryable = queryable.Where(p => p.BookingId == request.BookingId.Value);

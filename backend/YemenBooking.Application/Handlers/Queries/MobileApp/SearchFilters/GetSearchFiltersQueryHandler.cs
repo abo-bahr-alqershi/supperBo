@@ -78,7 +78,7 @@ public class GetSearchFiltersQueryHandler : IRequestHandler<YBQuery, ResultDto<S
             // فلترة العقارات حسب نوع العقار إذا تم تحديده
             if (request.PropertyTypeId.HasValue)
             {
-                activeProperties = activeProperties.Where(p => p.PropertyTypeId == request.PropertyTypeId.Value);
+                activeProperties = activeProperties.Where(p => p.PropertyType?.Id == request.PropertyTypeId.Value);
             }
 
             var propertiesList = activeProperties.ToList();
@@ -163,8 +163,8 @@ public class GetSearchFiltersQueryHandler : IRequestHandler<YBQuery, ResultDto<S
                 var units = await _unitRepository.GetActiveByPropertyIdAsync(property.Id, cancellationToken);
                 if (units != null && units.Any())
                 {
-                    var propertyPrices = units.Select(u => u.BasePrice).ToList();
-                    allPrices.AddRange(propertyPrices);
+                    var prices = units.Select(u => u.BasePrice.Amount).ToList();
+                    allPrices.AddRange(prices);
                 }
             }
 
@@ -172,28 +172,28 @@ public class GetSearchFiltersQueryHandler : IRequestHandler<YBQuery, ResultDto<S
             {
                 searchFilters.PriceRange = new PriceRangeDto
                 {
-                    Min = allPrices.Min(),
-                    Max = allPrices.Max(),
-                    Currency = "YER" // العملة الافتراضية
+                    MinPrice = allPrices.Min(),
+                    MaxPrice = allPrices.Max(),
+                    AveragePrice = allPrices.Average()
                 };
             }
             else
             {
                 searchFilters.PriceRange = new PriceRangeDto
                 {
-                    Min = 0,
-                    Max = 1000000,
-                    Currency = "YER"
+                    MinPrice = 0,
+                    MaxPrice = 1000000,
+                    AveragePrice = 500000
                 };
             }
 
-            _logger.LogDebug("تم تحديد نطاق الأسعار: {Min} - {Max} {Currency}", 
-                searchFilters.PriceRange.Min, searchFilters.PriceRange.Max, searchFilters.PriceRange.Currency);
+            _logger.LogDebug("تم تحديد نطاق الأسعار: {MinPrice} - {MaxPrice}", 
+                searchFilters.PriceRange.MinPrice, searchFilters.PriceRange.MaxPrice);
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "خطأ أثناء جلب نطاق الأسعار");
-            searchFilters.PriceRange = new PriceRangeDto { Min = 0, Max = 1000000, Currency = "YER" };
+            searchFilters.PriceRange = new PriceRangeDto { MinPrice = 0, MaxPrice = 1000000, AveragePrice = 500000 };
         }
     }
 
@@ -208,8 +208,9 @@ public class GetSearchFiltersQueryHandler : IRequestHandler<YBQuery, ResultDto<S
     {
         try
         {
-            var propertyTypeIds = properties.Select(p => p.PropertyTypeId).Distinct().ToList();
-            var propertyTypes = await _propertyTypeRepository.GetByIdsAsync(propertyTypeIds, cancellationToken);
+            var propertyTypeIds = properties.Select(p => p.PropertyType?.Id).Where(id => id.HasValue).Select(id => id.Value).Distinct().ToList();
+            var allPropertyTypes = await _propertyTypeRepository.GetAllAsync(cancellationToken);
+            var propertyTypes = allPropertyTypes?.Where(pt => propertyTypeIds.Contains(pt.Id)).ToList();
 
             if (propertyTypes != null && propertyTypes.Any())
             {
@@ -217,7 +218,7 @@ public class GetSearchFiltersQueryHandler : IRequestHandler<YBQuery, ResultDto<S
                 {
                     Id = pt.Id,
                     Name = pt.Name ?? string.Empty,
-                    Count = properties.Count(p => p.PropertyTypeId == pt.Id)
+                    // Count = properties.Count(p => p.PropertyType?.Id == pt.Id) // تم إزالة Count property
                 })
                 .OrderBy(pt => pt.Name)
                 .ToList();
@@ -246,35 +247,20 @@ public class GetSearchFiltersQueryHandler : IRequestHandler<YBQuery, ResultDto<S
             var allAmenityIds = new HashSet<Guid>();
 
             // جمع جميع معرفات وسائل الراحة من العقارات
-            foreach (var property in properties)
+            // تم تبسيط عملية جلب وسائل الراحة
+            var allAmenities = await _amenityRepository.GetAllAsync(cancellationToken);
+            
+            if (allAmenities != null && allAmenities.Any())
             {
-                if (property.PropertyAmenities != null)
+                searchFilters.Amenities = allAmenities.Select(a => new AmenityFilterDto
                 {
-                    foreach (var amenity in property.PropertyAmenities)
-                    {
-                        allAmenityIds.Add(amenity.AmenityId);
-                    }
-                }
-            }
-
-            if (allAmenityIds.Any())
-            {
-                var amenities = await _amenityRepository.GetByIdsAsync(allAmenityIds.ToList(), cancellationToken);
-                
-                if (amenities != null && amenities.Any())
-                {
-                    searchFilters.Amenities = amenities.Select(a => new AmenityFilterDto
-                    {
-                        Id = a.Id,
-                        Name = a.Name ?? string.Empty,
-                        Category = a.Category ?? string.Empty,
-                        Count = properties.Count(p => p.PropertyAmenities != null && 
-                                               p.PropertyAmenities.Any(pa => pa.AmenityId == a.Id))
-                    })
-                    .OrderBy(a => a.Category)
-                    .ThenBy(a => a.Name)
+                    Id = a.Id,
+                    Name = a.Name ?? string.Empty,
+                    Category = "عام", // قيمة افتراضية للفئة
+                    // Count = 0 // تم إزالة Count property
+                })
+                    .OrderBy(a => a.Name)
                     .ToList();
-                }
             }
 
             _logger.LogDebug("تم جلب {Count} وسيلة راحة متاحة", searchFilters.Amenities.Count);
@@ -366,9 +352,9 @@ public class GetSearchFiltersQueryHandler : IRequestHandler<YBQuery, ResultDto<S
             AvailableCities = new List<string> { "صنعاء", "عدن", "تعز", "الحديدة", "إب" },
             PriceRange = new PriceRangeDto
             {
-                Min = 0,
-                Max = 1000000,
-                Currency = "YER"
+                MinPrice = 0,
+                MaxPrice = 1000000,
+                AveragePrice = 500000
             },
             PropertyTypes = new List<PropertyTypeFilterDto>(),
             Amenities = new List<AmenityFilterDto>(),

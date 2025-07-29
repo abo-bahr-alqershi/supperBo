@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
 using YemenBooking.Application.Queries.MobileApp.Payments;
 using YemenBooking.Application.DTOs;
+using ClientPaymentMethodDto = YemenBooking.Application.Queries.MobileApp.Payments.ClientPaymentMethodDto;
 using YemenBooking.Core.Interfaces.Repositories;
 using YemenBooking.Core.Enums;
 
@@ -67,11 +68,13 @@ public class ClientGetPaymentMethodsQueryHandler : IRequestHandler<ClientGetPaym
             if (request.UserId.HasValue)
             {
                 var user = await _userRepository.GetByIdAsync(request.UserId.Value, cancellationToken);
-                if (user != null && !string.IsNullOrEmpty(user.Country))
+                if (user != null)
                 {
-                    userCountry = user.Country;
+                    userCountry = "YE"; // افتراضي اليمن (سيتم تحديثه لاحقاً)
                 }
             }
+            
+            var countryCode = "YE"; // افتراضي اليمن
 
             // الحصول على جميع طرق الدفع النشطة
             var allPaymentMethods = await _paymentMethodRepository.GetActivePaymentMethodsAsync(cancellationToken);
@@ -129,20 +132,20 @@ public class ClientGetPaymentMethodsQueryHandler : IRequestHandler<ClientGetPaym
                     Name = method.Name ?? string.Empty,
                     Description = method.Description ?? string.Empty,
                     IconUrl = method.IconUrl ?? string.Empty,
-                    LogoUrl = method.LogoUrl ?? string.Empty,
+                    LogoUrl = "/images/payment-default.png",
                     IsAvailable = isAvailable,
                     TransactionFee = transactionFee,
                     FeePercentage = feePercentage,
-                    MinAmount = method.MinAmount,
-                    MaxAmount = method.MaxAmount,
-                    SupportedCurrencies = method.SupportedCurrencies?.ToList() ?? new List<string>(),
-                    SupportedCountries = method.SupportedCountries?.ToList() ?? new List<string>(),
-                    ProcessingTime = method.ProcessingTime ?? "فوري",
-                    Type = method.Type ?? "unknown",
+                    MinAmount = method.MinAmount.HasValue ? method.MinAmount.Value : 0,
+                    MaxAmount = method.MaxAmount.HasValue ? method.MaxAmount.Value : 0,
+                    SupportedCurrencies = method.SupportedCurrencies?.Split(',').ToList() ?? new List<string>(),
+                    SupportedCountries = method.SupportedCountries?.Split(',').ToList() ?? new List<string>(),
+                    ProcessingTime = "فوري",
+                    Type = method.Type.ToString(),
                     RequiresVerification = method.RequiresVerification,
-                    SupportsRefunds = method.SupportsRefunds,
+                    SupportsRefunds = true,
                     DisplayOrder = method.DisplayOrder,
-                    IsRecommended = method.IsRecommended,
+                    IsRecommended = true,
                     WarningMessage = GetWarningMessage(method, request.Amount)
                 };
 
@@ -224,7 +227,7 @@ public class ClientGetPaymentMethodsQueryHandler : IRequestHandler<ClientGetPaym
     /// <returns>الرسوم الثابتة ونسبة الرسوم</returns>
     private (decimal transactionFee, decimal feePercentage) CalculateFees(Core.Entities.PaymentMethod method, decimal amount)
     {
-        var transactionFee = method.TransactionFee ?? 0m;
+        var transactionFee = method.FixedFee ?? 0m;
         var feePercentage = method.FeePercentage ?? 0m;
 
         // تطبيق رسوم إضافية حسب نوع طريقة الدفع
@@ -375,9 +378,6 @@ public class ClientGetPaymentMethodsQueryHandler : IRequestHandler<ClientGetPaym
                 Name = "بطاقة ائتمانية",
                 Description = "ادفع باستخدام بطاقة فيزا أو ماستركارد",
                 Type = "credit_card",
-                IsAvailable = true,
-                TransactionFee = 0,
-                FeePercentage = 2.9m,
                 MinAmount = 1,
                 MaxAmount = 50000,
                 SupportedCurrencies = new List<string> { "USD", "EUR", "SAR", "AED" },
@@ -385,7 +385,6 @@ public class ClientGetPaymentMethodsQueryHandler : IRequestHandler<ClientGetPaym
                 ProcessingTime = "فوري",
                 RequiresVerification = true,
                 SupportsRefunds = true,
-                DisplayOrder = 1,
                 IsRecommended = true
             });
         }

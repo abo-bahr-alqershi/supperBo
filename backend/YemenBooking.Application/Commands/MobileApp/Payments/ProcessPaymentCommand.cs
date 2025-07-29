@@ -11,7 +11,7 @@ namespace YemenBooking.Application.Commands.MobileApp.Payments
     /// أمر معالجة الدفع
     /// Command to process payment
     /// </summary>
-    public class ProcessPaymentCommand : IRequest<ResultDto<ProcessPaymentResponse>>
+    public class ProcessPaymentCommand : IRequest<ResultDto<YemenBooking.Application.DTOs.Payments.ProcessPaymentResponse>>
 {
     /// <summary>
     /// معرف الحجز
@@ -69,30 +69,4 @@ public class CardDetails
     /// </summary>
     public string CVV { get; set; } = string.Empty;
     }
-}
-
-/// <summary>
-/// استجابة معالجة الدفع
-/// </summary>
-public class ProcessPaymentResponse
-{
-    /// <summary>
-    /// معرف المدفوعة
-    /// </summary>
-    public Guid PaymentId { get; set; }
-    
-    /// <summary>
-    /// معرف المعاملة
-    /// </summary>
-    public string TransactionId { get; set; } = string.Empty;
-    
-    /// <summary>
-    /// حالة الدفع
-    /// </summary>
-    public PaymentStatus Status { get; set; }
-    
-    /// <summary>
-    /// رسالة النتيجة
-    /// </summary>
-    public string Message { get; set; } = string.Empty;
 }

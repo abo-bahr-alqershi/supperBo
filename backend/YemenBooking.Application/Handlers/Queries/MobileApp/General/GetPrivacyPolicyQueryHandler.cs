@@ -4,6 +4,7 @@ using YemenBooking.Application.Queries.MobileApp.General;
 using YemenBooking.Application.DTOs;
 using YemenBooking.Application.DTOs.General;
 using YemenBooking.Core.Interfaces.Repositories;
+using YemenBooking.Core.Enums;
 
 namespace YemenBooking.Application.Handlers.Queries.MobileApp.General;
 
@@ -54,8 +55,7 @@ public class GetPrivacyPolicyQueryHandler : IRequestHandler<GetPrivacyPolicyQuer
             var language = NormalizeLanguage(request.Language);
 
             // الحصول على سياسة الخصوصية من قاعدة البيانات
-            var privacyPolicy = await _legalDocumentRepository.GetByTypeAndLanguageAsync(
-                "privacy_policy", language, cancellationToken);
+            var privacyPolicy = await _legalDocumentRepository.GetByTypeAndLanguageAsync(LegalDocumentType.PrivacyPolicy, language, cancellationToken);
 
             if (privacyPolicy == null)
             {
@@ -65,7 +65,7 @@ public class GetPrivacyPolicyQueryHandler : IRequestHandler<GetPrivacyPolicyQuer
                 if (language != "ar")
                 {
                     privacyPolicy = await _legalDocumentRepository.GetByTypeAndLanguageAsync(
-                        "privacy_policy", "ar", cancellationToken);
+                        LegalDocumentType.PrivacyPolicy, "ar", cancellationToken);
                 }
 
                 // إذا لم توجد أي نسخة، إنشاء محتوى افتراضي
@@ -99,8 +99,8 @@ public class GetPrivacyPolicyQueryHandler : IRequestHandler<GetPrivacyPolicyQuer
                 Title = privacyPolicy.Title ?? GetDefaultTitle(language),
                 Content = privacyPolicy.Content ?? GetDefaultContent(language),
                 Version = privacyPolicy.Version ?? "1.0",
-                LastUpdated = privacyPolicy.LastUpdated,
-                EffectiveDate = privacyPolicy.EffectiveDate
+                LastUpdated = privacyPolicy.UpdatedAt ?? privacyPolicy.CreatedAt,
+                // EffectiveDate = privacyPolicy.EffectiveDate // خاصية غير متوفرة في DTO
             };
 
             _logger.LogInformation("تم الحصول على سياسة الخصوصية بنجاح. الإصدار: {Version}, آخر تحديث: {LastUpdated}", 
@@ -180,7 +180,6 @@ public class GetPrivacyPolicyQueryHandler : IRequestHandler<GetPrivacyPolicyQuer
             Content = GetDefaultContent(language),
             Version = "1.0",
             LastUpdated = DateTime.UtcNow,
-            EffectiveDate = DateTime.UtcNow
         };
     }
 

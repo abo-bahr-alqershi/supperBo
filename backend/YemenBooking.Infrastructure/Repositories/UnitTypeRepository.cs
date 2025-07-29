@@ -27,6 +27,9 @@ namespace YemenBooking.Infrastructure.Repositories
         public async Task<UnitType?> GetUnitTypeByIdAsync(Guid unitTypeId, CancellationToken cancellationToken = default)
             => await _dbSet.FindAsync(new object[]{unitTypeId}, cancellationToken);
 
+        public async Task<IEnumerable<UnitType>> GetByPropertyTypeIdAsync(Guid propertyTypeId, CancellationToken cancellationToken = default)
+            => await GetUnitTypesByPropertyTypeAsync(propertyTypeId, cancellationToken);
+
         public async Task<IEnumerable<UnitType>> GetUnitTypesByPropertyTypeAsync(Guid propertyTypeId, CancellationToken cancellationToken = default)
             => await _dbSet.Where(ut => ut.PropertyTypeId == propertyTypeId).ToListAsync(cancellationToken);
 

@@ -100,24 +100,26 @@ public class GetBookingDetailsQueryHandler : IRequestHandler<GetBookingDetailsQu
             }
 
             // الحصول على الخدمات المرتبطة بالحجز
-            var bookingServices = await _bookingServiceRepository.GetByBookingIdAsync(booking.Id, cancellationToken);
+            var allBookingServices = await _bookingServiceRepository.GetAllAsync(cancellationToken);
+            var bookingServices = allBookingServices?.Where(bs => bs.BookingId == booking.Id);
             var serviceDtos = bookingServices?.Select(bs => new BookingServiceDto
             {
-                ServiceId = bs.ServiceId,
-                ServiceName = bs.ServiceName ?? string.Empty,
+                Id = bs.ServiceId,
+                Name = bs.Service?.Name ?? string.Empty,
                 Quantity = bs.Quantity,
-                TotalPrice = bs.TotalPrice,
-                Currency = bs.Currency ?? "YER"
+                TotalPrice = bs.TotalPrice.Amount,
+                Currency = bs.TotalPrice.Currency ?? "YER"
             }).ToList() ?? new List<BookingServiceDto>();
 
             // الحصول على المدفوعات المرتبطة بالحجز
-            var payments = await _paymentRepository.GetByBookingIdAsync(booking.Id, cancellationToken);
+            var allPayments = await _paymentRepository.GetAllAsync(cancellationToken);
+            var payments = allPayments?.Where(p => p.BookingId == booking.Id);
             var paymentDtos = payments?.Select(p => new PaymentDto
             {
                 Id = p.Id,
                 Amount = p.Amount,
-                Currency = p.Currency ?? "YER",
-                Method = p.Method,
+                Currency = p.Amount.Currency ?? "YER",
+                Method = (PaymentMethodEnum)p.Method.Type,
                 Status = p.Status,
                 PaymentDate = p.PaymentDate,
                 TransactionId = p.TransactionId ?? string.Empty
@@ -127,7 +129,7 @@ public class GetBookingDetailsQueryHandler : IRequestHandler<GetBookingDetailsQu
             var bookingDetailsDto = new BookingDetailsDto
             {
                 Id = booking.Id,
-                BookingNumber = booking.BookingNumber ?? string.Empty,
+                BookingNumber = booking.Id.ToString().Substring(0, 8),
                 UserId = booking.UserId,
                 UnitId = booking.UnitId,
                 UnitName = unit.Name ?? string.Empty,
@@ -137,8 +139,7 @@ public class GetBookingDetailsQueryHandler : IRequestHandler<GetBookingDetailsQu
                 CheckIn = booking.CheckIn,
                 CheckOut = booking.CheckOut,
                 GuestsCount = booking.GuestsCount,
-                TotalPrice = booking.TotalPrice,
-                Currency = booking.Currency ?? "YER",
+                Currency = booking.TotalPrice.Currency ?? "YER",
                 Status = booking.Status,
                 BookedAt = booking.BookedAt,
                 BookingSource = booking.BookingSource,
@@ -147,12 +148,12 @@ public class GetBookingDetailsQueryHandler : IRequestHandler<GetBookingDetailsQu
                 PlatformCommissionAmount = booking.PlatformCommissionAmount,
                 ActualCheckInDate = booking.ActualCheckInDate,
                 ActualCheckOutDate = booking.ActualCheckOutDate,
-                FinalAmount = booking.FinalAmount,
-                CustomerRating = booking.CustomerRating,
+                TotalAmount = booking.TotalPrice.Amount,
+                CustomerRating = (int?)booking.CustomerRating,
                 CompletionNotes = booking.CompletionNotes,
                 Services = serviceDtos,
                 Payments = paymentDtos,
-                UnitImages = unit.Images?.ToList() ?? new List<string>()
+                UnitImages = unit.Images?.Select(img => img.Url).ToList() ?? new List<string>()
             };
 
             _logger.LogInformation("تم الحصول على تفاصيل الحجز بنجاح. معرف الحجز: {BookingId}", request.BookingId);

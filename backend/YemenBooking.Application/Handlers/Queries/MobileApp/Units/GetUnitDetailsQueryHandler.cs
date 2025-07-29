@@ -4,6 +4,8 @@ using YemenBooking.Application.Queries.MobileApp.Units;
 using YemenBooking.Application.DTOs;
 using YemenBooking.Application.DTOs.Units;
 using YemenBooking.Core.Interfaces.Repositories;
+using System.Text.Json;
+using YemenBooking.Core.Enums;
 
 namespace YemenBooking.Application.Handlers.Queries.MobileApp.Units;
 
@@ -108,7 +110,8 @@ public class GetUnitDetailsQueryHandler : IRequestHandler<GetUnitDetailsQuery, R
             } : new UnitTypeDto();
 
             // الحصول على صور الوحدة
-            var unitImages = await _propertyImageRepository.GetByUnitIdAsync(unit.Id, cancellationToken);
+            var allImages = await _propertyImageRepository.GetAllAsync(cancellationToken);
+            var unitImages = allImages?.Where(img => img.PropertyId == unit.PropertyId);
             var imageDtos = unitImages?.Select(img => new UnitImageDto
             {
                 Id = img.Id,
@@ -121,22 +124,23 @@ public class GetUnitDetailsQueryHandler : IRequestHandler<GetUnitDetailsQuery, R
             var fieldValues = await _unitFieldValueRepository.GetByUnitIdAsync(unit.Id, cancellationToken);
             var fieldValueDtos = fieldValues?.Select(fv => new UnitFieldValueDto
             {
-                FieldName = fv.FieldName ?? string.Empty,
-                DisplayName = fv.DisplayName ?? string.Empty,
-                Value = fv.Value ?? string.Empty,
-                FieldType = fv.FieldType ?? string.Empty
+                FieldName = fv.UnitTypeField?.FieldName ?? string.Empty,
+                DisplayName = fv.UnitTypeField?.DisplayName ?? string.Empty,
+                Value = fv.FieldValue ?? string.Empty,
+                FieldType = fv.UnitTypeField?.FieldTypeId ?? string.Empty
             }).ToList() ?? new List<UnitFieldValueDto>();
 
             // الحصول على قواعد التسعير
-            var pricingRules = await _pricingRuleRepository.GetByUnitIdAsync(unit.Id, cancellationToken);
-            var pricingRuleDtos = pricingRules?.Select(pr => new PricingRuleDto
+            var allPricingRules = await _pricingRuleRepository.GetAllAsync(cancellationToken);
+            var pricingRules = allPricingRules?.Where(pr => pr.UnitId == unit.Id);
+            var pricingRuleDtos = pricingRules?.Select(pr => new YemenBooking.Application.DTOs.Units.PricingRuleDto
             {
                 PriceType = pr.PriceType ?? string.Empty,
                 StartDate = pr.StartDate,
                 EndDate = pr.EndDate,
                 PriceAmount = pr.PriceAmount,
                 Description = pr.Description
-            }).ToList() ?? new List<PricingRuleDto>();
+            }).ToList() ?? new List<YemenBooking.Application.DTOs.Units.PricingRuleDto>();
 
             // التحقق من التوفر
             bool isAvailable = true;
@@ -160,13 +164,12 @@ public class GetUnitDetailsQueryHandler : IRequestHandler<GetUnitDetailsQuery, R
                 PropertyName = property.Name ?? string.Empty,
                 Name = unit.Name ?? string.Empty,
                 UnitType = unitTypeDto,
-                BasePrice = unit.BasePrice,
-                Currency = unit.Currency ?? "YER",
+                BasePrice = new MoneyDto { Amount = unit.BasePrice, Currency = "YER" },
                 MaxCapacity = unit.MaxCapacity,
-                PricingMethod = unit.PricingMethod ?? "per_night",
+                PricingMethod = unit.PricingMethod.ToString(),
                 IsAvailable = isAvailable,
                 Images = imageDtos,
-                CustomFeatures = unit.CustomFeatures ?? new Dictionary<string, object>(),
+                CustomFeatures = unit.CustomFeatures ?? string.Empty,
                 FieldValues = fieldValueDtos,
                 PricingRules = pricingRuleDtos,
                 CalculatedPrice = calculatedPrice

@@ -128,9 +128,9 @@ public class GetUserStatisticsQueryHandler : IRequestHandler<GetUserStatisticsQu
                 // حساب المدن التي تمت زيارتها
                 var visitedCities = userBookings
                     .Where(b => b.Status == BookingStatus.Completed && 
-                               b.Property != null && 
-                               !string.IsNullOrWhiteSpace(b.Property.City))
-                    .Select(b => b.Property!.City!)
+                               b.Unit?.Property != null && 
+                               !string.IsNullOrWhiteSpace(b.Unit.Property.City))
+                    .Select(b => b.Unit!.Property!.City!)
                     .Distinct()
                     .Count();
 
@@ -209,20 +209,19 @@ public class GetUserStatisticsQueryHandler : IRequestHandler<GetUserStatisticsQu
     {
         try
         {
-            var userPayments = await _paymentRepository.GetByUserIdAsync(userId, cancellationToken);
+            var allPayments = await _paymentRepository.GetAllAsync(cancellationToken);
+            var userPayments = allPayments.Where(p => p.Booking.UserId == userId);
             
             if (userPayments != null && userPayments.Any())
             {
                 // حساب إجمالي المبلغ المنفق (المدفوعات المكتملة فقط)
-                var completedPayments = userPayments.Where(p => p.Status == PaymentStatus.Completed);
+                var completedPayments = userPayments.Where(p => p.Status == PaymentStatus.Successful);
                 
-                statistics.TotalSpent = completedPayments.Sum(p => p.Amount);
-                statistics.Currency = completedPayments.FirstOrDefault()?.Currency ?? "YER";
+                statistics.TotalSpent = completedPayments.Sum(p => p.Amount.Amount);
+                statistics.Currency = completedPayments.FirstOrDefault()?.Amount.Currency ?? "YER";
 
-                // حساب المبلغ الموفر من الخصومات
-                statistics.TotalSaved = completedPayments
-                    .Where(p => p.DiscountAmount.HasValue)
-                    .Sum(p => p.DiscountAmount!.Value);
+                // حساب المبلغ الموفر من الخصومات (تنفيذ مبسط)
+                statistics.TotalSaved = 0; // سيتم تنفيذه لاحقاً عند توفر خاصية الخصم
             }
 
             _logger.LogDebug("تم جلب إحصائيات المدفوعات. إجمالي المنفق: {TotalSpent} {Currency}, الموفر: {TotalSaved}", 
@@ -258,8 +257,8 @@ public class GetUserStatisticsQueryHandler : IRequestHandler<GetUserStatisticsQu
 
             statistics.LoyaltyPoints = loyaltyPoints;
 
-            // تحديد فئة الولاء
-            statistics.LoyaltyTier = loyaltyPoints switch
+            // تحديد فئة الولاء (يمكن إضافة هذه الخاصية لاحقاً إلى UserStatisticsDto)
+            var loyaltyTier = loyaltyPoints switch
             {
                 >= 1000 => "بلاتيني",
                 >= 500 => "ذهبي",
@@ -269,13 +268,13 @@ public class GetUserStatisticsQueryHandler : IRequestHandler<GetUserStatisticsQu
             };
 
             _logger.LogDebug("تم حساب معلومات الولاء. النقاط: {LoyaltyPoints}, الفئة: {LoyaltyTier}", 
-                statistics.LoyaltyPoints, statistics.LoyaltyTier);
+                statistics.LoyaltyPoints, loyaltyTier);
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "خطأ أثناء حساب معلومات الولاء");
             statistics.LoyaltyPoints = 0;
-            statistics.LoyaltyTier = "عادي";
+            // statistics.LoyaltyTier = "عادي"; // خاصية غير موجودة
         }
     }
 }

@@ -39,10 +39,23 @@ public class UnitFieldValueDto
     public string DisplayName { get; set; }
 
     /// <summary>
-    /// قيمة الحقل
-    /// FieldValue
+    /// قيمة الحقل (سلسلة نصية)
+    /// Field value as string
     /// </summary>
-    public string FieldValue { get; set; }
+    public string Value { get; set; }
+
+    /// <summary>
+    /// نوع الحقل (نصي، رقم، تاريخ ...)
+    /// Field type (text, number, date ...)
+    /// </summary>
+    public string FieldType { get; set; }
+
+    // احتفاظ بالخاصية القديمة للتوافق العكسي
+    public string FieldValue
+    {
+        get => Value;
+        set => Value = value;
+    }
 
     /// <summary>
     /// معلومات الحقل الديناميكي

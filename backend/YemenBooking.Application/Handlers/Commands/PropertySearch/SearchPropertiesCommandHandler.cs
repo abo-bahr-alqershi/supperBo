@@ -10,13 +10,11 @@ using YemenBooking.Application.Commands.PropertySearch;
 using YemenBooking.Application.DTOs;
 using YemenBooking.Application.DTOs.PropertySearch;
 using SearchPropertiesResponse = YemenBooking.Application.DTOs.Properties.SearchPropertiesResponse;
+using SearchStatisticsDto = YemenBooking.Application.DTOs.Properties.SearchStatisticsDto;
 using YemenBooking.Core.Entities;
 using YemenBooking.Core.Interfaces.Repositories;
 using YemenBooking.Core.Interfaces.Services;
 using YemenBooking.Core.Specifications;
-using Newtonsoft.Json;
-using YemenBooking.Application.DTOs.PropertySearch;
-using System.Text.Json;
 using Newtonsoft.Json;
 
 namespace YemenBooking.Application.Handlers.Commands.PropertySearch;
@@ -41,7 +39,7 @@ namespace YemenBooking.Application.Handlers.Commands.PropertySearch;
 /// - Statistics calculation
 /// - Search logging
 /// </summary>
-public class SearchPropertiesCommandHandler : IRequestHandler<SearchPropertiesCommand, ResultDto<PropertySearchResultDto>>
+public class SearchPropertiesCommandHandler : IRequestHandler<SearchPropertiesCommand, ResultDto<SearchPropertiesResponse>>
 {
     private readonly IPropertyRepository _propertyRepository;
     private readonly ISearchFilterRepository _searchFilterRepository;
@@ -79,7 +77,7 @@ public class SearchPropertiesCommandHandler : IRequestHandler<SearchPropertiesCo
     /// تنفيذ أمر البحث في الكيانات
     /// Execute search properties command
     /// </summary>
-    public async Task<ResultDto<PropertySearchResultDto>> Handle(SearchPropertiesCommand request, CancellationToken cancellationToken)
+    public async Task<ResultDto<SearchPropertiesResponse>> Handle(SearchPropertiesCommand request, CancellationToken cancellationToken)
     {
         var stopwatch = Stopwatch.StartNew();
         
@@ -90,7 +88,7 @@ public class SearchPropertiesCommandHandler : IRequestHandler<SearchPropertiesCo
             // 1. التحقق من صحة البيانات المدخلة
             var inputValidation = ValidateInputData(request);
             if (!inputValidation.IsSuccess)
-                return ResultDto<PropertySearchResultDto>.Failure(inputValidation.Message ?? "خطأ في التحقق من البيانات", inputValidation.Code);
+                return ResultDto<SearchPropertiesResponse>.Failure(inputValidation.Message ?? "خطأ في التحقق من البيانات", inputValidation.Code);
 
             // 2. بناء معايير البحث
             var searchParameters = await BuildSearchParametersAsync(request, cancellationToken);
@@ -134,14 +132,14 @@ public class SearchPropertiesCommandHandler : IRequestHandler<SearchPropertiesCo
             // 11. إنشاء نتيجة البحث
             var result = new SearchPropertiesResponse
             {
-                Properties = propertyItems,
+                Properties = propertyItems.Cast<YemenBooking.Application.DTOs.Properties.PropertySearchResultDto>().ToList(),
                 TotalCount = totalCount,
-                PageNumber = request.PageNumber,
+                CurrentPage = request.PageNumber,
                 PageSize = request.PageSize,
                 TotalPages = (int)Math.Ceiling((double)totalCount / request.PageSize),
                 HasPreviousPage = request.PageNumber > 1,
                 HasNextPage = request.PageNumber < Math.Ceiling((double)totalCount / request.PageSize),
-                Statistics = statistics
+                Statistics = statistics // استخدام الكائن الأصلي
             };
 
             // 12. تسجيل عملية البحث
@@ -162,13 +160,13 @@ public class SearchPropertiesCommandHandler : IRequestHandler<SearchPropertiesCo
                 PageSize = request.PageSize
             }, cancellationToken);
 
-            return ResultDto<PropertySearchResultDto>.Ok(result, "تم البحث بنجاح");
+            return ResultDto<SearchPropertiesResponse>.Ok(result, "تم البحث بنجاح");
         }
         catch (Exception ex)
         {
             stopwatch.Stop();
             _logger.LogError(ex, "خطأ أثناء البحث في الكيانات");
-            return ResultDto<PropertySearchResultDto>.Failure("حدث خطأ أثناء البحث في الكيانات");
+            return ResultDto<SearchPropertiesResponse>.Failure("حدث خطأ أثناء البحث في الكيانات");
         }
     }
 
@@ -483,14 +481,10 @@ public class SearchPropertiesCommandHandler : IRequestHandler<SearchPropertiesCo
         
         return new SearchStatisticsDto
         {
-            SearchDurationMs = searchDurationMs,
-            TotalResultsBeforePaging = propertiesList.Count,
-            PriceRange = propertiesList.Any() ? new PriceRangeDto
-            {
-                MinPrice = propertiesList.SelectMany(p => p.Units).Min(u => u.BasePrice.Amount),
-                MaxPrice = propertiesList.SelectMany(p => p.Units).Max(u => u.BasePrice.Amount),
-                AveragePrice = propertiesList.SelectMany(p => p.Units).Average(u => u.BasePrice.Amount)
-            } : null
+            PropertiesByType = propertiesList
+                .GroupBy(p => p.PropertyType?.Name ?? "غير محدد")
+                .ToDictionary(g => g.Key, g => g.Count()),
+            AverageRating = propertiesList.Any() ? propertiesList.Average(p => p.AverageRating) : 0
         };
     }
 

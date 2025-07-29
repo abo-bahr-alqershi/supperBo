@@ -95,7 +95,7 @@ public class GetPropertyDetailsQueryHandler : IRequestHandler<GetPropertyDetails
             }
 
             // الحصول على نوع العقار
-            var propertyType = await _propertyTypeRepository.GetByIdAsync(property.PropertyTypeId, cancellationToken);
+            var propertyType = await _propertyTypeRepository.GetByIdAsync(property.TypeId, cancellationToken);
             var propertyTypeDto = propertyType != null ? new PropertyTypeDto
             {
                 Id = propertyType.Id,
@@ -115,27 +115,27 @@ public class GetPropertyDetailsQueryHandler : IRequestHandler<GetPropertyDetails
             }).OrderBy(img => img.DisplayOrder).ToList() ?? new List<PropertyImageDto>();
 
             // الحصول على وسائل الراحة
-            var amenities = await _amenityRepository.GetByPropertyIdAsync(property.Id, cancellationToken);
+            var amenities = await _amenityRepository.GetAmenitiesByPropertyAsync(property.Id, cancellationToken);
             var amenityDtos = amenities?.Select(amenity => new PropertyAmenityDto
             {
                 Id = amenity.Id,
-                Name = amenity.Name ?? string.Empty,
-                Description = amenity.Description ?? string.Empty,
-                IconUrl = amenity.IconUrl ?? string.Empty,
-                Category = amenity.Category ?? string.Empty,
+                Name = amenity.PropertyTypeAmenity.Amenity.Name ?? string.Empty,
+                Description = amenity.PropertyTypeAmenity.Amenity.Description ?? string.Empty,
+                // IconUrl = amenity.PropertyTypeAmenity.Amenity.IconUrl ?? string.Empty,
+                // Category = amenity.PropertyTypeAmenity.Amenity.Category ?? string.Empty,
                 IsAvailable = amenity.IsAvailable,
                 ExtraCost = amenity.ExtraCost
             }).ToList() ?? new List<PropertyAmenityDto>();
 
             // الحصول على الخدمات
-            var services = await _propertyServiceRepository.GetByPropertyIdAsync(property.Id, cancellationToken);
+            var services = await _propertyServiceRepository.GetPropertyServicesAsync(property.Id, cancellationToken);
             var serviceDtos = services?.Select(service => new PropertyServiceDto
             {
                 Id = service.Id,
                 Name = service.Name ?? string.Empty,
                 Price = service.Price,
-                Currency = service.Currency ?? "YER",
-                PricingModel = service.PricingModel ?? string.Empty
+                Currency = service.Price.Currency ?? "YER",
+                PricingModel = service.PricingModel.ToString() ?? string.Empty
             }).ToList() ?? new List<PropertyServiceDto>();
 
             // الحصول على السياسات
@@ -143,9 +143,8 @@ public class GetPropertyDetailsQueryHandler : IRequestHandler<GetPropertyDetails
             var policyDtos = policies?.Select(policy => new PropertyPolicyDto
             {
                 Id = policy.Id,
-                Type = policy.Type ?? string.Empty,
-                Description = policy.Description ?? string.Empty,
-                Rules = policy.Rules ?? new Dictionary<string, object>()
+                Type = policy.Type.ToString(),
+                Description = policy.Description ?? string.Empty
             }).ToList() ?? new List<PropertyPolicyDto>();
 
             // الحصول على إحصائيات العقار
@@ -175,7 +174,7 @@ public class GetPropertyDetailsQueryHandler : IRequestHandler<GetPropertyDetails
                 Longitude = property.Longitude,
                 StarRating = property.StarRating,
                 Description = property.Description ?? string.Empty,
-                AverageRating = averageRating,
+                AverageRating = (decimal)averageRating,
                 ReviewsCount = reviewsCount,
                 ViewCount = property.ViewCount + 1, // تضمين المشاهدة الحالية
                 BookingCount = bookingCount,

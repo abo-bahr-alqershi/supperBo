@@ -79,7 +79,7 @@ public class GetNearbyPropertiesQueryHandler : IRequestHandler<GetNearbyProperti
             // فلترة العقارات حسب نوع العقار إذا تم تحديده
             if (request.PropertyTypeId.HasValue)
             {
-                allProperties = allProperties.Where(p => p.PropertyTypeId == request.PropertyTypeId.Value);
+                allProperties = allProperties.Where(p => p.TypeId == request.PropertyTypeId.Value);
             }
 
             // حساب المسافة وفلترة العقارات ضمن نصف القطر المحدد
@@ -88,7 +88,7 @@ public class GetNearbyPropertiesQueryHandler : IRequestHandler<GetNearbyProperti
             foreach (var property in allProperties)
             {
                 // التحقق من وجود إحداثيات للعقار
-                if (!property.Latitude.HasValue || !property.Longitude.HasValue)
+                if (property.Latitude == 0 || property.Longitude == 0)
                 {
                     continue;
                 }
@@ -96,7 +96,7 @@ public class GetNearbyPropertiesQueryHandler : IRequestHandler<GetNearbyProperti
                 // حساب المسافة
                 var distance = CalculateDistance(
                     (double)request.Latitude, (double)request.Longitude,
-                    (double)property.Latitude.Value, (double)property.Longitude.Value);
+                    (double)property.Latitude, (double)property.Longitude);
 
                 // إضافة العقار إذا كان ضمن نصف القطر المحدد
                 if (distance <= request.RadiusKm)
@@ -128,7 +128,7 @@ public class GetNearbyPropertiesQueryHandler : IRequestHandler<GetNearbyProperti
             {
                 // جلب متوسط التقييم
                 var reviews = await _reviewRepository.GetByPropertyIdAsync(property.Id, cancellationToken);
-                var averageRating = reviews?.Any() == true ? reviews.Average(r => r.Rating) : 0;
+                var averageRating = reviews?.Any() == true ? reviews.Average(r => r.AverageRating) : 0;
 
                 // جلب الصورة الرئيسية
                 var propertyImages = await _propertyImageRepository.GetByPropertyIdAsync(property.Id, cancellationToken);

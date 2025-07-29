@@ -31,7 +31,7 @@ namespace YemenBooking.Application.Mappings
             CreateMap<Booking, BookingDetailsDto>()
                 .IncludeBase<Booking, BookingDto>()
                 .ForMember(dest => dest.PaymentDetails, opt => opt.MapFrom(src => src.Payments))
-                .ForMember(dest => dest.ContactInfo, opt => opt.MapFrom(src => new ContactInfoDto { PhoneNumber = src.User.PhoneNumber ?? "", Email = src.User.Email ?? "" }));
+                .ForMember(dest => dest.ContactInfo, opt => opt.MapFrom(src => new ContactInfoDto { PhoneNumber = src.User.Phone ?? "", Email = src.User.Email ?? "" }));
 
             // Notification mapping
             CreateMap<Notification, NotificationDto>()

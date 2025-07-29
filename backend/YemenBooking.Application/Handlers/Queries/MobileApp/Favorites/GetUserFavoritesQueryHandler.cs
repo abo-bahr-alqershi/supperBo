@@ -16,6 +16,7 @@ public class GetUserFavoritesQueryHandler : IRequestHandler<GetUserFavoritesQuer
     private readonly IFavoriteRepository _favoriteRepository;
     private readonly IPropertyRepository _propertyRepository;
     private readonly IUserRepository _userRepository;
+    private readonly IUnitRepository _unitRepository;
     private readonly ILogger<GetUserFavoritesQueryHandler> _logger;
 
     /// <summary>
@@ -25,16 +26,19 @@ public class GetUserFavoritesQueryHandler : IRequestHandler<GetUserFavoritesQuer
     /// <param name="favoriteRepository">مستودع المفضلات</param>
     /// <param name="propertyRepository">مستودع العقارات</param>
     /// <param name="userRepository">مستودع المستخدمين</param>
+    /// <param name="unitRepository">مستودع الوحدات</param>
     /// <param name="logger">مسجل الأحداث</param>
     public GetUserFavoritesQueryHandler(
         IFavoriteRepository favoriteRepository,
         IPropertyRepository propertyRepository,
         IUserRepository userRepository,
+        IUnitRepository unitRepository,
         ILogger<GetUserFavoritesQueryHandler> logger)
     {
         _favoriteRepository = favoriteRepository;
         _propertyRepository = propertyRepository;
         _userRepository = userRepository;
+        _unitRepository = unitRepository;
         _logger = logger;
     }
 
@@ -101,20 +105,23 @@ public class GetUserFavoritesQueryHandler : IRequestHandler<GetUserFavoritesQuer
                     continue; // تخطي هذا العقار إذا لم يعد موجوداً
                 }
 
-                // حساب متوسط التقييم والسعر الأدنى
-                var averageRating = await _propertyRepository.GetAverageRatingAsync(property.Id, cancellationToken);
-                var minPrice = await _propertyRepository.GetMinPriceAsync(property.Id, cancellationToken);
+                // استخدام البيانات المتاحة من الكيان مباشرة
+                var averageRating = property.AverageRating;
+                
+                // حساب أقل سعر من الوحدات المرتبطة بالعقار
+                var units = await _unitRepository.GetActiveByPropertyIdAsync(property.Id, cancellationToken);
+                var minPrice = units?.Any() == true ? units.Min(u => u.BasePrice.Amount) : 0;
 
                 var favoriteDto = new FavoritePropertyDto
                 {
                     PropertyId = property.Id,
                     Name = property.Name ?? string.Empty,
-                    Location = $"{property.City}, {property.Country}" ?? string.Empty,
+                    Location = property.City ?? string.Empty,
                     StarRating = property.StarRating,
                     AverageRating = averageRating,
                     MinPrice = minPrice,
-                    Currency = property.Currency ?? "YER",
-                    MainImageUrl = property.MainImageUrl ?? string.Empty,
+                    Currency = "YER", // العملة الافتراضية
+                    MainImageUrl = property.Images?.FirstOrDefault(i => i.IsMain)?.Url ?? string.Empty,
                     AddedToFavoritesAt = favorite.CreatedAt
                 };
 

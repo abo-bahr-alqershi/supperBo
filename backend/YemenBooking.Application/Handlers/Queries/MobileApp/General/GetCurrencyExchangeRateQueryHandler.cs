@@ -171,7 +171,7 @@ public class GetCurrencyExchangeRateQueryHandler : IRequestHandler<GetCurrencyEx
                         LastUpdated = DateTime.UtcNow
                     };
 
-                    _logger.LogInformation("تم جلب وحفظ سعر صرف جديد: {Rate}", freshRate.Rate);
+                    _logger.LogInformation("تم جلب وحفظ سعر صرف جديد: {Rate}", freshRate.Value);
                 }
             }
 

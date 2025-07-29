@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using YemenBooking.Application.Queries.MobileApp.Notifications;
 using YemenBooking.Application.DTOs;
 using YemenBooking.Core.Interfaces.Repositories;
+using YemenBooking.Core.Entities;
 
 namespace YemenBooking.Application.Handlers.Queries.MobileApp.Notifications;
 
@@ -62,60 +63,47 @@ public class ClientGetNotificationsSummaryQueryHandler : IRequestHandler<ClientG
             }
 
             // الحصول على إحصائيات الإشعارات
-            var totalCount = await _notificationRepository.GetUserNotificationsCountAsync(request.UserId, cancellationToken);
-            var unreadCount = await _notificationRepository.GetUserUnreadNotificationsCountAsync(request.UserId, cancellationToken);
+            // الحصول على عدد الإشعارات غير المقروءة
+            var unreadCount = await _notificationRepository.GetUnreadNotificationsCountAsync(request.UserId, cancellationToken);
+            
+            // الحصول على جميع الإشعارات للمستخدم (مع تحديد عدد أكبر للحصول على الإحصائيات)
+            var allNotificationsData = await _notificationRepository.GetUserNotificationsAsync(request.UserId, null, 1, 1000, cancellationToken);
+            var allNotifications = allNotificationsData?.Cast<Notification>().ToList() ?? new List<Notification>();
+            
+            var totalCount = allNotifications.Count;
             var readCount = totalCount - unreadCount;
 
-            // الحصول على عدد الإشعارات حسب النوع
-            var countByType = await _notificationRepository.GetNotificationsCountByTypeAsync(request.UserId, cancellationToken);
+            // إحصائيات حسب النوع
+            var countByType = allNotifications
+                .GroupBy(n => n.Type ?? "Unknown")
+                .ToDictionary(g => g.Key, g => g.Count());
 
-            // الحصول على عدد الإشعارات حسب الأولوية
-            var countByPriority = await _notificationRepository.GetNotificationsCountByPriorityAsync(request.UserId, cancellationToken);
+            // إحصائيات حسب الأولوية
+            var countByPriority = allNotifications
+                .GroupBy(n => n.Priority ?? "MEDIUM")
+                .ToDictionary(g => g.Key, g => g.Count());
 
-            // الحصول على آخر إشعار
-            var lastNotification = await _notificationRepository.GetLastUserNotificationAsync(request.UserId, cancellationToken);
+            // آخر إشعار
+            var lastNotification = allNotifications
+                .OrderByDescending(n => n.CreatedAt)
+                .FirstOrDefault();
+            
             ClientNotificationDto? lastNotificationDto = null;
-
             if (lastNotification != null)
             {
-                lastNotificationDto = new ClientNotificationDto
-                {
-                    Id = lastNotification.Id,
-                    Title = lastNotification.Title ?? string.Empty,
-                    Content = lastNotification.Content ?? string.Empty,
-                    Type = lastNotification.Type ?? string.Empty,
-                    IsRead = lastNotification.IsRead,
-                    CreatedAt = lastNotification.CreatedAt,
-                    ReadAt = lastNotification.ReadAt,
-                    IconUrl = lastNotification.IconUrl,
-                    ImageUrl = lastNotification.ImageUrl,
-                    AdditionalData = lastNotification.AdditionalData,
-                    ActionUrl = lastNotification.ActionUrl,
-                    Priority = lastNotification.Priority ?? "Normal",
-                    CanDismiss = lastNotification.CanDismiss
-                };
+                lastNotificationDto = MapToClientNotificationDto(lastNotification);
             }
 
             // الحصول على الإشعارات عالية الأولوية غير المقروءة
-            var highPriorityUnreadNotifications = await _notificationRepository.GetHighPriorityUnreadNotificationsAsync(
-                request.UserId, 5, cancellationToken); // أحدث 5 إشعارات عالية الأولوية
+            var highPriorityNotifications = allNotifications
+                .Where(n => !n.IsRead && (n.Priority == "HIGH" || n.Priority == "URGENT"))
+                .OrderByDescending(n => n.CreatedAt)
+                .Take(5)
+                .ToList();
 
-            var highPriorityUnreadDtos = highPriorityUnreadNotifications?.Select(n => new ClientNotificationDto
-            {
-                Id = n.Id,
-                Title = n.Title ?? string.Empty,
-                Content = n.Content ?? string.Empty,
-                Type = n.Type ?? string.Empty,
-                IsRead = n.IsRead,
-                CreatedAt = n.CreatedAt,
-                ReadAt = n.ReadAt,
-                IconUrl = n.IconUrl,
-                ImageUrl = n.ImageUrl,
-                AdditionalData = n.AdditionalData,
-                ActionUrl = n.ActionUrl,
-                Priority = n.Priority ?? "Normal",
-                CanDismiss = n.CanDismiss
-            }).ToList() ?? new List<ClientNotificationDto>();
+            var highPriorityUnreadDtos = highPriorityNotifications
+                .Select(MapToClientNotificationDto)
+                .ToList();
 
             // إنشاء DTO للاستجابة
             var summaryDto = new ClientNotificationsSummaryDto
@@ -123,8 +111,8 @@ public class ClientGetNotificationsSummaryQueryHandler : IRequestHandler<ClientG
                 TotalCount = totalCount,
                 UnreadCount = unreadCount,
                 ReadCount = readCount,
-                CountByType = countByType ?? new Dictionary<string, int>(),
-                CountByPriority = countByPriority ?? new Dictionary<string, int>(),
+                CountByType = countByType,
+                CountByPriority = countByPriority,
                 LastNotification = lastNotificationDto,
                 HighPriorityUnread = highPriorityUnreadDtos
             };
@@ -162,5 +150,31 @@ public class ClientGetNotificationsSummaryQueryHandler : IRequestHandler<ClientG
         }
 
         return ResultDto<ClientNotificationsSummaryDto>.Ok(null, "البيانات صحيحة");
+    }
+
+    /// <summary>
+    /// تحويل كيان الإشعار إلى DTO للعميل
+    /// Map notification entity to client DTO
+    /// </summary>
+    /// <param name="notification">كيان الإشعار</param>
+    /// <returns>DTO الإشعار للعميل</returns>
+    private ClientNotificationDto MapToClientNotificationDto(Notification notification)
+    {
+        return new ClientNotificationDto
+        {
+            Id = notification.Id,
+            Title = notification.Title ?? string.Empty,
+            Content = notification.Message ?? string.Empty,
+            Type = notification.Type ?? string.Empty,
+            Priority = notification.Priority ?? "MEDIUM",
+            IsRead = notification.IsRead,
+            CreatedAt = notification.CreatedAt,
+            ReadAt = notification.ReadAt,
+            IconUrl = null, // يمكن إضافة هذه الخاصية لاحقاً إذا لزم الأمر
+            ImageUrl = null, // يمكن إضافة هذه الخاصية لاحقاً إذا لزم الأمر
+            AdditionalData = notification.Data,
+            ActionUrl = null, // يمكن إضافة هذه الخاصية لاحقاً إذا لزم الأمر
+            CanDismiss = notification.CanDismiss
+        };
     }
 }

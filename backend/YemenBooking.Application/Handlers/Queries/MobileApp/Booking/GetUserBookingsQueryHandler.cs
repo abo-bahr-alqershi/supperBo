@@ -4,6 +4,7 @@ using YemenBooking.Application.Queries.MobileApp.Booking;
 using YemenBooking.Application.DTOs;
 using YemenBooking.Core.Interfaces.Repositories;
 using YemenBooking.Core.Enums;
+using BookingDto = YemenBooking.Application.Queries.MobileApp.Booking.BookingDto;
 
 namespace YemenBooking.Application.Handlers.Queries.MobileApp.Booking;
 
@@ -72,12 +73,18 @@ public class GetUserBookingsQueryHandler : IRequestHandler<GetUserBookingsQuery,
             }
 
             // الحصول على حجوزات المستخدم مع التصفح
-            var (bookings, totalCount) = await _bookingRepository.GetUserBookingsAsync(
-                request.UserId, 
-                request.Status, 
-                request.PageNumber, 
-                request.PageSize, 
-                cancellationToken);
+            var allBookings = await _bookingRepository.GetAllAsync(cancellationToken);
+            var userBookings = allBookings?.Where(b => b.UserId == request.UserId);
+            
+            if (request.Status.HasValue)
+            {
+                userBookings = userBookings?.Where(b => b.Status == request.Status.Value);
+            }
+            
+            var totalCount = userBookings?.Count() ?? 0;
+            var bookings = userBookings?
+                .Skip((request.PageNumber - 1) * request.PageSize)
+                .Take(request.PageSize);
 
             if (bookings == null || !bookings.Any())
             {
@@ -111,17 +118,17 @@ public class GetUserBookingsQueryHandler : IRequestHandler<GetUserBookingsQuery,
                 var bookingDto = new BookingDto
                 {
                     Id = booking.Id,
-                    BookingNumber = booking.BookingNumber ?? string.Empty,
+                    BookingNumber = $"BK-{booking.Id.ToString().Substring(0, 8)}",
                     PropertyName = property?.Name ?? "غير متاح",
                     UnitName = unit?.Name ?? "غير متاح",
                     CheckIn = booking.CheckIn,
                     CheckOut = booking.CheckOut,
                     GuestsCount = booking.GuestsCount,
                     TotalPrice = booking.TotalPrice,
-                    Currency = booking.Currency ?? "YER",
+                    Currency = booking.TotalPrice.Currency ?? "YER",
                     Status = booking.Status,
                     BookedAt = booking.BookedAt,
-                    PropertyImageUrl = property?.MainImageUrl ?? string.Empty,
+                    PropertyImageUrl = property?.Images?.FirstOrDefault()?.Url ?? string.Empty,
                     CanCancel = canCancel,
                     CanReview = canReview
                 };

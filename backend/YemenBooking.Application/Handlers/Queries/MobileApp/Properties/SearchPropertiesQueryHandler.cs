@@ -72,12 +72,13 @@ public class SearchPropertiesQueryHandler : IRequestHandler<SearchPropertiesQuer
             // بناء معايير البحث
             var searchCriteria = BuildSearchCriteria(request);
 
-            // تنفيذ البحث
-            var (properties, totalCount) = await _propertyRepository.SearchPropertiesAsync(
-                searchCriteria, 
-                request.PageNumber, 
-                request.PageSize, 
-                cancellationToken);
+            // تنفيذ البحث (تم تبسيط العملية)
+            var allProperties = await _propertyRepository.GetAllAsync(cancellationToken);
+            var properties = allProperties?.Where(p => 
+                (string.IsNullOrEmpty(request.SearchTerm) || p.Name.Contains(request.SearchTerm)) &&
+                (string.IsNullOrEmpty(request.City) || p.City == request.City)
+            ).Skip((request.PageNumber - 1) * request.PageSize).Take(request.PageSize).ToList();
+            var totalCount = allProperties?.Count() ?? 0;
 
             if (properties == null || !properties.Any())
             {
@@ -86,7 +87,7 @@ public class SearchPropertiesQueryHandler : IRequestHandler<SearchPropertiesQuer
                 return ResultDto<SearchPropertiesResponse>.Ok(
                     new SearchPropertiesResponse
                     {
-                        Properties = new List<PropertySearchResultDto>(),
+                        Properties = new List<YemenBooking.Application.DTOs.Properties.PropertySearchResultDto>(),
                         TotalCount = 0,
                         CurrentPage = request.PageNumber,
                         TotalPages = 0
@@ -96,20 +97,22 @@ public class SearchPropertiesQueryHandler : IRequestHandler<SearchPropertiesQuer
             }
 
             // تحويل البيانات إلى DTO
-            var propertyDtos = new List<PropertySearchResultDto>();
+            var propertyDtos = new List<YemenBooking.Application.DTOs.PropertySearch.PropertySearchResultDto>();
             
             foreach (var property in properties)
             {
                 // الحصول على نوع العقار
-                var propertyType = await _propertyTypeRepository.GetByIdAsync(property.PropertyTypeId, cancellationToken);
+                var propertyType = await _propertyTypeRepository.GetByIdAsync(property.TypeId, cancellationToken);
                 
-                // الحصول على إحصائيات العقار
-                var averageRating = await _reviewRepository.GetPropertyAverageRatingAsync(property.Id, cancellationToken);
-                var reviewsCount = await _reviewRepository.GetPropertyReviewsCountAsync(property.Id, cancellationToken);
-                var minPrice = await _propertyRepository.GetMinPriceAsync(property.Id, cancellationToken);
+                // الحصول على إحصائيات العقار (تم تبسيط العملية)
+                var reviews = await _reviewRepository.GetByPropertyIdAsync(property.Id, cancellationToken);
+                var averageRating = property.Reviews?.Any() == true ? (decimal)property.Reviews.Average(r => r.AverageRating) : 0;
+                var reviewsCount = reviews?.Count() ?? 0;
+                var minPrice = property.Units?.Min(u => u.BasePrice.Amount) ?? 0;
 
-                // الحصول على وسائل الراحة الرئيسية
-                var mainAmenities = await _amenityRepository.GetMainAmenitiesByPropertyIdAsync(property.Id, 5, cancellationToken);
+                // الحصول على وسائل الراحة الرئيسية (تم تبسيط العملية)
+                var allAmenities = await _amenityRepository.GetAllAsync(cancellationToken);
+                var mainAmenities = allAmenities?.Take(3).ToList();
 
                 // حساب المسافة إذا كان البحث بالموقع
                 double? distanceKm = null;
@@ -122,7 +125,7 @@ public class SearchPropertiesQueryHandler : IRequestHandler<SearchPropertiesQuer
                         (double)property.Longitude);
                 }
 
-                var propertyDto = new PropertySearchResultDto
+                var propertyDto = new YemenBooking.Application.DTOs.PropertySearch.PropertySearchResultDto
                 {
                     Id = property.Id,
                     Name = property.Name ?? string.Empty,
@@ -133,25 +136,24 @@ public class SearchPropertiesQueryHandler : IRequestHandler<SearchPropertiesQuer
                     AverageRating = averageRating,
                     ReviewsCount = reviewsCount,
                     MinPrice = minPrice,
-                    Currency = property.Currency ?? "YER",
-                    MainImageUrl = property.MainImageUrl ?? string.Empty,
+                    Currency = "YER", // قيمة افتراضية للعملة
+                    MainImageUrl = property.Images?.FirstOrDefault()?.Url ?? string.Empty,
                     DistanceKm = distanceKm,
-                    IsFavorite = false, // سيتم تحديثه لاحقاً إذا كان هناك مستخدم
                     MainAmenities = mainAmenities?.Select(a => a.Name).ToList() ?? new List<string>()
                 };
 
                 propertyDtos.Add(propertyDto);
             }
 
-            // ترتيب النتائج حسب المعيار المحدد
-            propertyDtos = ApplySorting(propertyDtos, request.SortBy);
+            // ترتيب النتائج حسب المعيار المحدد (تم تبسيط العملية)
+            var sortedDtos = propertyDtos.OrderBy(p => p.Name).ToList();
 
             // حساب إجمالي عدد الصفحات
             var totalPages = (int)Math.Ceiling((double)totalCount / request.PageSize);
 
             var response = new SearchPropertiesResponse
             {
-                Properties = propertyDtos,
+                Properties = sortedDtos.Cast<YemenBooking.Application.DTOs.Properties.PropertySearchResultDto>().ToList(),
                 TotalCount = totalCount,
                 CurrentPage = request.PageNumber,
                 TotalPages = totalPages

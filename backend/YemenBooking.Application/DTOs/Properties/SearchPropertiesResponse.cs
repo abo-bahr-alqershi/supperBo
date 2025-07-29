@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using YemenBooking.Application.DTOs.Properties;
 using YemenBooking.Application.DTOs.PropertySearch;
 
 namespace YemenBooking.Application.DTOs.Properties

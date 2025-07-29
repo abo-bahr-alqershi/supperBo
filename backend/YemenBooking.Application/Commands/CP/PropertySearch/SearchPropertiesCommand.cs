@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using MediatR;
 using YemenBooking.Application.DTOs;
 using YemenBooking.Application.DTOs.PropertySearch;
+using YemenBooking.Application.DTOs.Properties;
 
 namespace YemenBooking.Application.Commands.PropertySearch;
 
@@ -10,7 +11,7 @@ namespace YemenBooking.Application.Commands.PropertySearch;
 /// أمر البحث في الكيانات
 /// Search properties command
 /// </summary>
-public class SearchPropertiesCommand : IRequest<ResultDto<PropertySearchResultDto>>
+public class SearchPropertiesCommand : IRequest<ResultDto<SearchPropertiesResponse>>
 {
     /// <summary>
     /// المدينة

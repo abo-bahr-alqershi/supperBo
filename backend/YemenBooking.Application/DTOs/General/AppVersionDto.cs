@@ -51,6 +51,18 @@ namespace YemenBooking.Application.DTOs.General
         public string? ReleaseNotes { get; set; }
 
         /// <summary>
+        /// ملاحظات الإصدار بالعربية
+        /// Release notes in Arabic
+        /// </summary>
+        public string? ReleaseNotesAr { get; set; }
+
+        /// <summary>
+        /// الحد الأدنى للإصدار
+        /// Minimum version
+        /// </summary>
+        public string? MinVersion { get; set; }
+
+        /// <summary>
         /// تاريخ الإصدار
         /// Release date
         /// </summary>

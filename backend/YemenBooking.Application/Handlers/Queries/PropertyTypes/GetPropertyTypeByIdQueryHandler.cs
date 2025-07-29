@@ -5,9 +5,11 @@ using MediatR;
 using Microsoft.Extensions.Logging;
 using YemenBooking.Application.DTOs;
 using YemenBooking.Application.DTOs.Properties;
+
 using YemenBooking.Application.Exceptions;
 using YemenBooking.Application.Queries.PropertyTypes;
 using YemenBooking.Core.Interfaces.Repositories;
+using System.Text.Json;
 
 namespace YemenBooking.Application.Handlers.Queries.PropertyTypes
 {
@@ -44,7 +46,9 @@ namespace YemenBooking.Application.Handlers.Queries.PropertyTypes
                 Id = pt.Id,
                 Name = pt.Name,
                 Description = pt.Description,
-                DefaultAmenities = pt.DefaultAmenities
+                DefaultAmenities = !string.IsNullOrWhiteSpace(pt.DefaultAmenities) ? 
+                    JsonSerializer.Deserialize<List<string>>(pt.DefaultAmenities) ?? new List<string>() : 
+                    new List<string>()
             };
 
             return ResultDto<PropertyTypeDto>.Ok(dto, "تم جلب نوع الكيان بنجاح");

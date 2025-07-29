@@ -123,4 +123,38 @@ public static class RepositoryExtensions
         CancellationToken cancellationToken = default)
         => Task.FromResult(true);
 
+    // ---------------- Additional generic helpers ----------------
+
+    /// <summary>
+    /// Proxy for IUnitFieldValueRepository.GetValuesByUnitIdAsync expected as GetByUnitIdAsync.
+    /// </summary>
+    public static Task<IEnumerable<UnitFieldValue>> GetByUnitIdAsync(this IUnitFieldValueRepository repo,
+        Guid unitId,
+        CancellationToken cancellationToken = default)
+        => repo.GetValuesByUnitIdAsync(unitId, cancellationToken);
+
+    /// <summary>
+    /// Proxy for IBookingRepository.GetBookingsByUserAsync expected as GetByUserIdAsync.
+    /// </summary>
+    public static Task<IEnumerable<Booking>> GetByUserIdAsync(this IBookingRepository repo,
+        Guid userId,
+        CancellationToken cancellationToken = default)
+        => repo.GetBookingsByUserAsync(userId, cancellationToken);
+
+    /// <summary>
+    /// Proxy for IReviewRepository.GetReviewsByUserAsync expected as GetByUserIdAsync.
+    /// </summary>
+    public static Task<IEnumerable<Review>> GetByUserIdAsync(this IReviewRepository repo,
+        Guid userId,
+        CancellationToken cancellationToken = default)
+        => repo.GetReviewsByUserAsync(userId, cancellationToken);
+
+    /// <summary>
+    /// Proxy for IFavoriteRepository.GetByUserIdAsync when not implemented directly.
+    /// </summary>
+    public static Task<IEnumerable<Favorite>> GetByUserIdAsync(this IFavoriteRepository repo,
+        Guid userId,
+        CancellationToken cancellationToken = default)
+        => repo.GetByUserIdAsync(userId, cancellationToken);
+
 }

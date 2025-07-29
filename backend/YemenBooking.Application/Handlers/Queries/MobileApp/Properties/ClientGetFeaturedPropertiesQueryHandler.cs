@@ -77,7 +77,6 @@ public class ClientGetFeaturedPropertiesQueryHandler : IRequestHandler<ClientGet
             // الحصول على العقارات المميزة
             var featuredProperties = await _propertyRepository.GetFeaturedPropertiesAsync(
                 request.Limit * 2, // جلب عدد أكبر للفلترة والترتيب
-                request.PreferredLocation, 
                 cancellationToken);
 
             if (featuredProperties == null || !featuredProperties.Any())
@@ -98,11 +97,11 @@ public class ClientGetFeaturedPropertiesQueryHandler : IRequestHandler<ClientGet
                 // جلب البيانات المرتبطة بالعقار
                 var propertyImages = await _propertyImageRepository.GetByPropertyIdAsync(property.Id, cancellationToken);
                 var propertyReviews = await _reviewRepository.GetByPropertyIdAsync(property.Id, cancellationToken);
-                var propertyAmenities = await _amenityRepository.GetByPropertyIdAsync(property.Id, cancellationToken);
-                var specialOffer = await _specialOfferRepository.GetActiveByPropertyIdAsync(property.Id, cancellationToken);
+                var propertyAmenities = await _amenityRepository.GetAmenitiesByPropertyAsync(property.Id, cancellationToken);
+                var specialOffer = (await _specialOfferRepository.GetOffersByPropertyIdAsync(property.Id)).FirstOrDefault();
 
                 // حساب الإحصائيات
-                var averageRating = propertyReviews?.Any() == true ? propertyReviews.Average(r => r.Rating) : 0;
+                var averageRating = propertyReviews?.Any() == true ? propertyReviews.Average(r => r.AverageRating) : 0;
                 var reviewsCount = propertyReviews?.Count() ?? 0;
                 var bookingRate = await CalculateBookingRate(property.Id, cancellationToken);
 
@@ -138,7 +137,7 @@ public class ClientGetFeaturedPropertiesQueryHandler : IRequestHandler<ClientGet
                     IsFavorite = isFavorite,
                     DistanceKm = distanceKm,
                     PropertyType = property.PropertyType?.Name ?? string.Empty,
-                    TopAmenities = propertyAmenities?.Take(3).Select(a => a.Name ?? string.Empty).ToList() ?? new List<string>(),
+                    TopAmenities = propertyAmenities?.Take(3).Select(a => a.PropertyTypeAmenity?.Amenity.Name ?? string.Empty).ToList() ?? new List<string>(),
                     AvailabilityStatus = GetAvailabilityStatus(property),
                     SpecialOffer = MapSpecialOffer(specialOffer),
                     BookingRate = bookingRate,
