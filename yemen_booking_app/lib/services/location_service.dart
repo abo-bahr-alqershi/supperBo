@@ -3,6 +3,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class LocationService {
+  // Location settings for high accuracy
   static const LocationSettings _locationSettings = LocationSettings(
     accuracy: LocationAccuracy.high,
     distanceFilter: 100,
@@ -79,9 +80,9 @@ class LocationService {
         );
       }
 
-      // Get position
+      // Get position using settings
       final position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high,
+        desiredAccuracy: _locationSettings.accuracy,
       );
 
       return LocationData(

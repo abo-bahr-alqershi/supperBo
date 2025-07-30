@@ -20,7 +20,7 @@ class AnalyticsService {
 
   // Set user properties
   Future<void> setUserId(String userId) async {
-    await _analytics.setUserId(userId: userId);
+    await _analytics.setUserId(id: userId);
   }
 
   Future<void> setUserProperty({
@@ -32,7 +32,7 @@ class AnalyticsService {
 
   // Clear user data
   Future<void> resetAnalyticsData() async {
-    await _analytics.setUserId(userId: null);
+    await _analytics.setUserId(id: null);
   }
 
   // Screen tracking
@@ -75,7 +75,7 @@ class AnalyticsService {
           itemId: propertyId,
           itemName: propertyName,
           itemCategory: propertyType,
-          itemLocationId: location,
+          locationId: location,
           price: price,
         ),
       ],
@@ -240,7 +240,7 @@ class AnalyticsService {
       transactionId: bookingId,
       currency: 'YER',
       value: 0,
-      reason: reason,
+      parameters: {'reason': reason},
     );
   }
 

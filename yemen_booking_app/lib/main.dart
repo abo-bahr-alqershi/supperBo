@@ -20,9 +20,10 @@ void main() async {
   
   // Initialize services
   await di.init();
-  await LocalStorageService.init();
-  await NotificationService.init();
-  await CrashReportingService.init();
+  // Services are initialized via dependency injection
+  // await LocalStorageService.init();
+  // await NotificationService.init();
+  // await CrashReportingService.init();
   
   // Set system UI overlay style
   SystemChrome.setSystemUIOverlayStyle(

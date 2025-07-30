@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
-import '../../../../core/error/exceptions.dart';
+import 'package:http/http.dart' as apiClient;
+import 'package:yemen_booking_app/core/network/api_exceptions.dart';
+import '../../../../core/error/exceptions.dart' hide ApiException;
 import '../../../../core/models/result_dto.dart';
 import '../../../../core/network/api_client.dart';
 import '../models/auth_response_model.dart';
@@ -74,7 +76,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       if (resultDto.success && resultDto.data != null) {
         return AuthResponseModel.fromJson(resultDto.data!);
       } else {
-        throw ServerException(
+        throw ApiException(
           message: resultDto.message ?? 
                    resultDto.errors.join(', ') ?? 
                    'فشل تسجيل الدخول',
@@ -86,7 +88,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       throw ApiException.fromDioError(e);
     } catch (e) {
       if (e is ServerException) rethrow;
-      throw ServerException(message: e.toString());
+      throw ApiException(message: e.toString());
     }
   }
 
@@ -118,7 +120,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       if (resultDto.success && resultDto.data != null) {
         return AuthResponseModel.fromJson(resultDto.data!);
       } else {
-        throw ServerException(
+        throw ApiException(
           message: resultDto.message ?? 
                    resultDto.errors.join(', ') ?? 
                    'فشل إنشاء الحساب',
@@ -130,7 +132,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       throw ApiException.fromDioError(e);
     } catch (e) {
       if (e is ServerException) rethrow;
-      throw ServerException(message: e.toString());
+      throw ApiException(message: e.toString());
     }
   }
 
@@ -142,7 +144,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       final resultDto = ResultDtoVoid.fromJson(response.data);
       
       if (!resultDto.success) {
-        throw ServerException(
+        throw ApiException(
           message: resultDto.message ?? 
                    resultDto.errors.join(', ') ?? 
                    'فشل تسجيل الخروج',
@@ -153,7 +155,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       throw ApiException.fromDioError(e);
     } catch (e) {
       if (e is ServerException) rethrow;
-      throw ServerException(message: e.toString());
+      throw ApiException(message: e.toString());
     }
   }
 
@@ -170,7 +172,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       final resultDto = ResultDtoVoid.fromJson(response.data);
       
       if (!resultDto.success) {
-        throw ServerException(
+        throw ApiException(
           message: resultDto.message ?? 
                    resultDto.errors.join(', ') ?? 
                    'فشل إرسال رابط إعادة تعيين كلمة المرور',
@@ -181,7 +183,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       throw ApiException.fromDioError(e);
     } catch (e) {
       if (e is ServerException) rethrow;
-      throw ServerException(message: e.toString());
+      throw ApiException(message: e.toString());
     }
   }
 
@@ -203,7 +205,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       if (resultDto.success && resultDto.data != null) {
         return AuthResponseModel.fromJson(resultDto.data!);
       } else {
-        throw ServerException(
+        throw ApiException(
           message: resultDto.message ?? 
                    resultDto.errors.join(', ') ?? 
                    'فشل تحديث الجلسة',
@@ -214,7 +216,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       throw ApiException.fromDioError(e);
     } catch (e) {
       if (e is ServerException) rethrow;
-      throw ServerException(message: e.toString());
+      throw ApiException(message: e.toString());
     }
   }
 
@@ -231,21 +233,17 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       if (resultDto.success && resultDto.data != null) {
         return UserModel.fromJson(resultDto.data!);
       } else {
-        throw ServerException(
+        throw ApiException(
           message: resultDto.message ?? 
-                   resultDto.errors.join(', ') ?? 
-                   'فشل جلب بيانات المستخدم',
+                   resultDto.errors.join(', '),
           statusCode: response.statusCode,
         );
       }
     } on DioException catch (e) {
       throw ApiException.fromDioError(e);
     } catch (e) {
-            } on DioException catch (e) {
-      throw ApiException.fromDioError(e);
-    } catch (e) {
       if (e is ServerException) rethrow;
-      throw ServerException(message: e.toString());
+      throw ApiException(message: e.toString());
     }
   }
 
@@ -271,7 +269,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       final resultDto = ResultDtoVoid.fromJson(response.data);
       
       if (!resultDto.success) {
-        throw ServerException(
+        throw ApiException(
           message: resultDto.message ?? 
                    resultDto.errors.join(', ') ?? 
                    'فشل تحديث الملف الشخصي',
@@ -282,7 +280,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       throw ApiException.fromDioError(e);
     } catch (e) {
       if (e is ServerException) rethrow;
-      throw ServerException(message: e.toString());
+      throw ApiException(message: e.toString());
     }
   }
 
@@ -305,7 +303,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       final resultDto = ResultDtoVoid.fromJson(response.data);
       
       if (!resultDto.success) {
-        throw ServerException(
+        throw ApiException(
           message: resultDto.message ?? 
                    resultDto.errors.join(', ') ?? 
                    'فشل تغيير كلمة المرور',
@@ -316,7 +314,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       throw ApiException.fromDioError(e);
     } catch (e) {
       if (e is ServerException) rethrow;
-      throw ServerException(message: e.toString());
+      throw ApiException(message: e.toString());
     }
   }
 }

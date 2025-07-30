@@ -17,6 +17,13 @@ class AppDimensions {
   static const double spaceXLarge = 32.0;
   static const double spaceXXLarge = 48.0;
   
+  // Spacing aliases for theme compatibility
+  static const double spacingXs = spaceXSmall;
+  static const double spacingSm = spaceSmall;
+  static const double spacingMd = spaceMedium;
+  static const double spacingLg = spaceLarge;
+  static const double spacingXl = spaceXLarge;
+  
   // Border Radius
   static const double radiusXSmall = 4.0;
   static const double radiusSmall = 8.0;
@@ -25,6 +32,13 @@ class AppDimensions {
   static const double radiusXLarge = 24.0;
   static const double radiusXXLarge = 32.0;
   static const double radiusCircular = 999.0;
+  
+  // Border Radius aliases for theme compatibility
+  static const double borderRadiusXs = radiusXSmall;
+  static const double borderRadiusSm = radiusSmall;
+  static const double borderRadiusMd = radiusMedium;
+  static const double borderRadiusLg = radiusLarge;
+  static const double borderRadiusXl = radiusXLarge;
   
   // Icon Sizes
   static const double iconXSmall = 16.0;

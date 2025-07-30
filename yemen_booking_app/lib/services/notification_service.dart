@@ -2,9 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:dio/dio.dart';
+import 'package:timezone/timezone.dart' as tz;
 import '../core/network/api_client.dart';
-import '../core/constants/api_constants.dart';
 import 'local_storage_service.dart';
 import '../features/auth/data/datasources/auth_local_datasource.dart';
 
@@ -301,11 +300,14 @@ class NotificationService {
       iOS: iosDetails,
     );
 
+    // Convert DateTime to TZDateTime
+    final tz.TZDateTime tzScheduledDate = tz.TZDateTime.from(scheduledDate, tz.local);
+    
     await _localNotifications.zonedSchedule(
       id,
       title,
       body,
-      scheduledDate,
+      tzScheduledDate,
       details,
       androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
       uiLocalNotificationDateInterpretation:

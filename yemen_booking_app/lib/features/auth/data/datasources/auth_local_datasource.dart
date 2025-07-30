@@ -36,7 +36,7 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
       await cacheRefreshToken(authResponse.refreshToken);
       await cacheUser(authResponse.user as UserModel);
     } catch (e) {
-      throw CacheException(message: 'فشل حفظ بيانات المصادقة');
+      throw CacheException('فشل حفظ بيانات المصادقة');
     }
   }
 
@@ -50,7 +50,7 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
       }
       return null;
     } catch (e) {
-      throw CacheException(message: 'فشل قراءة بيانات المصادقة');
+      throw CacheException('فشل قراءة بيانات المصادقة');
     }
   }
 
@@ -59,7 +59,7 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
     try {
       await sharedPreferences.setString(_accessTokenKey, token);
     } catch (e) {
-      throw CacheException(message: 'فشل حفظ رمز الوصول');
+      throw CacheException('فشل حفظ رمز الوصول');
     }
   }
 
@@ -68,7 +68,7 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
     try {
       return sharedPreferences.getString(_accessTokenKey);
     } catch (e) {
-      throw CacheException(message: 'فشل قراءة رمز الوصول');
+      throw CacheException('فشل قراءة رمز الوصول');
     }
   }
 
@@ -77,7 +77,7 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
     try {
       await sharedPreferences.setString(_refreshTokenKey, token);
     } catch (e) {
-      throw CacheException(message: 'فشل حفظ رمز التحديث');
+      throw CacheException('فشل حفظ رمز التحديث');
     }
   }
 
@@ -86,7 +86,7 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
     try {
       return sharedPreferences.getString(_refreshTokenKey);
     } catch (e) {
-      throw CacheException(message: 'فشل قراءة رمز التحديث');
+      throw CacheException('فشل قراءة رمز التحديث');
     }
   }
 
@@ -96,7 +96,7 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
       final jsonString = json.encode(user.toJson());
       await sharedPreferences.setString(_userKey, jsonString);
     } catch (e) {
-      throw CacheException(message: 'فشل حفظ بيانات المستخدم');
+      throw CacheException('فشل حفظ بيانات المستخدم');
     }
   }
 
@@ -110,7 +110,7 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
       }
       return null;
     } catch (e) {
-      throw CacheException(message: 'فشل قراءة بيانات المستخدم');
+      throw CacheException('فشل قراءة بيانات المستخدم');
     }
   }
 
@@ -124,7 +124,7 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
         sharedPreferences.remove(_userKey),
       ]);
     } catch (e) {
-      throw CacheException(message: 'فشل مسح بيانات المصادقة');
+      throw CacheException('فشل مسح بيانات المصادقة');
     }
   }
 

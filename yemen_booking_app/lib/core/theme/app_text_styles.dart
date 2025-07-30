@@ -1,15 +1,24 @@
-    fontWeight: FontWeight.w300,
+import 'package:flutter/material.dart';
+import 'app_colors.dart';
+
+class AppTextStyles {
+  // Display Styles  
+  static const TextStyle displayLarge = TextStyle(
+    fontSize: 57,
+    fontWeight: FontWeight.w400,
     height: 1.12,
-    letterSpacing: -0.5,
+    letterSpacing: -0.25,
     color: AppColors.textPrimary,
+    fontFamily: 'arabic_font',
   );
   
   static const TextStyle displayMedium = TextStyle(
     fontSize: 45,
-    fontWeight: FontWeight.w300,
+    fontWeight: FontWeight.w400,
     height: 1.16,
     letterSpacing: 0,
     color: AppColors.textPrimary,
+    fontFamily: 'arabic_font',
   );
   
   static const TextStyle displaySmall = TextStyle(
@@ -18,15 +27,17 @@
     height: 1.22,
     letterSpacing: 0,
     color: AppColors.textPrimary,
+    fontFamily: 'arabic_font',
   );
   
   // Heading Styles
   static const TextStyle heading1 = TextStyle(
     fontSize: 32,
-    fontWeight: FontWeight.w700,
+    fontWeight: FontWeight.w600,
     height: 1.25,
     letterSpacing: 0,
     color: AppColors.textPrimary,
+    fontFamily: 'arabic_font',
   );
   
   static const TextStyle heading2 = TextStyle(
@@ -35,6 +46,7 @@
     height: 1.29,
     letterSpacing: 0,
     color: AppColors.textPrimary,
+    fontFamily: 'arabic_font',
   );
   
   static const TextStyle heading3 = TextStyle(
@@ -43,6 +55,7 @@
     height: 1.33,
     letterSpacing: 0,
     color: AppColors.textPrimary,
+    fontFamily: 'arabic_font',
   );
   
   // Subtitle Styles
@@ -52,6 +65,7 @@
     height: 1.4,
     letterSpacing: 0.15,
     color: AppColors.textPrimary,
+    fontFamily: 'arabic_font',
   );
   
   static const TextStyle subtitle2 = TextStyle(
@@ -60,6 +74,7 @@
     height: 1.44,
     letterSpacing: 0.1,
     color: AppColors.textPrimary,
+    fontFamily: 'arabic_font',
   );
   
   // Body Styles
@@ -69,6 +84,7 @@
     height: 1.5,
     letterSpacing: 0.5,
     color: AppColors.textPrimary,
+    fontFamily: 'arabic_font',
   );
   
   static const TextStyle bodyMedium = TextStyle(
@@ -77,6 +93,7 @@
     height: 1.43,
     letterSpacing: 0.25,
     color: AppColors.textPrimary,
+    fontFamily: 'arabic_font',
   );
   
   static const TextStyle bodySmall = TextStyle(
@@ -85,6 +102,7 @@
     height: 1.33,
     letterSpacing: 0.4,
     color: AppColors.textPrimary,
+    fontFamily: 'arabic_font',
   );
   
   // Button Style
@@ -94,6 +112,7 @@
     height: 1.43,
     letterSpacing: 1.25,
     color: AppColors.textPrimary,
+    fontFamily: 'arabic_font',
   );
   
   // Caption Style
@@ -103,6 +122,7 @@
     height: 1.33,
     letterSpacing: 0.4,
     color: AppColors.textSecondary,
+    fontFamily: 'arabic_font',
   );
   
   // Overline Style
@@ -112,6 +132,7 @@
     height: 1.6,
     letterSpacing: 1.5,
     color: AppColors.textSecondary,
+    fontFamily: 'arabic_font',
   );
   
   // Special Styles
@@ -121,6 +142,7 @@
     height: 1.33,
     letterSpacing: 0,
     color: AppColors.primary,
+    fontFamily: 'arabic_font',
   );
   
   static const TextStyle priceSmall = TextStyle(
@@ -129,6 +151,7 @@
     height: 1.5,
     letterSpacing: 0,
     color: AppColors.primary,
+    fontFamily: 'arabic_font',
   );
   
   static const TextStyle rating = TextStyle(
@@ -137,6 +160,7 @@
     height: 1.43,
     letterSpacing: 0,
     color: AppColors.ratingStar,
+    fontFamily: 'arabic_font',
   );
   
   static const TextStyle error = TextStyle(
@@ -145,6 +169,7 @@
     height: 1.33,
     letterSpacing: 0.4,
     color: AppColors.error,
+    fontFamily: 'arabic_font',
   );
   
   static const TextStyle link = TextStyle(
@@ -154,5 +179,9 @@
     letterSpacing: 0.25,
     color: AppColors.primary,
     decoration: TextDecoration.underline,
+    fontFamily: 'arabic_font',
   );
+  
+  // Price text style alias
+  static const TextStyle priceTextStyle = price;
 }

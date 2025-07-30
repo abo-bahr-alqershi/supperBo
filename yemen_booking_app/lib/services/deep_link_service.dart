@@ -1,10 +1,11 @@
 import 'dart:async';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
-import 'package:uni_links/uni_links.dart';
+import 'package:app_links/app_links.dart';
 import 'package:flutter/services.dart';
 
 class DeepLinkService {
   late FirebaseDynamicLinks _dynamicLinks;
+  late AppLinks _appLinks;
   StreamSubscription? _linkSubscription;
   
   // Stream controller for deep links
@@ -13,6 +14,7 @@ class DeepLinkService {
 
   DeepLinkService() {
     _dynamicLinks = FirebaseDynamicLinks.instance;
+    _appLinks = AppLinks();
   }
 
   // Initialize deep link service
@@ -21,7 +23,7 @@ class DeepLinkService {
     await _initDynamicLinks();
     
     // Handle custom scheme links
-    await _initUniLinks();
+    await _initAppLinks();
   }
 
   // Initialize Firebase Dynamic Links
@@ -41,24 +43,22 @@ class DeepLinkService {
     );
   }
 
-  // Initialize uni_links for custom schemes
-  Future<void> _initUniLinks() async {
+  // Initialize app_links for custom schemes
+  Future<void> _initAppLinks() async {
     // Handle initial link if app was closed
     try {
-      final initialLink = await getInitialLink();
+      final initialLink = await _appLinks.getInitialLink();
       if (initialLink != null) {
-        _handleDeepLink(initialLink);
+        _handleDeepLink(initialLink.toString());
       }
     } on PlatformException {
       print('Failed to get initial link');
     }
 
     // Listen for links when app is in foreground/background
-    _linkSubscription = linkStream.listen(
-      (String? link) {
-        if (link != null) {
-          _handleDeepLink(link);
-        }
+    _linkSubscription = _appLinks.uriLinkStream.listen(
+      (Uri uri) {
+        _handleDeepLink(uri.toString());
       },
       onError: (error) {
         print('Link Stream Error: $error');

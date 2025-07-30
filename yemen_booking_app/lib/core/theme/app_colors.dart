@@ -64,6 +64,15 @@ class AppColors {
   static const Color progressBackground = Color(0xFFE0E0E0);
   static const Color progressBackgroundDark = Color(0xFF424242);
   
+  // Theme compatibility colors
+  static const Color outline = Color(0xFFE0E0E0);
+  static const Color outlineDark = Color(0xFF424242);
+  static const Color scaffoldBackgroundLight = Color(0xFFF5F5F5);
+  
+  // Gray scale colors
+  static const Color gray200 = Color(0xFFE0E0E0);
+  static const Color gray500 = Color(0xFF9E9E9E);
+  
   // Rating Colors
   static const Color ratingStar = Color(0xFFFFC107);
   static const Color ratingEmpty = Color(0xFFE0E0E0);

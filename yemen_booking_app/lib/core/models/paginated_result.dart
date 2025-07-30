@@ -28,7 +28,7 @@ class PaginatedResult<T> extends Equatable {
     int pageSize = 10,
   }) {
     return PaginatedResult<T>(
-      items: [],
+      items: const [],
       pageNumber: pageNumber,
       pageSize: pageSize,
       totalCount: 0,

@@ -7,7 +7,10 @@ import 'core/localization/locale_manager.dart';
 import 'routes/app_router.dart';
 import 'injection_container.dart';
 import 'features/settings/presentation/bloc/settings_bloc.dart';
+import 'features/settings/presentation/bloc/settings_event.dart';
+import 'features/settings/presentation/bloc/settings_state.dart';
 import 'features/auth/presentation/bloc/auth_bloc.dart';
+import 'features/auth/presentation/bloc/auth_event.dart';
 import 'features/notifications/presentation/bloc/notification_bloc.dart';
 
 class YemenBookingApp extends StatelessWidget {
@@ -17,8 +20,8 @@ class YemenBookingApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (_) => sl<SettingsBloc>()..add(LoadSettingsEvent())),
-        BlocProvider(create: (_) => sl<AuthBloc>()..add(CheckAuthStatusEvent())),
+        BlocProvider(create: (_) => sl<SettingsBloc>()..add(const LoadSettingsEvent())),
+        BlocProvider(create: (_) => sl<AuthBloc>()..add(const CheckAuthStatusEvent())),
         BlocProvider(create: (_) => sl<NotificationBloc>()),
       ],
       child: BlocBuilder<SettingsBloc, SettingsState>(
@@ -33,7 +36,7 @@ class YemenBookingApp extends StatelessWidget {
                 : ThemeMode.system,
             locale: settingsState is SettingsLoaded
                 ? settingsState.settings.locale
-                : const Locale('ar'),
+                : const Locale('ar', 'YE'),
             localizationsDelegates: const [
               AppLocalizations.delegate,
               GlobalMaterialLocalizations.delegate,

@@ -24,6 +24,8 @@ import 'features/auth/domain/usecases/login_usecase.dart';
 import 'features/auth/domain/usecases/register_usecase.dart';
 import 'features/auth/domain/usecases/logout_usecase.dart';
 import 'features/auth/domain/usecases/reset_password_usecase.dart';
+import 'features/auth/domain/usecases/check_auth_status_usecase.dart';
+import 'features/auth/domain/usecases/get_current_user_usecase.dart';
 import 'features/auth/presentation/bloc/auth_bloc.dart';
 
 // Features - Settings
@@ -33,9 +35,18 @@ import 'features/settings/domain/repositories/settings_repository.dart';
 import 'features/settings/domain/usecases/get_settings_usecase.dart';
 import 'features/settings/domain/usecases/update_language_usecase.dart';
 import 'features/settings/domain/usecases/update_theme_usecase.dart';
+import 'features/settings/domain/usecases/update_notification_settings_usecase.dart' as settings_notification;
 import 'features/settings/presentation/bloc/settings_bloc.dart';
 
 // Features - Notifications
+import 'features/notifications/data/datasources/notification_local_datasource.dart';
+import 'features/notifications/data/datasources/notification_remote_datasource.dart';
+import 'features/notifications/data/repositories/notification_repository_impl.dart';
+import 'features/notifications/domain/repositories/notification_repository.dart';
+import 'features/notifications/domain/usecases/get_notifications_usecase.dart';
+import 'features/notifications/domain/usecases/mark_as_read_usecase.dart';
+import 'features/notifications/domain/usecases/dismiss_notification_usecase.dart';
+import 'features/notifications/domain/usecases/update_notification_settings_usecase.dart';
 import 'features/notifications/presentation/bloc/notification_bloc.dart';
 
 final sl = GetIt.instance;
@@ -65,6 +76,8 @@ void _initAuth() {
       registerUseCase: sl(),
       logoutUseCase: sl(),
       resetPasswordUseCase: sl(),
+      checkAuthStatusUseCase: sl(),
+      getCurrentUserUseCase: sl(),
     ),
   );
   
@@ -73,22 +86,24 @@ void _initAuth() {
   sl.registerLazySingleton(() => RegisterUseCase(sl()));
   sl.registerLazySingleton(() => LogoutUseCase(sl()));
   sl.registerLazySingleton(() => ResetPasswordUseCase(sl()));
+  sl.registerLazySingleton(() => CheckAuthStatusUseCase(sl()));
+  sl.registerLazySingleton(() => GetCurrentUserUseCase(sl()));
   
   // Repository
   sl.registerLazySingleton<AuthRepository>(
     () => AuthRepositoryImpl(
       remoteDataSource: sl(),
       localDataSource: sl(),
-      networkInfo: sl(),
+      internetConnectionChecker: sl(),
     ),
   );
   
   // Data sources
   sl.registerLazySingleton<AuthRemoteDataSource>(
-    () => AuthRemoteDataSourceImpl(sl()),
+    () => AuthRemoteDataSourceImpl(apiClient: sl()),
   );
   sl.registerLazySingleton<AuthLocalDataSource>(
-    () => AuthLocalDataSourceImpl(sl()),
+    () => AuthLocalDataSourceImpl(sharedPreferences: sl()),
   );
 }
 
@@ -99,6 +114,7 @@ void _initSettings() {
       getSettingsUseCase: sl(),
       updateLanguageUseCase: sl(),
       updateThemeUseCase: sl(),
+      updateNotificationSettingsUseCase: sl(),
     ),
   );
   
@@ -106,6 +122,7 @@ void _initSettings() {
   sl.registerLazySingleton(() => GetSettingsUseCase(sl()));
   sl.registerLazySingleton(() => UpdateLanguageUseCase(sl()));
   sl.registerLazySingleton(() => UpdateThemeUseCase(sl()));
+  sl.registerLazySingleton(() => settings_notification.UpdateNotificationSettingsUseCase(sl()));
   
   // Repository
   sl.registerLazySingleton<SettingsRepository>(
@@ -114,13 +131,43 @@ void _initSettings() {
   
   // Data sources
   sl.registerLazySingleton<SettingsLocalDataSource>(
-    () => SettingsLocalDataSourceImpl(sl()),
+    () => SettingsLocalDataSourceImpl(localStorage: sl()),
   );
 }
 
 void _initNotifications() {
   // Bloc
-  sl.registerFactory(() => NotificationBloc());
+  sl.registerFactory(
+    () => NotificationBloc(
+      getNotificationsUseCase: sl(),
+      markAsReadUseCase: sl(),
+      dismissNotificationUseCase: sl(),
+      updateNotificationSettingsUseCase: sl(),
+    ),
+  );
+  
+  // Use cases
+  sl.registerLazySingleton(() => GetNotificationsUseCase(sl()));
+  sl.registerLazySingleton(() => MarkAsReadUseCase(sl()));
+  sl.registerLazySingleton(() => DismissNotificationUseCase(sl()));
+  sl.registerLazySingleton(() => UpdateNotificationSettingsUseCase(sl()));
+  
+  // Repository
+  sl.registerLazySingleton<NotificationRepository>(
+    () => NotificationRepositoryImpl(
+      remoteDataSource: sl(),
+      localDataSource: sl(),
+      networkInfo: sl(),
+    ),
+  );
+  
+  // Data sources
+  sl.registerLazySingleton<NotificationRemoteDataSource>(
+    () => NotificationRemoteDataSourceImpl(apiClient: sl()),
+  );
+  sl.registerLazySingleton<NotificationLocalDataSource>(
+    () => NotificationLocalDataSourceImpl(localStorage: sl()),
+  );
 }
 
 void _initCore() {

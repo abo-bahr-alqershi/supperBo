@@ -36,7 +36,7 @@ class EmptyWidget extends StatelessWidget {
             Text(
               message,
               textAlign: TextAlign.center,
-              style: AppTextStyles.bodyMedium.copyWith(color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.7)),
+              style: AppTextStyles.bodyMedium.copyWith(color: Theme.of(context).textTheme.bodyMedium?.color?.withValues(alpha: 0.7)),
             ),
             if (actionWidget != null) ...[
               const SizedBox(height: 24.0),

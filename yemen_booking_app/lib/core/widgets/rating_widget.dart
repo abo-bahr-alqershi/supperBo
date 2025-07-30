@@ -27,31 +27,29 @@ class RatingWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final effectiveStarColor = starColor ?? Theme.of(context).colorScheme.secondary; // Example: Use a secondary color for stars
-    final effectiveBorderColor = borderColor ?? effectiveStarColor.withOpacity(0.5);
+    final effectiveBorderColor = borderColor ?? effectiveStarColor.withValues(alpha: 0.5);
 
-    return RatingBar(
+    return RatingBar.builder(
       initialRating: rating,
       minRating: 0,
-      maxRating: starCount.toDouble(),
       itemCount: starCount,
       itemSize: itemSize,
       allowHalfRating: allowHalfRating,
-      ignoreGestures: onRatingUpdate == null, // Make it non-interactive if no callback
-      tapSize: tapSize ?? itemSize * 1.5, // Larger tap area
-      unratedColor: effectiveBorderColor, // Color for unrated stars
-      // You can customize itemPadding if needed
-      // itemPadding: EdgeInsets.symmetric(horizontal: 2.0),
+      ignoreGestures: onRatingUpdate == null,
+      unratedColor: effectiveBorderColor,
       
-      // Example styling for the star icons
-      ratingWidget: RatingWidget(
-        full: Icon(Icons.star_rounded, color: effectiveStarColor),
-        half: Icon(Icons.star_half_rounded, color: effectiveStarColor),
-        empty: Icon(Icons.star_outline_rounded, color: effectiveBorderColor),
-      ),
+      itemBuilder: (context, index) {
+        if (index < rating.floor()) {
+          return Icon(Icons.star_rounded, color: effectiveStarColor);
+        } else if (allowHalfRating && index < rating && rating - index >= 0.5) {
+          return Icon(Icons.star_half_rounded, color: effectiveStarColor);
+        } else {
+          return Icon(Icons.star_outline_rounded, color: effectiveBorderColor);
+        }
+      },
       
       onRatingUpdate: onRatingUpdate ?? (newRating) {
         // If you need to handle the rating update, use the callback
-        // print('New rating: $newRating');
       },
     );
   }

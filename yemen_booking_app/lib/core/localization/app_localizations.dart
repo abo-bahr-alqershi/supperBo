@@ -128,6 +128,15 @@ class AppLocalizations {
   String get(String key) {
     return _localizedValues[locale.languageCode]?[key] ?? key;
   }
+  
+  // Date formatting utility using intl
+  String formatDate(DateTime date) {
+    return intl.DateFormat.yMd(locale.languageCode).format(date);
+  }
+  
+  String formatTime(DateTime time) {
+    return intl.DateFormat.Hm(locale.languageCode).format(time);
+  }
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

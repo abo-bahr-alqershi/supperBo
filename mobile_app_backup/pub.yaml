@@ -1,9 +1,23 @@
+name: yemen_booking_app
+description: "A new Flutter project."
+# The following line prevents the package from being accidentally published to
+# pub.dev using `flutter pub publish`. This is preferred for private packages.
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.18.0 <4.0.0"
+
 dependencies:
   # Core
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
   
   # State Management & DI
+  flutter_bloc: ^8.1.6
   get_it: ^7.6.7
   
   # Network
@@ -35,12 +49,22 @@ dependencies:
   flutter_local_notifications: ^16.3.2
   
   # Deep Links
-  uni_links: ^0.5.1
   
   # Utilities
   equatable: ^2.0.5
   dartz: ^0.10.1
   http: ^1.2.0
+  intl: ^0.20.2
+  
+  # UI Widgets
+  cached_network_image: ^3.3.1
+  flutter_svg: ^2.0.10+1
+  flutter_spinkit: ^5.2.1
+  flutter_rating_bar: ^4.0.1
+  
+  # Navigation
+  go_router: ^14.2.7
+  app_links: ^6.4.0
   
 dev_dependencies:
   flutter_test:
@@ -51,16 +75,6 @@ dev_dependencies:
 
 
 
-# Android (android/app/src/main/AndroidManifest.xml):
-#   <uses-permission android:name="android.permission.INTERNET" />
-# <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-# <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-# <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
-# <uses-permission android:name="android.permission.VIBRATE" />
+flutter:
 
-
-# iOS (ios/Runner/Info.plist):
-# <key>NSLocationWhenInUseUsageDescription</key>
-# <string>نحتاج إلى موقعك لعرض العقارات القريبة منك</string>
-# <key>NSLocationAlwaysUsageDescription</key>
-# <string>نحتاج إلى موقعك لعرض العقارات القريبة منك</string>
+  uses-material-design: true

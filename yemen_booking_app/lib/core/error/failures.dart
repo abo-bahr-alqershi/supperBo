@@ -2,130 +2,79 @@ import 'package:equatable/equatable.dart';
 
 abstract class Failure extends Equatable {
   final String message;
-  final int? code;
-  final dynamic data;
-
-  const Failure({
-    required this.message,
-    this.code,
-    this.data,
-  });
+  
+  const Failure([this.message = 'An unexpected error occurred']);
 
   @override
-  List<Object?> get props => [message, code, data];
+  List<Object> get props => [message];
 }
 
 // General failures
 class ServerFailure extends Failure {
-  const ServerFailure({
-    required super.message,
-    super.code,
-    super.data,
-  });
-}
-
-class NetworkFailure extends Failure {
-  const NetworkFailure({
-    super.message = 'لا يوجد اتصال بالإنترنت',
-    super.code,
-    super.data,
-  });
+  const ServerFailure([super.message = 'Server failure']);
 }
 
 class CacheFailure extends Failure {
-  const CacheFailure({
-    super.message = 'خطأ في التخزين المحلي',
-    super.code,
-    super.data,
-  });
+  const CacheFailure([super.message = 'Cache failure']);
 }
 
-// Auth failures
-class AuthenticationFailure extends Failure {
-  const AuthenticationFailure({
-    required super.message,
-    super.code,
-    super.data,
-  });
+class NetworkFailure extends Failure {
+  const NetworkFailure([super.message = 'Network failure']);
 }
 
-class UnauthorizedFailure extends Failure {
-  const UnauthorizedFailure({
-    super.message = 'غير مصرح بالوصول',
-    super.code = 401,
-    super.data,
-  });
+class AuthFailure extends Failure {
+  const AuthFailure([super.message = 'Authentication failure']);
 }
 
-class SessionExpiredFailure extends Failure {
-  const SessionExpiredFailure({
-    super.message = 'انتهت صلاحية الجلسة',
-    super.code = 401,
-    super.data,
-  });
-}
-
-// Validation failures
 class ValidationFailure extends Failure {
   final Map<String, List<String>>? errors;
-
-  const ValidationFailure({
-    super.message = 'خطأ في البيانات المدخلة',
-    super.code = 422,
-    this.errors,
-    super.data,
-  });
-
+  
+  const ValidationFailure([super.message = 'Validation failure', this.errors]);
+  
   @override
-  List<Object?> get props => [message, code, errors, data];
-}
-
-// Business logic failures
-class BusinessLogicFailure extends Failure {
-  const BusinessLogicFailure({
-    required super.message,
-    super.code,
-    super.data,
-  });
+  List<Object> get props => [message, errors ?? {}];
 }
 
 class NotFoundFailure extends Failure {
-  const NotFoundFailure({
-    super.message = 'لم يتم العثور على البيانات',
-    super.code = 404,
-    super.data,
-  });
+  const NotFoundFailure([super.message = 'Resource not found']);
 }
 
-class PermissionDeniedFailure extends Failure {
-  const PermissionDeniedFailure({
-    super.message = 'ليس لديك صلاحية للقيام بهذا الإجراء',
-    super.code = 403,
-    super.data,
-  });
-}
-
-// Other failures
-class UnknownFailure extends Failure {
-  const UnknownFailure({
-    super.message = 'حدث خطأ غير متوقع',
-    super.code,
-    super.data,
-  });
+class UnauthorizedFailure extends Failure {
+  const UnauthorizedFailure([super.message = 'Unauthorized access']);
 }
 
 class TimeoutFailure extends Failure {
-  const TimeoutFailure({
-    super.message = 'انتهت مهلة الاتصال',
-    super.code,
-    super.data,
-  });
+  const TimeoutFailure([super.message = 'Request timeout']);
 }
 
-class MaintenanceFailure extends Failure {
-  const MaintenanceFailure({
-    super.message = 'الخدمة تحت الصيانة حالياً',
-    super.code = 503,
-    super.data,
-  });
+class UnknownFailure extends Failure {
+  const UnknownFailure([super.message = 'Unknown failure']);
+}
+
+class AuthenticationFailure extends Failure {
+  const AuthenticationFailure([super.message = 'Authentication failure']);
+}
+
+class ApiFailure extends Failure {
+  final String code;
+  const ApiFailure({required String message, required this.code}) : super(message);
+  
+  @override
+  List<Object> get props => [message, code];
+}
+
+class SessionExpiredFailure extends Failure {
+  const SessionExpiredFailure([super.message = 'Session expired']);
+}
+
+class PermissionDeniedFailure extends Failure {
+  const PermissionDeniedFailure([super.message = 'Permission denied']);
+}
+
+class ValidationFailureWithErrors extends Failure {
+  final Map<String, List<String>> errors;
+  const ValidationFailureWithErrors({required String message, required this.errors}) : super(message);
+  
+  @override
+  List<Object> get props => [message, errors];
 }

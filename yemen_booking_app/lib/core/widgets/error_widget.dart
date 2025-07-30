@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart'; // Assuming you use SVG for icons
 import '../theme/app_colors.dart';
 import '../theme/app_text_styles.dart';
-import '../utils/validators.dart'; // Assuming you might use validators for retry logic or error messages
 
 class ErrorWidget extends StatelessWidget {
   final String message;

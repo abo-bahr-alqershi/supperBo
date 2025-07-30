@@ -42,8 +42,11 @@ class LocaleManager {
     // The MaterialApp.router should rebuild when the locale state changes (e.g., via Bloc).
   }
 
-  static Locale getCurrentLocale(BuildContext context) {
-    // Retrieve locale from MaterialApp's locale setting
-    return Localizations.localeOf(context);
+  static Locale getCurrentLocale([BuildContext? context]) {
+    if (context != null) {
+      // Retrieve locale from MaterialApp's locale setting
+      return Localizations.localeOf(context);
+    }
+    return defaultLocale;
   }
 }
