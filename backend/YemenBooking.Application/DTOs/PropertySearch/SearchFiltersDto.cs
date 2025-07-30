@@ -68,6 +68,18 @@ namespace YemenBooking.Application.DTOs.PropertySearch
         /// Supported currencies
         /// </summary>
         public List<string> SupportedCurrencies { get; set; } = new();
+
+        /// <summary>
+        /// الخدمات المتاحة
+        /// Available services
+        /// </summary>
+        public List<ServiceFilterDto> Services { get; set; } = new();
+
+        /// <summary>
+        /// قيم الحقول الديناميكية المتاحة للفلترة
+        /// Available dynamic field values for filtering
+        /// </summary>
+        public List<DynamicFieldValueFilterDto> DynamicFieldValues { get; set; } = new();
     }
 
     /// <summary>
@@ -195,5 +207,55 @@ namespace YemenBooking.Application.DTOs.PropertySearch
         /// Maximum distance (in kilometers)
         /// </summary>
         public double MaxDistance { get; set; } = 50;
+    }
+
+    /// <summary>
+    /// DTO لفلتر الخدمة
+    /// Service filter DTO
+    /// </summary>
+    public class ServiceFilterDto
+    {
+        /// <summary>
+        /// معرف الخدمة
+        /// Service ID
+        /// </summary>
+        public Guid Id { get; set; }
+
+        /// <summary>
+        /// اسم الخدمة
+        /// Service name
+        /// </summary>
+        public string Name { get; set; } = string.Empty;
+
+        /// <summary>
+        /// عدد العقارات التى توفر هذه الخدمة
+        /// Available properties count that provide this service
+        /// </summary>
+        public int PropertiesCount { get; set; }
+    }
+
+    /// <summary>
+    /// DTO لفلتر قيمة الحقل الديناميكى
+    /// Dynamic field value filter DTO
+    /// </summary>
+    public class DynamicFieldValueFilterDto
+    {
+        /// <summary>
+        /// اسم الحقل الديناميكى
+        /// Dynamic field name
+        /// </summary>
+        public string FieldName { get; set; } = string.Empty;
+
+        /// <summary>
+        /// القيمة
+        /// Value of the field
+        /// </summary>
+        public string Value { get; set; } = string.Empty;
+
+        /// <summary>
+        /// عدد الوحدات أو العقارات المطابقة للقيمة
+        /// Count of matching units/properties
+        /// </summary>
+        public int Count { get; set; }
     }
 }

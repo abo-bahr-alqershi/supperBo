@@ -1,5 +1,7 @@
 using MediatR;
 using YBQuery = YemenBooking.Application.Queries.MobileApp.SearchFilters.GetSearchFiltersQuery;
+using System.Linq;
+using System.Collections.Generic;
 using Microsoft.Extensions.Logging;
 
 using YemenBooking.Application.DTOs;
@@ -18,6 +20,8 @@ public class GetSearchFiltersQueryHandler : IRequestHandler<YBQuery, ResultDto<S
     private readonly IPropertyTypeRepository _propertyTypeRepository;
     private readonly IAmenityRepository _amenityRepository;
     private readonly IUnitRepository _unitRepository;
+    private readonly IUnitTypeRepository _unitTypeRepository;
+    private readonly IPropertyServiceRepository _propertyServiceRepository;
     private readonly ILogger<GetSearchFiltersQueryHandler> _logger;
 
     /// <summary>
@@ -34,12 +38,16 @@ public class GetSearchFiltersQueryHandler : IRequestHandler<YBQuery, ResultDto<S
         IPropertyTypeRepository propertyTypeRepository,
         IAmenityRepository amenityRepository,
         IUnitRepository unitRepository,
+        IUnitTypeRepository unitTypeRepository,
+        IPropertyServiceRepository propertyServiceRepository,
         ILogger<GetSearchFiltersQueryHandler> logger)
     {
         _propertyRepository = propertyRepository;
         _propertyTypeRepository = propertyTypeRepository;
         _amenityRepository = amenityRepository;
         _unitRepository = unitRepository;
+        _unitTypeRepository = unitTypeRepository;
+        _propertyServiceRepository = propertyServiceRepository;
         _logger = logger;
     }
 
@@ -94,6 +102,15 @@ public class GetSearchFiltersQueryHandler : IRequestHandler<YBQuery, ResultDto<S
 
             // جلب وسائل الراحة المتاحة
             await PopulateAmenities(searchFilters, propertiesList, cancellationToken);
+
+            // جلب أنواع الوحدات المتاحة
+            await PopulateUnitTypes(searchFilters, propertiesList, cancellationToken);
+
+            // جلب الخدمات المتاحة
+            await PopulateServices(searchFilters, propertiesList);
+
+            // جلب قيم الحقول الديناميكية المتاحة
+            await PopulateDynamicFieldValues(searchFilters, propertiesList, cancellationToken);
 
             // جلب تصنيفات النجوم المتاحة
             PopulateStarRatings(searchFilters, propertiesList);
@@ -218,7 +235,7 @@ public class GetSearchFiltersQueryHandler : IRequestHandler<YBQuery, ResultDto<S
                 {
                     Id = pt.Id,
                     Name = pt.Name ?? string.Empty,
-                    // Count = properties.Count(p => p.PropertyType?.Id == pt.Id) // تم إزالة Count property
+                    PropertiesCount = properties.Count(p => p.PropertyType?.Id == pt.Id)
                 })
                 .OrderBy(pt => pt.Name)
                 .ToList();
@@ -256,8 +273,8 @@ public class GetSearchFiltersQueryHandler : IRequestHandler<YBQuery, ResultDto<S
                 {
                     Id = a.Id,
                     Name = a.Name ?? string.Empty,
-                    Category = "عام", // قيمة افتراضية للفئة
-                    // Count = 0 // تم إزالة Count property
+                    Category = "عام",
+                    PropertiesCount = properties.Count(p => p.Amenities.Any(pa => pa.PtaId == a.Id))
                 })
                     .OrderBy(a => a.Name)
                     .ToList();
@@ -341,6 +358,125 @@ public class GetSearchFiltersQueryHandler : IRequestHandler<YBQuery, ResultDto<S
     }
 
     /// <summary>
+    /// جلب أنواع الوحدات المتاحة
+    /// Populate unit types
+    /// </summary>
+    private async Task PopulateUnitTypes(SearchFiltersDto searchFilters, List<Core.Entities.Property> properties, CancellationToken cancellationToken)
+    {
+        try
+        {
+            var allUnitTypeIds = new HashSet<Guid>();
+
+            foreach (var property in properties)
+            {
+                var units = await _unitRepository.GetActiveByPropertyIdAsync(property.Id, cancellationToken);
+                foreach (var unit in units)
+                {
+                    if (unit.UnitTypeId != Guid.Empty)
+                    {
+                        allUnitTypeIds.Add(unit.UnitTypeId);
+                    }
+                }
+            }
+
+            var unitTypes = await _unitTypeRepository.GetAllUnitTypesAsync(cancellationToken);
+
+            searchFilters.UnitTypes = unitTypes?.Where(ut => allUnitTypeIds.Contains(ut.Id))
+                .Select(ut => new UnitTypeFilterDto
+                {
+                    Id = ut.Id,
+                    Name = ut.Name ?? string.Empty,
+                    UnitsCount = properties.Sum(p => p.Units.Count(u => u.UnitTypeId == ut.Id))
+                }).OrderBy(ut => ut.Name).ToList() ?? new List<UnitTypeFilterDto>();
+
+            _logger.LogDebug("تم جلب {Count} نوع وحدة متاح", searchFilters.UnitTypes.Count);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "خطأ أثناء جلب أنواع الوحدات");
+            searchFilters.UnitTypes = new List<UnitTypeFilterDto>();
+        }
+    }
+
+    /// <summary>
+    /// جلب الخدمات المتاحة
+    /// Populate services list
+    /// </summary>
+    private void PopulateServices(SearchFiltersDto searchFilters, List<Core.Entities.Property> properties)
+    {
+        try
+        {
+            var serviceGroups = properties
+                .Where(p => p.Services != null && p.Services.Any())
+                .SelectMany(p => p.Services.Select(s => new { s.Id, s.Name, p.Id }))
+                .GroupBy(x => new { x.Id, x.Name })
+                .Select(g => new ServiceFilterDto
+                {
+                    Id = g.Key.Id,
+                    Name = g.Key.Name ?? string.Empty,
+                    PropertiesCount = g.Select(x => x.Id).Distinct().Count()
+                }).OrderBy(s => s.Name).ToList();
+
+            searchFilters.Services = serviceGroups;
+
+            _logger.LogDebug("تم جلب {Count} خدمة متاحة", searchFilters.Services.Count);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "خطأ أثناء جلب الخدمات");
+            searchFilters.Services = new List<ServiceFilterDto>();
+        }
+    }
+
+    /// <summary>
+    /// جلب قيم الحقول الديناميكية المتاحة
+    /// Populate dynamic field values
+    /// </summary>
+    private async Task PopulateDynamicFieldValues(SearchFiltersDto searchFilters, List<Core.Entities.Property> properties, CancellationToken cancellationToken)
+    {
+        try
+        {
+            var dynamicValueCounts = new Dictionary<(string field, string value), int>();
+
+            foreach (var property in properties)
+            {
+                var units = await _unitRepository.GetActiveByPropertyIdAsync(property.Id, cancellationToken);
+                foreach (var unit in units)
+                {
+                    if (unit.DynamicFields == null || !unit.DynamicFields.Any()) continue;
+
+                    foreach (var kvp in unit.DynamicFields)
+                    {
+                        var key = (kvp.Key, kvp.Value?.ToString() ?? string.Empty);
+                        if (dynamicValueCounts.ContainsKey(key))
+                        {
+                            dynamicValueCounts[key]++;
+                        }
+                        else
+                        {
+                            dynamicValueCounts[key] = 1;
+                        }
+                    }
+                }
+            }
+
+            searchFilters.DynamicFieldValues = dynamicValueCounts.Select(d => new DynamicFieldValueFilterDto
+            {
+                FieldName = d.Key.field,
+                Value = d.Key.value,
+                Count = d.Value
+            }).OrderBy(d => d.FieldName).ThenBy(d => d.Value).ToList();
+
+            _logger.LogDebug("تم جلب {Count} قيمة حقل ديناميكى", searchFilters.DynamicFieldValues.Count);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "خطأ أثناء جلب قيم الحقول الديناميكية");
+            searchFilters.DynamicFieldValues = new List<DynamicFieldValueFilterDto>();
+        }
+    }
+
+    /// <summary>
     /// الحصول على فلاتر افتراضية
     /// Get default filters
     /// </summary>
@@ -358,6 +494,9 @@ public class GetSearchFiltersQueryHandler : IRequestHandler<YBQuery, ResultDto<S
             },
             PropertyTypes = new List<PropertyTypeFilterDto>(),
             Amenities = new List<AmenityFilterDto>(),
+            UnitTypes = new List<UnitTypeFilterDto>(),
+            Services = new List<ServiceFilterDto>(),
+            DynamicFieldValues = new List<DynamicFieldValueFilterDto>(),
             StarRatings = new List<int> { 1, 2, 3, 4, 5 },
             MaxGuestCapacity = 10
         };
