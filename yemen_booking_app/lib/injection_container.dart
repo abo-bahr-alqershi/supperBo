@@ -64,7 +64,6 @@ void _initAuth() {
       loginUseCase: sl(),
       registerUseCase: sl(),
       logoutUseCase: sl(),
-      resetPasswordUseCase: sl(),
     ),
   );
   
@@ -72,50 +71,36 @@ void _initAuth() {
   sl.registerLazySingleton(() => LoginUseCase(sl()));
   sl.registerLazySingleton(() => RegisterUseCase(sl()));
   sl.registerLazySingleton(() => LogoutUseCase(sl()));
-  sl.registerLazySingleton(() => ResetPasswordUseCase(sl()));
   
   // Repository
   sl.registerLazySingleton<AuthRepository>(
     () => AuthRepositoryImpl(
       remoteDataSource: sl(),
       localDataSource: sl(),
-      networkInfo: sl(),
+      internetConnectionChecker: sl(),
     ),
   );
   
   // Data sources
   sl.registerLazySingleton<AuthRemoteDataSource>(
-    () => AuthRemoteDataSourceImpl(sl()),
+    () => AuthRemoteDataSourceImpl(
+      apiClient: sl(),
+    ),
   );
   sl.registerLazySingleton<AuthLocalDataSource>(
-    () => AuthLocalDataSourceImpl(sl()),
+    () => AuthLocalDataSourceImpl(
+      sharedPreferences: sl(),
+    ),
   );
 }
 
 void _initSettings() {
   // Bloc
   sl.registerFactory(
-    () => SettingsBloc(
-      getSettingsUseCase: sl(),
-      updateLanguageUseCase: sl(),
-      updateThemeUseCase: sl(),
-    ),
+    () => SettingsBloc(),
   );
   
-  // Use cases
-  sl.registerLazySingleton(() => GetSettingsUseCase(sl()));
-  sl.registerLazySingleton(() => UpdateLanguageUseCase(sl()));
-  sl.registerLazySingleton(() => UpdateThemeUseCase(sl()));
-  
-  // Repository
-  sl.registerLazySingleton<SettingsRepository>(
-    () => SettingsRepositoryImpl(localDataSource: sl()),
-  );
-  
-  // Data sources
-  sl.registerLazySingleton<SettingsLocalDataSource>(
-    () => SettingsLocalDataSourceImpl(sl()),
-  );
+  // TODO: Implement settings use cases and repository later
 }
 
 void _initNotifications() {
@@ -124,14 +109,14 @@ void _initNotifications() {
 }
 
 void _initCore() {
-  // Network
-  sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));
+  // Network - comment out for now since NetworkInfo is not defined
+  // sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl(sl()));
   
   // API Client
   sl.registerLazySingleton<ApiClient>(() => ApiClient(sl()));
   
   // Services
-  sl.registerLazySingleton(() => LocalStorageService(sl()));
+  // LocalStorageService is static, no need to register
   sl.registerLazySingleton(() => LocationService());
   sl.registerLazySingleton(() => NotificationService());
   sl.registerLazySingleton(() => AnalyticsService());

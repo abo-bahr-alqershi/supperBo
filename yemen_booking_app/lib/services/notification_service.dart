@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:timezone/timezone.dart' as tz;
 import 'package:dio/dio.dart';
 import '../core/network/api_client.dart';
 import '../core/constants/api_constants.dart';
@@ -24,6 +25,12 @@ class NotificationService {
   }) : _apiClient = apiClient,
        _localStorage = localStorage,
        _authLocalDataSource = authLocalDataSource;
+
+  // Static init method for backward compatibility
+  static Future<void> init() async {
+    final service = NotificationService();
+    await service.initialize();
+  }
 
   // Initialize notification service
   Future<void> initialize() async {
@@ -102,7 +109,7 @@ class NotificationService {
       final token = await _firebaseMessaging.getToken();
       if (token != null) {
         await _sendTokenToServer(token);
-        await _localStorage?.saveFcmToken(token);
+        await LocalStorageService.setString('fcm_token', token);
       }
     } catch (e) {
       print('Error registering FCM token: $e');
@@ -135,7 +142,7 @@ class NotificationService {
   // Handle token refresh
   Future<void> _onTokenRefresh(String token) async {
     await _sendTokenToServer(token);
-    await _localStorage?.saveFcmToken(token);
+    await LocalStorageService.setString('fcm_token', token);
   }
 
   // Unregister FCM token
@@ -305,7 +312,7 @@ class NotificationService {
       id,
       title,
       body,
-      scheduledDate,
+      tz.TZDateTime.from(scheduledDate, tz.local),
       details,
       androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
       uiLocalNotificationDateInterpretation:

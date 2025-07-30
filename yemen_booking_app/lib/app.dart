@@ -29,10 +29,10 @@ class YemenBookingApp extends StatelessWidget {
             theme: AppTheme.lightTheme,
             darkTheme: AppTheme.darkTheme,
             themeMode: settingsState is SettingsLoaded 
-                ? settingsState.settings.themeMode 
+                ? settingsState.themeMode 
                 : ThemeMode.system,
             locale: settingsState is SettingsLoaded
-                ? settingsState.settings.locale
+                ? settingsState.locale
                 : const Locale('ar'),
             localizationsDelegates: const [
               AppLocalizations.delegate,

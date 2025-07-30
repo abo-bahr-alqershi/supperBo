@@ -99,4 +99,85 @@ class TimeoutException implements Exception {
   });
 }
 
-// Keep the existing ApiException class as is...
+class ApiException implements Exception {
+  final String message;
+  final int? statusCode;
+  final dynamic data;
+  final DioExceptionType? type;
+
+  ApiException({
+    required this.message,
+    this.statusCode,
+    this.data,
+    this.type,
+  });
+
+  factory ApiException.fromDioException(DioException dioException) {
+    String message;
+    int? statusCode = dioException.response?.statusCode;
+    
+    switch (dioException.type) {
+      case DioExceptionType.connectionTimeout:
+        message = 'Connection timeout';
+        break;
+      case DioExceptionType.sendTimeout:
+        message = 'Send timeout';
+        break;
+      case DioExceptionType.receiveTimeout:
+        message = 'Receive timeout';
+        break;
+      case DioExceptionType.badResponse:
+        message = _handleStatusCode(statusCode);
+        break;
+      case DioExceptionType.cancel:
+        message = 'Request cancelled';
+        break;
+      case DioExceptionType.connectionError:
+        message = 'Connection error';
+        break;
+      case DioExceptionType.badCertificate:
+        message = 'Bad certificate';
+        break;
+      case DioExceptionType.unknown:
+        message = 'Unknown error occurred';
+        break;
+    }
+
+    return ApiException(
+      message: message,
+      statusCode: statusCode,
+      data: dioException.response?.data,
+      type: dioException.type,
+    );
+  }
+
+  static String _handleStatusCode(int? statusCode) {
+    switch (statusCode) {
+      case 400:
+        return 'Bad request';
+      case 401:
+        return 'Unauthorized';
+      case 403:
+        return 'Forbidden';
+      case 404:
+        return 'Not found';
+      case 409:
+        return 'Conflict';
+      case 422:
+        return 'Validation error';
+      case 500:
+        return 'Internal server error';
+      case 502:
+        return 'Bad gateway';
+      case 503:
+        return 'Service unavailable';
+      default:
+        return 'HTTP error: $statusCode';
+    }
+  }
+
+  @override
+  String toString() {
+    return 'ApiException(message: $message, statusCode: $statusCode)';
+  }
+}

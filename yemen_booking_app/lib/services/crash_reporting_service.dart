@@ -10,6 +10,12 @@ class CrashReportingService {
 
   late FirebaseCrashlytics _crashlytics;
 
+  // Static init method for backward compatibility
+  static Future<void> init() async {
+    final service = CrashReportingService();
+    await service.initialize();
+  }
+
   // Initialize crash reporting
   Future<void> initialize() async {
     _crashlytics = FirebaseCrashlytics.instance;
