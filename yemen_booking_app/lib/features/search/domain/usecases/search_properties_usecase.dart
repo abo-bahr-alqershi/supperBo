@@ -14,16 +14,19 @@ class SearchPropertiesUseCase implements UseCase<PaginatedResult<SearchResult>, 
   @override
   Future<Either<Failure, PaginatedResult<SearchResult>>> call(SearchPropertiesParams params) async {
     return await repository.searchProperties(
-      searchQuery: params.searchQuery,
+      searchTerm: params.searchTerm,
       city: params.city,
-      propertyType: params.propertyType,
+      propertyTypeId: params.propertyTypeId,
       minPrice: params.minPrice,
       maxPrice: params.maxPrice,
-      minRating: params.minRating,
-      amenities: params.amenities,
-      checkInDate: params.checkInDate,
-      checkOutDate: params.checkOutDate,
-      guests: params.guests,
+      minStarRating: params.minStarRating,
+      requiredAmenities: params.requiredAmenities,
+      unitTypeId: params.unitTypeId,
+      serviceIds: params.serviceIds,
+      dynamicFieldFilters: params.dynamicFieldFilters,
+      checkIn: params.checkIn,
+      checkOut: params.checkOut,
+      guestsCount: params.guestsCount,
       latitude: params.latitude,
       longitude: params.longitude,
       radiusKm: params.radiusKm,
@@ -35,16 +38,19 @@ class SearchPropertiesUseCase implements UseCase<PaginatedResult<SearchResult>, 
 }
 
 class SearchPropertiesParams extends Equatable {
-  final String? searchQuery;
+  final String? searchTerm;
   final String? city;
-  final String? propertyType;
+  final String? propertyTypeId;
   final double? minPrice;
   final double? maxPrice;
-  final int? minRating;
-  final List<String>? amenities;
-  final DateTime? checkInDate;
-  final DateTime? checkOutDate;
-  final int? guests;
+  final int? minStarRating;
+  final List<String>? requiredAmenities;
+  final String? unitTypeId;
+  final List<String>? serviceIds;
+  final Map<String, dynamic>? dynamicFieldFilters;
+  final DateTime? checkIn;
+  final DateTime? checkOut;
+  final int? guestsCount;
   final double? latitude;
   final double? longitude;
   final double? radiusKm;
@@ -53,16 +59,19 @@ class SearchPropertiesParams extends Equatable {
   final int pageSize;
 
   const SearchPropertiesParams({
-    this.searchQuery,
+    this.searchTerm,
     this.city,
-    this.propertyType,
+    this.propertyTypeId,
     this.minPrice,
     this.maxPrice,
-    this.minRating,
-    this.amenities,
-    this.checkInDate,
-    this.checkOutDate,
-    this.guests,
+    this.minStarRating,
+    this.requiredAmenities,
+    this.unitTypeId,
+    this.serviceIds,
+    this.dynamicFieldFilters,
+    this.checkIn,
+    this.checkOut,
+    this.guestsCount,
     this.latitude,
     this.longitude,
     this.radiusKm,
@@ -73,16 +82,19 @@ class SearchPropertiesParams extends Equatable {
 
   @override
   List<Object?> get props => [
-        searchQuery,
+        searchTerm,
         city,
-        propertyType,
+        propertyTypeId,
         minPrice,
         maxPrice,
-        minRating,
-        amenities,
-        checkInDate,
-        checkOutDate,
-        guests,
+        minStarRating,
+        requiredAmenities,
+        unitTypeId,
+        serviceIds,
+        dynamicFieldFilters,
+        checkIn,
+        checkOut,
+        guestsCount,
         latitude,
         longitude,
         radiusKm,
