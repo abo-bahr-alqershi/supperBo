@@ -1,303 +1,387 @@
-import 'package:equatable/equatable.dart';
+import 'package:yemen_booking_app/features/search/domain/entities/search_result.dart';
+
 import '../../domain/entities/search_filter.dart';
 
-/// <summary>
-/// نموذج بيانات فلتر البحث
-/// Search filter data model
-/// </summary>
-class SearchFilterModel extends Equatable {
-  /// <summary>
-  /// كلمة البحث
-  /// Search term
-  /// </summary>
-  final String? searchTerm;
-
-  /// <summary>
-  /// المدينة
-  /// City
-  /// </summary>
-  final String? city;
-
-  /// <summary>
-  /// تاريخ الوصول
-  /// Check-in date
-  /// </summary>
-  final DateTime? checkIn;
-
-  /// <summary>
-  /// تاريخ المغادرة
-  /// Check-out date
-  /// </summary>
-  final DateTime? checkOut;
-
-  /// <summary>
-  /// عدد الضيوف
-  /// Guests count
-  /// </summary>
-  final int? guestsCount;
-
-  /// <summary>
-  /// معرف نوع العقار
-  /// Property type ID
-  /// </summary>
-  final String? propertyTypeId;
-
-  /// <summary>
-  /// السعر الأدنى
-  /// Minimum price
-  /// </summary>
-  final double? minPrice;
-
-  /// <summary>
-  /// السعر الأقصى
-  /// Maximum price
-  /// </summary>
-  final double? maxPrice;
-
-  /// <summary>
-  /// تصنيف النجوم الأدنى
-  /// Minimum star rating
-  /// </summary>
-  final int? minStarRating;
-
-  /// <summary>
-  /// قائمة معرفات المرافق المطلوبة
-  /// Required amenities IDs list
-  /// </summary>
-  final List<String> requiredAmenities;
-
-  /// <summary>
-  /// معرف نوع الوحدة المطلوب
-  /// Required unit type ID
-  /// </summary>
-  final String? unitTypeId;
-
-  /// <summary>
-  /// معرفات الخدمات المطلوبة
-  /// Required service IDs
-  /// </summary>
-  final List<String> serviceIds;
-
-  /// <summary>
-  /// فلاتر الحقول الديناميكية
-  /// Dynamic field filters
-  /// </summary>
-  final Map<String, dynamic> dynamicFieldFilters;
-
-  /// <summary>
-  /// خط العرض للبحث بالموقع
-  /// Latitude for location search
-  /// </summary>
-  final double? latitude;
-
-  /// <summary>
-  /// خط الطول للبحث بالموقع
-  /// Longitude for location search
-  /// </summary>
-  final double? longitude;
-
-  /// <summary>
-  /// نصف قطر البحث بالكيلومتر
-  /// Search radius in kilometers
-  /// </summary>
-  final int? radiusKm;
-
-  /// <summary>
-  /// ترتيب النتائج
-  /// Sort order
-  /// </summary>
-  final String? sortBy;
-
-  /// <summary>
-  /// رقم الصفحة
-  /// Page number
-  /// </summary>
-  final int pageNumber;
-
-  /// <summary>
-  /// حجم الصفحة
-  /// Page size
-  /// </summary>
-  final int pageSize;
-
+class SearchFilterModel extends SearchFilter {
   const SearchFilterModel({
-    this.searchTerm,
-    this.city,
-    this.checkIn,
-    this.checkOut,
-    this.guestsCount,
-    this.propertyTypeId,
-    this.minPrice,
-    this.maxPrice,
-    this.minStarRating,
-    this.requiredAmenities = const [],
-    this.unitTypeId,
-    this.serviceIds = const [],
-    this.dynamicFieldFilters = const {},
-    this.latitude,
-    this.longitude,
-    this.radiusKm,
-    this.sortBy,
-    this.pageNumber = 1,
-    this.pageSize = 20,
+    required super.filterId,
+    required super.fieldId,
+    required super.filterType,
+    required super.displayName,
+    required super.filterOptions,
+    required super.isActive,
+    required super.sortOrder,
+    super.field,
   });
 
-  /// <summary>
-  /// إنشاء نموذج من JSON
-  /// Create model from JSON
-  /// </summary>
   factory SearchFilterModel.fromJson(Map<String, dynamic> json) {
     return SearchFilterModel(
-      searchTerm: json['searchTerm'],
-      city: json['city'],
-      checkIn: json['checkIn'] != null 
-          ? DateTime.parse(json['checkIn']) 
+      filterId: json['filterId'] ?? '',
+      fieldId: json['fieldId'] ?? '',
+      filterType: json['filterType'] ?? '',
+      displayName: json['displayName'] ?? '',
+      filterOptions: Map<String, dynamic>.from(json['filterOptions'] ?? {}),
+      isActive: json['isActive'] ?? false,
+      sortOrder: json['sortOrder'] ?? 0,
+      field: json['field'] != null
+          ? UnitTypeFieldModel.fromJson(json['field'])
           : null,
-      checkOut: json['checkOut'] != null 
-          ? DateTime.parse(json['checkOut']) 
-          : null,
-      guestsCount: json['guestsCount'],
-      propertyTypeId: json['propertyTypeId'],
-      minPrice: json['minPrice']?.toDouble(),
-      maxPrice: json['maxPrice']?.toDouble(),
-      minStarRating: json['minStarRating'],
-      requiredAmenities: List<String>.from(json['requiredAmenities'] ?? []),
-      unitTypeId: json['unitTypeId'],
-      serviceIds: List<String>.from(json['serviceIds'] ?? []),
-      dynamicFieldFilters: Map<String, dynamic>.from(json['dynamicFieldFilters'] ?? {}),
-      latitude: json['latitude']?.toDouble(),
-      longitude: json['longitude']?.toDouble(),
-      radiusKm: json['radiusKm'],
-      sortBy: json['sortBy'],
-      pageNumber: json['pageNumber'] ?? 1,
-      pageSize: json['pageSize'] ?? 20,
     );
   }
 
-  /// <summary>
-  /// تحويل النموذج إلى JSON
-  /// Convert model to JSON
-  /// </summary>
   Map<String, dynamic> toJson() {
     return {
-      'searchTerm': searchTerm,
-      'city': city,
-      'checkIn': checkIn?.toIso8601String(),
-      'checkOut': checkOut?.toIso8601String(),
-      'guestsCount': guestsCount,
-      'propertyTypeId': propertyTypeId,
-      'minPrice': minPrice,
-      'maxPrice': maxPrice,
-      'minStarRating': minStarRating,
-      'requiredAmenities': requiredAmenities,
-      'unitTypeId': unitTypeId,
-      'serviceIds': serviceIds,
-      'dynamicFieldFilters': dynamicFieldFilters,
-      'latitude': latitude,
-      'longitude': longitude,
-      'radiusKm': radiusKm,
-      'sortBy': sortBy,
-      'pageNumber': pageNumber,
-      'pageSize': pageSize,
+      'filterId': filterId,
+      'fieldId': fieldId,
+      'filterType': filterType,
+      'displayName': displayName,
+      'filterOptions': filterOptions,
+      'isActive': isActive,
+      'sortOrder': sortOrder,
+      'field': field != null ? (field as UnitTypeFieldModel).toJson() : null,
     };
   }
+}
 
-  /// <summary>
-  /// تحويل إلى Entity
-  /// Convert to Entity
-  /// </summary>
-  SearchFilter toEntity() {
-    return SearchFilter(
-      searchTerm: searchTerm,
-      city: city,
-      checkIn: checkIn,
-      checkOut: checkOut,
-      guestsCount: guestsCount,
-      propertyTypeId: propertyTypeId,
-      minPrice: minPrice,
-      maxPrice: maxPrice,
-      minStarRating: minStarRating,
-      requiredAmenities: requiredAmenities,
-      unitTypeId: unitTypeId,
-      serviceIds: serviceIds,
-      dynamicFieldFilters: dynamicFieldFilters,
-      latitude: latitude,
-      longitude: longitude,
-      radiusKm: radiusKm,
-      sortBy: sortBy,
-      pageNumber: pageNumber,
-      pageSize: pageSize,
+class UnitTypeFieldModel extends UnitTypeField {
+  const UnitTypeFieldModel({
+    required super.fieldId,
+    required super.unitTypeId,
+    required super.fieldTypeId,
+    required super.fieldName,
+    required super.displayName,
+    super.description,
+    required super.fieldOptions,
+    required super.validationRules,
+    required super.isRequired,
+    required super.isSearchable,
+    required super.isPublic,
+    required super.sortOrder,
+    super.category,
+    super.groupId,
+    required super.isForUnits,
+    required super.showInCards,
+    required super.isPrimaryFilter,
+    required super.priority,
+  });
+
+  factory UnitTypeFieldModel.fromJson(Map<String, dynamic> json) {
+    return UnitTypeFieldModel(
+      fieldId: json['fieldId'] ?? '',
+      unitTypeId: json['unitTypeId'] ?? '',
+      fieldTypeId: json['fieldTypeId'] ?? '',
+      fieldName: json['fieldName'] ?? '',
+      displayName: json['displayName'] ?? '',
+      description: json['description'],
+      fieldOptions: Map<String, dynamic>.from(json['fieldOptions'] ?? {}),
+      validationRules: Map<String, dynamic>.from(json['validationRules'] ?? {}),
+      isRequired: json['isRequired'] ?? false,
+      isSearchable: json['isSearchable'] ?? false,
+      isPublic: json['isPublic'] ?? false,
+      sortOrder: json['sortOrder'] ?? 0,
+      category: json['category'],
+      groupId: json['groupId'],
+      isForUnits: json['isForUnits'] ?? false,
+      showInCards: json['showInCards'] ?? false,
+      isPrimaryFilter: json['isPrimaryFilter'] ?? false,
+      priority: json['priority'] ?? 0,
     );
   }
 
-  /// <summary>
-  /// إنشاء نسخة محدثة من النموذج
-  /// Create updated copy of the model
-  /// </summary>
-  SearchFilterModel copyWith({
-    String? searchTerm,
-    String? city,
-    DateTime? checkIn,
-    DateTime? checkOut,
-    int? guestsCount,
-    String? propertyTypeId,
-    double? minPrice,
-    double? maxPrice,
-    int? minStarRating,
-    List<String>? requiredAmenities,
-    String? unitTypeId,
-    List<String>? serviceIds,
-    Map<String, dynamic>? dynamicFieldFilters,
-    double? latitude,
-    double? longitude,
-    int? radiusKm,
-    String? sortBy,
-    int? pageNumber,
-    int? pageSize,
-  }) {
-    return SearchFilterModel(
-      searchTerm: searchTerm ?? this.searchTerm,
-      city: city ?? this.city,
-      checkIn: checkIn ?? this.checkIn,
-      checkOut: checkOut ?? this.checkOut,
-      guestsCount: guestsCount ?? this.guestsCount,
-      propertyTypeId: propertyTypeId ?? this.propertyTypeId,
-      minPrice: minPrice ?? this.minPrice,
-      maxPrice: maxPrice ?? this.maxPrice,
-      minStarRating: minStarRating ?? this.minStarRating,
-      requiredAmenities: requiredAmenities ?? this.requiredAmenities,
-      unitTypeId: unitTypeId ?? this.unitTypeId,
-      serviceIds: serviceIds ?? this.serviceIds,
-      dynamicFieldFilters: dynamicFieldFilters ?? this.dynamicFieldFilters,
-      latitude: latitude ?? this.latitude,
-      longitude: longitude ?? this.longitude,
-      radiusKm: radiusKm ?? this.radiusKm,
-      sortBy: sortBy ?? this.sortBy,
-      pageNumber: pageNumber ?? this.pageNumber,
-      pageSize: pageSize ?? this.pageSize,
+  Map<String, dynamic> toJson() {
+    return {
+      'fieldId': fieldId,
+      'unitTypeId': unitTypeId,
+      'fieldTypeId': fieldTypeId,
+      'fieldName': fieldName,
+      'displayName': displayName,
+      'description': description,
+      'fieldOptions': fieldOptions,
+      'validationRules': validationRules,
+      'isRequired': isRequired,
+      'isSearchable': isSearchable,
+      'isPublic': isPublic,
+      'sortOrder': sortOrder,
+      'category': category,
+      'groupId': groupId,
+      'isForUnits': isForUnits,
+      'showInCards': showInCards,
+      'isPrimaryFilter': isPrimaryFilter,
+      'priority': priority,
+    };
+  }
+}
+
+class SearchFiltersModel extends SearchFilters {
+  const SearchFiltersModel({
+    required super.cities,
+    required super.propertyTypes,
+    required super.priceRange,
+    required super.amenities,
+    required super.starRatings,
+    required super.availableCities,
+    required super.maxGuestCapacity,
+    required super.unitTypes,
+    required super.distanceRange,
+    required super.supportedCurrencies,
+    required super.services,
+    required super.dynamicFieldValues,
+  });
+
+  factory SearchFiltersModel.fromJson(Map<String, dynamic> json) {
+    return SearchFiltersModel(
+      cities: (json['cities'] as List?)
+              ?.map((e) => CityFilterModel.fromJson(e))
+              .toList() ??
+          [],
+      propertyTypes: (json['propertyTypes'] as List?)
+              ?.map((e) => PropertyTypeFilterModel.fromJson(e))
+              .toList() ??
+          [],
+      priceRange: json['priceRange'] != null
+          ? PriceRangeModel.fromJson(json['priceRange'])
+          : const PriceRangeModel(minPrice: 0, maxPrice: 0, averagePrice: 0),
+      amenities: (json['amenities'] as List?)
+              ?.map((e) => AmenityFilterModel.fromJson(e))
+              .toList() ??
+          [],
+      starRatings: (json['starRatings'] as List?)
+              ?.map((e) => e as int)
+              .toList() ??
+          [],
+      availableCities: (json['availableCities'] as List?)
+              ?.map((e) => e as String)
+              .toList() ??
+          [],
+      maxGuestCapacity: json['maxGuestCapacity'] ?? 0,
+      unitTypes: (json['unitTypes'] as List?)
+              ?.map((e) => UnitTypeFilterModel.fromJson(e))
+              .toList() ??
+          [],
+      distanceRange: json['distanceRange'] != null
+          ? DistanceRangeModel.fromJson(json['distanceRange'])
+          : const DistanceRangeModel(minDistance: 0, maxDistance: 50),
+      supportedCurrencies: (json['supportedCurrencies'] as List?)
+              ?.map((e) => e as String)
+              .toList() ??
+          [],
+      services: (json['services'] as List?)
+              ?.map((e) => ServiceFilterModel.fromJson(e))
+              .toList() ??
+          [],
+      dynamicFieldValues: (json['dynamicFieldValues'] as List?)
+              ?.map((e) => DynamicFieldValueFilterModel.fromJson(e))
+              .toList() ??
+          [],
     );
   }
 
-  @override
-  List<Object?> get props => [
-    searchTerm,
-    city,
-    checkIn,
-    checkOut,
-    guestsCount,
-    propertyTypeId,
-    minPrice,
-    maxPrice,
-    minStarRating,
-    requiredAmenities,
-    unitTypeId,
-    serviceIds,
-    dynamicFieldFilters,
-    latitude,
-    longitude,
-    radiusKm,
-    sortBy,
-    pageNumber,
-    pageSize,
-  ];
+  Map<String, dynamic> toJson() {
+    return {
+      'cities': cities.map((e) => (e as CityFilterModel).toJson()).toList(),
+      'propertyTypes': propertyTypes.map((e) => (e as PropertyTypeFilterModel).toJson()).toList(),
+      'priceRange': (priceRange as PriceRangeModel).toJson(),
+      'amenities': amenities.map((e) => (e as AmenityFilterModel).toJson()).toList(),
+      'starRatings': starRatings,
+      'availableCities': availableCities,
+      'maxGuestCapacity': maxGuestCapacity,
+      'unitTypes': unitTypes.map((e) => (e as UnitTypeFilterModel).toJson()).toList(),
+      'distanceRange': (distanceRange as DistanceRangeModel).toJson(),
+      'supportedCurrencies': supportedCurrencies,
+      'services': services.map((e) => (e as ServiceFilterModel).toJson()).toList(),
+      'dynamicFieldValues': dynamicFieldValues.map((e) => (e as DynamicFieldValueFilterModel).toJson()).toList(),
+    };
+  }
+}
+
+class CityFilterModel extends CityFilter {
+  const CityFilterModel({
+    required super.id,
+    required super.name,
+    required super.propertiesCount,
+  });
+
+  factory CityFilterModel.fromJson(Map<String, dynamic> json) {
+    return CityFilterModel(
+      id: json['id'] ?? '',
+      name: json['name'] ?? '',
+      propertiesCount: json['propertiesCount'] ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'propertiesCount': propertiesCount,
+    };
+  }
+}
+
+class PropertyTypeFilterModel extends PropertyTypeFilter {
+  const PropertyTypeFilterModel({
+    required super.id,
+    required super.name,
+    required super.propertiesCount,
+  });
+
+  factory PropertyTypeFilterModel.fromJson(Map<String, dynamic> json) {
+    return PropertyTypeFilterModel(
+      id: json['id'] ?? '',
+      name: json['name'] ?? '',
+      propertiesCount: json['propertiesCount'] ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'propertiesCount': propertiesCount,
+    };
+  }
+}
+
+class PriceRangeModel extends PriceRange {
+  const PriceRangeModel({
+    required super.minPrice,
+    required super.maxPrice,
+    required super.averagePrice,
+  });
+
+  factory PriceRangeModel.fromJson(Map<String, dynamic> json) {
+    return PriceRangeModel(
+      minPrice: (json['minPrice'] ?? 0).toDouble(),
+      maxPrice: (json['maxPrice'] ?? 0).toDouble(),
+      averagePrice: (json['averagePrice'] ?? 0).toDouble(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'minPrice': minPrice,
+      'maxPrice': maxPrice,
+      'averagePrice': averagePrice,
+    };
+  }
+}
+
+class AmenityFilterModel extends AmenityFilter {
+  const AmenityFilterModel({
+    required super.id,
+    required super.name,
+    required super.category,
+    required super.propertiesCount,
+  });
+
+  factory AmenityFilterModel.fromJson(Map<String, dynamic> json) {
+    return AmenityFilterModel(
+      id: json['id'] ?? '',
+      name: json['name'] ?? '',
+      category: json['category'] ?? '',
+      propertiesCount: json['propertiesCount'] ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'category': category,
+      'propertiesCount': propertiesCount,
+    };
+  }
+}
+
+class UnitTypeFilterModel extends UnitTypeFilter {
+  const UnitTypeFilterModel({
+    required super.id,
+    required super.name,
+    required super.unitsCount,
+  });
+
+  factory UnitTypeFilterModel.fromJson(Map<String, dynamic> json) {
+    return UnitTypeFilterModel(
+      id: json['id'] ?? '',
+      name: json['name'] ?? '',
+      unitsCount: json['unitsCount'] ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'unitsCount': unitsCount,
+    };
+  }
+}
+
+class DistanceRangeModel extends DistanceRange {
+  const DistanceRangeModel({
+    required super.minDistance,
+    required super.maxDistance,
+  });
+
+  factory DistanceRangeModel.fromJson(Map<String, dynamic> json) {
+    return DistanceRangeModel(
+      minDistance: (json['minDistance'] ?? 0).toDouble(),
+      maxDistance: (json['maxDistance'] ?? 50).toDouble(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'minDistance': minDistance,
+      'maxDistance': maxDistance,
+    };
+  }
+}
+
+class ServiceFilterModel extends ServiceFilter {
+  const ServiceFilterModel({
+    required super.id,
+    required super.name,
+    required super.propertiesCount,
+  });
+
+  factory ServiceFilterModel.fromJson(Map<String, dynamic> json) {
+    return ServiceFilterModel(
+      id: json['id'] ?? '',
+      name: json['name'] ?? '',
+      propertiesCount: json['propertiesCount'] ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'propertiesCount': propertiesCount,
+    };
+  }
+}
+
+class DynamicFieldValueFilterModel extends DynamicFieldValueFilter {
+  const DynamicFieldValueFilterModel({
+    required super.fieldName,
+    required super.value,
+    required super.count,
+  });
+
+  factory DynamicFieldValueFilterModel.fromJson(Map<String, dynamic> json) {
+    return DynamicFieldValueFilterModel(
+      fieldName: json['fieldName'] ?? '',
+      value: json['value'] ?? '',
+      count: json['count'] ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'fieldName': fieldName,
+      'value': value,
+      'count': count,
+    };
+  }
 }

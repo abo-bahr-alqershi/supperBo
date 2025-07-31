@@ -19,6 +19,12 @@ public record Money
     public string Currency { get; init; }
     
     /// <summary>
+    /// سعر الصرف
+    /// Exchange rate
+    /// </summary>
+    public decimal ExchangeRate { get; set; }
+
+    /// <summary>
     /// منشئ كائن المال
     /// Money constructor
     /// </summary>
@@ -28,10 +34,10 @@ public record Money
     {
         if (amount < 0)
             throw new ArgumentException("المبلغ لا يمكن أن يكون سالباً", nameof(amount));
-        
+
         if (string.IsNullOrWhiteSpace(currency))
             throw new ArgumentException("رمز العملة مطلوب", nameof(currency));
-        
+
         Amount = amount;
         Currency = currency.ToUpperInvariant();
     }

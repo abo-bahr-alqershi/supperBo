@@ -1,309 +1,196 @@
-import 'package:equatable/equatable.dart';
-
-/// <summary>
-/// كيان فلتر البحث
-/// Search filter entity
-/// </summary>
-class SearchFilter extends Equatable {
-  /// <summary>
-  /// كلمة البحث
-  /// Search term
-  /// </summary>
-  final String? searchTerm;
-
-  /// <summary>
-  /// المدينة
-  /// City
-  /// </summary>
+/// كيان فلتر البحث - يمثل منطق العمل للبحث
+/// منفصل عن نموذج البيانات لضمان نظافة البنية
+class SearchFilter {
+  /// معرف المدينة للبحث
   final String? city;
-
-  /// <summary>
-  /// تاريخ الوصول
-  /// Check-in date
-  /// </summary>
-  final DateTime? checkIn;
-
-  /// <summary>
-  /// تاريخ المغادرة
-  /// Check-out date
-  /// </summary>
-  final DateTime? checkOut;
-
-  /// <summary>
-  /// عدد الضيوف
-  /// Guests count
-  /// </summary>
-  final int? guestsCount;
-
-  /// <summary>
-  /// معرف نوع العقار
-  /// Property type ID
-  /// </summary>
-  final String? propertyTypeId;
-
-  /// <summary>
-  /// السعر الأدنى
-  /// Minimum price
-  /// </summary>
+  
+  /// الحد الأدنى للسعر
   final double? minPrice;
-
-  /// <summary>
-  /// السعر الأقصى
-  /// Maximum price
-  /// </summary>
+  
+  /// الحد الأقصى للسعر
   final double? maxPrice;
-
-  /// <summary>
-  /// تصنيف النجوم الأدنى
-  /// Minimum star rating
-  /// </summary>
-  final int? minStarRating;
-
-  /// <summary>
-  /// قائمة معرفات المرافق المطلوبة
-  /// Required amenities IDs list
-  /// </summary>
-  final List<String> requiredAmenities;
-
-  /// <summary>
-  /// معرف نوع الوحدة المطلوب
-  /// Required unit type ID
-  /// </summary>
-  final String? unitTypeId;
-
-  /// <summary>
-  /// معرفات الخدمات المطلوبة
-  /// Required service IDs
-  /// </summary>
-  final List<String> serviceIds;
-
-  /// <summary>
-  /// فلاتر الحقول الديناميكية
-  /// Dynamic field filters
-  /// </summary>
-  final Map<String, dynamic> dynamicFieldFilters;
-
-  /// <summary>
-  /// خط العرض للبحث بالموقع
-  /// Latitude for location search
-  /// </summary>
+  
+  /// نوع العقار
+  final String? propertyType;
+  
+  /// عدد الغرف
+  final int? bedrooms;
+  
+  /// عدد الحمامات
+  final int? bathrooms;
+  
+  /// عدد الضيوف
+  final int? guests;
+  
+  /// تاريخ البداية
+  final DateTime? checkIn;
+  
+  /// تاريخ النهاية
+  final DateTime? checkOut;
+  
+  /// خط العرض للموقع
   final double? latitude;
-
-  /// <summary>
-  /// خط الطول للبحث بالموقع
-  /// Longitude for location search
-  /// </summary>
+  
+  /// خط الطول للموقع
   final double? longitude;
-
-  /// <summary>
+  
   /// نصف قطر البحث بالكيلومتر
-  /// Search radius in kilometers
-  /// </summary>
-  final int? radiusKm;
+  final double? radius;
+  
+  /// هل العقار مميز
+  final bool? isFeatured;
+  
+  /// تصنيف النجوم الأدنى
+  final int? minStarRating;
+  
+  /// هل يسمح بالحيوانات الأليفة
+  final bool? petsAllowed;
+  
+  /// هل يوجد إنترنت
+  final bool? hasWifi;
+  
+  /// هل يوجد موقف سيارات
+  final bool? hasParking;
 
-  /// <summary>
-  /// ترتيب النتائج
-  /// Sort order
-  /// </summary>
-  final String? sortBy;
-
-  /// <summary>
-  /// رقم الصفحة
-  /// Page number
-  /// </summary>
-  final int pageNumber;
-
-  /// <summary>
-  /// حجم الصفحة
-  /// Page size
-  /// </summary>
-  final int pageSize;
-
-  const SearchFilter({
-    this.searchTerm,
+  SearchFilter({
     this.city,
-    this.checkIn,
-    this.checkOut,
-    this.guestsCount,
-    this.propertyTypeId,
     this.minPrice,
     this.maxPrice,
-    this.minStarRating,
-    this.requiredAmenities = const [],
-    this.unitTypeId,
-    this.serviceIds = const [],
-    this.dynamicFieldFilters = const {},
+    this.propertyType,
+    this.bedrooms,
+    this.bathrooms,
+    this.guests,
+    this.checkIn,
+    this.checkOut,
     this.latitude,
     this.longitude,
-    this.radiusKm,
-    this.sortBy,
-    this.pageNumber = 1,
-    this.pageSize = 20,
+    this.radius,
+    this.isFeatured,
+    this.minStarRating,
+    this.petsAllowed,
+    this.hasWifi,
+    this.hasParking,
   });
 
-  /// <summary>
-  /// إنشاء نسخة محدثة من الكيان
-  /// Create updated copy of the entity
-  /// </summary>
+  /// التحقق إذا كان الفلتر فارغاً
+  bool get isEmpty => 
+      city == null && 
+      minPrice == null && 
+      maxPrice == null && 
+      propertyType == null &&
+      bedrooms == null && 
+      bathrooms == null && 
+      guests == null &&
+      checkIn == null && 
+      checkOut == null &&
+      latitude == null && 
+      longitude == null &&
+      radius == null &&
+      isFeatured == null &&
+      minStarRating == null &&
+      petsAllowed == null &&
+      hasWifi == null &&
+      hasParking == null;
+
+  /// التحقق إذا كان الفلتر يحتوي على قيم
+  bool get isNotEmpty => !isEmpty;
+
+  /// الحصول على نسخة من الفلتر مع إعادة تعيين جميع القيم
   SearchFilter copyWith({
-    String? searchTerm,
     String? city,
-    DateTime? checkIn,
-    DateTime? checkOut,
-    int? guestsCount,
-    String? propertyTypeId,
     double? minPrice,
     double? maxPrice,
-    int? minStarRating,
-    List<String>? requiredAmenities,
-    String? unitTypeId,
-    List<String>? serviceIds,
-    Map<String, dynamic>? dynamicFieldFilters,
+    String? propertyType,
+    int? bedrooms,
+    int? bathrooms,
+    int? guests,
+    DateTime? checkIn,
+    DateTime? checkOut,
     double? latitude,
     double? longitude,
-    int? radiusKm,
-    String? sortBy,
-    int? pageNumber,
-    int? pageSize,
+    double? radius,
+    bool? isFeatured,
+    int? minStarRating,
+    bool? petsAllowed,
+    bool? hasWifi,
+    bool? hasParking,
   }) {
     return SearchFilter(
-      searchTerm: searchTerm ?? this.searchTerm,
       city: city ?? this.city,
-      checkIn: checkIn ?? this.checkIn,
-      checkOut: checkOut ?? this.checkOut,
-      guestsCount: guestsCount ?? this.guestsCount,
-      propertyTypeId: propertyTypeId ?? this.propertyTypeId,
       minPrice: minPrice ?? this.minPrice,
       maxPrice: maxPrice ?? this.maxPrice,
-      minStarRating: minStarRating ?? this.minStarRating,
-      requiredAmenities: requiredAmenities ?? this.requiredAmenities,
-      unitTypeId: unitTypeId ?? this.unitTypeId,
-      serviceIds: serviceIds ?? this.serviceIds,
-      dynamicFieldFilters: dynamicFieldFilters ?? this.dynamicFieldFilters,
+      propertyType: propertyType ?? this.propertyType,
+      bedrooms: bedrooms ?? this.bedrooms,
+      bathrooms: bathrooms ?? this.bathrooms,
+      guests: guests ?? this.guests,
+      checkIn: checkIn ?? this.checkIn,
+      checkOut: checkOut ?? this.checkOut,
       latitude: latitude ?? this.latitude,
       longitude: longitude ?? this.longitude,
-      radiusKm: radiusKm ?? this.radiusKm,
-      sortBy: sortBy ?? this.sortBy,
-      pageNumber: pageNumber ?? this.pageNumber,
-      pageSize: pageSize ?? this.pageSize,
+      radius: radius ?? this.radius,
+      isFeatured: isFeatured ?? this.isFeatured,
+      minStarRating: minStarRating ?? this.minStarRating,
+      petsAllowed: petsAllowed ?? this.petsAllowed,
+      hasWifi: hasWifi ?? this.hasWifi,
+      hasParking: hasParking ?? this.hasParking,
     );
   }
 
-  /// <summary>
-  /// التحقق من وجود فلاتر مطبقة
-  /// Check if filters are applied
-  /// </summary>
-  bool hasFilters() {
-    return searchTerm != null ||
-        city != null ||
-        checkIn != null ||
-        checkOut != null ||
-        guestsCount != null ||
-        propertyTypeId != null ||
-        minPrice != null ||
-        maxPrice != null ||
-        minStarRating != null ||
-        requiredAmenities.isNotEmpty ||
-        unitTypeId != null ||
-        serviceIds.isNotEmpty ||
-        dynamicFieldFilters.isNotEmpty ||
-        latitude != null ||
-        longitude != null ||
-        radiusKm != null;
-  }
-
-  /// <summary>
-  /// التحقق من وجود فلتر موقع
-  /// Check if location filter is applied
-  /// </summary>
-  bool hasLocationFilter() {
-    return latitude != null && longitude != null;
-  }
-
-  /// <summary>
-  /// التحقق من وجود فلتر تاريخ
-  /// Check if date filter is applied
-  /// </summary>
-  bool hasDateFilter() {
-    return checkIn != null && checkOut != null;
-  }
-
-  /// <summary>
-  /// التحقق من وجود فلتر سعر
-  /// Check if price filter is applied
-  /// </summary>
-  bool hasPriceFilter() {
-    return minPrice != null || maxPrice != null;
-  }
-
-  /// <summary>
-  /// حساب عدد الليالي
-  /// Calculate number of nights
-  /// </summary>
-  int? calculateNights() {
-    if (checkIn != null && checkOut != null) {
-      return checkOut!.difference(checkIn!).inDays;
-    }
-    return null;
-  }
-
-  /// <summary>
-  /// تنسيق معايير البحث للعرض
-  /// Format search criteria for display
-  /// </summary>
-  String getDisplayString() {
-    List<String> criteria = [];
-    
-    if (searchTerm?.isNotEmpty == true) {
-      criteria.add('البحث: $searchTerm');
-    }
-    
-    if (city?.isNotEmpty == true) {
-      criteria.add('المدينة: $city');
-    }
-    
-    if (hasDateFilter()) {
-      final nights = calculateNights();
-      criteria.add('$nights ${nights == 1 ? 'ليلة' : 'ليالي'}');
-    }
-    
-    if (guestsCount != null) {
-      criteria.add('$guestsCount ${guestsCount == 1 ? 'ضيف' : 'ضيوف'}');
-    }
-    
-    if (hasPriceFilter()) {
-      if (minPrice != null && maxPrice != null) {
-        criteria.add('السعر: $minPrice - $maxPrice');
-      } else if (minPrice != null) {
-        criteria.add('السعر من: $minPrice');
-      } else if (maxPrice != null) {
-        criteria.add('السعر حتى: $maxPrice');
-      }
-    }
-    
-    return criteria.isEmpty ? 'جميع العقارات' : criteria.join(' • ');
+  /// إعادة تعيين جميع القيم
+  SearchFilter reset() {
+    return SearchFilter();
   }
 
   @override
-  List<Object?> get props => [
-    searchTerm,
-    city,
-    checkIn,
-    checkOut,
-    guestsCount,
-    propertyTypeId,
-    minPrice,
-    maxPrice,
-    minStarRating,
-    requiredAmenities,
-    unitTypeId,
-    serviceIds,
-    dynamicFieldFilters,
-    latitude,
-    longitude,
-    radiusKm,
-    sortBy,
-    pageNumber,
-    pageSize,
-  ];
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+  
+    return other is SearchFilter &&
+      other.city == city &&
+      other.minPrice == minPrice &&
+      other.maxPrice == maxPrice &&
+      other.propertyType == propertyType &&
+      other.bedrooms == bedrooms &&
+      other.bathrooms == bathrooms &&
+      other.guests == guests &&
+      other.checkIn == checkIn &&
+      other.checkOut == checkOut &&
+      other.latitude == latitude &&
+      other.longitude == longitude &&
+      other.radius == radius &&
+      other.isFeatured == isFeatured &&
+      other.minStarRating == minStarRating &&
+      other.petsAllowed == petsAllowed &&
+      other.hasWifi == hasWifi &&
+      other.hasParking == hasParking;
+  }
+
+  @override
+  int get hashCode {
+    return Object.hashAll([
+      city,
+      minPrice,
+      maxPrice,
+      propertyType,
+      bedrooms,
+      bathrooms,
+      guests,
+      checkIn,
+      checkOut,
+      latitude,
+      longitude,
+      radius,
+      isFeatured,
+      minStarRating,
+      petsAllowed,
+      hasWifi,
+      hasParking,
+    ]);
+  }
+
+  @override
+  String toString() {
+    return 'SearchFilter(city: $city, minPrice: $minPrice, maxPrice: $maxPrice, '
+           'propertyType: $propertyType, bedrooms: $bedrooms, bathrooms: $bathrooms)';
+  }
 }

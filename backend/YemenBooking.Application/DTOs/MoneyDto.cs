@@ -19,6 +19,13 @@ public class MoneyDto
     public string Currency { get; set; } = "YER";
     
     /// <summary>
+    /// سعر الصرف
+    /// سعر الصرف
+    /// Exchange rate
+    /// </summary>
+    public decimal ExchangeRate { get; set; }
+
+    /// <summary>
     /// المبلغ المنسق للعرض
     /// Formatted amount for display
     /// </summary>
