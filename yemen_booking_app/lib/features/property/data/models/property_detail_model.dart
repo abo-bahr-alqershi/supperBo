@@ -1,157 +1,87 @@
 import 'package:equatable/equatable.dart';
 import '../../domain/entities/property_detail.dart';
-import 'amenity_model.dart';
-import 'unit_model.dart';
-import 'review_model.dart';
 
 /// <summary>
-/// نموذج بيانات عنوان العقار
-/// Property address data model  
+/// نموذج بيانات العرض الخاص
+/// Special offer data model
 /// </summary>
-class PropertyAddressModel extends Equatable {
+class ClientSpecialOfferDto extends Equatable {
   /// <summary>
-  /// الشارع
-  /// Street
+  /// عنوان العرض
+  /// Offer title
   /// </summary>
-  final String street;
+  final String title;
 
   /// <summary>
-  /// المدينة
-  /// City
+  /// وصف العرض
+  /// Offer description
   /// </summary>
-  final String city;
+  final String description;
 
   /// <summary>
-  /// المنطقة/الحي
-  /// District/Neighborhood
+  /// نسبة الخصم
+  /// Discount percentage
   /// </summary>
-  final String district;
+  final double discountPercentage;
 
   /// <summary>
-  /// الرمز البريدي
-  /// Postal code
+  /// مبلغ الخصم
+  /// Discount amount
   /// </summary>
-  final String? postalCode;
+  final double discountAmount;
 
   /// <summary>
-  /// البلد
-  /// Country
+  /// تاريخ انتهاء العرض
+  /// Offer expiry date
   /// </summary>
-  final String country;
+  final DateTime? expiryDate;
 
   /// <summary>
-  /// خط العرض
-  /// Latitude
+  /// لون العرض (للتصميم)
+  /// Offer color (for design)
   /// </summary>
-  final double? latitude;
+  final String color;
 
-  /// <summary>
-  /// خط الطول
-  /// Longitude
-  /// </summary>
-  final double? longitude;
-
-  const PropertyAddressModel({
-    required this.street,
-    required this.city,
-    required this.district,
-    this.postalCode,
-    required this.country,
-    this.latitude,
-    this.longitude,
+  const ClientSpecialOfferDto({
+    required this.title,
+    required this.description,
+    required this.discountPercentage,
+    required this.discountAmount,
+    this.expiryDate,
+    required this.color,
   });
 
-  factory PropertyAddressModel.fromJson(Map<String, dynamic> json) {
-    return PropertyAddressModel(
-      street: json['street'] ?? '',
-      city: json['city'] ?? '',
-      district: json['district'] ?? '',
-      postalCode: json['postalCode'],
-      country: json['country'] ?? '',
-      latitude: json['latitude']?.toDouble(),
-      longitude: json['longitude']?.toDouble(),
+  factory ClientSpecialOfferDto.fromJson(Map<String, dynamic> json) {
+    return ClientSpecialOfferDto(
+      title: json['title'] ?? '',
+      description: json['description'] ?? '',
+      discountPercentage: (json['discountPercentage'] ?? 0.0).toDouble(),
+      discountAmount: (json['discountAmount'] ?? 0.0).toDouble(),
+      expiryDate: json['expiryDate'] != null ? DateTime.parse(json['expiryDate']) : null,
+      color: json['color'] ?? '#FF6B6B',
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'street': street,
-      'city': city,
-      'district': district,
-      'postalCode': postalCode,
-      'country': country,
-      'latitude': latitude,
-      'longitude': longitude,
+      'title': title,
+      'description': description,
+      'discountPercentage': discountPercentage,
+      'discountAmount': discountAmount,
+      'expiryDate': expiryDate?.toIso8601String(),
+      'color': color,
     };
   }
 
   @override
-  List<Object?> get props => [street, city, district, postalCode, country, latitude, longitude];
+  List<Object?> get props => [title, description, discountPercentage, discountAmount, expiryDate, color];
 }
 
 /// <summary>
-/// نموذج بيانات معلومات الاتصال
-/// Contact information data model
+/// نموذج بيانات العقار المميز للعميل (متوافق مع ClientFeaturedPropertyDto)
+/// Client featured property data model (compatible with ClientFeaturedPropertyDto)
 /// </summary>
-class PropertyContactModel extends Equatable {
-  /// <summary>
-  /// رقم الهاتف الرئيسي
-  /// Primary phone number
-  /// </summary>
-  final String? primaryPhone;
-
-  /// <summary>
-  /// رقم الهاتف الثانوي
-  /// Secondary phone number
-  /// </summary>
-  final String? secondaryPhone;
-
-  /// <summary>
-  /// البريد الإلكتروني
-  /// Email address
-  /// </summary>
-  final String? email;
-
-  /// <summary>
-  /// الموقع الإلكتروني
-  /// Website URL
-  /// </summary>
-  final String? website;
-
-  const PropertyContactModel({
-    this.primaryPhone,
-    this.secondaryPhone,
-    this.email,
-    this.website,
-  });
-
-  factory PropertyContactModel.fromJson(Map<String, dynamic> json) {
-    return PropertyContactModel(
-      primaryPhone: json['primaryPhone'],
-      secondaryPhone: json['secondaryPhone'],
-      email: json['email'],
-      website: json['website'],
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'primaryPhone': primaryPhone,
-      'secondaryPhone': secondaryPhone,
-      'email': email,
-      'website': website,
-    };
-  }
-
-  @override
-  List<Object?> get props => [primaryPhone, secondaryPhone, email, website];
-}
-
-/// <summary>
-/// نموذج بيانات تفاصيل العقار الكاملة
-/// Complete property details data model
-/// </summary>
-class PropertyDetailModel extends Equatable {
+class ClientFeaturedPropertyDto extends Equatable {
   /// <summary>
   /// معرف العقار
   /// Property ID
@@ -165,28 +95,34 @@ class PropertyDetailModel extends Equatable {
   final String name;
 
   /// <summary>
-  /// الوصف التفصيلي
-  /// Detailed description
-  /// </summary>
-  final String description;
-
-  /// <summary>
   /// وصف مختصر
   /// Short description
   /// </summary>
   final String shortDescription;
 
   /// <summary>
-  /// نوع العقار
-  /// Property type
+  /// المدينة
+  /// City
   /// </summary>
-  final String propertyType;
+  final String city;
 
   /// <summary>
-  /// معرف نوع العقار
-  /// Property type ID
+  /// العنوان
+  /// Address
   /// </summary>
-  final String propertyTypeId;
+  final String address;
+
+  /// <summary>
+  /// الصورة الرئيسية
+  /// Main image
+  /// </summary>
+  final String mainImageUrl;
+
+  /// <summary>
+  /// معرض الصور (أول 3 صور)
+  /// Image gallery (first 3 images)
+  /// </summary>
+  final List<String> imageGallery;
 
   /// <summary>
   /// تصنيف النجوم
@@ -201,79 +137,13 @@ class PropertyDetailModel extends Equatable {
   final double averageRating;
 
   /// <summary>
-  /// عدد التقييمات
+  /// عدد المراجعات
   /// Reviews count
   /// </summary>
   final int reviewsCount;
 
   /// <summary>
-  /// عنوان العقار
-  /// Property address
-  /// </summary>
-  final PropertyAddressModel address;
-
-  /// <summary>
-  /// معلومات الاتصال
-  /// Contact information
-  /// </summary>
-  final PropertyContactModel contact;
-
-  /// <summary>
-  /// الصورة الرئيسية
-  /// Main image URL
-  /// </summary>
-  final String mainImageUrl;
-
-  /// <summary>
-  /// معرض الصور
-  /// Image gallery
-  /// </summary>
-  final List<String> imageGallery;
-
-  /// <summary>
-  /// المرافق والخدمات
-  /// Amenities
-  /// </summary>
-  final List<AmenityModel> amenities;
-
-  /// <summary>
-  /// الوحدات المتاحة
-  /// Available units
-  /// </summary>
-  final List<UnitModel> units;
-
-  /// <summary>
-  /// أحدث التقييمات
-  /// Recent reviews
-  /// </summary>
-  final List<ReviewModel> recentReviews;
-
-  /// <summary>
-  /// سياسات العقار
-  /// Property policies
-  /// </summary>
-  final Map<String, dynamic> policies;
-
-  /// <summary>
-  /// ساعات العمل
-  /// Operating hours
-  /// </summary>
-  final Map<String, String> operatingHours;
-
-  /// <summary>
-  /// هل العقار متاح
-  /// Is property available
-  /// </summary>
-  final bool isAvailable;
-
-  /// <summary>
-  /// هل في المفضلات
-  /// Is favorite
-  /// </summary>
-  final bool isFavorite;
-
-  /// <summary>
-  /// السعر الأساسي لليلة
+  /// السعر الأساسي لليلة الواحدة
   /// Base price per night
   /// </summary>
   final double basePricePerNight;
@@ -285,104 +155,104 @@ class PropertyDetailModel extends Equatable {
   final String currency;
 
   /// <summary>
-  /// تاريخ آخر تحديث
-  /// Last updated
+  /// هل في قائمة المفضلات
+  /// Is in favorites
   /// </summary>
-  final DateTime lastUpdated;
+  final bool isFavorite;
 
   /// <summary>
-  /// معلومات إضافية
-  /// Additional information
+  /// المسافة من الموقع الحالي (بالكيلومتر)
+  /// Distance from current location (in km)
   /// </summary>
-  final Map<String, dynamic> additionalInfo;
+  final double? distanceKm;
 
   /// <summary>
-  /// الخدمات الإضافية
-  /// Additional services
+  /// نوع العقار
+  /// Property type
   /// </summary>
-  final List<Map<String, dynamic>> additionalServices;
+  final String propertyType;
 
   /// <summary>
-  /// رقم الترخيص
-  /// License number
+  /// أفضل الوسائل والخدمات (أول 3)
+  /// Top amenities (first 3)
   /// </summary>
-  final String? licenseNumber;
+  final List<String> topAmenities;
 
   /// <summary>
-  /// حالة التحقق
-  /// Verification status
+  /// حالة التوفر
+  /// Availability status
   /// </summary>
-  final bool isVerified;
+  final String availabilityStatus;
 
-  const PropertyDetailModel({
+  /// <summary>
+  /// عرض خاص (إن وجد)
+  /// Special offer (if any)
+  /// </summary>
+  final ClientSpecialOfferDto? specialOffer;
+
+  /// <summary>
+  /// نسبة الحجز (شعبية العقار)
+  /// Booking rate (property popularity)
+  /// </summary>
+  final double bookingRate;
+
+  /// <summary>
+  /// تصنيف مميز (مثل: "الأكثر حجزاً"، "جديد"، "موصى به")
+  /// Featured badge (e.g., "Most Booked", "New", "Recommended")
+  /// </summary>
+  final String? featuredBadge;
+
+  const ClientFeaturedPropertyDto({
     required this.id,
     required this.name,
-    required this.description,
     required this.shortDescription,
-    required this.propertyType,
-    required this.propertyTypeId,
+    required this.city,
+    required this.address,
+    required this.mainImageUrl,
+    required this.imageGallery,
     required this.starRating,
     required this.averageRating,
     required this.reviewsCount,
-    required this.address,
-    required this.contact,
-    required this.mainImageUrl,
-    required this.imageGallery,
-    required this.amenities,
-    required this.units,
-    required this.recentReviews,
-    required this.policies,
-    required this.operatingHours,
-    required this.isAvailable,
-    required this.isFavorite,
     required this.basePricePerNight,
     required this.currency,
-    required this.lastUpdated,
-    required this.additionalInfo,
-    required this.additionalServices,
-    this.licenseNumber,
-    required this.isVerified,
+    required this.isFavorite,
+    this.distanceKm,
+    required this.propertyType,
+    required this.topAmenities,
+    required this.availabilityStatus,
+    this.specialOffer,
+    required this.bookingRate,
+    this.featuredBadge,
   });
 
   /// <summary>
   /// إنشاء نموذج من JSON
   /// Create model from JSON
   /// </summary>
-  factory PropertyDetailModel.fromJson(Map<String, dynamic> json) {
-    return PropertyDetailModel(
+  factory ClientFeaturedPropertyDto.fromJson(Map<String, dynamic> json) {
+    return ClientFeaturedPropertyDto(
       id: json['id'] ?? '',
       name: json['name'] ?? '',
-      description: json['description'] ?? '',
       shortDescription: json['shortDescription'] ?? '',
-      propertyType: json['propertyType'] ?? '',
-      propertyTypeId: json['propertyTypeId'] ?? '',
+      city: json['city'] ?? '',
+      address: json['address'] ?? '',
+      mainImageUrl: json['mainImageUrl'] ?? '',
+      imageGallery: List<String>.from(json['imageGallery'] ?? []),
       starRating: json['starRating'] ?? 0,
       averageRating: (json['averageRating'] ?? 0.0).toDouble(),
       reviewsCount: json['reviewsCount'] ?? 0,
-      address: PropertyAddressModel.fromJson(json['address'] ?? {}),
-      contact: PropertyContactModel.fromJson(json['contact'] ?? {}),
-      mainImageUrl: json['mainImageUrl'] ?? '',
-      imageGallery: List<String>.from(json['imageGallery'] ?? []),
-      amenities: (json['amenities'] as List<dynamic>?)
-          ?.map((item) => AmenityModel.fromJson(item))
-          .toList() ?? [],
-      units: (json['units'] as List<dynamic>?)
-          ?.map((item) => UnitModel.fromJson(item))
-          .toList() ?? [],
-      recentReviews: (json['recentReviews'] as List<dynamic>?)
-          ?.map((item) => ReviewModel.fromJson(item))
-          .toList() ?? [],
-      policies: Map<String, dynamic>.from(json['policies'] ?? {}),
-      operatingHours: Map<String, String>.from(json['operatingHours'] ?? {}),
-      isAvailable: json['isAvailable'] ?? true,
-      isFavorite: json['isFavorite'] ?? false,
       basePricePerNight: (json['basePricePerNight'] ?? 0.0).toDouble(),
       currency: json['currency'] ?? 'YER',
-      lastUpdated: DateTime.parse(json['lastUpdated'] ?? DateTime.now().toIso8601String()),
-      additionalInfo: Map<String, dynamic>.from(json['additionalInfo'] ?? {}),
-      additionalServices: List<Map<String, dynamic>>.from(json['additionalServices'] ?? []),
-      licenseNumber: json['licenseNumber'],
-      isVerified: json['isVerified'] ?? false,
+      isFavorite: json['isFavorite'] ?? false,
+      distanceKm: json['distanceKm']?.toDouble(),
+      propertyType: json['propertyType'] ?? '',
+      topAmenities: List<String>.from(json['topAmenities'] ?? []),
+      availabilityStatus: json['availabilityStatus'] ?? 'Available',
+      specialOffer: json['specialOffer'] != null 
+          ? ClientSpecialOfferDto.fromJson(json['specialOffer']) 
+          : null,
+      bookingRate: (json['bookingRate'] ?? 0.0).toDouble(),
+      featuredBadge: json['featuredBadge'],
     );
   }
 
@@ -394,31 +264,24 @@ class PropertyDetailModel extends Equatable {
     return {
       'id': id,
       'name': name,
-      'description': description,
       'shortDescription': shortDescription,
-      'propertyType': propertyType,
-      'propertyTypeId': propertyTypeId,
+      'city': city,
+      'address': address,
+      'mainImageUrl': mainImageUrl,
+      'imageGallery': imageGallery,
       'starRating': starRating,
       'averageRating': averageRating,
       'reviewsCount': reviewsCount,
-      'address': address.toJson(),
-      'contact': contact.toJson(),
-      'mainImageUrl': mainImageUrl,
-      'imageGallery': imageGallery,
-      'amenities': amenities.map((item) => item.toJson()).toList(),
-      'units': units.map((item) => item.toJson()).toList(),
-      'recentReviews': recentReviews.map((item) => item.toJson()).toList(),
-      'policies': policies,
-      'operatingHours': operatingHours,
-      'isAvailable': isAvailable,
-      'isFavorite': isFavorite,
       'basePricePerNight': basePricePerNight,
       'currency': currency,
-      'lastUpdated': lastUpdated.toIso8601String(),
-      'additionalInfo': additionalInfo,
-      'additionalServices': additionalServices,
-      'licenseNumber': licenseNumber,
-      'isVerified': isVerified,
+      'isFavorite': isFavorite,
+      'distanceKm': distanceKm,
+      'propertyType': propertyType,
+      'topAmenities': topAmenities,
+      'availabilityStatus': availabilityStatus,
+      'specialOffer': specialOffer?.toJson(),
+      'bookingRate': bookingRate,
+      'featuredBadge': featuredBadge,
     };
   }
 
@@ -430,31 +293,24 @@ class PropertyDetailModel extends Equatable {
     return PropertyDetail(
       id: id,
       name: name,
-      description: description,
       shortDescription: shortDescription,
-      propertyType: propertyType,
-      propertyTypeId: propertyTypeId,
+      city: city,
+      address: address,
+      mainImageUrl: mainImageUrl,
+      imageGallery: imageGallery,
       starRating: starRating,
       averageRating: averageRating,
       reviewsCount: reviewsCount,
-      address: address,
-      contact: contact,
-      mainImageUrl: mainImageUrl,
-      imageGallery: imageGallery,
-      amenities: amenities.map((item) => item.toEntity()).toList(),
-      units: units.map((item) => item.toEntity()).toList(),
-      recentReviews: recentReviews.map((item) => item.toEntity()).toList(),
-      policies: policies,
-      operatingHours: operatingHours,
-      isAvailable: isAvailable,
-      isFavorite: isFavorite,
       basePricePerNight: basePricePerNight,
       currency: currency,
-      lastUpdated: lastUpdated,
-      additionalInfo: additionalInfo,
-      additionalServices: additionalServices,
-      licenseNumber: licenseNumber,
-      isVerified: isVerified,
+      isFavorite: isFavorite,
+      distanceKm: distanceKm,
+      propertyType: propertyType,
+      topAmenities: topAmenities,
+      availabilityStatus: availabilityStatus,
+      specialOffer: specialOffer,
+      bookingRate: bookingRate,
+      featuredBadge: featuredBadge,
     );
   }
 
@@ -462,30 +318,23 @@ class PropertyDetailModel extends Equatable {
   List<Object?> get props => [
     id,
     name,
-    description,
     shortDescription,
-    propertyType,
-    propertyTypeId,
+    city,
+    address,
+    mainImageUrl,
+    imageGallery,
     starRating,
     averageRating,
     reviewsCount,
-    address,
-    contact,
-    mainImageUrl,
-    imageGallery,
-    amenities,
-    units,
-    recentReviews,
-    policies,
-    operatingHours,
-    isAvailable,
-    isFavorite,
     basePricePerNight,
     currency,
-    lastUpdated,
-    additionalInfo,
-    additionalServices,
-    licenseNumber,
-    isVerified,
+    isFavorite,
+    distanceKm,
+    propertyType,
+    topAmenities,
+    availabilityStatus,
+    specialOffer,
+    bookingRate,
+    featuredBadge,
   ];
 }

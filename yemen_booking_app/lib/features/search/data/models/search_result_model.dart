@@ -2,10 +2,10 @@ import 'package:equatable/equatable.dart';
 import '../../domain/entities/search_result.dart';
 
 /// <summary>
-/// نموذج بيانات نتيجة البحث الفردية
-/// Individual search result data model
+/// نموذج بيانات نتيجة البحث الفردية (متوافق مع PropertySearchResultDto)
+/// Individual search result data model (compatible with PropertySearchResultDto)
 /// </summary>
-class SearchResultItemModel extends Equatable {
+class PropertySearchResultDto extends Equatable {
   /// <summary>
   /// معرف العقار
   /// Property ID
@@ -19,16 +19,10 @@ class SearchResultItemModel extends Equatable {
   final String name;
 
   /// <summary>
-  /// وصف مختصر
-  /// Short description
+  /// نوع العقار
+  /// Property type
   /// </summary>
-  final String shortDescription;
-
-  /// <summary>
-  /// المدينة
-  /// City
-  /// </summary>
-  final String city;
+  final String propertyType;
 
   /// <summary>
   /// العنوان
@@ -37,16 +31,22 @@ class SearchResultItemModel extends Equatable {
   final String address;
 
   /// <summary>
-  /// الصورة الرئيسية
-  /// Main image URL
+  /// المدينة
+  /// City
   /// </summary>
-  final String mainImageUrl;
+  final String city;
 
   /// <summary>
-  /// معرض الصور
-  /// Image gallery
+  /// السعر الأساسي
+  /// Base price
   /// </summary>
-  final List<String> imageGallery;
+  final double basePrice;
+
+  /// <summary>
+  /// العملة
+  /// Currency
+  /// </summary>
+  final String currency;
 
   /// <summary>
   /// تصنيف النجوم
@@ -61,112 +61,88 @@ class SearchResultItemModel extends Equatable {
   final double averageRating;
 
   /// <summary>
-  /// عدد التقييمات
+  /// عدد المراجعات
   /// Reviews count
   /// </summary>
   final int reviewsCount;
 
   /// <summary>
-  /// السعر الأساسي لليلة الواحدة
-  /// Base price per night
+  /// الصورة الرئيسية
+  /// Main image URL
   /// </summary>
-  final double basePricePerNight;
+  final String mainImageUrl;
 
   /// <summary>
-  /// العملة
-  /// Currency
-  /// </summary>
-  final String currency;
-
-  /// <summary>
-  /// هل في قائمة المفضلات
-  /// Is favorite
-  /// </summary>
-  final bool isFavorite;
-
-  /// <summary>
-  /// المسافة من الموقع الحالي بالكيلومتر
-  /// Distance from current location in km
+  /// المسافة من موقع البحث (بالكيلومتر)
+  /// Distance from search location (in kilometers)
   /// </summary>
   final double? distanceKm;
 
   /// <summary>
-  /// نوع العقار
-  /// Property type
+  /// هل متاح للحجز
+  /// Whether available for booking
   /// </summary>
-  final String propertyType;
+  final bool isAvailable;
 
   /// <summary>
-  /// أفضل المرافق
-  /// Top amenities
+  /// هل في قائمة المفضلات
+  /// Whether in favorites list
   /// </summary>
-  final List<String> topAmenities;
+  final bool isFavorite;
 
   /// <summary>
-  /// حالة التوفر
-  /// Availability status
+  /// وسائل الراحة الرئيسية
+  /// Main amenities
   /// </summary>
-  final String availabilityStatus;
+  final List<String> mainAmenities;
 
   /// <summary>
-  /// خط العرض
-  /// Latitude
+  /// نسبة التطابق مع البحث (0-100)
+  /// Match percentage with search (0-100)
   /// </summary>
-  final double? latitude;
+  final int matchPercentage;
 
-  /// <summary>
-  /// خط الطول
-  /// Longitude
-  /// </summary>
-  final double? longitude;
-
-  const SearchResultItemModel({
+  const PropertySearchResultDto({
     required this.id,
     required this.name,
-    required this.shortDescription,
-    required this.city,
+    required this.propertyType,
     required this.address,
-    required this.mainImageUrl,
-    required this.imageGallery,
+    required this.city,
+    required this.basePrice,
+    required this.currency,
     required this.starRating,
     required this.averageRating,
     required this.reviewsCount,
-    required this.basePricePerNight,
-    required this.currency,
-    required this.isFavorite,
+    required this.mainImageUrl,
     this.distanceKm,
-    required this.propertyType,
-    required this.topAmenities,
-    required this.availabilityStatus,
-    this.latitude,
-    this.longitude,
+    required this.isAvailable,
+    required this.isFavorite,
+    required this.mainAmenities,
+    required this.matchPercentage,
   });
 
   /// <summary>
   /// إنشاء نموذج من JSON
   /// Create model from JSON
   /// </summary>
-  factory SearchResultItemModel.fromJson(Map<String, dynamic> json) {
-    return SearchResultItemModel(
+  factory PropertySearchResultDto.fromJson(Map<String, dynamic> json) {
+    return PropertySearchResultDto(
       id: json['id'] ?? '',
       name: json['name'] ?? '',
-      shortDescription: json['shortDescription'] ?? '',
-      city: json['city'] ?? '',
+      propertyType: json['propertyType'] ?? '',
       address: json['address'] ?? '',
-      mainImageUrl: json['mainImageUrl'] ?? '',
-      imageGallery: List<String>.from(json['imageGallery'] ?? []),
+      city: json['city'] ?? '',
+      basePrice: (json['basePrice'] ?? 0.0).toDouble(),
+      currency: json['currency'] ?? 'YER',
       starRating: json['starRating'] ?? 0,
       averageRating: (json['averageRating'] ?? 0.0).toDouble(),
       reviewsCount: json['reviewsCount'] ?? 0,
-      basePricePerNight: (json['basePricePerNight'] ?? 0.0).toDouble(),
-      currency: json['currency'] ?? 'YER',
-      isFavorite: json['isFavorite'] ?? false,
+      mainImageUrl: json['mainImageUrl'] ?? '',
       distanceKm: json['distanceKm']?.toDouble(),
-      propertyType: json['propertyType'] ?? '',
-      topAmenities: List<String>.from(json['topAmenities'] ?? []),
-      availabilityStatus: json['availabilityStatus'] ?? 'Available',
-      latitude: json['latitude']?.toDouble(),
-      longitude: json['longitude']?.toDouble(),
+      isAvailable: json['isAvailable'] ?? true,
+      isFavorite: json['isFavorite'] ?? false,
+      mainAmenities: List<String>.from(json['mainAmenities'] ?? []),
+      matchPercentage: json['matchPercentage'] ?? 100,
     );
   }
 
@@ -178,23 +154,20 @@ class SearchResultItemModel extends Equatable {
     return {
       'id': id,
       'name': name,
-      'shortDescription': shortDescription,
-      'city': city,
+      'propertyType': propertyType,
       'address': address,
-      'mainImageUrl': mainImageUrl,
-      'imageGallery': imageGallery,
+      'city': city,
+      'basePrice': basePrice,
+      'currency': currency,
       'starRating': starRating,
       'averageRating': averageRating,
       'reviewsCount': reviewsCount,
-      'basePricePerNight': basePricePerNight,
-      'currency': currency,
-      'isFavorite': isFavorite,
+      'mainImageUrl': mainImageUrl,
       'distanceKm': distanceKm,
-      'propertyType': propertyType,
-      'topAmenities': topAmenities,
-      'availabilityStatus': availabilityStatus,
-      'latitude': latitude,
-      'longitude': longitude,
+      'isAvailable': isAvailable,
+      'isFavorite': isFavorite,
+      'mainAmenities': mainAmenities,
+      'matchPercentage': matchPercentage,
     };
   }
 
@@ -206,23 +179,20 @@ class SearchResultItemModel extends Equatable {
     return SearchResultItem(
       id: id,
       name: name,
-      shortDescription: shortDescription,
-      city: city,
+      propertyType: propertyType,
       address: address,
-      mainImageUrl: mainImageUrl,
-      imageGallery: imageGallery,
+      city: city,
+      basePrice: basePrice,
+      currency: currency,
       starRating: starRating,
       averageRating: averageRating,
       reviewsCount: reviewsCount,
-      basePricePerNight: basePricePerNight,
-      currency: currency,
-      isFavorite: isFavorite,
+      mainImageUrl: mainImageUrl,
       distanceKm: distanceKm,
-      propertyType: propertyType,
-      topAmenities: topAmenities,
-      availabilityStatus: availabilityStatus,
-      latitude: latitude,
-      longitude: longitude,
+      isAvailable: isAvailable,
+      isFavorite: isFavorite,
+      mainAmenities: mainAmenities,
+      matchPercentage: matchPercentage,
     );
   }
 
@@ -230,40 +200,236 @@ class SearchResultItemModel extends Equatable {
   List<Object?> get props => [
     id,
     name,
-    shortDescription,
-    city,
+    propertyType,
     address,
-    mainImageUrl,
-    imageGallery,
+    city,
+    basePrice,
+    currency,
     starRating,
     averageRating,
     reviewsCount,
-    basePricePerNight,
-    currency,
-    isFavorite,
+    mainImageUrl,
     distanceKm,
-    propertyType,
-    topAmenities,
-    availabilityStatus,
-    latitude,
-    longitude,
+    isAvailable,
+    isFavorite,
+    mainAmenities,
+    matchPercentage,
   ];
 }
 
 /// <summary>
-/// نموذج بيانات نتائج البحث الكاملة
-/// Complete search results data model
+/// نموذج بيانات فلاتر البحث
+/// Search filters data model
 /// </summary>
-class SearchResultModel extends Equatable {
+class SearchFiltersDto extends Equatable {
   /// <summary>
-  /// قائمة نتائج البحث
-  /// Search results list
+  /// كلمة البحث
+  /// Search term
   /// </summary>
-  final List<SearchResultItemModel> results;
+  final String? searchTerm;
 
   /// <summary>
-  /// إجمالي عدد النتائج
-  /// Total count
+  /// المدينة
+  /// City
+  /// </summary>
+  final String? city;
+
+  /// <summary>
+  /// تاريخ الوصول
+  /// Check-in date
+  /// </summary>
+  final DateTime? checkIn;
+
+  /// <summary>
+  /// تاريخ المغادرة
+  /// Check-out date
+  /// </summary>
+  final DateTime? checkOut;
+
+  /// <summary>
+  /// عدد الضيوف
+  /// Guests count
+  /// </summary>
+  final int? guestsCount;
+
+  /// <summary>
+  /// معرف نوع العقار
+  /// Property type ID
+  /// </summary>
+  final String? propertyTypeId;
+
+  /// <summary>
+  /// السعر الأدنى
+  /// Minimum price
+  /// </summary>
+  final double? minPrice;
+
+  /// <summary>
+  /// السعر الأقصى
+  /// Maximum price
+  /// </summary>
+  final double? maxPrice;
+
+  /// <summary>
+  /// تصنيف النجوم الأدنى
+  /// Minimum star rating
+  /// </summary>
+  final int? minStarRating;
+
+  /// <summary>
+  /// وسائل الراحة المطلوبة
+  /// Required amenities
+  /// </summary>
+  final List<String> requiredAmenities;
+
+  const SearchFiltersDto({
+    this.searchTerm,
+    this.city,
+    this.checkIn,
+    this.checkOut,
+    this.guestsCount,
+    this.propertyTypeId,
+    this.minPrice,
+    this.maxPrice,
+    this.minStarRating,
+    this.requiredAmenities = const [],
+  });
+
+  factory SearchFiltersDto.fromJson(Map<String, dynamic> json) {
+    return SearchFiltersDto(
+      searchTerm: json['searchTerm'],
+      city: json['city'],
+      checkIn: json['checkIn'] != null ? DateTime.parse(json['checkIn']) : null,
+      checkOut: json['checkOut'] != null ? DateTime.parse(json['checkOut']) : null,
+      guestsCount: json['guestsCount'],
+      propertyTypeId: json['propertyTypeId'],
+      minPrice: json['minPrice']?.toDouble(),
+      maxPrice: json['maxPrice']?.toDouble(),
+      minStarRating: json['minStarRating'],
+      requiredAmenities: List<String>.from(json['requiredAmenities'] ?? []),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'searchTerm': searchTerm,
+      'city': city,
+      'checkIn': checkIn?.toIso8601String(),
+      'checkOut': checkOut?.toIso8601String(),
+      'guestsCount': guestsCount,
+      'propertyTypeId': propertyTypeId,
+      'minPrice': minPrice,
+      'maxPrice': maxPrice,
+      'minStarRating': minStarRating,
+      'requiredAmenities': requiredAmenities,
+    };
+  }
+
+  @override
+  List<Object?> get props => [
+    searchTerm,
+    city,
+    checkIn,
+    checkOut,
+    guestsCount,
+    propertyTypeId,
+    minPrice,
+    maxPrice,
+    minStarRating,
+    requiredAmenities,
+  ];
+}
+
+/// <summary>
+/// نموذج بيانات إحصائيات البحث
+/// Search statistics data model
+/// </summary>
+class SearchStatisticsDto extends Equatable {
+  /// <summary>
+  /// عدد العقارات المطابقة تماماً
+  /// Exact matches count
+  /// </summary>
+  final int exactMatches;
+
+  /// <summary>
+  /// عدد العقارات المطابقة جزئياً
+  /// Partial matches count
+  /// </summary>
+  final int partialMatches;
+
+  /// <summary>
+  /// عدد العقارات المتاحة
+  /// Available properties count
+  /// </summary>
+  final int availableCount;
+
+  /// <summary>
+  /// متوسط السعر
+  /// Average price
+  /// </summary>
+  final double averagePrice;
+
+  /// <summary>
+  /// السعر الأدنى
+  /// Minimum price
+  /// </summary>
+  final double minPrice;
+
+  /// <summary>
+  /// السعر الأقصى
+  /// Maximum price
+  /// </summary>
+  final double maxPrice;
+
+  const SearchStatisticsDto({
+    required this.exactMatches,
+    required this.partialMatches,
+    required this.availableCount,
+    required this.averagePrice,
+    required this.minPrice,
+    required this.maxPrice,
+  });
+
+  factory SearchStatisticsDto.fromJson(Map<String, dynamic> json) {
+    return SearchStatisticsDto(
+      exactMatches: json['exactMatches'] ?? 0,
+      partialMatches: json['partialMatches'] ?? 0,
+      availableCount: json['availableCount'] ?? 0,
+      averagePrice: (json['averagePrice'] ?? 0.0).toDouble(),
+      minPrice: (json['minPrice'] ?? 0.0).toDouble(),
+      maxPrice: (json['maxPrice'] ?? 0.0).toDouble(),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'exactMatches': exactMatches,
+      'partialMatches': partialMatches,
+      'availableCount': availableCount,
+      'averagePrice': averagePrice,
+      'minPrice': minPrice,
+      'maxPrice': maxPrice,
+    };
+  }
+
+  @override
+  List<Object> get props => [exactMatches, partialMatches, availableCount, averagePrice, minPrice, maxPrice];
+}
+
+/// <summary>
+/// نموذج بيانات نتائج البحث الكاملة (متوافق مع SearchPropertiesResponse)
+/// Complete search results data model (compatible with SearchPropertiesResponse)
+/// </summary>
+class SearchPropertiesResponse extends Equatable {
+  /// <summary>
+  /// قائمة العقارات المطابقة للبحث
+  /// List of properties matching the search
+  /// </summary>
+  final List<PropertySearchResultDto> properties;
+
+  /// <summary>
+  /// العدد الإجمالي للنتائج
+  /// Total count of results
   /// </summary>
   final int totalCount;
 
@@ -274,34 +440,34 @@ class SearchResultModel extends Equatable {
   final int currentPage;
 
   /// <summary>
-  /// إجمالي عدد الصفحات
-  /// Total pages
-  /// </summary>
-  final int totalPages;
-
-  /// <summary>
   /// حجم الصفحة
   /// Page size
   /// </summary>
   final int pageSize;
 
   /// <summary>
-  /// هل توجد صفحة تالية
-  /// Has next page
+  /// العدد الإجمالي للصفحات
+  /// Total pages count
   /// </summary>
-  final bool hasNextPage;
+  final int totalPages;
 
   /// <summary>
-  /// هل توجد صفحة سابقة
-  /// Has previous page
+  /// هل يوجد صفحة سابقة
+  /// Whether there is a previous page
   /// </summary>
   final bool hasPreviousPage;
 
   /// <summary>
-  /// فلاتر مطبقة
-  /// Applied filters
+  /// هل يوجد صفحة تالية
+  /// Whether there is a next page
   /// </summary>
-  final Map<String, dynamic> appliedFilters;
+  final bool hasNextPage;
+
+  /// <summary>
+  /// فلاتر البحث المطبقة
+  /// Applied search filters
+  /// </summary>
+  final SearchFiltersDto appliedFilters;
 
   /// <summary>
   /// وقت البحث بالميلي ثانية
@@ -309,35 +475,43 @@ class SearchResultModel extends Equatable {
   /// </summary>
   final int searchTimeMs;
 
-  const SearchResultModel({
-    required this.results,
+  /// <summary>
+  /// إحصائيات البحث
+  /// Search statistics
+  /// </summary>
+  final SearchStatisticsDto statistics;
+
+  const SearchPropertiesResponse({
+    required this.properties,
     required this.totalCount,
     required this.currentPage,
-    required this.totalPages,
     required this.pageSize,
-    required this.hasNextPage,
+    required this.totalPages,
     required this.hasPreviousPage,
+    required this.hasNextPage,
     required this.appliedFilters,
     required this.searchTimeMs,
+    required this.statistics,
   });
 
   /// <summary>
   /// إنشاء نموذج من JSON
   /// Create model from JSON
   /// </summary>
-  factory SearchResultModel.fromJson(Map<String, dynamic> json) {
-    return SearchResultModel(
-      results: (json['results'] as List<dynamic>?)
-          ?.map((item) => SearchResultItemModel.fromJson(item))
+  factory SearchPropertiesResponse.fromJson(Map<String, dynamic> json) {
+    return SearchPropertiesResponse(
+      properties: (json['properties'] as List<dynamic>?)
+          ?.map((item) => PropertySearchResultDto.fromJson(item))
           .toList() ?? [],
       totalCount: json['totalCount'] ?? 0,
       currentPage: json['currentPage'] ?? 1,
-      totalPages: json['totalPages'] ?? 1,
       pageSize: json['pageSize'] ?? 20,
-      hasNextPage: json['hasNextPage'] ?? false,
+      totalPages: json['totalPages'] ?? 1,
       hasPreviousPage: json['hasPreviousPage'] ?? false,
-      appliedFilters: Map<String, dynamic>.from(json['appliedFilters'] ?? {}),
+      hasNextPage: json['hasNextPage'] ?? false,
+      appliedFilters: SearchFiltersDto.fromJson(json['appliedFilters'] ?? {}),
       searchTimeMs: json['searchTimeMs'] ?? 0,
+      statistics: SearchStatisticsDto.fromJson(json['statistics'] ?? {}),
     );
   }
 
@@ -347,15 +521,16 @@ class SearchResultModel extends Equatable {
   /// </summary>
   Map<String, dynamic> toJson() {
     return {
-      'results': results.map((item) => item.toJson()).toList(),
+      'properties': properties.map((item) => item.toJson()).toList(),
       'totalCount': totalCount,
       'currentPage': currentPage,
-      'totalPages': totalPages,
       'pageSize': pageSize,
-      'hasNextPage': hasNextPage,
+      'totalPages': totalPages,
       'hasPreviousPage': hasPreviousPage,
-      'appliedFilters': appliedFilters,
+      'hasNextPage': hasNextPage,
+      'appliedFilters': appliedFilters.toJson(),
       'searchTimeMs': searchTimeMs,
+      'statistics': statistics.toJson(),
     };
   }
 
@@ -365,28 +540,30 @@ class SearchResultModel extends Equatable {
   /// </summary>
   SearchResult toEntity() {
     return SearchResult(
-      results: results.map((item) => item.toEntity()).toList(),
+      properties: properties.map((item) => item.toEntity()).toList(),
       totalCount: totalCount,
       currentPage: currentPage,
-      totalPages: totalPages,
       pageSize: pageSize,
-      hasNextPage: hasNextPage,
+      totalPages: totalPages,
       hasPreviousPage: hasPreviousPage,
+      hasNextPage: hasNextPage,
       appliedFilters: appliedFilters,
       searchTimeMs: searchTimeMs,
+      statistics: statistics,
     );
   }
 
   @override
   List<Object> get props => [
-    results,
+    properties,
     totalCount,
     currentPage,
-    totalPages,
     pageSize,
-    hasNextPage,
+    totalPages,
     hasPreviousPage,
+    hasNextPage,
     appliedFilters,
     searchTimeMs,
+    statistics,
   ];
 }

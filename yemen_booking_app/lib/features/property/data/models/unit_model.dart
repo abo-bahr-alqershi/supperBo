@@ -2,234 +2,264 @@ import 'package:equatable/equatable.dart';
 import '../../domain/entities/unit.dart';
 
 /// <summary>
-/// نموذج بيانات مواصفات الوحدة
-/// Unit specifications data model
+/// نموذج بيانات المبلغ المالي
+/// Money data model
 /// </summary>
-class UnitSpecificationsModel extends Equatable {
+class MoneyDto extends Equatable {
   /// <summary>
-  /// المساحة بالمتر المربع
-  /// Area in square meters
+  /// المبلغ المالي
+  /// Monetary amount
   /// </summary>
-  final double? area;
+  final double amount;
 
   /// <summary>
-  /// عدد الغرف
-  /// Number of rooms
-  /// </summary>
-  final int? roomsCount;
-
-  /// <summary>
-  /// عدد غرف النوم
-  /// Number of bedrooms
-  /// </summary>
-  final int? bedroomsCount;
-
-  /// <summary>
-  /// عدد الحمامات
-  /// Number of bathrooms
-  /// </summary>
-  final int? bathroomsCount;
-
-  /// <summary>
-  /// الحد الأقصى للضيوف
-  /// Maximum guests capacity
-  /// </summary>
-  final int maxGuestsCapacity;
-
-  /// <summary>
-  /// نوع السرير
-  /// Bed type
-  /// </summary>
-  final String? bedType;
-
-  /// <summary>
-  /// عدد الأسرة
-  /// Number of beds
-  /// </summary>
-  final int? bedsCount;
-
-  /// <summary>
-  /// الطابق
-  /// Floor number
-  /// </summary>
-  final int? floorNumber;
-
-  /// <summary>
-  /// هل يوجد شرفة
-  /// Has balcony
-  /// </summary>
-  final bool hasBalcony;
-
-  /// <summary>
-  /// هل يوجد مطبخ
-  /// Has kitchen
-  /// </summary>
-  final bool hasKitchen;
-
-  /// <summary>
-  /// نوع المنظر
-  /// View type
-  /// </summary>
-  final String? viewType;
-
-  const UnitSpecificationsModel({
-    this.area,
-    this.roomsCount,
-    this.bedroomsCount,
-    this.bathroomsCount,
-    required this.maxGuestsCapacity,
-    this.bedType,
-    this.bedsCount,
-    this.floorNumber,
-    required this.hasBalcony,
-    required this.hasKitchen,
-    this.viewType,
-  });
-
-  factory UnitSpecificationsModel.fromJson(Map<String, dynamic> json) {
-    return UnitSpecificationsModel(
-      area: json['area']?.toDouble(),
-      roomsCount: json['roomsCount'],
-      bedroomsCount: json['bedroomsCount'],
-      bathroomsCount: json['bathroomsCount'],
-      maxGuestsCapacity: json['maxGuestsCapacity'] ?? 1,
-      bedType: json['bedType'],
-      bedsCount: json['bedsCount'],
-      floorNumber: json['floorNumber'],
-      hasBalcony: json['hasBalcony'] ?? false,
-      hasKitchen: json['hasKitchen'] ?? false,
-      viewType: json['viewType'],
-    );
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'area': area,
-      'roomsCount': roomsCount,
-      'bedroomsCount': bedroomsCount,
-      'bathroomsCount': bathroomsCount,
-      'maxGuestsCapacity': maxGuestsCapacity,
-      'bedType': bedType,
-      'bedsCount': bedsCount,
-      'floorNumber': floorNumber,
-      'hasBalcony': hasBalcony,
-      'hasKitchen': hasKitchen,
-      'viewType': viewType,
-    };
-  }
-
-  @override
-  List<Object?> get props => [
-    area,
-    roomsCount,
-    bedroomsCount,
-    bathroomsCount,
-    maxGuestsCapacity,
-    bedType,
-    bedsCount,
-    floorNumber,
-    hasBalcony,
-    hasKitchen,
-    viewType,
-  ];
-}
-
-/// <summary>
-/// نموذج بيانات أسعار الوحدة
-/// Unit pricing data model
-/// </summary>
-class UnitPricingModel extends Equatable {
-  /// <summary>
-  /// السعر الأساسي لليلة
-  /// Base price per night
-  /// </summary>
-  final double basePricePerNight;
-
-  /// <summary>
-  /// العملة
-  /// Currency
+  /// رمز العملة
+  /// Currency code
   /// </summary>
   final String currency;
 
-  /// <summary>
-  /// أسعار خاصة للمواسم
-  /// Seasonal pricing
-  /// </summary>
-  final Map<String, double> seasonalPricing;
-
-  /// <summary>
-  /// خصومات الإقامة الطويلة
-  /// Long stay discounts
-  /// </summary>
-  final Map<String, double> longStayDiscounts;
-
-  /// <summary>
-  /// رسوم إضافية
-  /// Additional fees
-  /// </summary>
-  final Map<String, double> additionalFees;
-
-  /// <summary>
-  /// هل يشمل الضرائب
-  /// Includes taxes
-  /// </summary>
-  final bool includesTaxes;
-
-  /// <summary>
-  /// نسبة الضريبة
-  /// Tax percentage
-  /// </summary>
-  final double? taxPercentage;
-
-  const UnitPricingModel({
-    required this.basePricePerNight,
+  const MoneyDto({
+    required this.amount,
     required this.currency,
-    required this.seasonalPricing,
-    required this.longStayDiscounts,
-    required this.additionalFees,
-    required this.includesTaxes,
-    this.taxPercentage,
   });
 
-  factory UnitPricingModel.fromJson(Map<String, dynamic> json) {
-    return UnitPricingModel(
-      basePricePerNight: (json['basePricePerNight'] ?? 0.0).toDouble(),
+  factory MoneyDto.fromJson(Map<String, dynamic> json) {
+    return MoneyDto(
+      amount: (json['amount'] ?? 0.0).toDouble(),
       currency: json['currency'] ?? 'YER',
-      seasonalPricing: Map<String, double>.from(json['seasonalPricing'] ?? {}),
-      longStayDiscounts: Map<String, double>.from(json['longStayDiscounts'] ?? {}),
-      additionalFees: Map<String, double>.from(json['additionalFees'] ?? {}),
-      includesTaxes: json['includesTaxes'] ?? false,
-      taxPercentage: json['taxPercentage']?.toDouble(),
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'basePricePerNight': basePricePerNight,
+      'amount': amount,
       'currency': currency,
-      'seasonalPricing': seasonalPricing,
-      'longStayDiscounts': longStayDiscounts,
-      'additionalFees': additionalFees,
-      'includesTaxes': includesTaxes,
-      'taxPercentage': taxPercentage,
+    };
+  }
+
+  /// <summary>
+  /// المبلغ المنسق للعرض
+  /// Formatted amount for display
+  /// </summary>
+  String get formattedAmount => '${amount.toStringAsFixed(2)} $currency';
+
+  @override
+  List<Object> get props => [amount, currency];
+}
+
+/// <summary>
+/// نموذج بيانات صورة الوحدة
+/// Unit image data model
+/// </summary>
+class UnitImageDto extends Equatable {
+  /// <summary>
+  /// معرف الصورة
+  /// Image ID
+  /// </summary>
+  final String id;
+
+  /// <summary>
+  /// رابط الصورة
+  /// Image URL
+  /// </summary>
+  final String imageUrl;
+
+  /// <summary>
+  /// وصف الصورة
+  /// Image description
+  /// </summary>
+  final String? description;
+
+  /// <summary>
+  /// ترتيب العرض
+  /// Display order
+  /// </summary>
+  final int displayOrder;
+
+  const UnitImageDto({
+    required this.id,
+    required this.imageUrl,
+    this.description,
+    required this.displayOrder,
+  });
+
+  factory UnitImageDto.fromJson(Map<String, dynamic> json) {
+    return UnitImageDto(
+      id: json['id'] ?? '',
+      imageUrl: json['imageUrl'] ?? '',
+      description: json['description'],
+      displayOrder: json['displayOrder'] ?? 0,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'imageUrl': imageUrl,
+      'description': description,
+      'displayOrder': displayOrder,
     };
   }
 
   @override
-  List<Object?> get props => [
-    basePricePerNight,
-    currency,
-    seasonalPricing,
-    longStayDiscounts,
-    additionalFees,
-    includesTaxes,
-    taxPercentage,
-  ];
+  List<Object?> get props => [id, imageUrl, description, displayOrder];
 }
 
 /// <summary>
-/// نموذج بيانات الوحدة
-/// Unit data model
+/// نموذج بيانات قيمة حقل الوحدة
+/// Unit field value data model
+/// </summary>
+class UnitFieldValueDto extends Equatable {
+  /// <summary>
+  /// معرف القيمة
+  /// Value ID
+  /// </summary>
+  final String valueId;
+
+  /// <summary>
+  /// معرف الوحدة
+  /// Unit ID
+  /// </summary>
+  final String unitId;
+
+  /// <summary>
+  /// معرف الحقل
+  /// Field ID
+  /// </summary>
+  final String fieldId;
+
+  /// <summary>
+  /// اسم الحقل
+  /// Field name
+  /// </summary>
+  final String fieldName;
+
+  /// <summary>
+  /// الاسم المعروض للحقل
+  /// Display name
+  /// </summary>
+  final String displayName;
+
+  /// <summary>
+  /// قيمة الحقل
+  /// Field value
+  /// </summary>
+  final String value;
+
+  /// <summary>
+  /// نوع الحقل
+  /// Field type
+  /// </summary>
+  final String fieldType;
+
+  /// <summary>
+  /// تاريخ الإنشاء
+  /// Created at
+  /// </summary>
+  final DateTime createdAt;
+
+  /// <summary>
+  /// تاريخ التحديث
+  /// Updated at
+  /// </summary>
+  final DateTime updatedAt;
+
+  const UnitFieldValueDto({
+    required this.valueId,
+    required this.unitId,
+    required this.fieldId,
+    required this.fieldName,
+    required this.displayName,
+    required this.value,
+    required this.fieldType,
+    required this.createdAt,
+    required this.updatedAt,
+  });
+
+  factory UnitFieldValueDto.fromJson(Map<String, dynamic> json) {
+    return UnitFieldValueDto(
+      valueId: json['valueId'] ?? '',
+      unitId: json['unitId'] ?? '',
+      fieldId: json['fieldId'] ?? '',
+      fieldName: json['fieldName'] ?? '',
+      displayName: json['displayName'] ?? '',
+      value: json['value'] ?? '',
+      fieldType: json['fieldType'] ?? '',
+      createdAt: DateTime.parse(json['createdAt'] ?? DateTime.now().toIso8601String()),
+      updatedAt: DateTime.parse(json['updatedAt'] ?? DateTime.now().toIso8601String()),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'valueId': valueId,
+      'unitId': unitId,
+      'fieldId': fieldId,
+      'fieldName': fieldName,
+      'displayName': displayName,
+      'value': value,
+      'fieldType': fieldType,
+      'createdAt': createdAt.toIso8601String(),
+      'updatedAt': updatedAt.toIso8601String(),
+    };
+  }
+
+  @override
+  List<Object> get props => [valueId, unitId, fieldId, fieldName, displayName, value, fieldType, createdAt, updatedAt];
+}
+
+/// <summary>
+/// نموذج بيانات نوع الوحدة
+/// Unit type data model
+/// </summary>
+class UnitTypeDto extends Equatable {
+  /// <summary>
+  /// معرف نوع الوحدة
+  /// Unit type ID
+  /// </summary>
+  final String id;
+
+  /// <summary>
+  /// اسم نوع الوحدة
+  /// Unit type name
+  /// </summary>
+  final String name;
+
+  /// <summary>
+  /// وصف نوع الوحدة
+  /// Unit type description
+  /// </summary>
+  final String? description;
+
+  const UnitTypeDto({
+    required this.id,
+    required this.name,
+    this.description,
+  });
+
+  factory UnitTypeDto.fromJson(Map<String, dynamic> json) {
+    return UnitTypeDto(
+      id: json['id'] ?? '',
+      name: json['name'] ?? '',
+      description: json['description'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'description': description,
+    };
+  }
+
+  @override
+  List<Object?> get props => [id, name, description];
+}
+
+/// <summary>
+/// نموذج بيانات الوحدة (متوافق مع UnitDetailsDto)
+/// Unit data model (compatible with UnitDetailsDto)
 /// </summary>
 class UnitModel extends Equatable {
   /// <summary>
@@ -239,22 +269,28 @@ class UnitModel extends Equatable {
   final String id;
 
   /// <summary>
+  /// معرف العقار
+  /// Property ID
+  /// </summary>
+  final String propertyId;
+
+  /// <summary>
+  /// اسم العقار
+  /// Property name
+  /// </summary>
+  final String propertyName;
+
+  /// <summary>
   /// اسم الوحدة
   /// Unit name
   /// </summary>
   final String name;
 
   /// <summary>
-  /// وصف الوحدة
-  /// Unit description
-  /// </summary>
-  final String description;
-
-  /// <summary>
   /// نوع الوحدة
   /// Unit type
   /// </summary>
-  final String unitType;
+  final UnitTypeDto unitType;
 
   /// <summary>
   /// معرف نوع الوحدة
@@ -263,109 +299,89 @@ class UnitModel extends Equatable {
   final String unitTypeId;
 
   /// <summary>
-  /// مواصفات الوحدة
-  /// Unit specifications
+  /// اسم نوع الوحدة
+  /// Unit type name
   /// </summary>
-  final UnitSpecificationsModel specifications;
+  final String unitTypeName;
 
   /// <summary>
-  /// تسعير الوحدة
-  /// Unit pricing
+  /// السعر الأساسي
+  /// Base price
   /// </summary>
-  final UnitPricingModel pricing;
+  final MoneyDto basePrice;
+
+  /// <summary>
+  /// العملة (اختياري)
+  /// Currency (optional)
+  /// </summary>
+  final String? currency;
+
+  /// <summary>
+  /// السعة القصوى
+  /// Maximum capacity
+  /// </summary>
+  final int maxCapacity;
+
+  /// <summary>
+  /// عدد المشاهدات
+  /// View count
+  /// </summary>
+  final int viewCount;
+
+  /// <summary>
+  /// عدد الحجوزات
+  /// Booking count
+  /// </summary>
+  final int bookingCount;
+
+  /// <summary>
+  /// طريقة حساب السعر
+  /// Pricing method
+  /// </summary>
+  final String pricingMethod;
+
+  /// <summary>
+  /// حالة التوفر
+  /// Availability status
+  /// </summary>
+  final bool isAvailable;
 
   /// <summary>
   /// صور الوحدة
   /// Unit images
   /// </summary>
-  final List<String> images;
+  final List<UnitImageDto> images;
 
   /// <summary>
-  /// المرافق الخاصة بالوحدة
-  /// Unit amenities
+  /// الميزات المخصصة (JSON string)
+  /// Custom features (JSON string)
   /// </summary>
-  final List<String> amenities;
+  final String customFeatures;
 
   /// <summary>
-  /// هل الوحدة متاحة
-  /// Is unit available
+  /// قيم الحقول الديناميكية
+  /// Dynamic field values
   /// </summary>
-  final bool isAvailable;
-
-  /// <summary>
-  /// هل مُفعلة للحجز
-  /// Is enabled for booking
-  /// </summary>
-  final bool isBookingEnabled;
-
-  /// <summary>
-  /// تواريخ غير متاحة
-  /// Unavailable dates
-  /// </summary>
-  final List<String> unavailableDates;
-
-  /// <summary>
-  /// الحد الأدنى لليالي
-  /// Minimum nights stay
-  /// </summary>
-  final int minNightsStay;
-
-  /// <summary>
-  /// الحد الأقصى لليالي
-  /// Maximum nights stay
-  /// </summary>
-  final int? maxNightsStay;
-
-  /// <summary>
-  /// وقت تسجيل الوصول
-  /// Check-in time
-  /// </summary>
-  final String? checkInTime;
-
-  /// <summary>
-  /// وقت تسجيل المغادرة
-  /// Check-out time
-  /// </summary>
-  final String? checkOutTime;
-
-  /// <summary>
-  /// معلومات إضافية
-  /// Additional information
-  /// </summary>
-  final Map<String, dynamic> additionalInfo;
-
-  /// <summary>
-  /// رقم الوحدة
-  /// Unit number
-  /// </summary>
-  final String? unitNumber;
-
-  /// <summary>
-  /// ترتيب العرض
-  /// Display order
-  /// </summary>
-  final int displayOrder;
+  final List<UnitFieldValueDto> fieldValues;
 
   const UnitModel({
     required this.id,
+    required this.propertyId,
+    required this.propertyName,
     required this.name,
-    required this.description,
     required this.unitType,
     required this.unitTypeId,
-    required this.specifications,
-    required this.pricing,
-    required this.images,
-    required this.amenities,
+    required this.unitTypeName,
+    required this.basePrice,
+    this.currency,
+    required this.maxCapacity,
+    required this.viewCount,
+    required this.bookingCount,
+    required this.pricingMethod,
     required this.isAvailable,
-    required this.isBookingEnabled,
-    required this.unavailableDates,
-    required this.minNightsStay,
-    this.maxNightsStay,
-    this.checkInTime,
-    this.checkOutTime,
-    required this.additionalInfo,
-    this.unitNumber,
-    required this.displayOrder,
+    required this.images,
+    required this.customFeatures,
+    required this.fieldValues,
   });
 
   /// <summary>
@@ -375,24 +391,26 @@ class UnitModel extends Equatable {
   factory UnitModel.fromJson(Map<String, dynamic> json) {
     return UnitModel(
       id: json['id'] ?? '',
+      propertyId: json['propertyId'] ?? '',
+      propertyName: json['propertyName'] ?? '',
       name: json['name'] ?? '',
-      description: json['description'] ?? '',
-      unitType: json['unitType'] ?? '',
+      unitType: UnitTypeDto.fromJson(json['unitType'] ?? {}),
       unitTypeId: json['unitTypeId'] ?? '',
-      specifications: UnitSpecificationsModel.fromJson(json['specifications'] ?? {}),
-      pricing: UnitPricingModel.fromJson(json['pricing'] ?? {}),
-      images: List<String>.from(json['images'] ?? []),
-      amenities: List<String>.from(json['amenities'] ?? []),
+      unitTypeName: json['unitTypeName'] ?? '',
+      basePrice: MoneyDto.fromJson(json['basePrice'] ?? {}),
+      currency: json['currency'],
+      maxCapacity: json['maxCapacity'] ?? 1,
+      viewCount: json['viewCount'] ?? 0,
+      bookingCount: json['bookingCount'] ?? 0,
+      pricingMethod: json['pricingMethod'] ?? '',
       isAvailable: json['isAvailable'] ?? true,
-      isBookingEnabled: json['isBookingEnabled'] ?? true,
-      unavailableDates: List<String>.from(json['unavailableDates'] ?? []),
-      minNightsStay: json['minNightsStay'] ?? 1,
-      maxNightsStay: json['maxNightsStay'],
-      checkInTime: json['checkInTime'],
-      checkOutTime: json['checkOutTime'],
-      additionalInfo: Map<String, dynamic>.from(json['additionalInfo'] ?? {}),
-      unitNumber: json['unitNumber'],
-      displayOrder: json['displayOrder'] ?? 0,
+      images: (json['images'] as List<dynamic>?)
+          ?.map((item) => UnitImageDto.fromJson(item))
+          .toList() ?? [],
+      customFeatures: json['customFeatures'] ?? '{}',
+      fieldValues: (json['fieldValues'] as List<dynamic>?)
+          ?.map((item) => UnitFieldValueDto.fromJson(item))
+          .toList() ?? [],
     );
   }
 
@@ -403,24 +421,22 @@ class UnitModel extends Equatable {
   Map<String, dynamic> toJson() {
     return {
       'id': id,
+      'propertyId': propertyId,
+      'propertyName': propertyName,
       'name': name,
-      'description': description,
-      'unitType': unitType,
+      'unitType': unitType.toJson(),
       'unitTypeId': unitTypeId,
-      'specifications': specifications.toJson(),
-      'pricing': pricing.toJson(),
-      'images': images,
-      'amenities': amenities,
+      'unitTypeName': unitTypeName,
+      'basePrice': basePrice.toJson(),
+      'currency': currency,
+      'maxCapacity': maxCapacity,
+      'viewCount': viewCount,
+      'bookingCount': bookingCount,
+      'pricingMethod': pricingMethod,
       'isAvailable': isAvailable,
-      'isBookingEnabled': isBookingEnabled,
-      'unavailableDates': unavailableDates,
-      'minNightsStay': minNightsStay,
-      'maxNightsStay': maxNightsStay,
-      'checkInTime': checkInTime,
-      'checkOutTime': checkOutTime,
-      'additionalInfo': additionalInfo,
-      'unitNumber': unitNumber,
-      'displayOrder': displayOrder,
+      'images': images.map((item) => item.toJson()).toList(),
+      'customFeatures': customFeatures,
+      'fieldValues': fieldValues.map((item) => item.toJson()).toList(),
     };
   }
 
@@ -431,47 +447,100 @@ class UnitModel extends Equatable {
   Unit toEntity() {
     return Unit(
       id: id,
+      propertyId: propertyId,
+      propertyName: propertyName,
       name: name,
-      description: description,
       unitType: unitType,
       unitTypeId: unitTypeId,
-      specifications: specifications,
-      pricing: pricing,
-      images: images,
-      amenities: amenities,
+      unitTypeName: unitTypeName,
+      basePrice: basePrice,
+      currency: currency,
+      maxCapacity: maxCapacity,
+      viewCount: viewCount,
+      bookingCount: bookingCount,
+      pricingMethod: pricingMethod,
       isAvailable: isAvailable,
-      isBookingEnabled: isBookingEnabled,
-      unavailableDates: unavailableDates,
-      minNightsStay: minNightsStay,
-      maxNightsStay: maxNightsStay,
-      checkInTime: checkInTime,
-      checkOutTime: checkOutTime,
-      additionalInfo: additionalInfo,
-      unitNumber: unitNumber,
-      displayOrder: displayOrder,
+      images: images,
+      customFeatures: customFeatures,
+      fieldValues: fieldValues,
     );
+  }
+
+  /// <summary>
+  /// الحصول على قيمة حقل معين
+  /// Get specific field value
+  /// </summary>
+  String? getFieldValue(String fieldName) {
+    final field = fieldValues.where((f) => f.fieldName == fieldName).firstOrNull;
+    return field?.value;
+  }
+
+  /// <summary>
+  /// التحقق من وجود قيمة حقل معين
+  /// Check if field has value
+  /// </summary>
+  bool hasField(String fieldName) {
+    return fieldValues.any((f) => f.fieldName == fieldName && f.value.isNotEmpty);
   }
 
   @override
   List<Object?> get props => [
     id,
+    propertyId,
+    propertyName,
     name,
-    description,
     unitType,
     unitTypeId,
-    specifications,
-    pricing,
-    images,
-    amenities,
+    unitTypeName,
+    basePrice,
+    currency,
+    maxCapacity,
+    viewCount,
+    bookingCount,
+    pricingMethod,
     isAvailable,
-    isBookingEnabled,
-    unavailableDates,
-    minNightsStay,
-    maxNightsStay,
-    checkInTime,
-    checkOutTime,
-    additionalInfo,
-    unitNumber,
-    displayOrder,
+    images,
+    customFeatures,
+    fieldValues,
   ];
+
+  UnitModel copyWith({
+    String? id,
+    String? propertyId,
+    String? propertyName,
+    String? name,
+    UnitTypeDto? unitType,
+    String? unitTypeId,
+    String? unitTypeName,
+    MoneyDto? basePrice,
+    String? currency,
+    int? maxCapacity,
+    int? viewCount,
+    int? bookingCount,
+    String? pricingMethod,
+    bool? isAvailable,
+    List<UnitImageDto>? images,
+    String? customFeatures,
+    List<UnitFieldValueDto>? fieldValues,
+  }) {
+    return UnitModel(
+      id: id ?? this.id,
+      propertyId: propertyId ?? this.propertyId,
+      propertyName: propertyName ?? this.propertyName,
+      name: name ?? this.name,
+      unitType: unitType ?? this.unitType,
+      unitTypeId: unitTypeId ?? this.unitTypeId,
+      unitTypeName: unitTypeName ?? this.unitTypeName,
+      basePrice: basePrice ?? this.basePrice,
+      currency: currency ?? this.currency,
+      maxCapacity: maxCapacity ?? this.maxCapacity,
+      viewCount: viewCount ?? this.viewCount,
+      bookingCount: bookingCount ?? this.bookingCount,
+      pricingMethod: pricingMethod ?? this.pricingMethod,
+      isAvailable: isAvailable ?? this.isAvailable,
+      images: images ?? this.images,
+      customFeatures: customFeatures ?? this.customFeatures,
+      fieldValues: fieldValues ?? this.fieldValues,
+    );
+  }
 }
