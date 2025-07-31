@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using YemenBooking.Application.Commands.MobileApp.Properties;
 using YemenBooking.Application.Queries.MobileApp.Properties;
 using YemenBooking.Application.DTOs;
+using YemenBooking.Application.DTOs.Properties;
+using System.Collections.Generic;
 
 namespace YemenBooking.Api.Controllers.Client
 {
@@ -24,7 +26,7 @@ namespace YemenBooking.Api.Controllers.Client
         /// <param name="command">بيانات إضافة للرغبات</param>
         /// <returns>نتيجة الإضافة</returns>
         [HttpPost("wishlist")]
-        public async Task<ActionResult<ResultDto<ClientAddPropertyToWishlistResponse>>> AddToWishlist([FromBody] ClientAddPropertyToWishlistCommand command)
+        public async Task<ActionResult<ResultDto<bool>>> AddToWishlist([FromBody] ClientAddPropertyToWishlistCommand command)
         {
             var result = await _mediator.Send(command);
             return Ok(result);
@@ -37,7 +39,7 @@ namespace YemenBooking.Api.Controllers.Client
         /// <param name="command">بيانات العقار</param>
         /// <returns>نتيجة التحديث</returns>
         [HttpPost("view-count")]
-        public async Task<ActionResult<ResultDto<ClientUpdatePropertyViewCountResponse>>> UpdateViewCount([FromBody] ClientUpdatePropertyViewCountCommand command)
+        public async Task<ActionResult<ResultDto<bool>>> UpdateViewCount([FromBody] ClientUpdatePropertyViewCountCommand command)
         {
             var result = await _mediator.Send(command);
             return Ok(result);
@@ -66,7 +68,7 @@ namespace YemenBooking.Api.Controllers.Client
         /// <returns>تفاصيل العقار</returns>
         [HttpGet("{id}")]
         [AllowAnonymous]
-        public async Task<ActionResult<ResultDto<PropertyDetailsResponse>>> GetPropertyDetails(Guid id, [FromQuery] Guid? userId = null)
+        public async Task<ActionResult<ResultDto<PropertyDetailsDto>>> GetPropertyDetails(Guid id, [FromQuery] Guid? userId = null)
         {
             var query = new GetPropertyDetailsQuery { PropertyId = id, UserId = userId };
             var result = await _mediator.Send(query);
@@ -81,7 +83,7 @@ namespace YemenBooking.Api.Controllers.Client
         /// <returns>قائمة العقارات المميزة</returns>
         [HttpGet("featured")]
         [AllowAnonymous]
-        public async Task<ActionResult<ResultDto<ClientFeaturedPropertiesResponse>>> GetFeaturedProperties([FromQuery] ClientGetFeaturedPropertiesQuery query)
+        public async Task<ActionResult<ResultDto<List<ClientFeaturedPropertyDto>>>> GetFeaturedProperties([FromQuery] ClientGetFeaturedPropertiesQuery query)
         {
             var result = await _mediator.Send(query);
             return Ok(result);
@@ -95,7 +97,7 @@ namespace YemenBooking.Api.Controllers.Client
         /// <returns>قائمة العقارات القريبة</returns>
         [HttpGet("nearby")]
         [AllowAnonymous]
-        public async Task<ActionResult<ResultDto<NearbyPropertiesResponse>>> GetNearbyProperties([FromQuery] GetNearbyPropertiesQuery query)
+        public async Task<ActionResult<ResultDto<List<NearbyPropertyDto>>>> GetNearbyProperties([FromQuery] GetNearbyPropertiesQuery query)
         {
             var result = await _mediator.Send(query);
             return Ok(result);

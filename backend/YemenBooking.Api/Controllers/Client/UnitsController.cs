@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using YemenBooking.Application.Commands.MobileApp.Units;
 using YemenBooking.Application.Queries.MobileApp.Units;
 using YemenBooking.Application.DTOs;
+using YemenBooking.Application.DTOs.Units;
 
 namespace YemenBooking.Api.Controllers.Client
 {
@@ -24,7 +25,7 @@ namespace YemenBooking.Api.Controllers.Client
         /// <param name="command">بيانات التحقق</param>
         /// <returns>حالة التوفر</returns>
         [HttpPost("check-availability")]
-        public async Task<ActionResult<ResultDto<ClientCheckUnitAvailabilityResponse>>> CheckUnitAvailability([FromBody] ClientCheckUnitAvailabilityCommand command)
+        public async Task<ActionResult<ResultDto<ClientUnitAvailabilityResponse>>> CheckUnitAvailability([FromBody] ClientCheckUnitAvailabilityCommand command)
         {
             var result = await _mediator.Send(command);
             return Ok(result);
@@ -37,7 +38,7 @@ namespace YemenBooking.Api.Controllers.Client
         /// <param name="command">بيانات الحجز</param>
         /// <returns>نتيجة الحجز</returns>
         [HttpPost("reserve")]
-        public async Task<ActionResult<ResultDto<ClientReserveUnitResponse>>> ReserveUnit([FromBody] ClientReserveUnitCommand command)
+        public async Task<ActionResult<ResultDto<ClientUnitReservationResponse>>> ReserveUnit([FromBody] ClientReserveUnitCommand command)
         {
             var result = await _mediator.Send(command);
             return Ok(result);
@@ -65,9 +66,9 @@ namespace YemenBooking.Api.Controllers.Client
         /// <returns>تفاصيل الوحدة</returns>
         [HttpGet("{id}")]
         [AllowAnonymous]
-        public async Task<ActionResult<ResultDto<UnitDetailsResponse>>> GetUnitDetails(Guid id)
+        public async Task<ActionResult<ResultDto<UnitDetailsDto>>> GetUnitDetails(Guid id, [FromQuery] GetUnitDetailsQuery query)
         {
-            var query = new GetUnitDetailsQuery { UnitId = id };
+            query.UnitId = id;
             var result = await _mediator.Send(query);
             return Ok(result);
         }

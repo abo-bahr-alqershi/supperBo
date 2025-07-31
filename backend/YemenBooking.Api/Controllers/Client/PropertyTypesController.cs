@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using YemenBooking.Application.Queries.MobileApp.PropertyTypes;
 using YemenBooking.Application.DTOs;
+using YemenBooking.Application.DTOs.Properties;
+using System.Collections.Generic;
 
 namespace YemenBooking.Api.Controllers.Client
 {
@@ -23,7 +25,7 @@ namespace YemenBooking.Api.Controllers.Client
         /// <returns>قائمة أنواع العقارات</returns>
         [HttpGet]
         [AllowAnonymous]
-        public async Task<ActionResult<ResultDto<PropertyTypesResponse>>> GetPropertyTypes()
+        public async Task<ActionResult<ResultDto<List<PropertyTypeDto>>>> GetPropertyTypes()
         {
             var query = new GetPropertyTypesQuery();
             var result = await _mediator.Send(query);

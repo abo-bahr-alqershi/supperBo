@@ -1,9 +1,11 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using YemenBooking.Application.Commands.MobileApp.General;
+using YemenBooking.Application.Features.Feedback.Commands;
 using YemenBooking.Application.Queries.MobileApp.General;
 using YemenBooking.Application.DTOs;
+using YemenBooking.Application.DTOs.General;
+using System.Collections.Generic;
 
 namespace YemenBooking.Api.Controllers.Client
 {
@@ -37,9 +39,8 @@ namespace YemenBooking.Api.Controllers.Client
         /// <returns>معلومات الإصدار</returns>
         [HttpGet("app-version")]
         [AllowAnonymous]
-        public async Task<ActionResult<ResultDto<AppVersionResponse>>> GetAppVersion()
+        public async Task<ActionResult<ResultDto<AppVersionDto>>> GetAppVersion([FromQuery] GetAppVersionQuery query)
         {
-            var query = new GetAppVersionQuery();
             var result = await _mediator.Send(query);
             return Ok(result);
         }
@@ -52,7 +53,7 @@ namespace YemenBooking.Api.Controllers.Client
         /// <returns>سعر الصرف</returns>
         [HttpGet("currency-exchange")]
         [AllowAnonymous]
-        public async Task<ActionResult<ResultDto<CurrencyExchangeRateResponse>>> GetCurrencyExchangeRate([FromQuery] GetCurrencyExchangeRateQuery query)
+        public async Task<ActionResult<ResultDto<CurrencyExchangeRateDto>>> GetCurrencyExchangeRate([FromQuery] GetCurrencyExchangeRateQuery query)
         {
             var result = await _mediator.Send(query);
             return Ok(result);
@@ -65,9 +66,8 @@ namespace YemenBooking.Api.Controllers.Client
         /// <returns>قائمة الأسئلة الشائعة</returns>
         [HttpGet("faqs")]
         [AllowAnonymous]
-        public async Task<ActionResult<ResultDto<FAQsResponse>>> GetFAQs()
+        public async Task<ActionResult<ResultDto<List<FAQCategoryDto>>>> GetFAQs([FromQuery] GetFAQsQuery query)
         {
-            var query = new GetFAQsQuery();
             var result = await _mediator.Send(query);
             return Ok(result);
         }
@@ -79,9 +79,8 @@ namespace YemenBooking.Api.Controllers.Client
         /// <returns>سياسة الخصوصية</returns>
         [HttpGet("privacy-policy")]
         [AllowAnonymous]
-        public async Task<ActionResult<ResultDto<PrivacyPolicyResponse>>> GetPrivacyPolicy()
+        public async Task<ActionResult<ResultDto<LegalDocumentDto>>> GetPrivacyPolicy([FromQuery] GetPrivacyPolicyQuery query)
         {
-            var query = new GetPrivacyPolicyQuery();
             var result = await _mediator.Send(query);
             return Ok(result);
         }
@@ -93,9 +92,8 @@ namespace YemenBooking.Api.Controllers.Client
         /// <returns>الشروط والأحكام</returns>
         [HttpGet("terms-and-conditions")]
         [AllowAnonymous]
-        public async Task<ActionResult<ResultDto<TermsAndConditionsResponse>>> GetTermsAndConditions()
+        public async Task<ActionResult<ResultDto<LegalDocumentDto>>> GetTermsAndConditions([FromQuery] GetTermsAndConditionsQuery query)
         {
-            var query = new GetTermsAndConditionsQuery();
             var result = await _mediator.Send(query);
             return Ok(result);
         }

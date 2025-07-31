@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using YemenBooking.Application.Queries.MobileApp.UnitTypes;
 using YemenBooking.Application.DTOs;
+using System.Collections.Generic;
 
 namespace YemenBooking.Api.Controllers.Client
 {
@@ -23,9 +24,8 @@ namespace YemenBooking.Api.Controllers.Client
         /// <returns>قائمة أنواع الوحدات</returns>
         [HttpGet]
         [AllowAnonymous]
-        public async Task<ActionResult<ResultDto<UnitTypesResponse>>> GetUnitTypes()
+        public async Task<ActionResult<ResultDto<List<UnitTypeDto>>>> GetUnitTypes([FromQuery] GetUnitTypesQuery query)
         {
-            var query = new GetUnitTypesQuery();
             var result = await _mediator.Send(query);
             return Ok(result);
         }

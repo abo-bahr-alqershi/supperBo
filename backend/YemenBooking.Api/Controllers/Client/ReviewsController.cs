@@ -36,7 +36,7 @@ namespace YemenBooking.Api.Controllers.Client
         /// <param name="query">معايير البحث</param>
         /// <returns>قائمة التقييمات</returns>
         [HttpGet("property")]
-        public async Task<ActionResult<ResultDto<ClientPropertyReviewsResponse>>> GetPropertyReviews([FromQuery] ClientGetPropertyReviewsQuery query)
+        public async Task<ActionResult<ResultDto<PaginatedResult<ClientReviewDto>>>> GetPropertyReviews([FromQuery] ClientGetPropertyReviewsQuery query)
         {
             var result = await _mediator.Send(query);
             return Ok(result);
@@ -49,7 +49,7 @@ namespace YemenBooking.Api.Controllers.Client
         /// <param name="query">معايير الملخص</param>
         /// <returns>ملخص التقييمات</returns>
         [HttpGet("summary")]
-        public async Task<ActionResult<ResultDto<ClientReviewsSummaryResponse>>> GetReviewsSummary([FromQuery] ClientGetReviewsSummaryQuery query)
+        public async Task<ActionResult<ResultDto<ClientReviewsSummaryDto>>> GetReviewsSummary([FromQuery] ClientGetReviewsSummaryQuery query)
         {
             var result = await _mediator.Send(query);
             return Ok(result);

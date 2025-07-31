@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using YemenBooking.Application.Queries.MobileApp.SearchFilters;
 using YemenBooking.Application.DTOs;
+using System.Collections.Generic;
+using YemenBooking.Application.DTOs.Statistics;
+using YemenBooking.Application.DTOs.PropertySearch;
 
 namespace YemenBooking.Api.Controllers.Client
 {
@@ -23,7 +26,7 @@ namespace YemenBooking.Api.Controllers.Client
         /// <returns>قائمة الوجهات الشائعة</returns>
         [HttpGet("popular-destinations")]
         [AllowAnonymous]
-        public async Task<ActionResult<ResultDto<PopularDestinationsResponse>>> GetPopularDestinations()
+        public async Task<ActionResult<ResultDto<List<PopularDestinationDto>>>> GetPopularDestinations()
         {
             var query = new GetPopularDestinationsQuery();
             var result = await _mediator.Send(query);
@@ -38,7 +41,7 @@ namespace YemenBooking.Api.Controllers.Client
         /// <returns>قائمة العقارات الموصى بها</returns>
         [HttpGet("recommended-properties")]
         [AllowAnonymous]
-        public async Task<ActionResult<ResultDto<RecommendedPropertiesResponse>>> GetRecommendedProperties([FromQuery] GetRecommendedPropertiesQuery query)
+        public async Task<ActionResult<ResultDto<PaginatedResult<PropertySearchResultDto>>>> GetRecommendedProperties([FromQuery] GetRecommendedPropertiesQuery query)
         {
             var result = await _mediator.Send(query);
             return Ok(result);
@@ -51,7 +54,7 @@ namespace YemenBooking.Api.Controllers.Client
         /// <returns>فلاتر البحث المتاحة</returns>
         [HttpGet("filters")]
         [AllowAnonymous]
-        public async Task<ActionResult<ResultDto<SearchFiltersResponse>>> GetSearchFilters()
+        public async Task<ActionResult<ResultDto<SearchFiltersDto>>> GetSearchFilters()
         {
             var query = new GetSearchFiltersQuery();
             var result = await _mediator.Send(query);

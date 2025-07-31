@@ -2,6 +2,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using YemenBooking.Application.Commands.MobileApp.Reports;
 using YemenBooking.Application.DTOs;
+using YemenBooking.Application.DTOs.Reports;
 
 namespace YemenBooking.Api.Controllers.Client
 {

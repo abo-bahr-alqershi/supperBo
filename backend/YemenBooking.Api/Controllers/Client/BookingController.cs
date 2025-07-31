@@ -1,8 +1,10 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using YemenBooking.Application.Commands.MobileApp.Booking;
+using YemenBooking.Application.Features.Bookings.Commands;
 using YemenBooking.Application.Queries.MobileApp.Booking;
 using YemenBooking.Application.DTOs;
+using YemenBooking.Application.DTOs.Bookings;
+using YemenBooking.Application.DTOs.Statistics;
 
 namespace YemenBooking.Api.Controllers.Client
 {
@@ -73,11 +75,12 @@ namespace YemenBooking.Api.Controllers.Client
         /// Get specific booking details
         /// </summary>
         /// <param name="id">معرف الحجز</param>
+        /// <param name="userId">معرف المستخدم</param>
         /// <returns>تفاصيل الحجز</returns>
         [HttpGet("{id}")]
-        public async Task<ActionResult<ResultDto<BookingDetailsResponse>>> GetBookingDetails(Guid id)
+        public async Task<ActionResult<ResultDto<BookingDetailsDto>>> GetBookingDetails(Guid id, [FromQuery] Guid userId)
         {
-            var query = new GetBookingDetailsQuery { BookingId = id };
+            var query = new GetBookingDetailsQuery { BookingId = id, UserId = userId };
             var result = await _mediator.Send(query);
             return Ok(result);
         }
@@ -87,11 +90,12 @@ namespace YemenBooking.Api.Controllers.Client
         /// Get user booking summary
         /// </summary>
         /// <param name="userId">معرف المستخدم</param>
+        /// <param name="year">السنة</param>
         /// <returns>ملخص الحجوزات</returns>
         [HttpGet("summary/{userId}")]
-        public async Task<ActionResult<ResultDto<UserBookingSummaryResponse>>> GetUserBookingSummary(Guid userId)
+        public async Task<ActionResult<ResultDto<UserBookingSummaryDto>>> GetUserBookingSummary(Guid userId, [FromQuery] int? year)
         {
-            var query = new GetUserBookingSummaryQuery { UserId = userId };
+            var query = new GetUserBookingSummaryQuery { UserId = userId, Year = year };
             var result = await _mediator.Send(query);
             return Ok(result);
         }

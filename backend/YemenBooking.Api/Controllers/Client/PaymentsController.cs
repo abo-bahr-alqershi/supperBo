@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using YemenBooking.Application.Commands.MobileApp.Payments;
 using YemenBooking.Application.Queries.MobileApp.Payments;
 using YemenBooking.Application.DTOs;
+using YemenBooking.Application.DTOs.Payments;
+using System.Collections.Generic;
 
 namespace YemenBooking.Api.Controllers.Client
 {
@@ -36,7 +38,7 @@ namespace YemenBooking.Api.Controllers.Client
         /// <param name="query">معايير البحث</param>
         /// <returns>قائمة طرق الدفع</returns>
         [HttpGet("methods")]
-        public async Task<ActionResult<ResultDto<ClientPaymentMethodsResponse>>> GetPaymentMethods([FromQuery] ClientGetPaymentMethodsQuery query)
+        public async Task<ActionResult<ResultDto<List<ClientPaymentMethodDto>>>> GetPaymentMethods([FromQuery] ClientGetPaymentMethodsQuery query)
         {
             var result = await _mediator.Send(query);
             return Ok(result);
@@ -49,7 +51,7 @@ namespace YemenBooking.Api.Controllers.Client
         /// <param name="query">معايير البحث</param>
         /// <returns>تاريخ المدفوعات</returns>
         [HttpGet("history")]
-        public async Task<ActionResult<ResultDto<ClientUserPaymentsResponse>>> GetUserPayments([FromQuery] ClientGetUserPaymentsQuery query)
+        public async Task<ActionResult<ResultDto<PaginatedResult<ClientPaymentDto>>>> GetUserPayments([FromQuery] ClientGetUserPaymentsQuery query)
         {
             var result = await _mediator.Send(query);
             return Ok(result);

@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using YemenBooking.Application.Queries.MobileApp.Amenities;
 using YemenBooking.Application.DTOs;
+using System.Collections.Generic;
+using YemenBooking.Application.DTOs.Amenities;
 
 namespace YemenBooking.Api.Controllers.Client
 {
@@ -23,9 +25,8 @@ namespace YemenBooking.Api.Controllers.Client
         /// <returns>قائمة المرافق</returns>
         [HttpGet]
         [AllowAnonymous]
-        public async Task<ActionResult<ResultDto<AllAmenitiesResponse>>> GetAllAmenities()
+        public async Task<ActionResult<ResultDto<List<AmenityDto>>>> GetAllAmenities([FromQuery] GetAllAmenitiesQuery query)
         {
-            var query = new GetAllAmenitiesQuery();
             var result = await _mediator.Send(query);
             return Ok(result);
         }

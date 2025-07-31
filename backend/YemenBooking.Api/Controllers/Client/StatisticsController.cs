@@ -2,6 +2,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using YemenBooking.Application.Queries.MobileApp.Statistics;
 using YemenBooking.Application.DTOs;
+using YemenBooking.Application.DTOs.Users;
 
 namespace YemenBooking.Api.Controllers.Client
 {
@@ -22,7 +23,7 @@ namespace YemenBooking.Api.Controllers.Client
         /// <param name="query">معايير الإحصائيات</param>
         /// <returns>إحصائيات المستخدم</returns>
         [HttpGet("user")]
-        public async Task<ActionResult<ResultDto<UserStatisticsResponse>>> GetUserStatistics([FromQuery] GetUserStatisticsQuery query)
+        public async Task<ActionResult<ResultDto<UserStatisticsDto>>> GetUserStatistics([FromQuery] GetUserStatisticsQuery query)
         {
             var result = await _mediator.Send(query);
             return Ok(result);

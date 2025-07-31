@@ -1,6 +1,6 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using YemenBooking.Application.Commands.MobileApp.Notifications;
+using YemenBooking.Application.Features.Notifications.Commands;
 using YemenBooking.Application.Queries.MobileApp.Notifications;
 using YemenBooking.Application.DTOs;
 
@@ -75,7 +75,7 @@ namespace YemenBooking.Api.Controllers.Client
         /// <param name="query">معايير البحث</param>
         /// <returns>قائمة الإشعارات</returns>
         [HttpGet]
-        public async Task<ActionResult<ResultDto<ClientUserNotificationsResponse>>> GetUserNotifications([FromQuery] ClientGetUserNotificationsQuery query)
+        public async Task<ActionResult<ResultDto<PaginatedResult<ClientNotificationDto>>>> GetUserNotifications([FromQuery] ClientGetUserNotificationsQuery query)
         {
             var result = await _mediator.Send(query);
             return Ok(result);
@@ -88,7 +88,7 @@ namespace YemenBooking.Api.Controllers.Client
         /// <param name="query">معايير الملخص</param>
         /// <returns>ملخص الإشعارات</returns>
         [HttpGet("summary")]
-        public async Task<ActionResult<ResultDto<ClientNotificationsSummaryResponse>>> GetNotificationsSummary([FromQuery] ClientGetNotificationsSummaryQuery query)
+        public async Task<ActionResult<ResultDto<ClientNotificationsSummaryDto>>> GetNotificationsSummary([FromQuery] ClientGetNotificationsSummaryQuery query)
         {
             var result = await _mediator.Send(query);
             return Ok(result);

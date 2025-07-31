@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using YemenBooking.Application.Commands.MobileApp.Auth;
 using YemenBooking.Application.DTOs;
+using YemenBooking.Application.DTOs.Auth;
 
 namespace YemenBooking.Api.Controllers.Client
 {
@@ -118,7 +119,7 @@ namespace YemenBooking.Api.Controllers.Client
         /// <param name="command">بيانات التحديث</param>
         /// <returns>نتيجة التحديث</returns>
         [HttpPut("client-profile")]
-        public async Task<ActionResult<ResultDto<ClientUpdateUserProfileResponse>>> UpdateClientProfile([FromBody] ClientUpdateUserProfileCommand command)
+        public async Task<ActionResult<ResultDto<ClientUserProfileResponse>>> UpdateClientProfile([FromBody] ClientUpdateUserProfileCommand command)
         {
             var result = await _mediator.Send(command);
             return Ok(result);

@@ -1,8 +1,9 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using YemenBooking.Application.Commands.MobileApp.Favorites;
+using YemenBooking.Application.Features.Favorites.Commands;
 using YemenBooking.Application.Queries.MobileApp.Favorites;
 using YemenBooking.Application.DTOs;
+using YemenBooking.Application.DTOs.Users;
 
 namespace YemenBooking.Api.Controllers.Client
 {
