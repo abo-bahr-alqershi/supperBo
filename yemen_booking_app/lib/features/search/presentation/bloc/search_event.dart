@@ -8,16 +8,19 @@ abstract class SearchEvent extends Equatable {
 }
 
 class SearchPropertiesEvent extends SearchEvent {
-  final String? searchQuery;
+  final String? searchTerm;
   final String? city;
-  final String? propertyType;
+  final String? propertyTypeId;
   final double? minPrice;
   final double? maxPrice;
-  final int? minRating;
-  final List<String>? amenities;
-  final DateTime? checkInDate;
-  final DateTime? checkOutDate;
-  final int? guests;
+  final int? minStarRating;
+  final List<String>? requiredAmenities;
+  final String? unitTypeId;
+  final List<String>? serviceIds;
+  final Map<String, dynamic>? dynamicFieldFilters;
+  final DateTime? checkIn;
+  final DateTime? checkOut;
+  final int? guestsCount;
   final double? latitude;
   final double? longitude;
   final double? radiusKm;
@@ -27,16 +30,19 @@ class SearchPropertiesEvent extends SearchEvent {
   final bool isNewSearch;
 
   const SearchPropertiesEvent({
-    this.searchQuery,
+    this.searchTerm,
     this.city,
-    this.propertyType,
+    this.propertyTypeId,
     this.minPrice,
     this.maxPrice,
-    this.minRating,
-    this.amenities,
-    this.checkInDate,
-    this.checkOutDate,
-    this.guests,
+    this.minStarRating,
+    this.requiredAmenities,
+    this.unitTypeId,
+    this.serviceIds,
+    this.dynamicFieldFilters,
+    this.checkIn,
+    this.checkOut,
+    this.guestsCount,
     this.latitude,
     this.longitude,
     this.radiusKm,
@@ -48,16 +54,19 @@ class SearchPropertiesEvent extends SearchEvent {
 
   @override
   List<Object?> get props => [
-        searchQuery,
+        searchTerm,
         city,
-        propertyType,
+        propertyTypeId,
         minPrice,
         maxPrice,
-        minRating,
-        amenities,
-        checkInDate,
-        checkOutDate,
-        guests,
+        minStarRating,
+        requiredAmenities,
+        unitTypeId,
+        serviceIds,
+        dynamicFieldFilters,
+        checkIn,
+        checkOut,
+        guestsCount,
         latitude,
         longitude,
         radiusKm,
@@ -119,40 +128,40 @@ class GetPopularDestinationsEvent extends SearchEvent {
 
 class UpdateSearchFiltersEvent extends SearchEvent {
   final String? city;
-  final String? propertyType;
+  final String? propertyTypeId;
   final double? minPrice;
   final double? maxPrice;
-  final int? minRating;
-  final List<String>? amenities;
-  final DateTime? checkInDate;
-  final DateTime? checkOutDate;
-  final int? guests;
+  final int? minStarRating;
+  final List<String>? requiredAmenities;
+  final DateTime? checkIn;
+  final DateTime? checkOut;
+  final int? guestsCount;
   final String? sortBy;
 
   const UpdateSearchFiltersEvent({
     this.city,
-    this.propertyType,
+    this.propertyTypeId,
     this.minPrice,
     this.maxPrice,
-    this.minRating,
-    this.amenities,
-    this.checkInDate,
-    this.checkOutDate,
-    this.guests,
+    this.minStarRating,
+    this.requiredAmenities,
+    this.checkIn,
+    this.checkOut,
+    this.guestsCount,
     this.sortBy,
   });
 
   @override
   List<Object?> get props => [
         city,
-        propertyType,
+        propertyTypeId,
         minPrice,
         maxPrice,
-        minRating,
-        amenities,
-        checkInDate,
-        checkOutDate,
-        guests,
+        minStarRating,
+        requiredAmenities,
+        checkIn,
+        checkOut,
+        guestsCount,
         sortBy,
       ];
 }

@@ -71,16 +71,19 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     }
 
     final params = SearchPropertiesParams(
-      searchQuery: event.searchQuery,
+      searchTerm: event.searchTerm,
       city: event.city,
-      propertyType: event.propertyType,
+      propertyTypeId: event.propertyTypeId,
       minPrice: event.minPrice,
       maxPrice: event.maxPrice,
-      minRating: event.minRating,
-      amenities: event.amenities,
-      checkInDate: event.checkInDate,
-      checkOutDate: event.checkOutDate,
-      guests: event.guests,
+      minStarRating: event.minStarRating,
+      requiredAmenities: event.requiredAmenities,
+      unitTypeId: event.unitTypeId,
+      serviceIds: event.serviceIds,
+      dynamicFieldFilters: event.dynamicFieldFilters,
+      checkIn: event.checkIn,
+      checkOut: event.checkOut,
+      guestsCount: event.guestsCount,
       latitude: event.latitude,
       longitude: event.longitude,
       radiusKm: event.radiusKm,
@@ -147,20 +150,23 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         final nextPage = successState.searchResults.pageNumber + 1;
         
         add(SearchPropertiesEvent(
-          searchQuery: _currentFilters['searchQuery'],
-          city: _currentFilters['city'],
-          propertyType: _currentFilters['propertyType'],
-          minPrice: _currentFilters['minPrice'],
-          maxPrice: _currentFilters['maxPrice'],
-          minRating: _currentFilters['minRating'],
-          amenities: _currentFilters['amenities'],
-          checkInDate: _currentFilters['checkInDate'],
-          checkOutDate: _currentFilters['checkOutDate'],
-          guests: _currentFilters['guests'],
-          latitude: _currentFilters['latitude'],
-          longitude: _currentFilters['longitude'],
-          radiusKm: _currentFilters['radiusKm'],
-          sortBy: _currentFilters['sortBy'],
+          searchTerm: _currentFilters['searchTerm'] as String?,
+          city: _currentFilters['city'] as String?,
+          propertyTypeId: _currentFilters['propertyTypeId'] as String?,
+          minPrice: _currentFilters['minPrice'] as double?,
+          maxPrice: _currentFilters['maxPrice'] as double?,
+          minStarRating: _currentFilters['minStarRating'] as int?,
+          requiredAmenities: _currentFilters['requiredAmenities'] as List<String>?,
+          unitTypeId: _currentFilters['unitTypeId'] as String?,
+          serviceIds: _currentFilters['serviceIds'] as List<String>?,
+          dynamicFieldFilters: _currentFilters['dynamicFieldFilters'] as Map<String, dynamic>?,
+          checkIn: _currentFilters['checkIn'] as DateTime?,
+          checkOut: _currentFilters['checkOut'] as DateTime?,
+          guestsCount: _currentFilters['guestsCount'] as int?,
+          latitude: _currentFilters['latitude'] as double?,
+          longitude: _currentFilters['longitude'] as double?,
+          radiusKm: _currentFilters['radiusKm'] as double?,
+          sortBy: _currentFilters['sortBy'] as String?,
           pageNumber: nextPage,
           pageSize: successState.searchResults.pageSize,
           isNewSearch: false,
@@ -440,26 +446,33 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     Emitter<SearchState> emit,
   ) {
     add(SearchPropertiesEvent(
-      searchQuery: event.searchParams['searchQuery'],
-      city: event.searchParams['city'],
-      propertyType: event.searchParams['propertyType'],
-      minPrice: event.searchParams['minPrice'],
-      maxPrice: event.searchParams['maxPrice'],
-      minRating: event.searchParams['minRating'],
-      amenities: event.searchParams['amenities'] != null
-          ? List<String>.from(event.searchParams['amenities'])
+      searchTerm: event.searchParams['searchTerm'] as String?,
+      city: event.searchParams['city'] as String?,
+      propertyTypeId: event.searchParams['propertyTypeId'] as String?,
+      minPrice: event.searchParams['minPrice'] as double?,
+      maxPrice: event.searchParams['maxPrice'] as double?,
+      minStarRating: event.searchParams['minStarRating'] as int?,
+      requiredAmenities: event.searchParams['requiredAmenities'] != null
+          ? List<String>.from(event.searchParams['requiredAmenities'])
           : null,
-      checkInDate: event.searchParams['checkInDate'] != null
-          ? DateTime.parse(event.searchParams['checkInDate'])
+      unitTypeId: event.searchParams['unitTypeId'] as String?,
+      serviceIds: event.searchParams['serviceIds'] != null
+          ? List<String>.from(event.searchParams['serviceIds'])
           : null,
-      checkOutDate: event.searchParams['checkOutDate'] != null
-          ? DateTime.parse(event.searchParams['checkOutDate'])
+      dynamicFieldFilters: event.searchParams['dynamicFieldFilters'] != null
+          ? Map<String, dynamic>.from(event.searchParams['dynamicFieldFilters'])
           : null,
-      guests: event.searchParams['guests'],
-      latitude: event.searchParams['latitude'],
-      longitude: event.searchParams['longitude'],
-      radiusKm: event.searchParams['radiusKm'],
-      sortBy: event.searchParams['sortBy'],
+      checkIn: event.searchParams['checkIn'] != null
+          ? DateTime.parse(event.searchParams['checkIn'])
+          : null,
+      checkOut: event.searchParams['checkOut'] != null
+          ? DateTime.parse(event.searchParams['checkOut'])
+          : null,
+      guestsCount: event.searchParams['guestsCount'] as int?,
+      latitude: event.searchParams['latitude'] as double?,
+      longitude: event.searchParams['longitude'] as double?,
+      radiusKm: event.searchParams['radiusKm'] as double?,
+      sortBy: event.searchParams['sortBy'] as String?,
     ));
   }
 
@@ -467,30 +480,33 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     final filters = <String, dynamic>{};
     
     if (event is SearchPropertiesEvent) {
-      if (event.searchQuery != null) filters['searchQuery'] = event.searchQuery;
+      if (event.searchTerm != null) filters['searchTerm'] = event.searchTerm;
       if (event.city != null) filters['city'] = event.city;
-      if (event.propertyType != null) filters['propertyType'] = event.propertyType;
+      if (event.propertyTypeId != null) filters['propertyTypeId'] = event.propertyTypeId;
       if (event.minPrice != null) filters['minPrice'] = event.minPrice;
       if (event.maxPrice != null) filters['maxPrice'] = event.maxPrice;
-      if (event.minRating != null) filters['minRating'] = event.minRating;
-      if (event.amenities != null) filters['amenities'] = event.amenities;
-      if (event.checkInDate != null) filters['checkInDate'] = event.checkInDate;
-      if (event.checkOutDate != null) filters['checkOutDate'] = event.checkOutDate;
-      if (event.guests != null) filters['guests'] = event.guests;
+      if (event.minStarRating != null) filters['minStarRating'] = event.minStarRating;
+      if (event.requiredAmenities != null) filters['requiredAmenities'] = event.requiredAmenities;
+      if (event.unitTypeId != null) filters['unitTypeId'] = event.unitTypeId;
+      if (event.serviceIds != null) filters['serviceIds'] = event.serviceIds;
+      if (event.dynamicFieldFilters != null) filters['dynamicFieldFilters'] = event.dynamicFieldFilters;
+      if (event.checkIn != null) filters['checkIn'] = event.checkIn;
+      if (event.checkOut != null) filters['checkOut'] = event.checkOut;
+      if (event.guestsCount != null) filters['guestsCount'] = event.guestsCount;
       if (event.latitude != null) filters['latitude'] = event.latitude;
       if (event.longitude != null) filters['longitude'] = event.longitude;
       if (event.radiusKm != null) filters['radiusKm'] = event.radiusKm;
       if (event.sortBy != null) filters['sortBy'] = event.sortBy;
     } else if (event is UpdateSearchFiltersEvent) {
       if (event.city != null) filters['city'] = event.city;
-      if (event.propertyType != null) filters['propertyType'] = event.propertyType;
+      if (event.propertyTypeId != null) filters['propertyTypeId'] = event.propertyTypeId;
       if (event.minPrice != null) filters['minPrice'] = event.minPrice;
       if (event.maxPrice != null) filters['maxPrice'] = event.maxPrice;
-      if (event.minRating != null) filters['minRating'] = event.minRating;
-      if (event.amenities != null) filters['amenities'] = event.amenities;
-      if (event.checkInDate != null) filters['checkInDate'] = event.checkInDate;
-      if (event.checkOutDate != null) filters['checkOutDate'] = event.checkOutDate;
-      if (event.guests != null) filters['guests'] = event.guests;
+      if (event.minStarRating != null) filters['minStarRating'] = event.minStarRating;
+      if (event.requiredAmenities != null) filters['requiredAmenities'] = event.requiredAmenities;
+      if (event.checkIn != null) filters['checkIn'] = event.checkIn;
+      if (event.checkOut != null) filters['checkOut'] = event.checkOut;
+      if (event.guestsCount != null) filters['guestsCount'] = event.guestsCount;
       if (event.sortBy != null) filters['sortBy'] = event.sortBy;
     }
     
