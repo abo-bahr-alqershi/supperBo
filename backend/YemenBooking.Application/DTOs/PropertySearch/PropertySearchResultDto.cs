@@ -146,5 +146,11 @@ namespace YemenBooking.Application.DTOs.PropertySearch
         /// Main amenities list
         /// </summary>
         public List<string> MainAmenities { get; set; } = new();
+
+        /// <summary>
+        /// قائمة المراجعات مع الردود
+        /// Reviews with responses
+        /// </summary>
+        public List<YemenBooking.Application.DTOs.ReviewDto> Reviews { get; set; } = new();
     }
 } 
