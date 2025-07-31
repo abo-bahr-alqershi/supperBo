@@ -16,6 +16,7 @@ class GetPropertyUnitsUseCase implements UseCase<List<Unit>, GetPropertyUnitsPar
       propertyId: params.propertyId,
       checkInDate: params.checkInDate,
       checkOutDate: params.checkOutDate,
+      guestsCount: params.guestsCount,
     );
   }
 }
@@ -24,13 +25,15 @@ class GetPropertyUnitsParams extends Equatable {
   final String propertyId;
   final DateTime? checkInDate;
   final DateTime? checkOutDate;
+  final int guestsCount;
 
   const GetPropertyUnitsParams({
     required this.propertyId,
     this.checkInDate,
     this.checkOutDate,
+    required this.guestsCount,
   });
 
   @override
-  List<Object?> get props => [propertyId, checkInDate, checkOutDate];
+  List<Object?> get props => [propertyId, checkInDate, checkOutDate, guestsCount];
 }

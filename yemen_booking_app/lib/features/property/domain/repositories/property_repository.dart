@@ -14,17 +14,26 @@ abstract class PropertyRepository {
     required String propertyId,
     DateTime? checkInDate,
     DateTime? checkOutDate,
+    required int guestsCount,
   });
 
   Future<Either<Failure, List<PropertyReview>>> getPropertyReviews({
     required String propertyId,
     int pageNumber = 1,
     int pageSize = 20,
+    String? sortBy,
+    String? sortDirection,
+    bool withImagesOnly = false,
+    String? userId,
   });
 
   Future<Either<Failure, bool>> addToFavorites({
     required String propertyId,
     required String userId,
+    String? notes,
+    DateTime? desiredVisitDate,
+    double? expectedBudget,
+    String currency = 'YER',
   });
 
   Future<Either<Failure, bool>> removeFromFavorites({

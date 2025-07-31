@@ -14,6 +14,10 @@ class AddToFavoritesUseCase implements UseCase<bool, AddToFavoritesParams> {
     return await repository.addToFavorites(
       propertyId: params.propertyId,
       userId: params.userId,
+      notes: params.notes,
+      desiredVisitDate: params.desiredVisitDate,
+      expectedBudget: params.expectedBudget,
+      currency: params.currency,
     );
   }
 }
@@ -21,12 +25,27 @@ class AddToFavoritesUseCase implements UseCase<bool, AddToFavoritesParams> {
 class AddToFavoritesParams extends Equatable {
   final String propertyId;
   final String userId;
+  final String? notes;
+  final DateTime? desiredVisitDate;
+  final double? expectedBudget;
+  final String currency;
 
   const AddToFavoritesParams({
     required this.propertyId,
     required this.userId,
+    this.notes,
+    this.desiredVisitDate,
+    this.expectedBudget,
+    this.currency = 'YER',
   });
 
   @override
-  List<Object?> get props => [propertyId, userId];
+  List<Object?> get props => [
+        propertyId,
+        userId,
+        notes,
+        desiredVisitDate,
+        expectedBudget,
+        currency,
+      ];
 }
