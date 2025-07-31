@@ -1,24 +1,27 @@
 import 'package:dio/dio.dart';
 import '../../../../core/constants/api_constants.dart';
 import '../../../../core/error/exceptions.dart';
-import '../../../../core/models/paginated_result.dart';
+import '../models/search_properties_response_model.dart';
 import '../../../../core/models/result_dto.dart';
 import '../../../../core/network/api_client.dart';
 import '../models/search_filter_model.dart';
 import '../models/search_result_model.dart';
 
 abstract class SearchRemoteDataSource {
-  Future<ResultDto<PaginatedResult<SearchResultModel>>> searchProperties({
-    String? searchQuery,
+  Future<ResultDto<SearchPropertiesResponseModel>> searchProperties({
+    String? searchTerm,
     String? city,
-    String? propertyType,
+    String? propertyTypeId,
     double? minPrice,
     double? maxPrice,
-    int? minRating,
-    List<String>? amenities,
-    DateTime? checkInDate,
-    DateTime? checkOutDate,
-    int? guests,
+    int? minStarRating,
+    List<String>? requiredAmenities,
+    String? unitTypeId,
+    List<String>? serviceIds,
+    Map<String, dynamic>? dynamicFieldFilters,
+    DateTime? checkIn,
+    DateTime? checkOut,
+    int? guestsCount,
     double? latitude,
     double? longitude,
     double? radiusKm,
@@ -50,17 +53,20 @@ class SearchRemoteDataSourceImpl implements SearchRemoteDataSource {
   SearchRemoteDataSourceImpl({required this.apiClient});
 
   @override
-  Future<ResultDto<PaginatedResult<SearchResultModel>>> searchProperties({
-    String? searchQuery,
+  Future<ResultDto<SearchPropertiesResponseModel>> searchProperties({
+    String? searchTerm,
     String? city,
-    String? propertyType,
+    String? propertyTypeId,
     double? minPrice,
     double? maxPrice,
-    int? minRating,
-    List<String>? amenities,
-    DateTime? checkInDate,
-    DateTime? checkOutDate,
-    int? guests,
+    int? minStarRating,
+    List<String>? requiredAmenities,
+    String? unitTypeId,
+    List<String>? serviceIds,
+    Map<String, dynamic>? dynamicFieldFilters,
+    DateTime? checkIn,
+    DateTime? checkOut,
+    int? guestsCount,
     double? latitude,
     double? longitude,
     double? radiusKm,
@@ -73,19 +79,25 @@ class SearchRemoteDataSourceImpl implements SearchRemoteDataSource {
         'pageNumber': pageNumber,
         'pageSize': pageSize,
       };
-
-      if (searchQuery != null) queryParams['searchQuery'] = searchQuery;
+      if (searchTerm != null) queryParams['searchTerm'] = searchTerm;
       if (city != null) queryParams['city'] = city;
-      if (propertyType != null) queryParams['propertyType'] = propertyType;
+      if (propertyTypeId != null) queryParams['propertyTypeId'] = propertyTypeId;
       if (minPrice != null) queryParams['minPrice'] = minPrice;
       if (maxPrice != null) queryParams['maxPrice'] = maxPrice;
-      if (minRating != null) queryParams['minRating'] = minRating;
-      if (amenities != null && amenities.isNotEmpty) {
-        queryParams['amenities'] = amenities.join(',');
+      if (minStarRating != null) queryParams['minStarRating'] = minStarRating;
+      if (requiredAmenities != null && requiredAmenities.isNotEmpty) {
+        queryParams['requiredAmenities'] = requiredAmenities.join(',');
       }
-      if (checkInDate != null) queryParams['checkInDate'] = checkInDate.toIso8601String();
-      if (checkOutDate != null) queryParams['checkOutDate'] = checkOutDate.toIso8601String();
-      if (guests != null) queryParams['guests'] = guests;
+      if (unitTypeId != null) queryParams['unitTypeId'] = unitTypeId;
+      if (serviceIds != null && serviceIds.isNotEmpty) {
+        queryParams['serviceIds'] = serviceIds.join(',');
+      }
+      if (dynamicFieldFilters != null && dynamicFieldFilters.isNotEmpty) {
+        queryParams['dynamicFieldFilters'] = dynamicFieldFilters;
+      }
+      if (checkIn != null) queryParams['checkIn'] = checkIn.toIso8601String();
+      if (checkOut != null) queryParams['checkOut'] = checkOut.toIso8601String();
+      if (guestsCount != null) queryParams['guestsCount'] = guestsCount;
       if (latitude != null) queryParams['latitude'] = latitude;
       if (longitude != null) queryParams['longitude'] = longitude;
       if (radiusKm != null) queryParams['radiusKm'] = radiusKm;
@@ -99,9 +111,8 @@ class SearchRemoteDataSourceImpl implements SearchRemoteDataSource {
       if (response.statusCode == 200) {
         return ResultDto.fromJson(
           response.data,
-          (json) => PaginatedResult.fromJson(
-            json,
-            (itemJson) => SearchResultModel.fromJson(itemJson),
+          (dataJson) => SearchPropertiesResponseModel.fromJson(
+            dataJson as Map<String, dynamic>,
           ),
         );
       } else {

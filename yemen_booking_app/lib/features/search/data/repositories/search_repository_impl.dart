@@ -37,16 +37,19 @@ class SearchRepositoryImpl implements SearchRepository {
   }) async {
     try {
       final result = await remoteDataSource.searchProperties(
-        searchQuery: searchQuery,
+        searchTerm: searchQuery,
         city: city,
-        propertyType: propertyType,
+        propertyTypeId: propertyType,
         minPrice: minPrice,
         maxPrice: maxPrice,
-        minRating: minRating,
-        amenities: amenities,
-        checkInDate: checkInDate,
-        checkOutDate: checkOutDate,
-        guests: guests,
+        minStarRating: minRating,
+        requiredAmenities: amenities,
+        unitTypeId: null,
+        serviceIds: null,
+        dynamicFieldFilters: null,
+        checkIn: checkInDate,
+        checkOut: checkOutDate,
+        guestsCount: guests,
         latitude: latitude,
         longitude: longitude,
         radiusKm: radiusKm,
@@ -56,13 +59,20 @@ class SearchRepositoryImpl implements SearchRepository {
       );
 
       if (result.isSuccess && result.data != null) {
-        // Convert SearchResultModel to SearchResult
+        final dto = result.data!;
         final paginatedResult = PaginatedResult<SearchResult>(
-          items: result.data!.items.map((model) => model as SearchResult).toList(),
-          pageNumber: result.data!.pageNumber,
-          pageSize: result.data!.pageSize,
-          totalCount: result.data!.totalCount,
-          metadata: result.data!.metadata,
+          items: dto.properties.map((model) => model as SearchResult).toList(),
+          pageNumber: dto.currentPage,
+          pageSize: dto.pageSize,
+          totalCount: dto.totalCount,
+          metadata: {
+            'totalPages': dto.totalPages,
+            'hasPreviousPage': dto.hasPreviousPage,
+            'hasNextPage': dto.hasNextPage,
+            'appliedFilters': dto.appliedFilters,
+            'searchTimeMs': dto.searchTimeMs,
+            'statistics': dto.statistics,
+          },
         );
         return Right(paginatedResult);
       } else {
