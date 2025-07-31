@@ -65,7 +65,7 @@ namespace YemenBooking.Api.Controllers
                 Status = request.Status,
                 Reason = request.Reason,
                 Notes = request.Notes,
-                OverrideConflicts = request.OverrideConflicts
+                OverrideConflicts = request.OverrideConflicts ?? false
             });
             return result.IsSuccess ? Ok(new { data = result.Data }) : BadRequest(new { message = result.Message });
         }
@@ -112,7 +112,7 @@ namespace YemenBooking.Api.Controllers
                 Status = request.Status,
                 Reason = request.Reason,
                 Notes = request.Notes,
-                OverrideConflicts = request.OverrideConflicts
+                OverrideConflicts = request.OverrideConflicts ?? false
             });
             return result.IsSuccess ? Ok(new { data = result.Data }) : BadRequest(new { message = result.Message });
         }
@@ -145,7 +145,7 @@ namespace YemenBooking.Api.Controllers
                     Status = r.Status,
                     Reason = r.Reason,
                     Notes = r.Notes,
-                    OverrideConflicts = r.OverrideConflicts
+                    OverrideConflicts = r.OverrideConflicts ?? false
                 }).ToList()
             });
             return result.IsSuccess ? Ok(new { data = result.Data }) : BadRequest(new { message = result.Message });
