@@ -50,6 +50,18 @@ namespace YemenBooking.Application.DTOs
         /// Average rating
         /// </summary>
         public decimal AverageRating { get; set; }
+
+        /// <summary>
+        /// نص رد الإدارة على المراجعة
+        /// Response text from management
+        /// </summary>
+        public string? ResponseText { get; set; }
+
+        /// <summary>
+        /// تاريخ الرد
+        /// Response date
+        /// </summary>
+        public DateTime? ResponseDate { get; set; }
         
         /// <summary>
         /// تعليق المراجعة

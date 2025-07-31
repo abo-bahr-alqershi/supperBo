@@ -150,6 +150,36 @@ public class SearchPropertiesQueryHandler : IRequestHandler<SearchPropertiesQuer
                 propertyDtos = filteredList;
             }
 
+            // جلب المراجعات مع الردود لكل عقار (يمكن تحسين الأداء بالتجميع)
+            foreach (var dto in propertyDtos)
+            {
+                try
+                {
+                    var reviews = await _reviewRepository.GetReviewsByPropertyAsync(dto.Id, cancellationToken);
+                    dto.Reviews = reviews.Select(r => new ReviewDto
+                    {
+                        Id = r.Id,
+                        BookingId = r.BookingId,
+                        Cleanliness = r.Cleanliness,
+                        Service = r.Service,
+                        Location = r.Location,
+                        Value = r.Value,
+                        AverageRating = r.AverageRating,
+                        Comment = r.Comment,
+                        CreatedAt = r.CreatedAt,
+                        Images = new List<ReviewImageDto>(), // ترك فارغاً حالياً
+                        PropertyName = dto.Name,
+                        UserName = string.Empty,
+                        ResponseText = r.ResponseText,
+                        ResponseDate = r.ResponseDate
+                    }).ToList();
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "خطأ أثناء جلب مراجعات العقار {PropertyId}", dto.Id);
+                }
+            }
+
             var response = new SearchPropertiesResponse
             {
                 Properties = propertyDtos,
