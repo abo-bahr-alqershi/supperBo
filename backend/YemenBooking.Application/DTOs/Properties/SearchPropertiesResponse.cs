@@ -14,7 +14,7 @@ namespace YemenBooking.Application.DTOs.Properties
         /// قائمة العقارات المطابقة للبحث
         /// List of properties matching the search
         /// </summary>
-        public List<PropertySearchResultDto> Properties { get; set; } = new();
+        public List<YemenBooking.Application.DTOs.PropertySearch.PropertySearchResultDto> Properties { get; set; } = new();
 
         /// <summary>
         /// العدد الإجمالي للنتائج

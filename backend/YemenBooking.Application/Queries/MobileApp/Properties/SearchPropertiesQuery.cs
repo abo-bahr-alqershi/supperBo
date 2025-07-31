@@ -62,6 +62,18 @@ public class SearchPropertiesQuery : IRequest<ResultDto<SearchPropertiesResponse
     /// وسائل الراحة المطلوبة
     /// </summary>
     public List<Guid> RequiredAmenities { get; set; } = new();
+
+    /// <summary>
+    /// معرف نوع الوحدة المطلوب (اختياري)
+    /// Required unit type ID (optional)
+    /// </summary>
+    public Guid? UnitTypeId { get; set; }
+
+    /// <summary>
+    /// معرفات الخدمات المطلوبة (اختياري)
+    /// Required service IDs (optional)
+    /// </summary>
+    public List<Guid> ServiceIds { get; set; } = new();
    
     /// <summary>
     /// فلاتر الحقول الديناميكية (مفتاح-قيمة)

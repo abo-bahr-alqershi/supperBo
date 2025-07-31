@@ -17,6 +17,42 @@ public class GetSearchFiltersQuery : IRequest<ResultDto<SearchFiltersDto>>
     public Guid? PropertyTypeId { get; set; }
     
     /// <summary>
+    /// السعر الأدنى للفلترة
+    /// Minimum price for filtering
+    /// </summary>
+    public decimal? MinPrice { get; set; }
+
+    /// <summary>
+    /// السعر الأقصى للفلترة
+    /// Maximum price for filtering
+    /// </summary>
+    public decimal? MaxPrice { get; set; }
+
+    /// <summary>
+    /// قائمة معرفات وسائل الراحة المطلوبة
+    /// Required amenity IDs
+    /// </summary>
+    public List<Guid> Amenities { get; set; } = new();
+
+    /// <summary>
+    /// معرف نوع الوحدة المطلوب
+    /// Required unit type id (optional)
+    /// </summary>
+    public Guid? UnitTypeId { get; set; }
+
+    /// <summary>
+    /// فلاتر الحقول الديناميكية (مفتاح -> قيمة)
+    /// Dynamic field filters (field name -> value)
+    /// </summary>
+    public Dictionary<string, object> DynamicFieldFilters { get; set; } = new();
+
+    /// <summary>
+    /// قائمة معرفات الخدمات المطلوبة
+    /// Required service IDs
+    /// </summary>
+    public List<Guid> ServiceIds { get; set; } = new();
+    
+    /// <summary>
     /// المدينة (اختياري لتحديد الفلاتر المتاحة بناءً على المنطقة)
     /// </summary>
     public string? City { get; set; }

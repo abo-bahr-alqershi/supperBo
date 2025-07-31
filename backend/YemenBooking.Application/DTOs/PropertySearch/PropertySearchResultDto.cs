@@ -64,6 +64,12 @@ namespace YemenBooking.Application.DTOs.PropertySearch
         public decimal MinPrice { get; set; }
 
         /// <summary>
+        /// السعر بعد الخصم (إن وجد)
+        /// Discounted price (if any)
+        /// </summary>
+        public decimal DiscountedPrice { get; set; }
+
+        /// <summary>
         /// العملة
         /// Currency
         /// </summary>
@@ -86,6 +92,30 @@ namespace YemenBooking.Application.DTOs.PropertySearch
         /// Distance in kilometers (if geographic search)
         /// </summary>
         public double? DistanceKm { get; set; }
+
+        /// <summary>
+        /// خط العرض للموقع
+        /// Latitude coordinate
+        /// </summary>
+        public decimal Latitude { get; set; }
+
+        /// <summary>
+        /// خط الطول للموقع
+        /// Longitude coordinate
+        /// </summary>
+        public decimal Longitude { get; set; }
+
+        /// <summary>
+        /// معرف الوحدة الأولى المطابقة للفلترة
+        /// First matching unit ID
+        /// </summary>
+        public Guid? UnitId { get; set; }
+
+        /// <summary>
+        /// قيم الحقول الديناميكية القابلة للعرض
+        /// Visible dynamic field values
+        /// </summary>
+        public Dictionary<string, object> DynamicFieldValues { get; set; } = new();
 
         /// <summary>
         /// هل متاح للحجز

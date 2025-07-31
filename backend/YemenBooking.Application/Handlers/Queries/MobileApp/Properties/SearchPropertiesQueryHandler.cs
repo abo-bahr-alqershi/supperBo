@@ -3,10 +3,12 @@ using Microsoft.Extensions.Logging;
 using YemenBooking.Application.Queries.MobileApp.Properties;
 using YemenBooking.Application.DTOs;
 using YemenBooking.Application.DTOs.Properties;
+using YemenBooking.Application.DTOs.PropertySearch;
 using YemenBooking.Core.Interfaces.Repositories;
 using System.Globalization;
 using AdvancedIndexingSystem.Core.Interfaces;
 using AdvancedIndexingSystem.Core.Services;
+using System.Linq;
 
 namespace YemenBooking.Application.Handlers.Queries.MobileApp.Properties;
 
@@ -106,7 +108,8 @@ public class SearchPropertiesQueryHandler : IRequestHandler<SearchPropertiesQuer
                 PropertyType = item.PropertyType,
                 Address = item.Address,
                 City = item.City,
-                BasePrice = item.MinPrice,
+                MinPrice = item.MinPrice,
+                DiscountedPrice = item.MinPrice, // بانتظار حساب الخصم من فهرس التسعير أو قاعدة البيانات
                 Currency = "YER",
                 StarRating = item.StarRating,
                 AverageRating = item.AverageRating,
@@ -116,8 +119,36 @@ public class SearchPropertiesQueryHandler : IRequestHandler<SearchPropertiesQuer
                 IsAvailable = item.UnitIds.Any(),
                 IsFavorite = false,
                 MainAmenities = item.AmenityIds ?? new List<string>(),
+                Latitude = item.Latitude,
+                Longitude = item.Longitude,
+                UnitId = item.UnitIds.Any() ? Guid.Parse(item.UnitIds.First()) : null,
+                DynamicFieldValues = item.CustomFields ?? new Dictionary<string, object>(),
                 MatchPercentage = 0
             }).ToList();
+
+            // فلترة إضافية بناءً على نوع الوحدة والخدمات بالاعتماد على قاعدة البيانات بعد نتائج الفهرس
+            if (request.UnitTypeId.HasValue || request.ServiceIds.Any())
+            {
+                var filteredList = new List<PropertySearchResultDto>();
+                foreach (var dto in propertyDtos)
+                {
+                    var propertyEntity = await _propertyRepository.GetByIdAsync(dto.Id, cancellationToken);
+                    if (propertyEntity == null) continue;
+
+                    bool unitMatch = true;
+                    if (request.UnitTypeId.HasValue)
+                        unitMatch = propertyEntity.Units.Any(u => u.UnitTypeId == request.UnitTypeId.Value);
+
+                    bool serviceMatch = true;
+                    if (request.ServiceIds.Any())
+                        serviceMatch = propertyEntity.Services != null && propertyEntity.Services.Any(s => request.ServiceIds.Contains(s.Id));
+
+                    if (unitMatch && serviceMatch)
+                        filteredList.Add(dto);
+                }
+
+                propertyDtos = filteredList;
+            }
 
             var response = new SearchPropertiesResponse
             {
