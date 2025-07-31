@@ -16,17 +16,26 @@ abstract class PropertyRemoteDataSource {
     required String propertyId,
     DateTime? checkInDate,
     DateTime? checkOutDate,
+    required int guestsCount,
   });
 
   Future<List<ReviewModel>> getPropertyReviews({
     required String propertyId,
     int pageNumber = 1,
     int pageSize = 20,
+    String? sortBy,
+    String? sortDirection,
+    bool withImagesOnly = false,
+    String? userId,
   });
 
   Future<bool> addToFavorites({
     required String propertyId,
     required String userId,
+    String? notes,
+    DateTime? desiredVisitDate,
+    double? expectedBudget,
+    String currency = 'YER',
   });
 
   Future<bool> removeFromFavorites({
@@ -78,19 +87,17 @@ class PropertyRemoteDataSourceImpl implements PropertyRemoteDataSource {
     required String propertyId,
     DateTime? checkInDate,
     DateTime? checkOutDate,
+    required int guestsCount,
   }) async {
     try {
-      final queryParams = <String, dynamic>{};
-      if (checkInDate != null) {
-        queryParams['checkInDate'] = checkInDate.toIso8601String();
-      }
-      if (checkOutDate != null) {
-        queryParams['checkOutDate'] = checkOutDate.toIso8601String();
-      }
-
       final response = await apiClient.get(
-        '/api/client/properties/$propertyId/units',
-        queryParameters: queryParams,
+        '/api/client/units/available',
+        queryParameters: <String, dynamic>{
+          'propertyId': propertyId,
+          if (checkInDate != null) 'checkIn': checkInDate.toIso8601String(),
+          if (checkOutDate != null) 'checkOut': checkOutDate.toIso8601String(),
+          'guestsCount': guestsCount,
+        },
       );
 
       if (response.statusCode == 200) {
@@ -111,13 +118,22 @@ class PropertyRemoteDataSourceImpl implements PropertyRemoteDataSource {
     required String propertyId,
     int pageNumber = 1,
     int pageSize = 20,
+    String? sortBy,
+    String? sortDirection,
+    bool withImagesOnly = false,
+    String? userId,
   }) async {
     try {
       final response = await apiClient.get(
-        '/api/client/properties/$propertyId/reviews',
-        queryParameters: {
+        '/api/client/reviews/property',
+        queryParameters: <String, dynamic>{
+          'propertyId': propertyId,
           'pageNumber': pageNumber,
           'pageSize': pageSize,
+          if (sortBy != null) 'sortBy': sortBy,
+          if (sortDirection != null) 'sortDirection': sortDirection,
+          'withImagesOnly': withImagesOnly,
+          if (userId != null) 'userId': userId,
         },
       );
 
@@ -138,13 +154,21 @@ class PropertyRemoteDataSourceImpl implements PropertyRemoteDataSource {
   Future<bool> addToFavorites({
     required String propertyId,
     required String userId,
+    String? notes,
+    DateTime? desiredVisitDate,
+    double? expectedBudget,
+    String currency = 'YER',
   }) async {
     try {
       final response = await apiClient.post(
         '/api/client/properties/wishlist',
-        data: {
+        data: <String, dynamic>{
           'propertyId': propertyId,
           'userId': userId,
+          if (notes != null) 'notes': notes,
+          if (desiredVisitDate != null) 'desiredVisitDate': desiredVisitDate.toIso8601String(),
+          if (expectedBudget != null) 'expectedBudget': expectedBudget,
+          'currency': currency,
         },
       );
 

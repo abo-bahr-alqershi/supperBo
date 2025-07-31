@@ -16,6 +16,10 @@ class GetPropertyReviewsUseCase implements UseCase<List<PropertyReview>, GetProp
       propertyId: params.propertyId,
       pageNumber: params.pageNumber,
       pageSize: params.pageSize,
+      sortBy: params.sortBy,
+      sortDirection: params.sortDirection,
+      withImagesOnly: params.withImagesOnly,
+      userId: params.userId,
     );
   }
 }
@@ -24,13 +28,29 @@ class GetPropertyReviewsParams extends Equatable {
   final String propertyId;
   final int pageNumber;
   final int pageSize;
+  final String? sortBy;
+  final String? sortDirection;
+  final bool withImagesOnly;
+  final String? userId;
 
   const GetPropertyReviewsParams({
     required this.propertyId,
     this.pageNumber = 1,
     this.pageSize = 20,
+    this.sortBy,
+    this.sortDirection,
+    this.withImagesOnly = false,
+    this.userId,
   });
 
   @override
-  List<Object?> get props => [propertyId, pageNumber, pageSize];
+  List<Object?> get props => [
+        propertyId,
+        pageNumber,
+        pageSize,
+        sortBy,
+        sortDirection,
+        withImagesOnly,
+        userId,
+      ];
 }
