@@ -353,6 +353,15 @@ public class YemenBookingDbContext : DbContext
         // تكوين بيانات تعريف الفهارس للتحديث التدريجي
         modelBuilder.ApplyConfiguration(new IndexMetadataConfiguration());
 
+        // Configure home screen components and related entities
+        modelBuilder.ApplyConfiguration(new ComponentActionConfiguration());
+        modelBuilder.ApplyConfiguration(new ComponentDataSourceConfiguration());
+        modelBuilder.ApplyConfiguration(new ComponentPropertyConfiguration());
+        modelBuilder.ApplyConfiguration(new ComponentStyleConfiguration());
+        modelBuilder.ApplyConfiguration(new HomeScreenComponentConfiguration());
+        modelBuilder.ApplyConfiguration(new HomeScreenSectionConfiguration());
+        modelBuilder.ApplyConfiguration(new HomeScreenTemplateConfiguration());
+
         // إضافة بيانات أولية لجعل التطبيق يبدو كأنه يعمل منذ شهر
         DatabaseSeeder.Seed(modelBuilder);
     }
