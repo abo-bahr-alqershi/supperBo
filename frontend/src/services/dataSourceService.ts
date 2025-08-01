@@ -5,7 +5,7 @@ const API_BASE_URL = '/api';
 
 export class DataSourceService {
   async getDataSources(componentType?: string): Promise<DataSourceDefinition[]> {
-    const response = await apiClient.get(`${API_BASE_URL}/home-screen/data-sources`, {
+    const response = await apiClient.get(`${API_BASE_URL}/home-screens/data-sources`, {
       params: { componentType }
     });
     return response.data;
@@ -16,7 +16,7 @@ export class DataSourceService {
     parameters?: Record<string, any>
   ): Promise<any> {
     const response = await apiClient.post(
-      `${API_BASE_URL}/home-screen/data-sources/${dataSourceId}/test`,
+      `${API_BASE_URL}/home-screens/data-sources/${dataSourceId}/test`,
       { parameters }
     );
     return response.data;
