@@ -248,6 +248,55 @@ public class YemenBookingDbContext : DbContext
     /// </summary>
     public DbSet<IndexMetadata> IndexMetadata { get; set; }
 
+    /// <summary>
+    /// جدول إجراءات مكونات الشاشة
+    /// Component actions table
+    /// </summary>
+    public DbSet<ComponentAction> ComponentActions { get; set; }
+
+    /// <summary>
+    /// جدول بيانات تعريف مصادر المكونات
+    /// Component data sources table
+    /// </summary>
+    public DbSet<ComponentDataSource> ComponentDataSources { get; set; }
+
+    /// <summary>
+    /// جدول خصائص مكونات الشاشة
+    /// Component properties table
+    /// </summary>
+    public DbSet<ComponentProperty> ComponentProperty { get; set; }
+
+    /// <summary>
+    /// جدول أنماط مكونات الشاشة
+    /// Component styles table
+    /// </summary>
+    public DbSet<ComponentStyle> ComponentStyles { get; set; }
+
+    /// <summary>
+    /// جدول مكونات الشاشة
+    /// Home screen components table
+    /// </summary>
+    public DbSet<HomeScreenComponent> HomeScreenComponents { get; set; }
+
+    /// <summary>
+    /// جدول أقسام الشاشة الرئيسية
+    /// Home screen sections table
+    /// </summary>
+    public DbSet<HomeScreenSection> HomeScreenSections { get; set; }
+
+    /// <summary>
+    /// جدول قوالب الشاشة الرئيسية
+    /// Home screen templates table
+    /// </summary>
+    public DbSet<HomeScreenTemplate> HomeScreenTemplates { get; set; }
+
+    /// <summary>
+    /// جدول الشاشة الرئيسية للمستخدمين
+    /// User home screens table
+    /// </summary>
+    public DbSet<UserHomeScreen> UserHomeScreens { get; set; }
+
+
     #endregion
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
