@@ -13,7 +13,7 @@ using Newtonsoft.Json;
 
 namespace YemenBooking.Application.Queries
 {
-    public class PreviewHomeScreenQuery : IRequest<HomeScreenPreviewDto>
+    public class PreviewHomeScreenQuery : IRequest<ResultDto<HomeScreenPreviewDto>>
     {
         public Guid TemplateId { get; set; }
         public string Platform { get; set; }
@@ -21,7 +21,7 @@ namespace YemenBooking.Application.Queries
         public bool UseMockData { get; set; }
     }
 
-    public class PreviewHomeScreenQueryHandler : IRequestHandler<PreviewHomeScreenQuery, HomeScreenPreviewDto>
+    public class PreviewHomeScreenQueryHandler : IRequestHandler<PreviewHomeScreenQuery, ResultDto<HomeScreenPreviewDto>>
     {
         private readonly IHomeScreenRepository _repository;
         private readonly IMapper _mapper;
@@ -34,12 +34,12 @@ namespace YemenBooking.Application.Queries
             _mapper = mapper;
         }
 
-        public async Task<HomeScreenPreviewDto> Handle(PreviewHomeScreenQuery request, CancellationToken cancellationToken)
+        public async Task<ResultDto<HomeScreenPreviewDto>> Handle(PreviewHomeScreenQuery request, CancellationToken cancellationToken)
         {
             var template = await _repository.GetTemplateWithFullHierarchyAsync(request.TemplateId, cancellationToken);
             
             if (template == null)
-                throw new NotFoundException(nameof(HomeScreenTemplate), request.TemplateId);
+                throw new NotFoundException(nameof(HomeScreenTemplate), request.TemplateId.ToString());
 
             var preview = new HomeScreenPreviewDto
             {
@@ -107,7 +107,7 @@ namespace YemenBooking.Application.Queries
                 UsedMockData = request.UseMockData
             };
 
-            return preview;
+            return ResultDto<HomeScreenPreviewDto>.Ok(preview);
         }
 
         private Dictionary<string, string> GenerateSectionStyles(HomeScreenSection section)

@@ -9,7 +9,7 @@ using AutoMapper;
 
 namespace YemenBooking.Application.Queries
 {
-    public class GetHomeScreenTemplatesQuery : IRequest<List<HomeScreenTemplateDto>>
+    public class GetHomeScreenTemplatesQuery : IRequest<ResultDto<List<HomeScreenTemplateDto>>>
     {
         public string Platform { get; set; }
         public string TargetAudience { get; set; }
@@ -17,7 +17,7 @@ namespace YemenBooking.Application.Queries
         public bool IncludeDeleted { get; set; }
     }
 
-    public class GetHomeScreenTemplatesQueryHandler : IRequestHandler<GetHomeScreenTemplatesQuery, List<HomeScreenTemplateDto>>
+    public class GetHomeScreenTemplatesQueryHandler : IRequestHandler<GetHomeScreenTemplatesQuery, ResultDto<List<HomeScreenTemplateDto>>>
     {
         private readonly IHomeScreenRepository _repository;
         private readonly IMapper _mapper;
@@ -30,7 +30,7 @@ namespace YemenBooking.Application.Queries
             _mapper = mapper;
         }
 
-        public async Task<List<HomeScreenTemplateDto>> Handle(GetHomeScreenTemplatesQuery request, CancellationToken cancellationToken)
+        public async Task<ResultDto<List<HomeScreenTemplateDto>>> Handle(GetHomeScreenTemplatesQuery request, CancellationToken cancellationToken)
         {
             var templates = await _repository.GetTemplatesAsync(
                 request.Platform,
@@ -39,7 +39,7 @@ namespace YemenBooking.Application.Queries
                 request.IncludeDeleted,
                 cancellationToken);
 
-            return _mapper.Map<List<HomeScreenTemplateDto>>(templates);
+            return ResultDto<List<HomeScreenTemplateDto>>.Ok(_mapper.Map<List<HomeScreenTemplateDto>>(templates));
         }
     }
 }

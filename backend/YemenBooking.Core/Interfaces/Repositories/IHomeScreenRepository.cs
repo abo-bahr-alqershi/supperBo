@@ -26,7 +26,7 @@ namespace YemenBooking.Core.Interfaces.Repositories
         Task<List<HomeScreenSection>> GetTemplateSectionsAsync(Guid templateId, CancellationToken cancellationToken);
         Task AddSectionAsync(HomeScreenSection section, CancellationToken cancellationToken);
         Task UpdateSectionAsync(HomeScreenSection section, CancellationToken cancellationToken);
-        Task UpdateSections(List<HomeScreenSection> sections, CancellationToken cancellationToken);
+        Task UpdateSectionsAsync(List<HomeScreenSection> sections, CancellationToken cancellationToken);
 
         // Component operations
         Task<HomeScreenComponent> GetComponentByIdAsync(Guid id, CancellationToken cancellationToken);

@@ -76,7 +76,7 @@ namespace YemenBooking.Application.Commands
                 section.UpdatedBy = _currentUserService.UserId;
             }
 
-            await _repository.UpdateSections(sections, cancellationToken);
+            await _repository.UpdateSectionsAsync(sections, cancellationToken);
             await _repository.SaveChangesAsync(cancellationToken);
 
             return ResultDto<bool>.Ok(true);

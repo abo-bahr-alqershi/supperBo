@@ -29,7 +29,7 @@ namespace YemenBooking.Api.Controllers
         /// <param name="useMockData">استخدام بيانات وهمية؟</param>
         /// <returns>معاينة الشاشة الرئيسية</returns>
         [HttpGet("preview")]
-        public async Task<ActionResult<HomeScreenPreviewDto>> PreviewHomeScreen(
+        public async Task<ActionResult<ResultDto<HomeScreenPreviewDto>>> PreviewHomeScreen(
             [FromQuery] Guid templateId,
             [FromQuery] string platform,
             [FromQuery] string deviceType,
@@ -55,7 +55,7 @@ namespace YemenBooking.Api.Controllers
         /// <param name="includeDeleted">تضمين المحذوفة؟</param>
         /// <returns>قائمة قوالب الشاشة الرئيسية</returns>
         [HttpGet("templates")]
-        public async Task<ActionResult<List<HomeScreenTemplateDto>>> GetTemplates(
+        public async Task<ActionResult<ResultDto<List<HomeScreenTemplateDto>>>> GetTemplates(
             [FromQuery] string platform,
             [FromQuery] string targetAudience,
             [FromQuery] bool? isActive,
@@ -234,7 +234,7 @@ namespace YemenBooking.Api.Controllers
         /// <param name="command">بيانات القسم</param>
         /// <returns>القسم المنشأ</returns>
         [HttpPost("sections")]
-        public async Task<ActionResult<HomeScreenSectionDto>>> CreateSection(
+        public async Task<ActionResult<ResultDto<HomeScreenSectionDto>>> CreateSection(
             [FromBody] CreateHomeScreenSectionCommand command)
         {
             var result = await _mediator.Send(command);

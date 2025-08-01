@@ -11,7 +11,7 @@ using YemenBooking.Core.Interfaces.Services;
 
 namespace YemenBooking.Application.Commands
 {
-    public class CreateHomeScreenSectionCommand : IRequest<HomeScreenSectionDto>
+    public class CreateHomeScreenSectionCommand : IRequest<ResultDto<HomeScreenSectionDto>>
     {
         public Guid TemplateId { get; set; }
         public string Name { get; set; }
@@ -28,7 +28,7 @@ namespace YemenBooking.Application.Commands
         public string Conditions { get; set; }
     }
 
-    public class CreateHomeScreenSectionCommandHandler : IRequestHandler<CreateHomeScreenSectionCommand, HomeScreenSectionDto>
+    public class CreateHomeScreenSectionCommandHandler : IRequestHandler<CreateHomeScreenSectionCommand, ResultDto<HomeScreenSectionDto>>
     {
         private readonly IHomeScreenRepository _repository;
         private readonly ICurrentUserService _currentUserService;
@@ -44,7 +44,7 @@ namespace YemenBooking.Application.Commands
             _mapper = mapper;
         }
 
-        public async Task<HomeScreenSectionDto> Handle(CreateHomeScreenSectionCommand request, CancellationToken cancellationToken)
+        public async Task<ResultDto<HomeScreenSectionDto>> Handle(CreateHomeScreenSectionCommand request, CancellationToken cancellationToken)
         {
             var template = await _repository.GetTemplateByIdAsync(request.TemplateId, cancellationToken);
             if (template == null)
@@ -77,7 +77,7 @@ namespace YemenBooking.Application.Commands
             await _repository.AddSectionAsync(section, cancellationToken);
             await _repository.SaveChangesAsync(cancellationToken);
 
-            return _mapper.Map<HomeScreenSectionDto>(section);
+            return ResultDto<HomeScreenSectionDto>.Ok(_mapper.Map<HomeScreenSectionDto>(section));
         }
     }
 }

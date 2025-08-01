@@ -169,7 +169,7 @@ namespace Infrastructure.Repositories
             _context.HomeScreenSections.Update(section);
         }
 
-        public void UpdateSections(List<HomeScreenSection> sections, CancellationToken cancellationToken)
+        public async Task UpdateSectionsAsync(List<HomeScreenSection> sections, CancellationToken cancellationToken)
         {
             _context.HomeScreenSections.UpdateRange(sections);
         }
