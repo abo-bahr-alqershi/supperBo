@@ -28,11 +28,11 @@ export interface DataSourceDefinition {
   name: string;
   type: string;
   description: string;
-  endpoint?: string;
+  endpoint: string;
   isAvailable: boolean;
   requiresAuth: boolean;
   supportedComponents: string[];
-  parameters?: DataSourceParameter[];
+  parameters: DataSourceParameter[];
   cacheDuration?: number;
 }
 
@@ -40,10 +40,10 @@ export interface DataSourceParameter {
   key: string;
   name: string;
   type: string;
-  defaultValue?: any;
+  defaultValue: string;
   isRequired: boolean;
-  description?: string;
-  options?: string[];
+  description: string;
+  options: string[];
 }
 
 export interface ComponentPreview {
