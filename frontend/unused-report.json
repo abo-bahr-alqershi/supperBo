@@ -1,0 +1,3195 @@
+{
+  "unusedFiles": [],
+  "unusedExports": [],
+  "unusedTypes": [
+    {
+      "file": "src/components/auth/AuthGuard.tsx",
+      "type": "AuthGuardProps",
+      "line": 5,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/components/auth/ProtectedRoute.tsx",
+      "type": "ProtectedRouteProps",
+      "line": 4,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/components/auth/PublicRoute.tsx",
+      "type": "PublicRouteProps",
+      "line": 4,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/components/availability/AvailabilityGrid.tsx",
+      "type": "AvailabilityGridProps",
+      "line": 161,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/components/availability/ConflictWarningModal.tsx",
+      "type": "ConflictWarningModalProps",
+      "line": 5,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/components/common/CardView.tsx",
+      "type": "CardViewProps",
+      "line": 1,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/components/common/DataTable.tsx",
+      "type": "DataTableProps",
+      "line": 16,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/components/common/DateRangeCalendar.tsx",
+      "type": "DateRangeCalendarProps",
+      "line": 275,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/components/common/ErrorBoundary.tsx",
+      "type": "Props",
+      "line": 4,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/components/common/Header.tsx",
+      "type": "HeaderProps",
+      "line": 4,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/components/common/MapView.tsx",
+      "type": "MapViewWithPaginationProps",
+      "line": 7,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/components/common/MapView.tsx",
+      "type": "MapEventsHandlerProps",
+      "line": 55,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/components/common/MapView.tsx",
+      "type": "MapControllerProps",
+      "line": 98,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/components/common/MapView.tsx",
+      "type": "MapSearchProps",
+      "line": 121,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/components/common/Modal.tsx",
+      "type": "ModalProps",
+      "line": 3,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/components/common/PagePlaceholder.tsx",
+      "type": "PagePlaceholderProps",
+      "line": 1,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/components/common/RecentActivity.tsx",
+      "type": "RecentActivityProps",
+      "line": 9,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/components/common/ResponsiveGrid.tsx",
+      "type": "SxProps",
+      "line": 2,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/components/common/ResponsiveGrid.tsx",
+      "type": "Theme",
+      "line": 2,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/components/common/ResponsiveGrid.tsx",
+      "type": "ResponsiveGridProps",
+      "line": 4,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/components/common/SearchAndFilter.tsx",
+      "type": "SearchAndFilterProps",
+      "line": 14,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/components/common/Sidebar.tsx",
+      "type": "SidebarProps",
+      "line": 9,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/components/common/StatsCard.tsx",
+      "type": "StatsCardProps",
+      "line": 1,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/components/common/ViewToggle.tsx",
+      "type": "ViewOption",
+      "line": 3,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/components/common/ViewToggle.tsx",
+      "type": "ViewToggleProps",
+      "line": 9,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/components/display/PriceDisplay.tsx",
+      "type": "PriceDisplayProps",
+      "line": 8,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/components/forms/DynamicFieldsForm.tsx",
+      "type": "DynamicFieldsFormProps",
+      "line": 7,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/components/images/AdvancedImageEditor.tsx",
+      "type": "PixelCrop",
+      "line": 7,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/components/images/AdvancedImageEditor.tsx",
+      "type": "AdvancedImageEditorProps",
+      "line": 15,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/components/images/AdvancedImageEditor.tsx",
+      "type": "EditTool",
+      "line": 30,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/components/images/AdvancedImageEditor.tsx",
+      "type": "FilterSettings",
+      "line": 44,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/components/images/ImageGallery.tsx",
+      "type": "ImageGalleryProps",
+      "line": 18,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/components/images/ImageTextOverlay.tsx",
+      "type": "ImageTextOverlayProps",
+      "line": 11,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/components/images/ImageTextOverlay.tsx",
+      "type": "TextElement",
+      "line": 34,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/components/images/ImageUploader.tsx",
+      "type": "ImageUploaderProps",
+      "line": 16,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/components/inputs/CurrencyInput.tsx",
+      "type": "CurrencyInputProps",
+      "line": 4,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/components/inputs/DateRangePicker.tsx",
+      "type": "DateRange",
+      "line": 3,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/components/inputs/DateRangePicker.tsx",
+      "type": "DateRangePickerProps",
+      "line": 8,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/components/inputs/DateTimePicker.tsx",
+      "type": "DateTimePickerProps",
+      "line": 3,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/components/inputs/ImageUpload.tsx",
+      "type": "ImageFile",
+      "line": 19,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/components/inputs/TagInput.tsx",
+      "type": "TagInputProps",
+      "line": 3,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/components/inputs/TimePicker.tsx",
+      "type": "TimePickerProps",
+      "line": 3,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/components/layout/AuthLayout.tsx",
+      "type": "AuthLayoutProps",
+      "line": 3,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/components/layout/MainLayout.tsx",
+      "type": "MainLayoutProps",
+      "line": 4,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/components/pricing/PriceInputForm.tsx",
+      "type": "PriceInputFormProps",
+      "line": 134,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/components/pricing/PriceInputForm.tsx",
+      "type": "PricingPreview",
+      "line": 151,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/components/pricing/PricingGrid.tsx",
+      "type": "PricingGridProps",
+      "line": 177,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/components/selectors/BookingSelector.tsx",
+      "type": "BookingSelectorProps",
+      "line": 5,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/components/selectors/LocationSelector.tsx",
+      "type": "LocationSelectorProps",
+      "line": 14,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/components/selectors/PropertySelector.tsx",
+      "type": "PropertySelectorProps",
+      "line": 5,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/components/selectors/UnitSelector.tsx",
+      "type": "UnitSelectorProps",
+      "line": 5,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/components/selectors/UserSelector.tsx",
+      "type": "UserSelectorProps",
+      "line": 5,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/components/ui/ActionButton.tsx",
+      "type": "ActionButtonProps",
+      "line": 5,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/components/ui/ActionsDropdown.tsx",
+      "type": "ActionsDropdownProps",
+      "line": 11,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/components/ui/Card.tsx",
+      "type": "CardProps",
+      "line": 3,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/components/ui/ConfirmDialog.tsx",
+      "type": "ConfirmDialogProps",
+      "line": 4,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/components/ui/EmptyState.tsx",
+      "type": "EmptyStateProps",
+      "line": 4,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/components/ui/LoadingSpinner.tsx",
+      "type": "LoadingSpinnerProps",
+      "line": 3,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/components/ui/ModernButton.tsx",
+      "type": "ModernButtonProps",
+      "line": 4,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/components/ui/NotificationProvider.tsx",
+      "type": "NotificationContextType",
+      "line": 6,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/components/ui/NotificationProvider.tsx",
+      "type": "NotificationProviderProps",
+      "line": 18,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/components/ui/NotificationProvider.tsx",
+      "type": "NotificationContainerProps",
+      "line": 60,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/components/ui/NotificationProvider.tsx",
+      "type": "NotificationToastProps",
+      "line": 81,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/components/ui/SearchInput.tsx",
+      "type": "SearchInputProps",
+      "line": 4,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/components/ui/StatusBadge.tsx",
+      "type": "StatusBadgeProps",
+      "line": 3,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/components/ui/Toast.tsx",
+      "type": "ToastProps",
+      "line": 4,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/components/ui/Tooltip.tsx",
+      "type": "TooltipProps",
+      "line": 3,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/contexts/AppProvider.tsx",
+      "type": "AppContextType",
+      "line": 27,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/contexts/AppProvider.tsx",
+      "type": "AppProviderProps",
+      "line": 47,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/contexts/AuthContext.tsx",
+      "type": "AuthContextType",
+      "line": 18,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/contexts/AuthContext.tsx",
+      "type": "AuthProviderProps",
+      "line": 29,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/hooks/useAdminReports.ts",
+      "type": "ReportActionCommand",
+      "line": 12,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/hooks/useAuth.ts",
+      "type": "UseAuthReturn",
+      "line": 21,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/hooks/useChat.ts",
+      "type": "WSConnectionStatus",
+      "line": 882,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/hooks/useMutationWithNotifications.ts",
+      "type": "UseMutationOptions",
+      "line": 1,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/hooks/useMutationWithNotifications.ts",
+      "type": "MutationFunction",
+      "line": 1,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/hooks/useNotifications.ts",
+      "type": "UseNotificationsReturn",
+      "line": 12,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/hooks/useUXHelpers.ts",
+      "type": "UseUXHelpersReturn",
+      "line": 4,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/pages/admin/AdminDashboard.tsx",
+      "type": "DashboardStats",
+      "line": 5,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/pages/admin/AdminProperties.tsx",
+      "type": "PropertyWithLocation",
+      "line": 23,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/pages/admin/AdminUnits.tsx",
+      "type": "UnitWithLocation",
+      "line": 32,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/pages/auth/Register.tsx",
+      "type": "themes",
+      "line": 40,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/pages/settings/Settings.tsx",
+      "type": "UserSettings",
+      "line": 8,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/services/admin-upload-image.service.ts",
+      "type": "AdminUploadImageResponse",
+      "line": 5,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/services/property-upload-image.service.ts",
+      "type": "PropertyUploadImageResponse",
+      "line": 5,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/stores/appStore.ts",
+      "type": "AppState",
+      "line": 5,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/stores/appStore.ts",
+      "type": "AppActions",
+      "line": 54,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/theme.ts",
+      "type": "Palette",
+      "line": 4,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/theme.ts",
+      "type": "PaletteOptions",
+      "line": 7,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/theme.ts",
+      "type": "ChipPropsSizeOverrides",
+      "line": 13,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/activity-log.types.ts",
+      "type": "ActivityLogDto",
+      "line": 7,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/address.types.ts",
+      "type": "AddressDto",
+      "line": 1,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/admin-action.types.ts",
+      "type": "TargetType",
+      "line": 7,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/admin-action.types.ts",
+      "type": "ActionType",
+      "line": 12,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/admin-action.types.ts",
+      "type": "AdminActionDto",
+      "line": 17,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/amenity.types.ts",
+      "type": "DeleteAmenityCommand",
+      "line": 20,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/availability_types.ts",
+      "type": "ConflictResolutionAction",
+      "line": 11,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/availability_types.ts",
+      "type": "BaseUnit",
+      "line": 14,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/availability_types.ts",
+      "type": "LoadingState",
+      "line": 255,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/availability_types.ts",
+      "type": "UIState",
+      "line": 261,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/availability_types.ts",
+      "type": "AvailabilityAndPricingTypes",
+      "line": 324,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/booking.types.ts",
+      "type": "BookingReportItemDto",
+      "line": 310,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/chat.types.ts",
+      "type": "UserStatus",
+      "line": 30,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/chat.types.ts",
+      "type": "MessageAttachment",
+      "line": 131,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/chat.types.ts",
+      "type": "LocationData",
+      "line": 149,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/chat.types.ts",
+      "type": "MessageReaction",
+      "line": 161,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/chat.types.ts",
+      "type": "ChatErrorType",
+      "line": 416,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/chat.types.ts",
+      "type": "ConversationListProps",
+      "line": 432,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/chat.types.ts",
+      "type": "MessageListProps",
+      "line": 446,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/chat.types.ts",
+      "type": "MessageInputProps",
+      "line": 461,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/common.types.ts",
+      "type": "PagedResultDto",
+      "line": 22,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/common.types.ts",
+      "type": "PaginationDto",
+      "line": 35,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/common.types.ts",
+      "type": "BaseDto",
+      "line": 43,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/contact.types.ts",
+      "type": "ContactDto",
+      "line": 1,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/dashboard.types.ts",
+      "type": "DateRangeDto",
+      "line": 4,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/dashboard.types.ts",
+      "type": "ExportResultDto",
+      "line": 22,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/dashboard.types.ts",
+      "type": "ExportMetadataDto",
+      "line": 46,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/dashboard.types.ts",
+      "type": "ExportSecurityDto",
+      "line": 63,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/dashboard.types.ts",
+      "type": "StatisticsPeriodDto",
+      "line": 84,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/dashboard.types.ts",
+      "type": "PeriodType",
+      "line": 97,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/dashboard.types.ts",
+      "type": "ChangeDirection",
+      "line": 106,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/dashboard.types.ts",
+      "type": "CustomerDashboardDto",
+      "line": 115,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/dashboard.types.ts",
+      "type": "GetCustomerDashboardQuery",
+      "line": 141,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/dashboard.types.ts",
+      "type": "DashboardType",
+      "line": 150,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/dashboard.types.ts",
+      "type": "ReportFormat",
+      "line": 153,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/dashboard.types.ts",
+      "type": "CustomerReportItemDto",
+      "line": 176,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/dashboard.types.ts",
+      "type": "OccupancyReportItemDto",
+      "line": 244,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/dashboard.types.ts",
+      "type": "RevenueReportItemDto",
+      "line": 270,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/dashboard.types.ts",
+      "type": "CategoricalDataDto",
+      "line": 339,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/field-group.types.ts",
+      "type": "GroupOrderDto",
+      "line": 44,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/field-group.types.ts",
+      "type": "GroupOrderDto",
+      "line": 67,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/filter-analytics.types.ts",
+      "type": "FilterValueCountDto",
+      "line": 7,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/image.types.ts",
+      "type": "ProcessingStatus",
+      "line": 66,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/image.types.ts",
+      "type": "ImageThumbnails",
+      "line": 77,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/map.types.ts",
+      "type": "MapItem",
+      "line": 28,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/map.types.ts",
+      "type": "RouteStep",
+      "line": 181,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/map.types.ts",
+      "type": "MarkerStyle",
+      "line": 199,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/map.types.ts",
+      "type": "MapEvent",
+      "line": 221,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/map.types.ts",
+      "type": "MapConfiguration",
+      "line": 237,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/map.types.ts",
+      "type": "MapStats",
+      "line": 273,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/payment.types.ts",
+      "type": "PaymentDetailsDto",
+      "line": 166,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/policy.types.ts",
+      "type": "PolicyType",
+      "line": 15,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/property-image.types.ts",
+      "type": "ImageStatus",
+      "line": 12,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/property-search.types.ts",
+      "type": "PriceRangeDto",
+      "line": 1,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/property-search.types.ts",
+      "type": "PropertySearchItemDto",
+      "line": 7,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/property-search.types.ts",
+      "type": "PropertySearchResultDto",
+      "line": 30,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/property-search.types.ts",
+      "type": "SearchFilterCriteriaDto",
+      "line": 41,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/property-search.types.ts",
+      "type": "SearchStatisticsDto",
+      "line": 49,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/property-type.types.ts",
+      "type": "DeletePropertyTypeCommand",
+      "line": 15,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/property.types.ts",
+      "type": "DestinationDto",
+      "line": 169,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/property.types.ts",
+      "type": "PropertyPolicyDto",
+      "line": 181,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/property.types.ts",
+      "type": "UnitDynamicFieldValueDto",
+      "line": 192,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/search-analytics.types.ts",
+      "type": "SearchCountByDayDto",
+      "line": 4,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/service.types.ts",
+      "type": "CreateServiceCommand",
+      "line": 28,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/service.types.ts",
+      "type": "UpdateServiceCommand",
+      "line": 39,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/service.types.ts",
+      "type": "DeleteServiceCommand",
+      "line": 51,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/staff.types.ts",
+      "type": "StaffPosition",
+      "line": 13,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/unit-type-field.types.ts",
+      "type": "FieldOrderDto",
+      "line": 44,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/unit-type-field.types.ts",
+      "type": "FieldGroupAssignmentDto",
+      "line": 52,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/unit.types.ts",
+      "type": "CreateUnitDto",
+      "line": 41,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/unit.types.ts",
+      "type": "GetUnitPriceQuery",
+      "line": 115,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/unit.types.ts",
+      "type": "GetUnitDetailsQuery",
+      "line": 138,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/unit.types.ts",
+      "type": "UnitAvailabilityDto",
+      "line": 220,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/unit.types.ts",
+      "type": "UnitEditDto",
+      "line": 227,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/upload-image.types.ts",
+      "type": "FileUploadRequest",
+      "line": 4,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/upload-image.types.ts",
+      "type": "UploadedFileDto",
+      "line": 45,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/upload-image.types.ts",
+      "type": "ProcessedImageResult",
+      "line": 62,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/user.types.ts",
+      "type": "UserLifetimeStatsDto",
+      "line": 146,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/user.types.ts",
+      "type": "UpdateUserFavoritesCommand",
+      "line": 164,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/user.types.ts",
+      "type": "LoyaltyProgressDto",
+      "line": 177,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/user.types.ts",
+      "type": "OwnerRegistrationResultDto",
+      "line": 183,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/validation.types.ts",
+      "type": "ValidationWarningDto",
+      "line": 1,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/validation.types.ts",
+      "type": "FieldValidationWarningType",
+      "line": 9,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/validation.types.ts",
+      "type": "ValidationRecommendationDto",
+      "line": 19,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/validation.types.ts",
+      "type": "RecommendationType",
+      "line": 26,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/validation.types.ts",
+      "type": "RecommendationPriority",
+      "line": 35,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/validation.types.ts",
+      "type": "ValidationStatisticsDto",
+      "line": 41,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/validation.types.ts",
+      "type": "ValidationSettingsDto",
+      "line": 50,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/validation.types.ts",
+      "type": "ValidationScope",
+      "line": 56,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/validation.types.ts",
+      "type": "ValidationResult",
+      "line": 61,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/validation.types.ts",
+      "type": "ValidationErrorDto",
+      "line": 68,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/validation.types.ts",
+      "type": "FieldValidationErrorType",
+      "line": 76,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/validation.types.ts",
+      "type": "ErrorSeverity",
+      "line": 86,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/validation.types.ts",
+      "type": "QualityTrend",
+      "line": 93,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/validation.types.ts",
+      "type": "ProblematicFieldDto",
+      "line": 98,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/validation.types.ts",
+      "type": "FieldValueStatisticsDto",
+      "line": 106,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/validation.types.ts",
+      "type": "FieldValidationSummaryDto",
+      "line": 115,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    },
+    {
+      "file": "src/types/validation.types.ts",
+      "type": "FieldValidationReportDto",
+      "line": 124,
+      "reason": "لا يتم استخدام هذا النوع في أي مكان"
+    }
+  ],
+  "unusedHooks": [
+    {
+      "file": "src/hooks/useAvailability.ts",
+      "exports": [
+        {
+          "name": "useAvailability",
+          "type": "named",
+          "line": 20
+        },
+        {
+          "name": "useBookingConflicts",
+          "type": "named",
+          "line": 229
+        },
+        {
+          "name": "useDateRange",
+          "type": "named",
+          "line": 300
+        },
+        {
+          "name": "useValidation",
+          "type": "named",
+          "line": 364
+        },
+        {
+          "name": "useAvailabilityStatistics",
+          "type": "named",
+          "line": 482
+        }
+      ],
+      "reason": "لا يتم استخدام هذا الـ hook في أي مكان في المشروع"
+    },
+    {
+      "file": "src/hooks/useBookingDetails.ts",
+      "exports": [
+        {
+          "name": "useBookingDetails",
+          "type": "named",
+          "line": 12
+        }
+      ],
+      "reason": "لا يتم استخدام هذا الـ hook في أي مكان في المشروع"
+    },
+    {
+      "file": "src/hooks/useChat.ts",
+      "exports": [
+        {
+          "name": "useChat",
+          "type": "named",
+          "line": 39
+        },
+        {
+          "name": "useTypingIndicator",
+          "type": "named",
+          "line": 582
+        },
+        {
+          "name": "useChatSearch",
+          "type": "named",
+          "line": 638
+        },
+        {
+          "name": "useChatUsers",
+          "type": "named",
+          "line": 686
+        },
+        {
+          "name": "useChatSettings",
+          "type": "named",
+          "line": 733
+        },
+        {
+          "name": "useFileUpload",
+          "type": "named",
+          "line": 787
+        },
+        {
+          "name": "useConnectionStatus",
+          "type": "named",
+          "line": 880
+        },
+        {
+          "name": "useUnreadMessages",
+          "type": "named",
+          "line": 934
+        },
+        {
+          "name": "useChatStatistics",
+          "type": "named",
+          "line": 985
+        },
+        {
+          "name": "useMessageDrafts",
+          "type": "named",
+          "line": 1041
+        },
+        {
+          "name": "useChatNotifications",
+          "type": "named",
+          "line": 1079
+        },
+        {
+          "name": "useChatComplete",
+          "type": "named",
+          "line": 1147
+        }
+      ],
+      "reason": "لا يتم استخدام هذا الـ hook في أي مكان في المشروع"
+    },
+    {
+      "file": "src/hooks/useMutationWithNotifications.ts",
+      "exports": [
+        {
+          "name": "useMutationWithNotifications",
+          "type": "named",
+          "line": 6
+        }
+      ],
+      "reason": "لا يتم استخدام هذا الـ hook في أي مكان في المشروع"
+    },
+    {
+      "file": "src/hooks/usePricing.ts",
+      "exports": [
+        {
+          "name": "usePricing",
+          "type": "named",
+          "line": 20
+        },
+        {
+          "name": "usePriceAnalysis",
+          "type": "named",
+          "line": 272
+        },
+        {
+          "name": "usePriceComparison",
+          "type": "named",
+          "line": 357
+        },
+        {
+          "name": "usePriceOptimization",
+          "type": "named",
+          "line": 436
+        },
+        {
+          "name": "usePricingStatistics",
+          "type": "named",
+          "line": 552
+        }
+      ],
+      "reason": "لا يتم استخدام هذا الـ hook في أي مكان في المشروع"
+    },
+    {
+      "file": "src/types/user.types.ts",
+      "exports": [
+        {
+          "name": "UserDto",
+          "type": "named",
+          "line": 5
+        },
+        {
+          "name": "CreateUserCommand",
+          "type": "named",
+          "line": 21
+        },
+        {
+          "name": "UpdateUserCommand",
+          "type": "named",
+          "line": 29
+        },
+        {
+          "name": "ActivateUserCommand",
+          "type": "named",
+          "line": 37
+        },
+        {
+          "name": "DeactivateUserCommand",
+          "type": "named",
+          "line": 41
+        },
+        {
+          "name": "GetAllUsersQuery",
+          "type": "named",
+          "line": 45
+        },
+        {
+          "name": "SearchUsersQuery",
+          "type": "named",
+          "line": 60
+        },
+        {
+          "name": "GetUserByIdQuery",
+          "type": "named",
+          "line": 78
+        },
+        {
+          "name": "AssignUserRoleCommand",
+          "type": "named",
+          "line": 85
+        },
+        {
+          "name": "GetUsersByRoleQuery",
+          "type": "named",
+          "line": 95
+        },
+        {
+          "name": "GetUserActivityLogQuery",
+          "type": "named",
+          "line": 104
+        },
+        {
+          "name": "GetUserLifetimeStatsQuery",
+          "type": "named",
+          "line": 116
+        },
+        {
+          "name": "GetUserNotificationsQuery",
+          "type": "named",
+          "line": 124
+        },
+        {
+          "name": "UserLifetimeStatsDto",
+          "type": "named",
+          "line": 146
+        },
+        {
+          "name": "GetUserRolesQuery",
+          "type": "named",
+          "line": 152
+        },
+        {
+          "name": "GetCurrentUserQuery",
+          "type": "named",
+          "line": 162
+        },
+        {
+          "name": "UpdateUserFavoritesCommand",
+          "type": "named",
+          "line": 164
+        },
+        {
+          "name": "UpdateUserProfilePictureCommand",
+          "type": "named",
+          "line": 168
+        },
+        {
+          "name": "UpdateUserSettingsCommand",
+          "type": "named",
+          "line": 173
+        },
+        {
+          "name": "LoyaltyProgressDto",
+          "type": "named",
+          "line": 177
+        },
+        {
+          "name": "OwnerRegistrationResultDto",
+          "type": "named",
+          "line": 183
+        },
+        {
+          "name": "GetUserByEmailQuery",
+          "type": "named",
+          "line": 191
+        },
+        {
+          "name": "RegisterPropertyOwnerCommand",
+          "type": "named",
+          "line": 198
+        },
+        {
+          "name": "UserDetailsDto",
+          "type": "named",
+          "line": 232
+        }
+      ],
+      "reason": "لا يتم استخدام هذا الـ hook في أي مكان في المشروع"
+    }
+  ],
+  "unusedServices": [
+    {
+      "file": "src/services/admin-amenities.service.ts",
+      "unusedExportedFunctions": [
+        {
+          "name": "AdminAmenitiesService",
+          "line": 7
+        }
+      ],
+      "unusedInternalFunctions": [
+        {
+          "name": "API_BASE",
+          "line": 5
+        }
+      ],
+      "reason": "يحتوي على دوال غير مستخدمة"
+    },
+    {
+      "file": "src/services/admin-audit-logs.service.ts",
+      "unusedExportedFunctions": [
+        {
+          "name": "AdminAuditLogsService",
+          "line": 11
+        }
+      ],
+      "unusedInternalFunctions": [
+        {
+          "name": "API_BASE",
+          "line": 6
+        }
+      ],
+      "reason": "يحتوي على دوال غير مستخدمة"
+    },
+    {
+      "file": "src/services/admin-bookings.service.ts",
+      "unusedExportedFunctions": [
+        {
+          "name": "AdminBookingsService",
+          "line": 37
+        }
+      ],
+      "unusedInternalFunctions": [
+        {
+          "name": "API_BASE",
+          "line": 32
+        }
+      ],
+      "reason": "يحتوي على دوال غير مستخدمة"
+    },
+    {
+      "file": "src/services/admin-dashboard.service.ts",
+      "unusedExportedFunctions": [
+        {
+          "name": "AdminDashboardService",
+          "line": 37
+        }
+      ],
+      "unusedInternalFunctions": [
+        {
+          "name": "API_BASE",
+          "line": 35
+        }
+      ],
+      "reason": "يحتوي على دوال غير مستخدمة"
+    },
+    {
+      "file": "src/services/admin-dashboard.service.ts",
+      "reason": "لا يتم استخدام هذه الخدمة في أي مكان في المشروع",
+      "completelyUnused": true
+    },
+    {
+      "file": "src/services/admin-field-groups.service.ts",
+      "unusedExportedFunctions": [
+        {
+          "name": "AdminFieldGroupsService",
+          "line": 20
+        }
+      ],
+      "unusedInternalFunctions": [
+        {
+          "name": "API_BASE",
+          "line": 15
+        }
+      ],
+      "reason": "يحتوي على دوال غير مستخدمة"
+    },
+    {
+      "file": "src/services/admin-filter-analytics.service.ts",
+      "unusedExportedFunctions": [
+        {
+          "name": "AdminFilterAnalyticsService",
+          "line": 8
+        }
+      ],
+      "unusedInternalFunctions": [
+        {
+          "name": "API_BASE",
+          "line": 6
+        }
+      ],
+      "reason": "يحتوي على دوال غير مستخدمة"
+    },
+    {
+      "file": "src/services/admin-filter-analytics.service.ts",
+      "reason": "لا يتم استخدام هذه الخدمة في أي مكان في المشروع",
+      "completelyUnused": true
+    },
+    {
+      "file": "src/services/admin-notifications.service.ts",
+      "unusedExportedFunctions": [
+        {
+          "name": "AdminNotificationsService",
+          "line": 11
+        }
+      ],
+      "unusedInternalFunctions": [],
+      "reason": "يحتوي على دوال غير مستخدمة"
+    },
+    {
+      "file": "src/services/admin-notifications.service.ts",
+      "reason": "لا يتم استخدام هذه الخدمة في أي مكان في المشروع",
+      "completelyUnused": true
+    },
+    {
+      "file": "src/services/admin-payments.service.ts",
+      "unusedExportedFunctions": [
+        {
+          "name": "AdminPaymentsService",
+          "line": 6
+        }
+      ],
+      "unusedInternalFunctions": [],
+      "reason": "يحتوي على دوال غير مستخدمة"
+    },
+    {
+      "file": "src/services/admin-properties.service.ts",
+      "unusedExportedFunctions": [
+        {
+          "name": "AdminPropertiesService",
+          "line": 28
+        }
+      ],
+      "unusedInternalFunctions": [
+        {
+          "name": "API_BASE",
+          "line": 26
+        }
+      ],
+      "reason": "يحتوي على دوال غير مستخدمة"
+    },
+    {
+      "file": "src/services/admin-property-images.service.ts",
+      "unusedExportedFunctions": [
+        {
+          "name": "AdminPropertyImagesService",
+          "line": 20
+        }
+      ],
+      "unusedInternalFunctions": [
+        {
+          "name": "API_BASE",
+          "line": 17
+        }
+      ],
+      "reason": "يحتوي على دوال غير مستخدمة"
+    },
+    {
+      "file": "src/services/admin-property-images.service.ts",
+      "reason": "لا يتم استخدام هذه الخدمة في أي مكان في المشروع",
+      "completelyUnused": true
+    },
+    {
+      "file": "src/services/admin-property-policies.service.ts",
+      "unusedExportedFunctions": [
+        {
+          "name": "AdminPropertyPoliciesService",
+          "line": 15
+        }
+      ],
+      "unusedInternalFunctions": [],
+      "reason": "يحتوي على دوال غير مستخدمة"
+    },
+    {
+      "file": "src/services/admin-property-policies.service.ts",
+      "reason": "لا يتم استخدام هذه الخدمة في أي مكان في المشروع",
+      "completelyUnused": true
+    },
+    {
+      "file": "src/services/admin-property-services.service.ts",
+      "unusedExportedFunctions": [
+        {
+          "name": "AdminPropertyServicesService",
+          "line": 20
+        }
+      ],
+      "unusedInternalFunctions": [
+        {
+          "name": "API_BASE",
+          "line": 15
+        }
+      ],
+      "reason": "يحتوي على دوال غير مستخدمة"
+    },
+    {
+      "file": "src/services/admin-property-types.service.ts",
+      "unusedExportedFunctions": [
+        {
+          "name": "AdminPropertyTypesService",
+          "line": 13
+        }
+      ],
+      "unusedInternalFunctions": [
+        {
+          "name": "API_BASE",
+          "line": 11
+        }
+      ],
+      "reason": "يحتوي على دوال غير مستخدمة"
+    },
+    {
+      "file": "src/services/admin-reports.service.ts",
+      "unusedExportedFunctions": [],
+      "unusedInternalFunctions": [
+        {
+          "name": "response",
+          "line": 26
+        },
+        {
+          "name": "response",
+          "line": 32
+        },
+        {
+          "name": "response",
+          "line": 38
+        },
+        {
+          "name": "response",
+          "line": 44
+        },
+        {
+          "name": "response",
+          "line": 50
+        },
+        {
+          "name": "response",
+          "line": 56
+        },
+        {
+          "name": "response",
+          "line": 62
+        },
+        {
+          "name": "response",
+          "line": 68
+        },
+        {
+          "name": "response",
+          "line": 73
+        }
+      ],
+      "reason": "يحتوي على دوال غير مستخدمة"
+    },
+    {
+      "file": "src/services/admin-reviews.service.ts",
+      "unusedExportedFunctions": [],
+      "unusedInternalFunctions": [
+        {
+          "name": "response",
+          "line": 22
+        },
+        {
+          "name": "response",
+          "line": 28
+        },
+        {
+          "name": "response",
+          "line": 37
+        },
+        {
+          "name": "response",
+          "line": 46
+        },
+        {
+          "name": "response",
+          "line": 54
+        }
+      ],
+      "reason": "يحتوي على دوال غير مستخدمة"
+    },
+    {
+      "file": "src/services/admin-roles.service.ts",
+      "unusedExportedFunctions": [
+        {
+          "name": "AdminRolesService",
+          "line": 6
+        }
+      ],
+      "unusedInternalFunctions": [],
+      "reason": "يحتوي على دوال غير مستخدمة"
+    },
+    {
+      "file": "src/services/admin-roles.service.ts",
+      "reason": "لا يتم استخدام هذه الخدمة في أي مكان في المشروع",
+      "completelyUnused": true
+    },
+    {
+      "file": "src/services/admin-search-analytics.service.ts",
+      "unusedExportedFunctions": [
+        {
+          "name": "AdminSearchAnalyticsService",
+          "line": 10
+        }
+      ],
+      "unusedInternalFunctions": [
+        {
+          "name": "API_BASE",
+          "line": 8
+        }
+      ],
+      "reason": "يحتوي على دوال غير مستخدمة"
+    },
+    {
+      "file": "src/services/admin-search-analytics.service.ts",
+      "reason": "لا يتم استخدام هذه الخدمة في أي مكان في المشروع",
+      "completelyUnused": true
+    },
+    {
+      "file": "src/services/admin-search-filters.service.ts",
+      "unusedExportedFunctions": [
+        {
+          "name": "AdminSearchFiltersService",
+          "line": 18
+        }
+      ],
+      "unusedInternalFunctions": [
+        {
+          "name": "API_BASE",
+          "line": 16
+        }
+      ],
+      "reason": "يحتوي على دوال غير مستخدمة"
+    },
+    {
+      "file": "src/services/admin-search-filters.service.ts",
+      "reason": "لا يتم استخدام هذه الخدمة في أي مكان في المشروع",
+      "completelyUnused": true
+    },
+    {
+      "file": "src/services/admin-search-logs.service.ts",
+      "unusedExportedFunctions": [
+        {
+          "name": "AdminSearchLogsService",
+          "line": 10
+        }
+      ],
+      "unusedInternalFunctions": [
+        {
+          "name": "API_BASE",
+          "line": 8
+        }
+      ],
+      "reason": "يحتوي على دوال غير مستخدمة"
+    },
+    {
+      "file": "src/services/admin-search-logs.service.ts",
+      "reason": "لا يتم استخدام هذه الخدمة في أي مكان في المشروع",
+      "completelyUnused": true
+    },
+    {
+      "file": "src/services/admin-staff.service.ts",
+      "unusedExportedFunctions": [
+        {
+          "name": "AdminStaffService",
+          "line": 16
+        }
+      ],
+      "unusedInternalFunctions": [
+        {
+          "name": "API_BASE",
+          "line": 14
+        }
+      ],
+      "reason": "يحتوي على دوال غير مستخدمة"
+    },
+    {
+      "file": "src/services/admin-staff.service.ts",
+      "reason": "لا يتم استخدام هذه الخدمة في أي مكان في المشروع",
+      "completelyUnused": true
+    },
+    {
+      "file": "src/services/admin-unit-field-values.service.ts",
+      "unusedExportedFunctions": [
+        {
+          "name": "AdminUnitFieldValuesService",
+          "line": 14
+        }
+      ],
+      "unusedInternalFunctions": [],
+      "reason": "يحتوي على دوال غير مستخدمة"
+    },
+    {
+      "file": "src/services/admin-unit-field-values.service.ts",
+      "reason": "لا يتم استخدام هذه الخدمة في أي مكان في المشروع",
+      "completelyUnused": true
+    },
+    {
+      "file": "src/services/admin-unit-type-fields.service.ts",
+      "unusedExportedFunctions": [
+        {
+          "name": "AdminUnitTypeFieldsService",
+          "line": 27
+        }
+      ],
+      "unusedInternalFunctions": [],
+      "reason": "يحتوي على دوال غير مستخدمة"
+    },
+    {
+      "file": "src/services/admin-unit-types.service.ts",
+      "unusedExportedFunctions": [
+        {
+          "name": "AdminUnitTypesService",
+          "line": 19
+        }
+      ],
+      "unusedInternalFunctions": [
+        {
+          "name": "API_BASE",
+          "line": 13
+        }
+      ],
+      "reason": "يحتوي على دوال غير مستخدمة"
+    },
+    {
+      "file": "src/services/admin-units.service.ts",
+      "unusedExportedFunctions": [
+        {
+          "name": "AdminUnitsService",
+          "line": 19
+        }
+      ],
+      "unusedInternalFunctions": [
+        {
+          "name": "API_BASE",
+          "line": 13
+        }
+      ],
+      "reason": "يحتوي على دوال غير مستخدمة"
+    },
+    {
+      "file": "src/services/admin-upload-image.service.ts",
+      "unusedExportedFunctions": [
+        {
+          "name": "AdminUploadImageService",
+          "line": 10
+        }
+      ],
+      "unusedInternalFunctions": [],
+      "reason": "يحتوي على دوال غير مستخدمة"
+    },
+    {
+      "file": "src/services/admin-upload-image.service.ts",
+      "reason": "لا يتم استخدام هذه الخدمة في أي مكان في المشروع",
+      "completelyUnused": true
+    },
+    {
+      "file": "src/services/admin-users.service.ts",
+      "unusedExportedFunctions": [
+        {
+          "name": "AdminUsersService",
+          "line": 22
+        }
+      ],
+      "unusedInternalFunctions": [],
+      "reason": "يحتوي على دوال غير مستخدمة"
+    },
+    {
+      "file": "src/services/api.service.ts",
+      "unusedExportedFunctions": [
+        {
+          "name": "apiClient",
+          "line": 4
+        }
+      ],
+      "unusedInternalFunctions": [
+        {
+          "name": "token",
+          "line": 18
+        },
+        {
+          "name": "isRefreshing",
+          "line": 28
+        },
+        {
+          "name": "failedQueue",
+          "line": 29
+        },
+        {
+          "name": "originalRequest",
+          "line": 50
+        },
+        {
+          "name": "refreshToken",
+          "line": 64
+        },
+        {
+          "name": "response",
+          "line": 68
+        }
+      ],
+      "reason": "يحتوي على دوال غير مستخدمة"
+    },
+    {
+      "file": "src/services/availability.services.ts",
+      "unusedExportedFunctions": [],
+      "unusedInternalFunctions": [
+        {
+          "name": "api",
+          "line": 30
+        },
+        {
+          "name": "params",
+          "line": 38
+        },
+        {
+          "name": "response",
+          "line": 42
+        },
+        {
+          "name": "response",
+          "line": 53
+        },
+        {
+          "name": "response",
+          "line": 64
+        },
+        {
+          "name": "response",
+          "line": 75
+        },
+        {
+          "name": "response",
+          "line": 96
+        },
+        {
+          "name": "response",
+          "line": 107
+        },
+        {
+          "name": "errorData",
+          "line": 121
+        },
+        {
+          "name": "params",
+          "line": 139
+        },
+        {
+          "name": "response",
+          "line": 143
+        },
+        {
+          "name": "response",
+          "line": 154
+        },
+        {
+          "name": "response",
+          "line": 165
+        },
+        {
+          "name": "response",
+          "line": 176
+        },
+        {
+          "name": "response",
+          "line": 197
+        },
+        {
+          "name": "response",
+          "line": 208
+        },
+        {
+          "name": "response",
+          "line": 223
+        },
+        {
+          "name": "response",
+          "line": 252
+        },
+        {
+          "name": "errorData",
+          "line": 266
+        },
+        {
+          "name": "response",
+          "line": 284
+        },
+        {
+          "name": "params",
+          "line": 295
+        },
+        {
+          "name": "response",
+          "line": 299
+        },
+        {
+          "name": "response",
+          "line": 310
+        },
+        {
+          "name": "response",
+          "line": 324
+        },
+        {
+          "name": "response",
+          "line": 335
+        },
+        {
+          "name": "response",
+          "line": 359
+        },
+        {
+          "name": "response",
+          "line": 376
+        },
+        {
+          "name": "response",
+          "line": 391
+        },
+        {
+          "name": "params",
+          "line": 409
+        },
+        {
+          "name": "response",
+          "line": 410
+        },
+        {
+          "name": "response",
+          "line": 421
+        },
+        {
+          "name": "response",
+          "line": 432
+        },
+        {
+          "name": "response",
+          "line": 446
+        },
+        {
+          "name": "payload",
+          "line": 464
+        },
+        {
+          "name": "response",
+          "line": 469
+        }
+      ],
+      "reason": "يحتوي على دوال غير مستخدمة"
+    },
+    {
+      "file": "src/services/chat.services.ts",
+      "unusedExportedFunctions": [],
+      "unusedInternalFunctions": [
+        {
+          "name": "headers",
+          "line": 54
+        },
+        {
+          "name": "headers",
+          "line": 69
+        },
+        {
+          "name": "params",
+          "line": 96
+        },
+        {
+          "name": "response",
+          "line": 103
+        },
+        {
+          "name": "response",
+          "line": 115
+        },
+        {
+          "name": "response",
+          "line": 128
+        },
+        {
+          "name": "response",
+          "line": 140
+        },
+        {
+          "name": "response",
+          "line": 152
+        },
+        {
+          "name": "response",
+          "line": 164
+        },
+        {
+          "name": "params",
+          "line": 177
+        },
+        {
+          "name": "response",
+          "line": 182
+        },
+        {
+          "name": "formData",
+          "line": 194
+        },
+        {
+          "name": "response",
+          "line": 215
+        },
+        {
+          "name": "response",
+          "line": 228
+        },
+        {
+          "name": "response",
+          "line": 244
+        },
+        {
+          "name": "response",
+          "line": 256
+        },
+        {
+          "name": "response",
+          "line": 270
+        },
+        {
+          "name": "response",
+          "line": 283
+        },
+        {
+          "name": "params",
+          "line": 296
+        },
+        {
+          "name": "response",
+          "line": 306
+        },
+        {
+          "name": "params",
+          "line": 319
+        },
+        {
+          "name": "response",
+          "line": 323
+        },
+        {
+          "name": "response",
+          "line": 335
+        },
+        {
+          "name": "response",
+          "line": 349
+        },
+        {
+          "name": "response",
+          "line": 361
+        },
+        {
+          "name": "formData",
+          "line": 375
+        },
+        {
+          "name": "response",
+          "line": 379
+        },
+        {
+          "name": "permission",
+          "line": 412
+        },
+        {
+          "name": "firebaseConfig",
+          "line": 421
+        },
+        {
+          "name": "app",
+          "line": 431
+        },
+        {
+          "name": "token",
+          "line": 456
+        },
+        {
+          "name": "response",
+          "line": 518
+        },
+        {
+          "name": "wsUrlWithAuth",
+          "line": 569
+        },
+        {
+          "name": "data",
+          "line": 583
+        },
+        {
+          "name": "message",
+          "line": 635
+        },
+        {
+          "name": "type",
+          "line": 653
+        },
+        {
+          "name": "handlers",
+          "line": 707
+        },
+        {
+          "name": "index",
+          "line": 709
+        },
+        {
+          "name": "handlers",
+          "line": 720
+        },
+        {
+          "name": "delay",
+          "line": 742
+        },
+        {
+          "name": "fcmToken",
+          "line": 831
+        },
+        {
+          "name": "currentUserType",
+          "line": 878
+        },
+        {
+          "name": "targetUserType",
+          "line": 879
+        },
+        {
+          "name": "k",
+          "line": 910
+        },
+        {
+          "name": "sizes",
+          "line": 911
+        },
+        {
+          "name": "i",
+          "line": 912
+        },
+        {
+          "name": "allowedTypes",
+          "line": 920
+        },
+        {
+          "name": "maxSizes",
+          "line": 934
+        }
+      ],
+      "reason": "يحتوي على دوال غير مستخدمة"
+    },
+    {
+      "file": "src/services/common-auth.service.ts",
+      "unusedExportedFunctions": [
+        {
+          "name": "CommonAuthService",
+          "line": 19
+        }
+      ],
+      "unusedInternalFunctions": [
+        {
+          "name": "API_BASE",
+          "line": 17
+        }
+      ],
+      "reason": "يحتوي على دوال غير مستخدمة"
+    },
+    {
+      "file": "src/services/common-notifications.service.ts",
+      "unusedExportedFunctions": [
+        {
+          "name": "CommonNotificationsService",
+          "line": 7
+        }
+      ],
+      "unusedInternalFunctions": [
+        {
+          "name": "API_BASE",
+          "line": 5
+        }
+      ],
+      "reason": "يحتوي على دوال غير مستخدمة"
+    },
+    {
+      "file": "src/services/common-notifications.service.ts",
+      "reason": "لا يتم استخدام هذه الخدمة في أي مكان في المشروع",
+      "completelyUnused": true
+    },
+    {
+      "file": "src/services/common-properties.service.ts",
+      "unusedExportedFunctions": [
+        {
+          "name": "CommonPropertiesService",
+          "line": 9
+        }
+      ],
+      "unusedInternalFunctions": [
+        {
+          "name": "API_BASE",
+          "line": 7
+        }
+      ],
+      "reason": "يحتوي على دوال غير مستخدمة"
+    },
+    {
+      "file": "src/services/common-properties.service.ts",
+      "reason": "لا يتم استخدام هذه الخدمة في أي مكان في المشروع",
+      "completelyUnused": true
+    },
+    {
+      "file": "src/services/common-search.service.ts",
+      "unusedExportedFunctions": [
+        {
+          "name": "CommonSearchService",
+          "line": 11
+        }
+      ],
+      "unusedInternalFunctions": [
+        {
+          "name": "API_BASE",
+          "line": 9
+        }
+      ],
+      "reason": "يحتوي على دوال غير مستخدمة"
+    },
+    {
+      "file": "src/services/common-search.service.ts",
+      "reason": "لا يتم استخدام هذه الخدمة في أي مكان في المشروع",
+      "completelyUnused": true
+    },
+    {
+      "file": "src/services/common-users.service.ts",
+      "unusedExportedFunctions": [
+        {
+          "name": "CommonUsersService",
+          "line": 14
+        }
+      ],
+      "unusedInternalFunctions": [
+        {
+          "name": "API_BASE",
+          "line": 12
+        }
+      ],
+      "reason": "يحتوي على دوال غير مستخدمة"
+    },
+    {
+      "file": "src/services/currency-settings.service.ts",
+      "unusedExportedFunctions": [
+        {
+          "name": "CurrencySettingsService",
+          "line": 11
+        }
+      ],
+      "unusedInternalFunctions": [
+        {
+          "name": "API_BASE_COMMON",
+          "line": 5
+        },
+        {
+          "name": "API_BASE_ADMIN",
+          "line": 6
+        }
+      ],
+      "reason": "يحتوي على دوال غير مستخدمة"
+    },
+    {
+      "file": "src/services/file-upload.service.ts",
+      "reason": "لا يتم استخدام هذه الخدمة في أي مكان في المشروع",
+      "completelyUnused": true
+    },
+    {
+      "file": "src/services/images.service.ts",
+      "unusedExportedFunctions": [],
+      "unusedInternalFunctions": [
+        {
+          "name": "formData",
+          "line": 40
+        },
+        {
+          "name": "response",
+          "line": 51
+        },
+        {
+          "name": "percent",
+          "line": 58
+        },
+        {
+          "name": "uploadPromises",
+          "line": 76
+        },
+        {
+          "name": "params",
+          "line": 87
+        },
+        {
+          "name": "response",
+          "line": 98
+        },
+        {
+          "name": "response",
+          "line": 110
+        },
+        {
+          "name": "response",
+          "line": 120
+        },
+        {
+          "name": "params",
+          "line": 164
+        },
+        {
+          "name": "response",
+          "line": 168
+        },
+        {
+          "name": "response",
+          "line": 180
+        },
+        {
+          "name": "response",
+          "line": 193
+        },
+        {
+          "name": "params",
+          "line": 205
+        },
+        {
+          "name": "response",
+          "line": 206
+        },
+        {
+          "name": "response",
+          "line": 218
+        },
+        {
+          "name": "response",
+          "line": 231
+        },
+        {
+          "name": "response",
+          "line": 248
+        },
+        {
+          "name": "response",
+          "line": 268
+        },
+        {
+          "name": "response",
+          "line": 288
+        },
+        {
+          "name": "response",
+          "line": 304
+        },
+        {
+          "name": "response",
+          "line": 317
+        },
+        {
+          "name": "response",
+          "line": 338
+        },
+        {
+          "name": "response",
+          "line": 355
+        },
+        {
+          "name": "response",
+          "line": 371
+        },
+        {
+          "name": "response",
+          "line": 380
+        },
+        {
+          "name": "allowedTypes",
+          "line": 390
+        },
+        {
+          "name": "maxSize",
+          "line": 399
+        },
+        {
+          "name": "canvas",
+          "line": 416
+        },
+        {
+          "name": "ctx",
+          "line": 417
+        },
+        {
+          "name": "img",
+          "line": 418
+        },
+        {
+          "name": "maxWidth",
+          "line": 422
+        },
+        {
+          "name": "maxHeight",
+          "line": 423
+        },
+        {
+          "name": "compressedFile",
+          "line": 446
+        }
+      ],
+      "reason": "يحتوي على دوال غير مستخدمة"
+    },
+    {
+      "file": "src/services/maps.service.ts",
+      "unusedExportedFunctions": [],
+      "unusedInternalFunctions": [
+        {
+          "name": "params",
+          "line": 25
+        },
+        {
+          "name": "response",
+          "line": 45
+        },
+        {
+          "name": "data",
+          "line": 51
+        },
+        {
+          "name": "params",
+          "line": 95
+        },
+        {
+          "name": "response",
+          "line": 103
+        },
+        {
+          "name": "data",
+          "line": 109
+        },
+        {
+          "name": "profile",
+          "line": 159
+        },
+        {
+          "name": "url",
+          "line": 162
+        },
+        {
+          "name": "response",
+          "line": 164
+        },
+        {
+          "name": "data",
+          "line": 170
+        },
+        {
+          "name": "route",
+          "line": 176
+        },
+        {
+          "name": "leg",
+          "line": 177
+        },
+        {
+          "name": "R",
+          "line": 219
+        },
+        {
+          "name": "dLat",
+          "line": 220
+        },
+        {
+          "name": "dLng",
+          "line": 221
+        },
+        {
+          "name": "a",
+          "line": 223
+        },
+        {
+          "name": "c",
+          "line": 227
+        },
+        {
+          "name": "message",
+          "line": 252
+        },
+        {
+          "name": "minLat",
+          "line": 327
+        },
+        {
+          "name": "maxLat",
+          "line": 328
+        },
+        {
+          "name": "minLng",
+          "line": 329
+        },
+        {
+          "name": "maxLng",
+          "line": 330
+        },
+        {
+          "name": "latPadding",
+          "line": 340
+        },
+        {
+          "name": "lngPadding",
+          "line": 341
+        },
+        {
+          "name": "translations",
+          "line": 362
+        },
+        {
+          "name": "translations",
+          "line": 384
+        },
+        {
+          "name": "hours",
+          "line": 399
+        },
+        {
+          "name": "remainingMinutes",
+          "line": 400
+        },
+        {
+          "name": "latPadding",
+          "line": 340
+        },
+        {
+          "name": "lngPadding",
+          "line": 341
+        }
+      ],
+      "reason": "يحتوي على دوال غير مستخدمة"
+    },
+    {
+      "file": "src/services/pricing.services.ts",
+      "reason": "لا يتم استخدام هذه الخدمة في أي مكان في المشروع",
+      "completelyUnused": true
+    },
+    {
+      "file": "src/services/property-amenities.service.ts",
+      "unusedExportedFunctions": [
+        {
+          "name": "PropertyAmenitiesService",
+          "line": 6
+        }
+      ],
+      "unusedInternalFunctions": [],
+      "reason": "يحتوي على دوال غير مستخدمة"
+    },
+    {
+      "file": "src/services/property-amenities.service.ts",
+      "reason": "لا يتم استخدام هذه الخدمة في أي مكان في المشروع",
+      "completelyUnused": true
+    },
+    {
+      "file": "src/services/property-audit-logs.service.ts",
+      "unusedExportedFunctions": [
+        {
+          "name": "PropertyAuditLogsService",
+          "line": 11
+        }
+      ],
+      "unusedInternalFunctions": [
+        {
+          "name": "API_BASE",
+          "line": 6
+        }
+      ],
+      "reason": "يحتوي على دوال غير مستخدمة"
+    },
+    {
+      "file": "src/services/property-audit-logs.service.ts",
+      "reason": "لا يتم استخدام هذه الخدمة في أي مكان في المشروع",
+      "completelyUnused": true
+    },
+    {
+      "file": "src/services/property-bookings.service.ts",
+      "unusedExportedFunctions": [
+        {
+          "name": "PropertyBookingsService",
+          "line": 35
+        }
+      ],
+      "unusedInternalFunctions": [
+        {
+          "name": "API_BASE",
+          "line": 32
+        }
+      ],
+      "reason": "يحتوي على دوال غير مستخدمة"
+    },
+    {
+      "file": "src/services/property-bookings.service.ts",
+      "reason": "لا يتم استخدام هذه الخدمة في أي مكان في المشروع",
+      "completelyUnused": true
+    },
+    {
+      "file": "src/services/property-dashboard.service.ts",
+      "unusedExportedFunctions": [
+        {
+          "name": "PropertyDashboardService",
+          "line": 9
+        }
+      ],
+      "unusedInternalFunctions": [
+        {
+          "name": "API_BASE",
+          "line": 7
+        }
+      ],
+      "reason": "يحتوي على دوال غير مستخدمة"
+    },
+    {
+      "file": "src/services/property-dashboard.service.ts",
+      "reason": "لا يتم استخدام هذه الخدمة في أي مكان في المشروع",
+      "completelyUnused": true
+    },
+    {
+      "file": "src/services/property-field-groups.service.ts",
+      "unusedExportedFunctions": [
+        {
+          "name": "PropertyFieldGroupsService",
+          "line": 14
+        }
+      ],
+      "unusedInternalFunctions": [
+        {
+          "name": "API_BASE",
+          "line": 9
+        }
+      ],
+      "reason": "يحتوي على دوال غير مستخدمة"
+    },
+    {
+      "file": "src/services/property-field-groups.service.ts",
+      "reason": "لا يتم استخدام هذه الخدمة في أي مكان في المشروع",
+      "completelyUnused": true
+    },
+    {
+      "file": "src/services/property-images.service.ts",
+      "unusedExportedFunctions": [
+        {
+          "name": "PropertyImagesService",
+          "line": 18
+        }
+      ],
+      "unusedInternalFunctions": [],
+      "reason": "يحتوي على دوال غير مستخدمة"
+    },
+    {
+      "file": "src/services/property-images.service.ts",
+      "reason": "لا يتم استخدام هذه الخدمة في أي مكان في المشروع",
+      "completelyUnused": true
+    },
+    {
+      "file": "src/services/property-notifications.service.ts",
+      "unusedExportedFunctions": [
+        {
+          "name": "PropertyNotificationsService",
+          "line": 11
+        }
+      ],
+      "unusedInternalFunctions": [],
+      "reason": "يحتوي على دوال غير مستخدمة"
+    },
+    {
+      "file": "src/services/property-notifications.service.ts",
+      "reason": "لا يتم استخدام هذه الخدمة في أي مكان في المشروع",
+      "completelyUnused": true
+    },
+    {
+      "file": "src/services/property-payments.service.ts",
+      "unusedExportedFunctions": [
+        {
+          "name": "PropertyPaymentsService",
+          "line": 17
+        }
+      ],
+      "unusedInternalFunctions": [],
+      "reason": "يحتوي على دوال غير مستخدمة"
+    },
+    {
+      "file": "src/services/property-payments.service.ts",
+      "reason": "لا يتم استخدام هذه الخدمة في أي مكان في المشروع",
+      "completelyUnused": true
+    },
+    {
+      "file": "src/services/property-properties.service.ts",
+      "unusedExportedFunctions": [
+        {
+          "name": "PropertyPropertiesService",
+          "line": 26
+        }
+      ],
+      "unusedInternalFunctions": [
+        {
+          "name": "API_BASE",
+          "line": 24
+        }
+      ],
+      "reason": "يحتوي على دوال غير مستخدمة"
+    },
+    {
+      "file": "src/services/property-properties.service.ts",
+      "reason": "لا يتم استخدام هذه الخدمة في أي مكان في المشروع",
+      "completelyUnused": true
+    },
+    {
+      "file": "src/services/property-property-types.service.ts",
+      "unusedExportedFunctions": [
+        {
+          "name": "PropertyPropertyTypesService",
+          "line": 12
+        }
+      ],
+      "unusedInternalFunctions": [
+        {
+          "name": "API_BASE",
+          "line": 10
+        }
+      ],
+      "reason": "يحتوي على دوال غير مستخدمة"
+    },
+    {
+      "file": "src/services/property-property-types.service.ts",
+      "reason": "لا يتم استخدام هذه الخدمة في أي مكان في المشروع",
+      "completelyUnused": true
+    },
+    {
+      "file": "src/services/property-reviews.service.ts",
+      "unusedExportedFunctions": [
+        {
+          "name": "PropertyReviewsService",
+          "line": 16
+        }
+      ],
+      "unusedInternalFunctions": [
+        {
+          "name": "API_BASE",
+          "line": 14
+        }
+      ],
+      "reason": "يحتوي على دوال غير مستخدمة"
+    },
+    {
+      "file": "src/services/property-reviews.service.ts",
+      "reason": "لا يتم استخدام هذه الخدمة في أي مكان في المشروع",
+      "completelyUnused": true
+    },
+    {
+      "file": "src/services/property-search-filters.service.ts",
+      "unusedExportedFunctions": [
+        {
+          "name": "PropertySearchFiltersService",
+          "line": 6
+        }
+      ],
+      "unusedInternalFunctions": [],
+      "reason": "يحتوي على دوال غير مستخدمة"
+    },
+    {
+      "file": "src/services/property-search-filters.service.ts",
+      "reason": "لا يتم استخدام هذه الخدمة في أي مكان في المشروع",
+      "completelyUnused": true
+    },
+    {
+      "file": "src/services/property-services.service.ts",
+      "unusedExportedFunctions": [
+        {
+          "name": "PropertyServicesService",
+          "line": 20
+        }
+      ],
+      "unusedInternalFunctions": [
+        {
+          "name": "API_BASE",
+          "line": 15
+        }
+      ],
+      "reason": "يحتوي على دوال غير مستخدمة"
+    },
+    {
+      "file": "src/services/property-services.service.ts",
+      "reason": "لا يتم استخدام هذه الخدمة في أي مكان في المشروع",
+      "completelyUnused": true
+    },
+    {
+      "file": "src/services/property-staff.service.ts",
+      "unusedExportedFunctions": [
+        {
+          "name": "PropertyStaffService",
+          "line": 16
+        }
+      ],
+      "unusedInternalFunctions": [
+        {
+          "name": "API_BASE",
+          "line": 14
+        }
+      ],
+      "reason": "يحتوي على دوال غير مستخدمة"
+    },
+    {
+      "file": "src/services/property-staff.service.ts",
+      "reason": "لا يتم استخدام هذه الخدمة في أي مكان في المشروع",
+      "completelyUnused": true
+    },
+    {
+      "file": "src/services/property-types.service.ts",
+      "unusedExportedFunctions": [
+        {
+          "name": "PropertyTypesService",
+          "line": 8
+        }
+      ],
+      "unusedInternalFunctions": [
+        {
+          "name": "API_BASE",
+          "line": 6
+        }
+      ],
+      "reason": "يحتوي على دوال غير مستخدمة"
+    },
+    {
+      "file": "src/services/property-unit-field-values.service.ts",
+      "unusedExportedFunctions": [
+        {
+          "name": "PropertyUnitFieldValuesService",
+          "line": 20
+        }
+      ],
+      "unusedInternalFunctions": [
+        {
+          "name": "API_BASE",
+          "line": 18
+        }
+      ],
+      "reason": "يحتوي على دوال غير مستخدمة"
+    },
+    {
+      "file": "src/services/property-unit-field-values.service.ts",
+      "reason": "لا يتم استخدام هذه الخدمة في أي مكان في المشروع",
+      "completelyUnused": true
+    },
+    {
+      "file": "src/services/property-unit-type-fields.service.ts",
+      "unusedExportedFunctions": [
+        {
+          "name": "PropertyUnitTypeFieldsService",
+          "line": 14
+        }
+      ],
+      "unusedInternalFunctions": [],
+      "reason": "يحتوي على دوال غير مستخدمة"
+    },
+    {
+      "file": "src/services/property-unit-type-fields.service.ts",
+      "reason": "لا يتم استخدام هذه الخدمة في أي مكان في المشروع",
+      "completelyUnused": true
+    },
+    {
+      "file": "src/services/property-unit-types.service.ts",
+      "unusedExportedFunctions": [
+        {
+          "name": "PropertyUnitTypesService",
+          "line": 18
+        }
+      ],
+      "unusedInternalFunctions": [
+        {
+          "name": "API_BASE",
+          "line": 13
+        }
+      ],
+      "reason": "يحتوي على دوال غير مستخدمة"
+    },
+    {
+      "file": "src/services/property-unit-types.service.ts",
+      "reason": "لا يتم استخدام هذه الخدمة في أي مكان في المشروع",
+      "completelyUnused": true
+    },
+    {
+      "file": "src/services/property-units.service.ts",
+      "unusedExportedFunctions": [
+        {
+          "name": "PropertyUnitsService",
+          "line": 24
+        }
+      ],
+      "unusedInternalFunctions": [
+        {
+          "name": "API_BASE",
+          "line": 22
+        }
+      ],
+      "reason": "يحتوي على دوال غير مستخدمة"
+    },
+    {
+      "file": "src/services/property-units.service.ts",
+      "reason": "لا يتم استخدام هذه الخدمة في أي مكان في المشروع",
+      "completelyUnused": true
+    },
+    {
+      "file": "src/services/property-upload-image.service.ts",
+      "unusedExportedFunctions": [
+        {
+          "name": "PropertyUploadImageService",
+          "line": 10
+        }
+      ],
+      "unusedInternalFunctions": [],
+      "reason": "يحتوي على دوال غير مستخدمة"
+    },
+    {
+      "file": "src/services/property-upload-image.service.ts",
+      "reason": "لا يتم استخدام هذه الخدمة في أي مكان في المشروع",
+      "completelyUnused": true
+    },
+    {
+      "file": "src/services/property-users.service.ts",
+      "unusedExportedFunctions": [
+        {
+          "name": "PropertyUsersService",
+          "line": 19
+        }
+      ],
+      "unusedInternalFunctions": [
+        {
+          "name": "API_BASE",
+          "line": 17
+        }
+      ],
+      "reason": "يحتوي على دوال غير مستخدمة"
+    },
+    {
+      "file": "src/services/system-settings.service.ts",
+      "unusedExportedFunctions": [
+        {
+          "name": "SystemSettingsService",
+          "line": 10
+        }
+      ],
+      "unusedInternalFunctions": [
+        {
+          "name": "API_BASE",
+          "line": 5
+        }
+      ],
+      "reason": "يحتوي على دوال غير مستخدمة"
+    },
+    {
+      "file": "src/services/system-settings.service.ts",
+      "reason": "لا يتم استخدام هذه الخدمة في أي مكان في المشروع",
+      "completelyUnused": true
+    },
+    {
+      "file": "src/types/service.types.ts",
+      "reason": "لا يتم استخدام هذه الخدمة في أي مكان في المشروع",
+      "completelyUnused": true
+    }
+  ],
+  "unusedComponents": [
+    {
+      "file": "src/App.tsx",
+      "reason": "لا يتم استخدام هذا المكون في أي مكان في المشروع"
+    },
+    {
+      "file": "src/components/auth/AuthGuard.tsx",
+      "reason": "لا يتم استخدام هذا المكون في أي مكان في المشروع"
+    },
+    {
+      "file": "src/components/availability/AvailabilityGrid.tsx",
+      "reason": "لا يتم استخدام هذا المكون في أي مكان في المشروع"
+    },
+    {
+      "file": "src/components/availability/ConflictWarningModal.tsx",
+      "reason": "لا يتم استخدام هذا المكون في أي مكان في المشروع"
+    },
+    {
+      "file": "src/components/common/ErrorBoundary.tsx",
+      "reason": "لا يتم استخدام هذا المكون في أي مكان في المشروع"
+    },
+    {
+      "file": "src/components/common/Header.tsx",
+      "reason": "لا يتم استخدام هذا المكون في أي مكان في المشروع"
+    },
+    {
+      "file": "src/components/common/Sidebar.tsx",
+      "reason": "لا يتم استخدام هذا المكون في أي مكان في المشروع"
+    },
+    {
+      "file": "src/components/display/PriceDisplay.tsx",
+      "reason": "لا يتم استخدام هذا المكون في أي مكان في المشروع"
+    },
+    {
+      "file": "src/components/images/ImageTextOverlay.tsx",
+      "reason": "لا يتم استخدام هذا المكون في أي مكان في المشروع"
+    },
+    {
+      "file": "src/components/inputs/DateRangePicker.tsx",
+      "reason": "لا يتم استخدام هذا المكون في أي مكان في المشروع"
+    },
+    {
+      "file": "src/components/inputs/DateTimePicker.tsx",
+      "reason": "لا يتم استخدام هذا المكون في أي مكان في المشروع"
+    },
+    {
+      "file": "src/components/inputs/TimePicker.tsx",
+      "reason": "لا يتم استخدام هذا المكون في أي مكان في المشروع"
+    },
+    {
+      "file": "src/components/inputs/index.ts",
+      "reason": "لا يتم استخدام هذا المكون في أي مكان في المشروع"
+    },
+    {
+      "file": "src/components/layout/AuthLayout.tsx",
+      "reason": "لا يتم استخدام هذا المكون في أي مكان في المشروع"
+    },
+    {
+      "file": "src/components/layout/DashboardLayout.tsx",
+      "reason": "لا يتم استخدام هذا المكون في أي مكان في المشروع"
+    },
+    {
+      "file": "src/components/layout/MainLayout.tsx",
+      "reason": "لا يتم استخدام هذا المكون في أي مكان في المشروع"
+    },
+    {
+      "file": "src/components/pricing/PriceInputForm.tsx",
+      "reason": "لا يتم استخدام هذا المكون في أي مكان في المشروع"
+    },
+    {
+      "file": "src/components/pricing/PricingGrid.tsx",
+      "reason": "لا يتم استخدام هذا المكون في أي مكان في المشروع"
+    },
+    {
+      "file": "src/components/ui/ConfirmDialog.tsx",
+      "reason": "لا يتم استخدام هذا المكون في أي مكان في المشروع"
+    },
+    {
+      "file": "src/components/ui/EmptyState.tsx",
+      "reason": "لا يتم استخدام هذا المكون في أي مكان في المشروع"
+    },
+    {
+      "file": "src/components/ui/ModernButton.tsx",
+      "reason": "لا يتم استخدام هذا المكون في أي مكان في المشروع"
+    },
+    {
+      "file": "src/components/ui/SearchInput.tsx",
+      "reason": "لا يتم استخدام هذا المكون في أي مكان في المشروع"
+    },
+    {
+      "file": "src/components/ui/index.ts",
+      "reason": "لا يتم استخدام هذا المكون في أي مكان في المشروع"
+    },
+    {
+      "file": "src/contexts/AppProvider.tsx",
+      "reason": "لا يتم استخدام هذا المكون في أي مكان في المشروع"
+    }
+  ],
+  "deadCode": [],
+  "summary": {
+    "totalFiles": 229,
+    "unusedHooks": 6,
+    "unusedServices": 97,
+    "unusedTypes": 188,
+    "unusedComponents": 24,
+    "totalUnused": 315
+  },
+  "projectInfo": {
+    "projectPath": "/home/ameen/Desktop/BookN/frontend",
+    "srcPath": "/home/ameen/Desktop/BookN/frontend/src",
+    "analyzedAt": "2025-07-20T10:34:01.252Z"
+  }
+}
