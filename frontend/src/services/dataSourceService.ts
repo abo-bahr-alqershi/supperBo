@@ -8,18 +8,7 @@ export class DataSourceService {
     const response = await apiClient.get(`${API_BASE_URL}/home-screens/data-sources`, {
       params: { componentType }
     });
-    return response.data;
-  }
-
-  async testDataSource(
-    dataSourceId: string, 
-    parameters?: Record<string, any>
-  ): Promise<any> {
-    const response = await apiClient.post(
-      `${API_BASE_URL}/home-screens/data-sources/${dataSourceId}/test`,
-      { parameters }
-    );
-    return response.data;
+    return response.data.data;
   }
 
   async fetchData(

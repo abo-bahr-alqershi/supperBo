@@ -2,7 +2,16 @@ import { apiClient } from './api.service';
 import type {
   HomeScreenTemplate,
   HomeScreenSection,
-  HomeScreenComponent
+  HomeScreenComponent,
+  CreateHomeScreenTemplateCommand,
+  UpdateHomeScreenTemplateCommand,
+  CreateHomeScreenSectionCommand,
+  UpdateHomeScreenSectionCommand,
+  CreateHomeScreenComponentCommand,
+  UpdateHomeScreenComponentCommand,
+  ReorderSectionsCommand,
+  ReorderComponentsCommand,
+  HomeScreenPreviewDto
 } from '../types/homeScreen.types';
 
 const API_BASE_URL = '/api';
@@ -16,79 +25,85 @@ export class HomeScreenService {
     includeDeleted?: boolean;
   }): Promise<HomeScreenTemplate[]> {
     const response = await apiClient.get(`${API_BASE_URL}/home-screens/templates`, { params });
-    return response.data;
+    return response.data.data;
   }
 
   async getTemplateById(id: string, includeHierarchy = true): Promise<HomeScreenTemplate> {
     const response = await apiClient.get(`${API_BASE_URL}/home-screens/templates/${id}`, {
       params: { includeHierarchy }
     });
-    return response.data;
+    return response.data.data;
   }
 
-  async createTemplate(template: Partial<HomeScreenTemplate>): Promise<HomeScreenTemplate> {
-    const response = await apiClient.post(`${API_BASE_URL}/home-screens/templates`, template);
-    return response.data;
+  async createTemplate(command: CreateHomeScreenTemplateCommand): Promise<HomeScreenTemplate> {
+    const response = await apiClient.post(`${API_BASE_URL}/home-screens/templates`, command);
+    return response.data.data;
   }
 
-  async updateTemplate(id: string, updates: Partial<HomeScreenTemplate>): Promise<HomeScreenTemplate> {
-    const response = await apiClient.put(`${API_BASE_URL}/home-screens/templates/${id}`, updates);
-    return response.data;
+  async updateTemplate(id: string, command: UpdateHomeScreenTemplateCommand): Promise<HomeScreenTemplate> {
+    const response = await apiClient.put(`${API_BASE_URL}/home-screens/templates/${id}`, command);
+    return response.data.data;
   }
 
-  async deleteTemplate(id: string): Promise<void> {
-    await apiClient.delete(`${API_BASE_URL}/home-screens/templates/${id}`);
+  async deleteTemplate(id: string): Promise<boolean> {
+    const response = await apiClient.delete(`${API_BASE_URL}/home-screens/templates/${id}`);
+    return response.data.data;
   }
 
   async duplicateTemplate(id: string, newName: string, newDescription?: string): Promise<HomeScreenTemplate> {
     const response = await apiClient.post(`${API_BASE_URL}/home-screens/templates/${id}/duplicate`, null, {
       params: { newName, newDescription }
     });
-    return response.data;
+    return response.data.data;
   }
 
-  async publishTemplate(id: string, deactivateOthers = true): Promise<void> {
-    await apiClient.post(`${API_BASE_URL}/home-screens/templates/${id}/publish`, null, {
+  async publishTemplate(id: string, deactivateOthers = true): Promise<boolean> {
+    const response = await apiClient.post(`${API_BASE_URL}/home-screens/templates/${id}/publish`, null, {
       params: { deactivateOthers }
     });
+    return response.data.data;
   }
 
   // Section operations
-  async createSection(section: Partial<HomeScreenSection>): Promise<HomeScreenSection> {
-    const response = await apiClient.post(`${API_BASE_URL}/home-screen/sections`, section);
-    return response.data;
+  async createSection(command: CreateHomeScreenSectionCommand): Promise<HomeScreenSection> {
+    const response = await apiClient.post(`${API_BASE_URL}/home-screens/sections`, command);
+    return response.data.data;
   }
 
-  async updateSection(id: string, updates: Partial<HomeScreenSection>): Promise<HomeScreenSection> {
-    const response = await apiClient.put(`${API_BASE_URL}/home-screen/sections/${id}`, updates);
-    return response.data;
+  async updateSection(id: string, command: UpdateHomeScreenSectionCommand): Promise<HomeScreenSection> {
+    const response = await apiClient.put(`${API_BASE_URL}/home-screens/sections/${id}`, command);
+    return response.data.data;
   }
 
-  async deleteSection(id: string): Promise<void> {
-    await apiClient.delete(`${API_BASE_URL}/home-screen/sections/${id}`);
+  async deleteSection(id: string): Promise<boolean> {
+    const response = await apiClient.delete(`${API_BASE_URL}/home-screens/sections/${id}`);
+    return response.data.data;
   }
 
-  async reorderSections(templateId: string, sections: Array<{ sectionId: string; newOrder: number }>): Promise<void> {
-    await apiClient.post(`${API_BASE_URL}/home-screens/sections/reorder`, { templateId, sections });
+  async reorderSections(command: ReorderSectionsCommand): Promise<boolean> {
+    const response = await apiClient.post(`${API_BASE_URL}/home-screens/sections/reorder`, command);
+    return response.data.data;
   }
 
   // Component operations
-  async createComponent(component: Partial<HomeScreenComponent>): Promise<HomeScreenComponent> {
-    const response = await apiClient.post(`${API_BASE_URL}/home-screen/components`, component);
-    return response.data;
+  async createComponent(command: CreateHomeScreenComponentCommand): Promise<HomeScreenComponent> {
+    const response = await apiClient.post(`${API_BASE_URL}/home-screens/components`, command);
+    return response.data.data;
   }
 
-  async updateComponent(id: string, updates: Partial<HomeScreenComponent>): Promise<HomeScreenComponent> {
-    const response = await apiClient.put(`${API_BASE_URL}/home-screen/components/${id}`, updates);
-    return response.data;
+  async updateComponent(id: string, command: UpdateHomeScreenComponentCommand): Promise<HomeScreenComponent> {
+    const response = await apiClient.put(`${API_BASE_URL}/home-screens/components/${id}`, command);
+    return response.data.data;
   }
 
-  async deleteComponent(id: string): Promise<void> {
-    await apiClient.delete(`${API_BASE_URL}/home-screen/components/${id}`);
+  async deleteComponent(id: string): Promise<boolean> {
+    const response = await apiClient.delete(`${API_BASE_URL}/home-screens/components/${id}`);
+    return response.data.data;
   }
 
-  async reorderComponents(sectionId: string, components: Array<{ componentId: string; newOrder: number }>): Promise<void> {
-    await apiClient.post(`${API_BASE_URL}/home-screens/components/reorder`, { sectionId, components });
+  async reorderComponents(command: ReorderComponentsCommand): Promise<boolean> {
+    const response = await apiClient.post(`${API_BASE_URL}/home-screens/components/reorder`, command);
+    return response.data.data;
   }
 
   // Preview
@@ -96,11 +111,11 @@ export class HomeScreenService {
     platform?: string;
     deviceType?: string;
     useMockData?: boolean;
-  }): Promise<any> {
+  }): Promise<HomeScreenPreviewDto> {
     const response = await apiClient.get(`${API_BASE_URL}/home-screens/preview`, {
       params: { templateId, ...options }
     });
-    return response.data;
+    return response.data.data;
   }
 
   // Active home screen
@@ -108,7 +123,7 @@ export class HomeScreenService {
     const response = await apiClient.get(`${API_BASE_URL}/home-screens/active`, {
       params: { platform, targetAudience, userId }
     });
-    return response.data;
+    return response.data.data;
   }
 }
 

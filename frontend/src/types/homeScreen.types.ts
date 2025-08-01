@@ -1,3 +1,5 @@
+import type { ComponentPreview } from './component.types';
+
 export interface HomeScreenTemplate {
   id: string;
   name: string;
@@ -5,7 +7,7 @@ export interface HomeScreenTemplate {
   version: string;
   isActive: boolean;
   isDefault: boolean;
-  publishedAt?: Date;
+  publishedAt?: string;
   publishedBy?: string;
   publishedByName?: string;
   platform: Platform;
@@ -13,8 +15,8 @@ export interface HomeScreenTemplate {
   metaData?: string;
   customizationData?: string;
   userPreferences?: string;
-  createdAt: Date;
-  updatedAt?: Date;
+  createdAt: string;
+  updatedAt?: string;
   sections: HomeScreenSection[];
 }
 
@@ -126,3 +128,113 @@ export type ActionTrigger = 'Click' | 'LongPress' | 'Swipe' | 'Load';
 export type DataSourceType = 'Static' | 'API' | 'Database' | 'Cache';
 export type HttpMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
 export type RefreshTrigger = 'OnLoad' | 'OnFocus' | 'Manual' | 'Timer';
+
+// Command interfaces
+export interface CreateHomeScreenTemplateCommand {
+  name: string;
+  description: string;
+  version: string;
+  platform: Platform;
+  targetAudience: TargetAudience;
+  metaData: string;
+}
+
+export interface UpdateHomeScreenTemplateCommand {
+  name: string;
+  description: string;
+  metaData: string;
+}
+
+export interface CreateHomeScreenSectionCommand {
+  templateId: string;
+  name: string;
+  title: string;
+  subtitle: string;
+  order: number;
+  backgroundColor: string;
+  backgroundImage: string;
+  padding: string;
+  margin: string;
+  minHeight: number;
+  maxHeight: number;
+  customStyles: string;
+  conditions: string;
+}
+
+export interface UpdateHomeScreenSectionCommand {
+  name: string;
+  title: string;
+  subtitle: string;
+  backgroundColor: string;
+  backgroundImage: string;
+  padding: string;
+  margin: string;
+  minHeight: number;
+  maxHeight: number;
+  customStyles: string;
+  conditions: string;
+}
+
+export interface CreateHomeScreenComponentCommand {
+  sectionId: string;
+  componentType: string;
+  name: string;
+  order: number;
+  colSpan: number;
+  rowSpan: number;
+  alignment: string;
+  customClasses: string;
+  animationType: string;
+  animationDuration: number;
+  conditions: string;
+}
+
+export interface UpdateHomeScreenComponentCommand {
+  name: string;
+  colSpan: number;
+  rowSpan: number;
+  alignment: string;
+  customClasses: string;
+  animationType: string;
+  animationDuration: number;
+  conditions: string;
+}
+
+export interface ReorderSectionsCommand {
+  templateId: string;
+  sections: Array<{ sectionId: string; newOrder: number }>;
+}
+
+export interface ReorderComponentsCommand {
+  sectionId: string;
+  components: Array<{ componentId: string; newOrder: number }>;
+}
+
+// Preview DTO interfaces
+export interface HomeScreenPreviewDto {
+  templateId: string;
+  templateName: string;
+  platform: string;
+  deviceType: string;
+  sections: HomeScreenSectionPreviewDto[];
+  metadata: PreviewMetadata;
+}
+
+export interface HomeScreenSectionPreviewDto {
+  id: string;
+  name: string;
+  title: string;
+  subtitle: string;
+  order: number;
+  isVisible: boolean;
+  styles: Record<string, string>;
+  components: ComponentPreview[];
+}
+
+export interface PreviewMetadata {
+  generatedAt: string;
+  totalSections: number;
+  totalComponents: number;
+  estimatedLoadTime: number;
+  usedMockData: boolean;
+}
