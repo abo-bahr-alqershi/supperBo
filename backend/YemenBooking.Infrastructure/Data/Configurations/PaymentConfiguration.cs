@@ -40,10 +40,8 @@ public class PaymentConfiguration : IEntityTypeConfiguration<Payment>
                 .HasComment("عملة الدفع");
         });
 
-        builder.Property(p => p.Method)
-            .IsRequired()
-            .HasMaxLength(50)
-            .HasComment("طريقة الدفع");
+        // Remove scalar mapping for Method and configure navigation
+        // builder.Property(p => p.Method) removed
 
         builder.Property(p => p.TransactionId)
             .HasMaxLength(100)
@@ -87,6 +85,13 @@ public class PaymentConfiguration : IEntityTypeConfiguration<Payment>
             .WithMany(b => b.Payments)
             .HasForeignKey(p => p.BookingId)
             .OnDelete(DeleteBehavior.Cascade);
+        // Configure relationship to PaymentMethod entity
+        builder.HasOne(p => p.Method)
+            .WithMany()
+            .HasForeignKey(p => p.MethodId)
+            .IsRequired()
+            .OnDelete(DeleteBehavior.Restrict)
+            .HasConstraintName("FK_Payments_PaymentMethods_MethodId");
 
         builder.HasQueryFilter(p => !p.IsDeleted);
 
