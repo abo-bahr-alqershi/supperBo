@@ -107,7 +107,7 @@ public class GetSearchFiltersQueryHandler : IRequestHandler<YBQuery, ResultDto<S
             await PopulateUnitTypes(searchFilters, propertiesList, cancellationToken);
 
             // جلب الخدمات المتاحة
-            await PopulateServices(searchFilters, propertiesList);
+            PopulateServices(searchFilters, propertiesList);
 
             // جلب قيم الحقول الديناميكية المتاحة
             await PopulateDynamicFieldValues(searchFilters, propertiesList, cancellationToken);

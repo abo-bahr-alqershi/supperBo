@@ -35,25 +35,21 @@ namespace YemenBooking.Application.Queries
         public async Task<ResultDto<HomeScreenTemplateDto>> Handle(GetActiveHomeScreenQuery request, CancellationToken cancellationToken)
         {
             var userId = request.UserId ?? _currentUserService.UserId;
-            
             // First check for user-specific customization
-            if (userId.HasValue)
+            var userScreen = await _repository.GetUserHomeScreenAsync(userId, request.Platform, cancellationToken);
+            if (userScreen != null)
             {
-                var userScreen = await _repository.GetUserHomeScreenAsync(userId.Value, request.Platform, cancellationToken);
-                if (userScreen != null)
+                var userTemplate = await _repository.GetTemplateWithFullHierarchyAsync(userScreen.TemplateId, cancellationToken);
+                var dto = _mapper.Map<HomeScreenTemplateDto>(userTemplate);
+                
+                // Apply user customizations
+                if (!string.IsNullOrEmpty(userScreen.CustomizationData))
                 {
-                    var userTemplate = await _repository.GetTemplateWithFullHierarchyAsync(userScreen.TemplateId, cancellationToken);
-                    var dto = _mapper.Map<HomeScreenTemplateDto>(userTemplate);
-                    
-                    // Apply user customizations
-                    if (!string.IsNullOrEmpty(userScreen.CustomizationData))
-                    {
-                        dto.CustomizationData = userScreen.CustomizationData;
-                        dto.UserPreferences = userScreen.UserPreferences;
-                    }
-
-                    return ResultDto<HomeScreenTemplateDto>.Ok(dto);
+                    dto.CustomizationData = userScreen.CustomizationData;
+                    dto.UserPreferences = userScreen.UserPreferences;
                 }
+
+                return ResultDto<HomeScreenTemplateDto>.Ok(dto);
             }
 
             // Get default active template

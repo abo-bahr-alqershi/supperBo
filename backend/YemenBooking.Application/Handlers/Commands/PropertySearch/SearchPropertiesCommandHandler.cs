@@ -174,7 +174,7 @@ public class SearchPropertiesCommandHandler : IRequestHandler<SearchPropertiesCo
     /// التحقق من صحة البيانات المدخلة
     /// Validate input data
     /// </summary>
-    private ResultDto<PropertySearchResultDto> ValidateInputData(SearchPropertiesCommand request)
+    private ResultDto<YemenBooking.Application.DTOs.PropertySearch.PropertySearchResultDto> ValidateInputData(SearchPropertiesCommand request)
     {
         var errors = new List<string>();
 
@@ -221,11 +221,11 @@ public class SearchPropertiesCommandHandler : IRequestHandler<SearchPropertiesCo
 
         if (errors.Any())
         {
-            return ResultDto<PropertySearchResultDto>.Failure(
+            return ResultDto<YemenBooking.Application.DTOs.PropertySearch.PropertySearchResultDto>.Failure(
                 "بيانات غير صحيحة: " + string.Join(", ", errors), "INVALID_INPUT");
         }
 
-        return ResultDto<PropertySearchResultDto>.Ok(new PropertySearchResultDto());
+        return ResultDto<YemenBooking.Application.DTOs.PropertySearch.PropertySearchResultDto>.Ok(new YemenBooking.Application.DTOs.PropertySearch.PropertySearchResultDto());
     }
 
     /// <summary>
