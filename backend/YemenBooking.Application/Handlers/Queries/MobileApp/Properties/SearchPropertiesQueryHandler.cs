@@ -2,7 +2,6 @@ using MediatR;
 using Microsoft.Extensions.Logging;
 using YemenBooking.Application.Queries.MobileApp.Properties;
 using YemenBooking.Application.DTOs;
-using YemenBooking.Application.DTOs.Properties;
 using YemenBooking.Application.DTOs.PropertySearch;
 using YemenBooking.Core.Interfaces.Repositories;
 using System.Globalization;
@@ -188,7 +187,7 @@ public class SearchPropertiesQueryHandler : IRequestHandler<SearchPropertiesQuer
                 TotalPages = indexResult.TotalPages
             };
 
-            _logger.LogInformation("تم العثور على {Count} عقار من أصل {Total} عقار", propertyDtos.Count, indexResult.TotalCount);
+            _logger.LogInformation($"تم العثور على {propertyDtos.Count} عقار من أصل {indexResult.TotalCount} عقار");
             return ResultDto<SearchPropertiesResponse>.Ok(
                 response, 
                 $"تم العثور على {propertyDtos.Count} عقار من أصل {indexResult.TotalCount}"

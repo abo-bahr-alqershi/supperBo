@@ -1,7 +1,6 @@
 using MediatR;
 using Microsoft.Extensions.Logging;
 using YemenBooking.Application.DTOs;
-using YemenBooking.Application.DTOs.Properties;
 using PropResultDto = YemenBooking.Application.DTOs.PropertySearch.PropertySearchResultDto;
 using YemenBooking.Application.Queries.MobileApp.Properties;
 using YemenBooking.Core.Interfaces.Repositories;

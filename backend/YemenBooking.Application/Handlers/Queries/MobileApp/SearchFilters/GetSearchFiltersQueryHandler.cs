@@ -408,13 +408,13 @@ public class GetSearchFiltersQueryHandler : IRequestHandler<YBQuery, ResultDto<S
         {
             var serviceGroups = properties
                 .Where(p => p.Services != null && p.Services.Any())
-                .SelectMany(p => p.Services.Select(s => new { s.Id, s.Name, p.Id }))
-                .GroupBy(x => new { x.Id, x.Name })
+                .SelectMany(p => p.Services.Select(s => new { ServiceId = s.Id, ServiceName = s.Name, PropertyId = p.Id }))
+                .GroupBy(x => new { x.ServiceId, x.ServiceName })
                 .Select(g => new ServiceFilterDto
                 {
-                    Id = g.Key.Id,
-                    Name = g.Key.Name ?? string.Empty,
-                    PropertiesCount = g.Select(x => x.Id).Distinct().Count()
+                    Id = g.Key.ServiceId,
+                    Name = g.Key.ServiceName ?? string.Empty,
+                    PropertiesCount = g.Select(x => x.PropertyId).Distinct().Count()
                 }).OrderBy(s => s.Name).ToList();
 
             searchFilters.Services = serviceGroups;
@@ -443,11 +443,13 @@ public class GetSearchFiltersQueryHandler : IRequestHandler<YBQuery, ResultDto<S
                 var units = await _unitRepository.GetActiveByPropertyIdAsync(property.Id, cancellationToken);
                 foreach (var unit in units)
                 {
-                    if (unit.DynamicFields == null || !unit.DynamicFields.Any()) continue;
+                    if (unit.FieldValues == null || !unit.FieldValues.Any()) continue;
 
-                    foreach (var kvp in unit.DynamicFields)
+                    foreach (var fieldValue in unit.FieldValues)
                     {
-                        var key = (kvp.Key, kvp.Value?.ToString() ?? string.Empty);
+                        var fieldName = fieldValue.UnitTypeField?.FieldName ?? string.Empty;
+                        var valueStr = fieldValue.FieldValue;
+                        var key = (fieldName, valueStr);
                         if (dynamicValueCounts.ContainsKey(key))
                         {
                             dynamicValueCounts[key]++;
