@@ -118,6 +118,17 @@ namespace YemenBooking.Application.DTOs.PropertySearch
         public Dictionary<string, object> DynamicFieldValues { get; set; } = new();
 
         /// <summary>
+        /// مؤشر التفضيل
+        /// Is favorite
+        /// </summary>
+        public bool IsFavorite { get; set; }
+        /// <summary>
+        /// نسبة التطابق مع معايير البحث
+        /// Match percentage
+        /// </summary>
+        public int MatchPercentage { get; set; }
+
+        /// <summary>
         /// هل متاح للحجز
         /// Is available for booking
         /// </summary>
