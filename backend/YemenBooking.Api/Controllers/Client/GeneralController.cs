@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using YemenBooking.Application.Features.Feedback.Commands;
 using YemenBooking.Application.Queries.MobileApp.General;
 using YemenBooking.Application.DTOs;
-using YemenBooking.Application.DTOs.General;
 using System.Collections.Generic;
 
 namespace YemenBooking.Api.Controllers.Client
@@ -79,7 +78,7 @@ namespace YemenBooking.Api.Controllers.Client
         /// <returns>سياسة الخصوصية</returns>
         [HttpGet("privacy-policy")]
         [AllowAnonymous]
-        public async Task<ActionResult<ResultDto<LegalDocumentDto>>> GetPrivacyPolicy([FromQuery] GetPrivacyPolicyQuery query)
+        public async Task<ActionResult<ResultDto<YemenBooking.Application.DTOs.General.LegalDocumentDto>>> GetPrivacyPolicy([FromQuery] GetPrivacyPolicyQuery query)
         {
             var result = await _mediator.Send(query);
             return Ok(result);
@@ -92,7 +91,7 @@ namespace YemenBooking.Api.Controllers.Client
         /// <returns>الشروط والأحكام</returns>
         [HttpGet("terms-and-conditions")]
         [AllowAnonymous]
-        public async Task<ActionResult<ResultDto<LegalDocumentDto>>> GetTermsAndConditions([FromQuery] GetTermsAndConditionsQuery query)
+        public async Task<ActionResult<ResultDto<YemenBooking.Application.DTOs.General.LegalDocumentDto>>> GetTermsAndConditions([FromQuery] GetTermsAndConditionsQuery query)
         {
             var result = await _mediator.Send(query);
             return Ok(result);

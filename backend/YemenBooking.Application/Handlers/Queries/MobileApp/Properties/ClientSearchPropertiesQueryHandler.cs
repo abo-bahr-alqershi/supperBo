@@ -194,7 +194,7 @@ public class ClientSearchPropertiesQueryHandler : IRequestHandler<SearchProperti
             StarRating = property.StarRating,
             AverageRating = property.AverageRating,
             ReviewsCount = await GetReviewsCount(property.Id),
-            BasePrice = GetMinPriceForProperty(property.Id),
+            MinPrice = GetMinPriceForProperty(property.Id),
             Currency = "YER", // عملة افتراضية
             MainImageUrl = GetMainImageUrl(property.Id),
             MainAmenities = await GetMainAmenities(property.Id)

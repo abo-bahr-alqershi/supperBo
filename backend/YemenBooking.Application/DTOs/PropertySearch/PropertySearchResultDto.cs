@@ -174,19 +174,9 @@ namespace YemenBooking.Application.DTOs.PropertySearch
         /// </summary>
         public DateTime LastUpdated { get; set; }
         /// <summary>
-        /// عدد المراجعات
-        /// Reviews count alias
-        /// </summary>
-        public int ReviewCount { get; set; }
-        /// <summary>
         /// روابط الصور
         /// Additional image URLs
         /// </summary>
         public List<string> ImageUrls { get; set; } = new();
-        /// <summary>
-        /// قائمة وسائل الراحة
-        /// List of amenities
-        /// </summary>
-        public List<string> Amenities { get; set; } = new();
     }
 } 

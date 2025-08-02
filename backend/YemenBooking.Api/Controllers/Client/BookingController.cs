@@ -3,8 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using YemenBooking.Application.Features.Bookings.Commands;
 using YemenBooking.Application.Queries.MobileApp.Booking;
 using YemenBooking.Application.DTOs;
-using YemenBooking.Application.DTOs.Bookings;
-using YemenBooking.Application.DTOs.Statistics;
 
 namespace YemenBooking.Api.Controllers.Client
 {
@@ -78,7 +76,7 @@ namespace YemenBooking.Api.Controllers.Client
         /// <param name="userId">معرف المستخدم</param>
         /// <returns>تفاصيل الحجز</returns>
         [HttpGet("{id}")]
-        public async Task<ActionResult<ResultDto<BookingDetailsDto>>> GetBookingDetails(Guid id, [FromQuery] Guid userId)
+        public async Task<ActionResult<ResultDto<YemenBooking.Application.DTOs.Bookings.BookingDetailsDto>>> GetBookingDetails(Guid id, [FromQuery] Guid userId)
         {
             var query = new GetBookingDetailsQuery { BookingId = id, UserId = userId };
             var result = await _mediator.Send(query);

@@ -405,7 +405,7 @@ public class SearchPropertiesCommandHandler : IRequestHandler<SearchPropertiesCo
             if (property.Reviews.Any())
             {
                 item.AverageRating = property.Reviews.Average(r => (r.Cleanliness + r.Service + r.Location + r.Value) / 4.0m);
-                item.ReviewCount = property.Reviews.Count;
+                item.ReviewsCount = property.Reviews.Count;
             }
 
             // الصور
@@ -417,7 +417,7 @@ public class SearchPropertiesCommandHandler : IRequestHandler<SearchPropertiesCo
             }
 
             // المرافق
-            item.Amenities = property.Amenities.Where(a => a.IsAvailable)
+            item.MainAmenities = property.Amenities.Where(a => a.IsAvailable)
                 .Select(a => a.PropertyTypeAmenity.Amenity.Name).ToList();
 
             // التحقق من التوفر
