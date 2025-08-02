@@ -93,7 +93,7 @@ import type { Platform } from '../../types/homeScreen.types';
 const AUTO_SAVE_DELAY = 30000; // 30 seconds
 const UNDO_REDO_LIMIT = 50;
 
-interface RouteParams {
+interface RouteParams extends Record<string, string | undefined> {
   templateId?: string;
 }
 
