@@ -23,12 +23,12 @@ import {
   Settings as SettingsIcon
 } from '@mui/icons-material';
 import { useHomeScreenBuilder } from '../../hooks/useHomeScreenBuilder';
-import Canvas from './Canvas';
-import ComponentPalette from './ComponentPalette';
-import PropertyPanel from './PropertyPanel';
-import PreviewModal from './PreviewModal';
-import TemplateManager from './TemplateManager';
-import ComponentWrapper from './ComponentWrapper';
+import Canvas from './Canvas.tsx';
+import ComponentPalette from './ComponentPalette.tsx';
+import PropertyPanel from './PropertyPanel.tsx';
+import PreviewModal from './PreviewModal.tsx';
+import TemplateManager from './TemplateManager.tsx';
+import ComponentWrapper from './ComponentWrapper.tsx';
 import type { DragItem } from '../../types/dragDrop.types';
 
 const HomeScreenBuilder: React.FC = () => {

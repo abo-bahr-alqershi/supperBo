@@ -14,7 +14,7 @@ import {
   Visibility as VisibilityIcon,
   VisibilityOff as VisibilityOffIcon
 } from '@mui/icons-material';
-import SectionContainer from './SectionContainer';
+import SectionContainer from './SectionContainer.tsx';
 import type { HomeScreenTemplate } from '../../types/homeScreen.types';
 
 interface CanvasProps {

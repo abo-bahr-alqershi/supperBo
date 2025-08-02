@@ -18,7 +18,7 @@ import {
   VisibilityOff as VisibilityOffIcon,
   DragIndicator as DragIcon
 } from '@mui/icons-material';
-import ComponentWrapper from './ComponentWrapper';
+import ComponentWrapper from './ComponentWrapper.tsx';
 import type { HomeScreenSection } from '../../types/homeScreen.types';
 
 interface SectionContainerProps {

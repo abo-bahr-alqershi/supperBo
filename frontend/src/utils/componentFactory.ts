@@ -4,16 +4,16 @@ import type { ComponentTypeDefinition } from '../types/component.types';
 
 // Dynamic component imports
 const componentMap: Record<ComponentType, React.LazyExoticComponent<React.ComponentType<any>>> = {
-  Banner: React.lazy(() => import('../components/DynamicComponents/Banner')),
-  Carousel: React.lazy(() => import('../components/DynamicComponents/Carousel')),
-  CategoryGrid: React.lazy(() => import('../components/DynamicComponents/CategoryGrid')),
-  PropertyList: React.lazy(() => import('../components/DynamicComponents/PropertyList')),
-  SearchBar: React.lazy(() => import('../components/DynamicComponents/SearchBar')),
-  OfferCard: React.lazy(() => import('../components/DynamicComponents/OfferCard')),
-  TextBlock: React.lazy(() => import('../components/DynamicComponents/TextBlock')),
-  ImageGallery: React.lazy(() => import('../components/DynamicComponents/ImageGallery')),
-  MapView: React.lazy(() => import('../components/DynamicComponents/MapView')),
-  FilterBar: React.lazy(() => import('../components/DynamicComponents/FilterBar'))
+  Banner: React.lazy(() => import('../components/DynamicComponents/Banner.tsx')),
+  Carousel: React.lazy(() => import('../components/DynamicComponents/Carousel.tsx')),
+  CategoryGrid: React.lazy(() => import('../components/DynamicComponents/CategoryGrid.tsx')),
+  PropertyList: React.lazy(() => import('../components/DynamicComponents/PropertyList.tsx')),
+  SearchBar: React.lazy(() => import('../components/DynamicComponents/SearchBar.tsx')),
+  OfferCard: React.lazy(() => import('../components/DynamicComponents/OfferCard.tsx')),
+  TextBlock: React.lazy(() => import('../components/DynamicComponents/TextBlock.tsx')),
+  ImageGallery: React.lazy(() => import('../components/DynamicComponents/ImageGallery.tsx')),
+  MapView: React.lazy(() => import('../components/DynamicComponents/MapView.tsx')),
+  FilterBar: React.lazy(() => import('../components/DynamicComponents/FilterBar.tsx'))
 };
 
 /**

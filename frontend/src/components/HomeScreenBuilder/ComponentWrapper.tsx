@@ -25,16 +25,16 @@ import type { HomeScreenComponent } from '../../types/homeScreen.types';
 
 // Lazy load dynamic components
 const DynamicComponents = {
-  Banner: lazy(() => import('../DynamicComponents/Banner')),
-  Carousel: lazy(() => import('../DynamicComponents/Carousel')),
-  CategoryGrid: lazy(() => import('../DynamicComponents/CategoryGrid')),
-  PropertyList: lazy(() => import('../DynamicComponents/PropertyList')),
-  SearchBar: lazy(() => import('../DynamicComponents/SearchBar')),
-  OfferCard: lazy(() => import('../DynamicComponents/OfferCard')),
-  TextBlock: lazy(() => import('../DynamicComponents/TextBlock')),
-  ImageGallery: lazy(() => import('../DynamicComponents/ImageGallery')),
-  MapView: lazy(() => import('../DynamicComponents/MapView')),
-  FilterBar: lazy(() => import('../DynamicComponents/FilterBar')),
+  Banner: lazy(() => import('../DynamicComponents/Banner.tsx')),
+  Carousel: lazy(() => import('../DynamicComponents/Carousel.tsx')),
+  CategoryGrid: lazy(() => import('../DynamicComponents/CategoryGrid.tsx')),
+  PropertyList: lazy(() => import('../DynamicComponents/PropertyList.tsx')),
+  SearchBar: lazy(() => import('../DynamicComponents/SearchBar.tsx')),
+  OfferCard: lazy(() => import('../DynamicComponents/OfferCard.tsx')),
+  TextBlock: lazy(() => import('../DynamicComponents/TextBlock.tsx')),
+  ImageGallery: lazy(() => import('../DynamicComponents/ImageGallery.tsx')),
+  MapView: lazy(() => import('../DynamicComponents/MapView.tsx')),
+  FilterBar: lazy(() => import('../DynamicComponents/FilterBar.tsx')),
 };
 
 interface ComponentWrapperProps {
