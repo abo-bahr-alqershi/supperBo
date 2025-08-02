@@ -145,7 +145,7 @@ public class ClientSearchPropertiesQueryHandler : IRequestHandler<SearchProperti
             .ToList();
 
         // تحويل إلى DTOs
-        var propertyDtos = new List<YemenBooking.Application.DTOs.Properties.PropertySearchResultDto>();
+        var propertyDtos = new List<PropResultDto>();
         foreach (var property in paginatedProperties)
         {
             var dto = await MapToSearchResultDto(property, request);
@@ -182,9 +182,9 @@ public class ClientSearchPropertiesQueryHandler : IRequestHandler<SearchProperti
     /// تحويل الكيان إلى DTO
     /// Map property to search result DTO
     /// </summary>
-    private async Task<YemenBooking.Application.DTOs.Properties.PropertySearchResultDto> MapToSearchResultDto(Core.Entities.Property property, SearchPropertiesQuery request)
+    private async Task<PropResultDto> MapToSearchResultDto(Core.Entities.Property property, SearchPropertiesQuery request)
     {
-        var dto = new YemenBooking.Application.DTOs.Properties.PropertySearchResultDto
+        var dto = new PropResultDto
         {
             Id = property.Id,
             Name = property.Name,
