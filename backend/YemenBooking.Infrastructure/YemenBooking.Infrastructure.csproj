@@ -9,7 +9,7 @@
   <ItemGroup>
     <PackageReference Include="Dapper" Version="2.1.66" />
     <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.6" />
-    <PackageReference Include="FirebaseAdmin" Version="2.9.0" />
+    <PackageReference Include="FirebaseAdmin" Version="3.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.0" />
@@ -21,7 +21,7 @@
     <PackageReference Include="SixLabors.Fonts" Version="2.0.1" />
     <PackageReference Include="ClosedXML" Version="0.104.0" />
     <PackageReference Include="CsvHelper" Version="30.0.1" />
-    <PackageReference Include="QuestPDF" Version="2023.11.0" />
+    <PackageReference Include="QuestPDF" Version="2023.12.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="8.0.0" />
   </ItemGroup>
 

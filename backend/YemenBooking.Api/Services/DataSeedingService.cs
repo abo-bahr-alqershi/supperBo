@@ -64,6 +64,7 @@ namespace YemenBooking.Api.Services
                 var ownerId = Guid.Parse("BBBBBBBB-BBBB-BBBB-BBBB-BBBBBBBBBBBB");
                 foreach (var prop in seededProperties)
                 {
+                    prop.Currency = "YER";
                     prop.TypeId = propertyTypes[rnd.Next(propertyTypes.Count)].Id;
                     prop.OwnerId = ownerId;
                 }
@@ -218,17 +219,17 @@ namespace YemenBooking.Api.Services
                 await _context.SaveChangesAsync();
             }
 
-            // Payments: seed random payments per booking for testing
-            if (!await _context.Payments.AnyAsync())
-            {
-                var bookingsList = await _context.Bookings
-                    .AsNoTracking()
-                    .ToListAsync();
-                var paymentSeeder = new PaymentSeeder(bookingsList, Guid.Parse("AAAAAAAA-AAAA-AAAA-AAAA-AAAAAAAAAAAA"));
-                var seededPayments = paymentSeeder.SeedData().ToList();
-                _context.Payments.AddRange(seededPayments);
-                await _context.SaveChangesAsync();
-            }
+            // // Payments: seed random payments per booking for testing
+            // if (!await _context.Payments.AnyAsync())
+            // {
+            //     var bookingsList = await _context.Bookings
+            //         .AsNoTracking()
+            //         .ToListAsync();
+            //     var paymentSeeder = new PaymentSeeder(bookingsList, Guid.Parse("AAAAAAAA-AAAA-AAAA-AAAA-AAAAAAAAAAAA"));
+            //     var seededPayments = paymentSeeder.SeedData().ToList();
+            //     _context.Payments.AddRange(seededPayments);
+            //     await _context.SaveChangesAsync();
+            // }
         }
     }
 } 
