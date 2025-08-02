@@ -27,6 +27,7 @@ import {
 } from '@mui/icons-material';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import type { Swiper as SwiperClass } from 'swiper';
 import { Navigation, Pagination, Thumbs, Zoom as SwiperZoom } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -91,7 +92,7 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [imageLoadStates, setImageLoadStates] = useState<Record<string, boolean>>({});
-  const [thumbsSwiper, setThumbsSwiper] = useState(null);
+  const [thumbsSwiper, setThumbsSwiper] = useState<SwiperClass | null>(null);
   const [zoom, setZoom] = useState(1);
 
   const displayImages = data || images || generateMockImages();

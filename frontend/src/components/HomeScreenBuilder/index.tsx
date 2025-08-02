@@ -1,13 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { useParams } from 'react-router-dom';
-import type { 
-  DndContext, 
-  DragEndEvent, 
-  DragOverlay,
-  DragStartEvent,
-  pointerWithin,
-  rectIntersection
-} from '@dnd-kit/core';
+import { DndContext, DragOverlay, pointerWithin, rectIntersection } from '@dnd-kit/core';
+import type { DragEndEvent, DragStartEvent } from '@dnd-kit/core';
 import { 
   Box, 
   Grid, 
@@ -209,7 +203,7 @@ const HomeScreenBuilder: React.FC = () => {
             backgroundColor: '#f5f5f5'
           }}>
             <Canvas
-              template={template}
+              template={template ?? undefined}
               selectedComponentId={selectedComponentId}
               selectedSectionId={selectedSectionId}
               onSelectComponent={selectComponent}

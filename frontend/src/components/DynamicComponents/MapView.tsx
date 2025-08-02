@@ -25,7 +25,8 @@ import {
   DirectionsCar as CarIcon,
   DirectionsWalk as WalkIcon,
   DirectionsBike as BikeIcon,
-  Place as MarkerIcon
+  Place as MarkerIcon,
+  Close as CloseIcon
 } from '@mui/icons-material';
 import { motion } from 'framer-motion';
 

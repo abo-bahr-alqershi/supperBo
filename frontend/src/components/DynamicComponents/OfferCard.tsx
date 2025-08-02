@@ -134,7 +134,7 @@ const OfferCard: React.FC<OfferCardProps> = ({
   };
 
   const usagePercentage = offerData.usageLimit 
-    ? (offerData.usageCount / offerData.usageLimit) * 100 
+    ? ((offerData.usageCount ?? 0) / offerData.usageLimit) * 100 
     : 0;
 
   const renderCardContent = () => {
@@ -399,7 +399,7 @@ const OfferCard: React.FC<OfferCardProps> = ({
                       {offerData.usageCount} used
                     </Typography>
                     <Typography variant="caption" color="text.secondary">
-                      {offerData.usageLimit - offerData.usageCount} left
+                      {offerData.usageLimit - (offerData.usageCount ?? 0)} left
                     </Typography>
                   </Box>
                   <LinearProgress
