@@ -200,7 +200,7 @@ const TemplateManager: React.FC<TemplateManagerProps> = ({
 
   // Duplicate mutation
   const duplicateMutation = useMutation({
-    mutationFn: (id: string) => homeScreenService.duplicateTemplate(id),
+    mutationFn: (id: string) => homeScreenService.duplicateTemplate(id, `${selectedTemplate!.name} Copy`),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['homeScreenTemplates'] });
       toast.success('Template duplicated successfully');

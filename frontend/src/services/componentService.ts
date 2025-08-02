@@ -33,3 +33,5 @@ export class ComponentService {
     return response.data.data;
   }
 }
+const componentService = new ComponentService();
+export default componentService;
