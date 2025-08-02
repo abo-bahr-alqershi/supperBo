@@ -12,7 +12,7 @@ import { renderComponent } from '../utils/componentFactory';
 import { generateStyleString, generateResponsiveStyles } from '../utils/styleGenerator';
 
 interface UsePreviewOptions {
-  template?: HomeScreenTemplate;
+  template?: HomeScreenTemplate | null;
   platform?: Platform;
   deviceType?: 'mobile' | 'tablet' | 'desktop';
   useMockData?: boolean;
