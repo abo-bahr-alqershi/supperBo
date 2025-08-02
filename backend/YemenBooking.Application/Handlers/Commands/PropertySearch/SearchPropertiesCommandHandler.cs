@@ -132,7 +132,7 @@ public class SearchPropertiesCommandHandler : IRequestHandler<SearchPropertiesCo
             // 11. إنشاء نتيجة البحث
             var result = new SearchPropertiesResponse
             {
-                Properties = propertyItems.Cast<YemenBooking.Application.DTOs.Properties.PropertySearchResultDto>().ToList(),
+                Properties = propertyItems.Cast<YemenBooking.Application.DTOs.PropertySearch.PropertySearchResultDto>().ToList(),
                 TotalCount = totalCount,
                 CurrentPage = request.PageNumber,
                 PageSize = request.PageSize,
@@ -376,16 +376,16 @@ public class SearchPropertiesCommandHandler : IRequestHandler<SearchPropertiesCo
     /// تحويل الكيانات إلى عناصر البحث
     /// Convert properties to search items
     /// </summary>
-    private async Task<List<PropertySearchItemDto>> ConvertToPropertySearchItemsAsync(
+    private async Task<List<PropertySearchResultDto>> ConvertToPropertySearchItemsAsync(
         List<Property> properties, 
         SearchPropertiesCommand request, 
         CancellationToken cancellationToken)
     {
-        var items = new List<PropertySearchItemDto>();
+        var items = new List<PropertySearchResultDto>();
 
         foreach (var property in properties)
         {
-            var item = new PropertySearchItemDto
+            var item = new PropertySearchResultDto
             {
                 Id = property.Id,
                 Name = property.Name,
@@ -405,7 +405,7 @@ public class SearchPropertiesCommandHandler : IRequestHandler<SearchPropertiesCo
             if (property.Reviews.Any())
             {
                 item.AverageRating = property.Reviews.Average(r => (r.Cleanliness + r.Service + r.Location + r.Value) / 4.0m);
-                item.ReviewCount = property.Reviews.Count;
+                item.ReviewsCount = property.Reviews.Count;
             }
 
             // الصور
@@ -417,7 +417,7 @@ public class SearchPropertiesCommandHandler : IRequestHandler<SearchPropertiesCo
             }
 
             // المرافق
-            item.Amenities = property.Amenities.Where(a => a.IsAvailable)
+            item.MainAmenities = property.Amenities.Where(a => a.IsAvailable)
                 .Select(a => a.PropertyTypeAmenity.Amenity.Name).ToList();
 
             // التحقق من التوفر

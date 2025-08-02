@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using YemenBooking.Application.Commands.MobileApp.Properties;
 using YemenBooking.Application.Queries.MobileApp.Properties;
 using YemenBooking.Application.DTOs;
-using YemenBooking.Application.DTOs.Properties;
 using System.Collections.Generic;
 
 namespace YemenBooking.Api.Controllers.Client
@@ -68,7 +67,7 @@ namespace YemenBooking.Api.Controllers.Client
         /// <returns>تفاصيل العقار</returns>
         [HttpGet("{id}")]
         [AllowAnonymous]
-        public async Task<ActionResult<ResultDto<PropertyDetailsDto>>> GetPropertyDetails(Guid id, [FromQuery] Guid? userId = null)
+        public async Task<ActionResult<ResultDto<YemenBooking.Application.DTOs.Properties.PropertyDetailsDto>>> GetPropertyDetails(Guid id, [FromQuery] Guid? userId = null)
         {
             var query = new GetPropertyDetailsQuery { PropertyId = id, UserId = userId };
             var result = await _mediator.Send(query);
@@ -97,7 +96,7 @@ namespace YemenBooking.Api.Controllers.Client
         /// <returns>قائمة العقارات القريبة</returns>
         [HttpGet("nearby")]
         [AllowAnonymous]
-        public async Task<ActionResult<ResultDto<List<NearbyPropertyDto>>>> GetNearbyProperties([FromQuery] GetNearbyPropertiesQuery query)
+        public async Task<ActionResult<ResultDto<List<YemenBooking.Application.DTOs.Properties.NearbyPropertyDto>>>> GetNearbyProperties([FromQuery] GetNearbyPropertiesQuery query)
         {
             var result = await _mediator.Send(query);
             return Ok(result);

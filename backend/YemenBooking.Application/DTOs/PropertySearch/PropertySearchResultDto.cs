@@ -163,5 +163,20 @@ namespace YemenBooking.Application.DTOs.PropertySearch
         /// Reviews with responses
         /// </summary>
         public List<YemenBooking.Application.DTOs.ReviewDto> Reviews { get; set; } = new();
+        /// <summary>
+        /// السعة القصوى
+        /// Maximum capacity
+        /// </summary>
+        public int MaxCapacity { get; set; }
+        /// <summary>
+        /// وقت آخر تحديث
+        /// Last updated timestamp
+        /// </summary>
+        public DateTime LastUpdated { get; set; }
+        /// <summary>
+        /// روابط الصور
+        /// Additional image URLs
+        /// </summary>
+        public List<string> ImageUrls { get; set; } = new();
     }
 } 

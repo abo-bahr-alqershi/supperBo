@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using YemenBooking.Application.Commands.MobileApp.Settings;
 using YemenBooking.Application.Queries.MobileApp.Settings;
 using YemenBooking.Application.DTOs;
-using YemenBooking.Application.DTOs.Users;
 
 namespace YemenBooking.Api.Controllers.Client
 {
@@ -37,7 +36,7 @@ namespace YemenBooking.Api.Controllers.Client
         /// <param name="query">معايير الاستعلام</param>
         /// <returns>إعدادات المستخدم</returns>
         [HttpGet]
-        public async Task<ActionResult<ResultDto<UserSettingsDto>>> GetUserSettings([FromQuery] GetUserSettingsQuery query)
+        public async Task<ActionResult<ResultDto<YemenBooking.Application.DTOs.Users.UserSettingsDto>>> GetUserSettings([FromQuery] GetUserSettingsQuery query)
         {
             var result = await _mediator.Send(query);
             return Ok(result);
