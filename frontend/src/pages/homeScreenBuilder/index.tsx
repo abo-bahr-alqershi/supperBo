@@ -34,7 +34,8 @@ import {
   Collapse,
   Paper,
   Fade,
-  Zoom
+  Zoom,
+  Fab
 } from '@mui/material';
 import {
   Save as SaveIcon,
