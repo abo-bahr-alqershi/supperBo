@@ -1,349 +1,451 @@
 import { useState, useCallback, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { toast } from 'react-hot-toast';
+import homeScreenService from '../services/homeScreenService';
+import componentService from '../services/componentService';
 import type {
   HomeScreenTemplate,
   HomeScreenSection,
-  HomeScreenComponent
+  HomeScreenComponent,
+  CreateHomeScreenTemplateCommand,
+  UpdateHomeScreenTemplateCommand,
+  CreateHomeScreenSectionCommand,
+  UpdateHomeScreenSectionCommand,
+  CreateHomeScreenComponentCommand,
+  UpdateHomeScreenComponentCommand,
+  ReorderSectionsCommand,
+  ReorderComponentsCommand
 } from '../types/homeScreen.types';
-import homeScreenService from '../services/homeScreenService';
-import { useNotifications } from '../stores/appStore';
+import { generateComponentId } from '../utils/componentFactory';
 
-export interface HomeScreenBuilderState {
-  template: HomeScreenTemplate | null;
-  selectedSection: HomeScreenSection | null;
-  selectedComponent: HomeScreenComponent | null;
-  isLoading: boolean;
-  isSaving: boolean;
-  hasUnsavedChanges: boolean;
-  errors: Record<string, string>;
+interface UseHomeScreenBuilderOptions {
+  templateId?: string;
+  autoSave?: boolean;
+  autoSaveInterval?: number;
 }
 
-export const useHomeScreenBuilder = (templateId?: string) => {
-  const [state, setState] = useState<HomeScreenBuilderState>({
-    template: null,
-    selectedSection: null,
-    selectedComponent: null,
-    isLoading: false,
-    isSaving: false,
-    hasUnsavedChanges: false,
-    errors: {}
+export const useHomeScreenBuilder = (options: UseHomeScreenBuilderOptions = {}) => {
+  const { templateId, autoSave = true, autoSaveInterval = 30000 } = options;
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  
+  const [selectedComponentId, setSelectedComponentId] = useState<string | null>(null);
+  const [selectedSectionId, setSelectedSectionId] = useState<string | null>(null);
+  const [isDirty, setIsDirty] = useState(false);
+  const [lastSaveTime, setLastSaveTime] = useState<Date | null>(null);
+
+  // Fetch template data
+  const { data: template, isLoading: templateLoading, error: templateError } = useQuery({
+    queryKey: ['homeScreenTemplate', templateId],
+    queryFn: () => templateId ? homeScreenService.getTemplateById(templateId) : null,
+    enabled: !!templateId
   });
 
-  const { showSuccess, showError } = useNotification();
+  // Fetch component types
+  const { data: componentTypes = [] } = useQuery({
+    queryKey: ['componentTypes'],
+    queryFn: () => componentService.getComponentTypes()
+  });
 
-  // Load template
-  const loadTemplate = useCallback(async (id: string) => {
-    setState(prev => ({ ...prev, isLoading: true, errors: {} }));
-    try {
-      const template = await homeScreenService.getTemplateById(id);
-      setState(prev => ({
-        ...prev,
-        template,
-        isLoading: false
-      }));
-    } catch (error) {
-      setState(prev => ({
-        ...prev,
-        isLoading: false,
-        errors: { load: 'Failed to load template' }
-      }));
-      showError('Failed to load template');
+  // Template mutations
+  const createTemplateMutation = useMutation({
+    mutationFn: (command: CreateHomeScreenTemplateCommand) => 
+      homeScreenService.createTemplate(command),
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ['homeScreenTemplates'] });
+      toast.success('Template created successfully');
+      navigate(`/home-screen-builder/${data.id}`);
+    },
+    onError: () => {
+      toast.error('Failed to create template');
     }
-  }, [showError]);
+  });
 
-  // Create section
-  const createSection = useCallback(async (section: Partial<HomeScreenSection>) => {
-    if (!state.template) return;
-
-    setState(prev => ({ ...prev, isSaving: true }));
-    try {
-      const newSection = await homeScreenService.createSection({
-        ...section,
-        templateId: state.template.id,
-        order: state.template.sections.length
-      });
-
-      setState(prev => ({
-        ...prev,
-        template: {
-          ...prev.template!,
-          sections: [...prev.template!.sections, newSection]
-        },
-        selectedSection: newSection,
-        isSaving: false,
-        hasUnsavedChanges: false
-      }));
-
-      showSuccess('Section created successfully');
-    } catch (error) {
-      setState(prev => ({ ...prev, isSaving: false }));
-      showError('Failed to create section');
+  const updateTemplateMutation = useMutation({
+    mutationFn: ({ id, command }: { id: string; command: UpdateHomeScreenTemplateCommand }) =>
+      homeScreenService.updateTemplate(id, command),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['homeScreenTemplate', templateId] });
+      setIsDirty(false);
+      setLastSaveTime(new Date());
+      toast.success('Template updated successfully');
+    },
+    onError: () => {
+      toast.error('Failed to update template');
     }
-  }, [state.template, showSuccess, showError]);
+  });
 
-  // Update section
-  const updateSection = useCallback(async (
-    sectionId: string, 
-    updates: Partial<HomeScreenSection>
-  ) => {
-    setState(prev => ({ ...prev, isSaving: true }));
-    try {
-      const updatedSection = await homeScreenService.updateSection(sectionId, updates);
-      
-      setState(prev => ({
-        ...prev,
-        template: {
-          ...prev.template!,
-          sections: prev.template!.sections.map(s => 
-            s.id === sectionId ? updatedSection : s
-          )
-        },
-        selectedSection: prev.selectedSection?.id === sectionId 
-          ? updatedSection 
-          : prev.selectedSection,
-        isSaving: false,
-        hasUnsavedChanges: false
-      }));
-
-      showSuccess('Section updated successfully');
-    } catch (error) {
-      setState(prev => ({ ...prev, isSaving: false }));
-      showError('Failed to update section');
+  const deleteTemplateMutation = useMutation({
+    mutationFn: (id: string) => homeScreenService.deleteTemplate(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['homeScreenTemplates'] });
+      toast.success('Template deleted successfully');
+      navigate('/home-screen-builder');
+    },
+    onError: () => {
+      toast.error('Failed to delete template');
     }
-  }, [showSuccess, showError]);
+  });
 
-  // Delete section
-  const deleteSection = useCallback(async (sectionId: string) => {
-    setState(prev => ({ ...prev, isSaving: true }));
-    try {
-      await homeScreenService.deleteSection(sectionId);
-      
-      setState(prev => ({
-        ...prev,
-        template: {
-          ...prev.template!,
-          sections: prev.template!.sections.filter(s => s.id !== sectionId)
-        },
-        selectedSection: prev.selectedSection?.id === sectionId 
-          ? null 
-          : prev.selectedSection,
-        isSaving: false,
-        hasUnsavedChanges: false
-      }));
-
-      showSuccess('Section deleted successfully');
-    } catch (error) {
-      setState(prev => ({ ...prev, isSaving: false }));
-      showError('Failed to delete section');
+  const publishTemplateMutation = useMutation({
+    mutationFn: ({ id, deactivateOthers }: { id: string; deactivateOthers: boolean }) =>
+      homeScreenService.publishTemplate(id, deactivateOthers),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['homeScreenTemplate', templateId] });
+      toast.success('Template published successfully');
+    },
+    onError: () => {
+      toast.error('Failed to publish template');
     }
-  }, [showSuccess, showError]);
+  });
 
-  // Create component
-  const createComponent = useCallback(async (
-    sectionId: string,
-    component: Partial<HomeScreenComponent>
-  ) => {
-    setState(prev => ({ ...prev, isSaving: true }));
-    try {
-      const section = state.template?.sections.find(s => s.id === sectionId);
-      if (!section) throw new Error('Section not found');
-
-      const newComponent = await homeScreenService.createComponent({
-        ...component,
-        sectionId,
-        order: section.components.length
-      });
-
-      setState(prev => ({
-        ...prev,
-        template: {
-          ...prev.template!,
-          sections: prev.template!.sections.map(s => 
-            s.id === sectionId 
-              ? { ...s, components: [...s.components, newComponent] }
-              : s
-          )
-        },
-        selectedComponent: newComponent,
-        isSaving: false,
-        hasUnsavedChanges: false
-      }));
-
-      showSuccess('Component added successfully');
-    } catch (error) {
-      setState(prev => ({ ...prev, isSaving: false }));
-      showError('Failed to add component');
+  // Section mutations
+  const createSectionMutation = useMutation({
+    mutationFn: (command: CreateHomeScreenSectionCommand) =>
+      homeScreenService.createSection(command),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['homeScreenTemplate', templateId] });
+      setIsDirty(true);
+      toast.success('Section added successfully');
+    },
+    onError: () => {
+      toast.error('Failed to add section');
     }
-  }, [state.template, showSuccess, showError]);
+  });
 
-  // Update component
-  const updateComponent = useCallback(async (
-    componentId: string,
-    updates: Partial<HomeScreenComponent>
-  ) => {
-    setState(prev => ({ ...prev, isSaving: true }));
-    try {
-      const updatedComponent = await homeScreenService.updateComponent(componentId, updates);
-      
-      setState(prev => ({
-        ...prev,
-        template: {
-          ...prev.template!,
-          sections: prev.template!.sections.map(section => ({
-            ...section,
-            components: section.components.map(c => 
-              c.id === componentId ? updatedComponent : c
-            )
-          }))
-        },
-        selectedComponent: prev.selectedComponent?.id === componentId 
-          ? updatedComponent 
-          : prev.selectedComponent,
-        isSaving: false,
-        hasUnsavedChanges: false
-      }));
-
-      showSuccess('Component updated successfully');
-    } catch (error) {
-      setState(prev => ({ ...prev, isSaving: false }));
-      showError('Failed to update component');
+  const updateSectionMutation = useMutation({
+    mutationFn: ({ id, command }: { id: string; command: UpdateHomeScreenSectionCommand }) =>
+      homeScreenService.updateSection(id, command),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['homeScreenTemplate', templateId] });
+      setIsDirty(true);
+    },
+    onError: () => {
+      toast.error('Failed to update section');
     }
-  }, [showSuccess, showError]);
+  });
 
-  // Delete component
-  const deleteComponent = useCallback(async (componentId: string) => {
-    setState(prev => ({ ...prev, isSaving: true }));
-    try {
-      await homeScreenService.deleteComponent(componentId);
-      
-      setState(prev => ({
-        ...prev,
-        template: {
-          ...prev.template!,
-          sections: prev.template!.sections.map(section => ({
-            ...section,
-            components: section.components.filter(c => c.id !== componentId)
-          }))
-        },
-        selectedComponent: prev.selectedComponent?.id === componentId 
-          ? null 
-          : prev.selectedComponent,
-        isSaving: false,
-        hasUnsavedChanges: false
-      }));
-
-      showSuccess('Component deleted successfully');
-    } catch (error) {
-      setState(prev => ({ ...prev, isSaving: false }));
-      showError('Failed to delete component');
+  const deleteSectionMutation = useMutation({
+    mutationFn: (id: string) => homeScreenService.deleteSection(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['homeScreenTemplate', templateId] });
+      setIsDirty(true);
+      toast.success('Section deleted successfully');
+    },
+    onError: () => {
+      toast.error('Failed to delete section');
     }
-  }, [showSuccess, showError]);
+  });
 
-  // Reorder sections
-  const reorderSections = useCallback(async (
-    sections: Array<{ sectionId: string; newOrder: number }>
-  ) => {
-    if (!state.template) return;
+  const reorderSectionsMutation = useMutation({
+    mutationFn: (command: ReorderSectionsCommand) =>
+      homeScreenService.reorderSections(command),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['homeScreenTemplate', templateId] });
+      setIsDirty(true);
+    },
+    onError: () => {
+      toast.error('Failed to reorder sections');
+    }
+  });
 
-    const originalSections = [...state.template.sections];
+  // Component mutations
+  const createComponentMutation = useMutation({
+    mutationFn: (command: CreateHomeScreenComponentCommand) =>
+      homeScreenService.createComponent(command),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['homeScreenTemplate', templateId] });
+      setIsDirty(true);
+      toast.success('Component added successfully');
+    },
+    onError: () => {
+      toast.error('Failed to add component');
+    }
+  });
+
+  const updateComponentMutation = useMutation({
+    mutationFn: ({ id, command }: { id: string; command: UpdateHomeScreenComponentCommand }) =>
+      homeScreenService.updateComponent(id, command),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['homeScreenTemplate', templateId] });
+      setIsDirty(true);
+    },
+    onError: () => {
+      toast.error('Failed to update component');
+    }
+  });
+
+  const deleteComponentMutation = useMutation({
+    mutationFn: (id: string) => homeScreenService.deleteComponent(id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['homeScreenTemplate', templateId] });
+      setIsDirty(true);
+      setSelectedComponentId(null);
+      toast.success('Component deleted successfully');
+    },
+    onError: () => {
+      toast.error('Failed to delete component');
+    }
+  });
+
+  const reorderComponentsMutation = useMutation({
+    mutationFn: (command: ReorderComponentsCommand) =>
+      homeScreenService.reorderComponents(command),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['homeScreenTemplate', templateId] });
+      setIsDirty(true);
+    },
+    onError: () => {
+      toast.error('Failed to reorder components');
+    }
+  });
+
+  // Helper functions
+  const addSection = useCallback(async (name: string, title: string) => {
+    if (!templateId) return;
     
-    // Optimistic update
-    setState(prev => ({
-      ...prev,
-      template: {
-        ...prev.template!,
-        sections: sections
-          .sort((a, b) => a.newOrder - b.newOrder)
-          .map(({ sectionId }) => 
-            prev.template!.sections.find(s => s.id === sectionId)!
-          )
-      },
-      hasUnsavedChanges: true
-    }));
+    const order = template?.sections?.length || 0;
+    await createSectionMutation.mutateAsync({
+      templateId,
+      name,
+      title,
+      subtitle: '',
+      order,
+      backgroundColor: '#ffffff',
+      backgroundImage: '',
+      padding: '20px',
+      margin: '0',
+      minHeight: 100,
+      maxHeight: 0,
+      customStyles: '',
+      conditions: ''
+    });
+  }, [templateId, template, createSectionMutation]);
 
-    try {
-      await homeScreenService.reorderSections(state.template.id, sections);
-      setState(prev => ({ ...prev, hasUnsavedChanges: false }));
-    } catch (error) {
-      // Revert on error
-      setState(prev => ({
-        ...prev,
-        template: {
-          ...prev.template!,
-          sections: originalSections
-        }
-      }));
-      showError('Failed to reorder sections');
-    }
-  }, [state.template, showError]);
+  const addComponent = useCallback(async (
+    sectionId: string,
+    componentType: string,
+    position?: { order: number }
+  ) => {
+    const section = template?.sections?.find(s => s.id === sectionId);
+    if (!section) return;
+    
+    const order = position?.order ?? section.components.length;
+    const componentTypeDefinition = componentTypes.find(ct => ct.type === componentType);
+    
+    await createComponentMutation.mutateAsync({
+      sectionId,
+      componentType,
+      name: `${componentTypeDefinition?.name || componentType} ${Date.now()}`,
+      order,
+      colSpan: componentTypeDefinition?.defaultColSpan || 12,
+      rowSpan: componentTypeDefinition?.defaultRowSpan || 1,
+      alignment: 'left',
+      customClasses: '',
+      animationType: '',
+      animationDuration: 0,
+      conditions: ''
+    });
+  }, [template, componentTypes, createComponentMutation]);
 
-  // Select section
-  const selectSection = useCallback((section: HomeScreenSection | null) => {
-    setState(prev => ({
-      ...prev,
-      selectedSection: section,
-      selectedComponent: null
-    }));
-  }, []);
-
-  // Select component
-  const selectComponent = useCallback((component: HomeScreenComponent | null) => {
-    setState(prev => ({
-      ...prev,
-      selectedComponent: component,
-      selectedSection: component 
-        ? prev.template?.sections.find(s => 
-            s.components.some(c => c.id === component.id)
-          ) || null
-        : prev.selectedSection
-    }));
-  }, []);
-
-  // Publish template
-  const publishTemplate = useCallback(async (deactivateOthers = true) => {
-    if (!state.template) return;
-
-    setState(prev => ({ ...prev, isSaving: true }));
-    try {
-      await homeScreenService.publishTemplate(state.template.id, deactivateOthers);
+  const moveComponent = useCallback(async (
+    componentId: string,
+    fromSectionId: string,
+    toSectionId: string,
+    newOrder: number
+  ) => {
+    if (fromSectionId === toSectionId) {
+      // Reorder within same section
+      const section = template?.sections?.find(s => s.id === fromSectionId);
+      if (!section) return;
       
-      setState(prev => ({
-        ...prev,
-        template: {
-          ...prev.template!,
-          isActive: true,
-          publishedAt: new Date()
-        },
-        isSaving: false
+      const components = section.components.map((comp, index) => ({
+        componentId: comp.id,
+        newOrder: comp.id === componentId ? newOrder : 
+          index < newOrder ? index : index + 1
       }));
-
-      showSuccess('Template published successfully');
-    } catch (error) {
-      setState(prev => ({ ...prev, isSaving: false }));
-      showError('Failed to publish template');
+      
+      await reorderComponentsMutation.mutateAsync({
+        sectionId: fromSectionId,
+        components
+      });
+    } else {
+      // Move to different section
+      const component = template?.sections
+        ?.find(s => s.id === fromSectionId)
+        ?.components.find(c => c.id === componentId);
+      
+      if (!component) return;
+      
+      // Delete from current section
+      await deleteComponentMutation.mutateAsync(componentId);
+      
+      // Create in new section
+      await createComponentMutation.mutateAsync({
+        sectionId: toSectionId,
+        componentType: component.componentType,
+        name: component.name,
+        order: newOrder,
+        colSpan: component.colSpan,
+        rowSpan: component.rowSpan,
+        alignment: component.alignment,
+        customClasses: component.customClasses || '',
+        animationType: component.animationType || '',
+        animationDuration: component.animationDuration || 0,
+        conditions: component.conditions || ''
+      });
     }
-  }, [state.template, showSuccess, showError]);
+  }, [template, reorderComponentsMutation, deleteComponentMutation, createComponentMutation]);
 
+  const duplicateComponent = useCallback(async (componentId: string) => {
+    const component = template?.sections
+      ?.flatMap(s => s.components)
+      .find(c => c.id === componentId);
+    
+    if (!component) return;
+    
+    const section = template?.sections.find(s => 
+      s.components.some(c => c.id === componentId)
+    );
+    
+    if (!section) return;
+    
+    await createComponentMutation.mutateAsync({
+      sectionId: section.id,
+      componentType: component.componentType,
+      name: `${component.name} (Copy)`,
+      order: component.order + 1,
+      colSpan: component.colSpan,
+      rowSpan: component.rowSpan,
+      alignment: component.alignment,
+      customClasses: component.customClasses || '',
+      animationType: component.animationType || '',
+      animationDuration: component.animationDuration || 0,
+      conditions: component.conditions || ''
+    });
+  }, [template, createComponentMutation]);
+
+  const selectComponent = useCallback((componentId: string | null) => {
+    setSelectedComponentId(componentId);
+    if (componentId) {
+      const section = template?.sections.find(s =>
+        s.components.some(c => c.id === componentId)
+      );
+      setSelectedSectionId(section?.id || null);
+    }
+  }, [template]);
+
+  const getSelectedComponent = useCallback((): HomeScreenComponent | null => {
+    if (!selectedComponentId || !template) return null;
+    
+    return template.sections
+      .flatMap(s => s.components)
+      .find(c => c.id === selectedComponentId) || null;
+  }, [selectedComponentId, template]);
+
+  const getSelectedSection = useCallback((): HomeScreenSection | null => {
+    if (!selectedSectionId || !template) return null;
+    
+    return template.sections.find(s => s.id === selectedSectionId) || null;
+  }, [selectedSectionId, template]);
+
+  const saveTemplate = useCallback(async () => {
+    if (!template || !templateId) return;
+    
+    await updateTemplateMutation.mutateAsync({
+      id: templateId,
+      command: {
+        name: template.name,
+        description: template.description,
+        metaData: template.metaData || ''
+      }
+    });
+  }, [template, templateId, updateTemplateMutation]);
+
+  // Auto-save functionality
   useEffect(() => {
-    if (templateId) {
-      loadTemplate(templateId);
-    }
-  }, [templateId, loadTemplate]);
+    if (!autoSave || !isDirty || !template) return;
+    
+    const timer = setTimeout(() => {
+      saveTemplate();
+    }, autoSaveInterval);
+    
+    return () => clearTimeout(timer);
+  }, [autoSave, isDirty, template, autoSaveInterval, saveTemplate]);
+
+  // Keyboard shortcuts
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Save: Ctrl/Cmd + S
+      if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+        e.preventDefault();
+        saveTemplate();
+      }
+      
+      // Delete: Delete key
+      if (e.key === 'Delete' && selectedComponentId) {
+        e.preventDefault();
+        deleteComponentMutation.mutate(selectedComponentId);
+      }
+      
+      // Duplicate: Ctrl/Cmd + D
+      if ((e.ctrlKey || e.metaKey) && e.key === 'd' && selectedComponentId) {
+        e.preventDefault();
+        duplicateComponent(selectedComponentId);
+      }
+      
+      // Deselect: Escape
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        selectComponent(null);
+        setSelectedSectionId(null);
+      }
+    };
+    
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [selectedComponentId, saveTemplate, deleteComponentMutation, duplicateComponent, selectComponent]);
 
   return {
-    ...state,
-    actions: {
-      loadTemplate,
-      createSection,
-      updateSection,
-      deleteSection,
-      createComponent,
-      updateComponent,
-      deleteComponent,
-      reorderSections,
-      selectSection,
-      selectComponent,
-      publishTemplate
-    }
+    // State
+    template,
+    componentTypes,
+    selectedComponentId,
+    selectedSectionId,
+    isDirty,
+    lastSaveTime,
+    isLoading: templateLoading,
+    error: templateError,
+    
+    // Template actions
+    createTemplate: createTemplateMutation.mutate,
+    updateTemplate: updateTemplateMutation.mutate,
+    deleteTemplate: deleteTemplateMutation.mutate,
+    publishTemplate: publishTemplateMutation.mutate,
+    saveTemplate,
+    
+    // Section actions
+    addSection,
+    updateSection: updateSectionMutation.mutate,
+    deleteSection: deleteSectionMutation.mutate,
+    reorderSections: reorderSectionsMutation.mutate,
+    
+    // Component actions
+    addComponent,
+    updateComponent: updateComponentMutation.mutate,
+    deleteComponent: deleteComponentMutation.mutate,
+    moveComponent,
+    duplicateComponent,
+    
+    // Selection
+    selectComponent,
+    getSelectedComponent,
+    getSelectedSection,
+    
+    // Mutation states
+    isSaving: updateTemplateMutation.isPending,
+    isCreating: createTemplateMutation.isPending,
+    isPublishing: publishTemplateMutation.isPending
   };
 };
