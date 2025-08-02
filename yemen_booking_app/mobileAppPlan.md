@@ -10,7 +10,8 @@ lib/
 │   │   ├── api_constants.dart
 │   │   ├── app_constants.dart
 │   │   ├── storage_constants.dart
-│   │   └── route_constants.dart
+│   │   ├── route_constants.dart
+│   │   └── component_types.dart  # ✨ جديد - أنواع المكونات
 │   │
 │   ├── theme/
 │   │   ├── app_theme.dart
@@ -41,11 +42,15 @@ lib/
 │   │   ├── formatters.dart
 │   │   ├── date_utils.dart
 │   │   ├── price_calculator.dart
-│   │   └── location_utils.dart
+│   │   ├── location_utils.dart
+│   │   ├── style_generator.dart  # ✨ جديد
+│   │   ├── component_builder.dart  # ✨ جديد
+│   │   └── dynamic_data_parser.dart  # ✨ جديد
 │   │   
 │   ├── models/
 │   │   ├── paginated_result.dart
-│   │   └── result_dto.dart
+│   │   ├── result_dto.dart
+│   │   └── base_component_data.dart  # ✨ جديد
 │   │
 │   └── widgets/
 │       ├── app_bar_widget.dart
@@ -54,9 +59,71 @@ lib/
 │       ├── empty_widget.dart
 │       ├── cached_image_widget.dart
 │       ├── rating_widget.dart
-│       └── price_widget.dart
+│       ├── price_widget.dart
+│       └── dynamic/  # ✨ جديد - مجلد للمكونات الديناميكية
+│           ├── base_dynamic_widget.dart
+│           └── dynamic_widget_factory.dart
 │
 ├── features/
+├── features/
+│   ├── dynamic_home/  # ✨ جديد - ميزة الشاشة الرئيسية الديناميكية
+│   │   ├── data/
+│   │   │   ├── datasources/
+│   │   │   │   ├── home_screen_local_datasource.dart
+│   │   │   │   └── home_screen_remote_datasource.dart
+│   │   │   ├── models/
+│   │   │   │   ├── home_screen_template_model.dart
+│   │   │   │   ├── home_screen_section_model.dart
+│   │   │   │   ├── home_screen_component_model.dart
+│   │   │   │   ├── component_property_model.dart
+│   │   │   │   ├── component_style_model.dart
+│   │   │   │   ├── component_action_model.dart
+│   │   │   │   └── component_data_source_model.dart
+│   │   │   └── repositories/
+│   │   │       └── dynamic_home_repository_impl.dart
+│   │   │
+│   │   ├── domain/
+│   │   │   ├── entities/
+│   │   │   │   ├── home_screen_template.dart
+│   │   │   │   ├── home_screen_section.dart
+│   │   │   │   ├── home_screen_component.dart
+│   │   │   │   ├── component_property.dart
+│   │   │   │   ├── component_style.dart
+│   │   │   │   ├── component_action.dart
+│   │   │   │   └── component_data_source.dart
+│   │   │   ├── repositories/
+│   │   │   │   └── dynamic_home_repository.dart
+│   │   │   └── usecases/
+│   │   │       ├── get_active_home_screen_usecase.dart
+│   │   │       ├── get_component_data_usecase.dart
+│   │   │       ├── refresh_home_screen_usecase.dart
+│   │   │       └── track_component_interaction_usecase.dart
+│   │   │
+│   │   └── presentation/
+│   │       ├── bloc/
+│   │       │   ├── dynamic_home_bloc.dart
+│   │       │   ├── dynamic_home_event.dart
+│   │       │   └── dynamic_home_state.dart
+│   │       ├── pages/
+│   │       │   └── dynamic_home_page.dart
+│   │       ├── widgets/
+│   │       │   ├── dynamic_section_widget.dart
+│   │       │   ├── dynamic_component_wrapper.dart
+│   │       │   └── components/  # ✨ المكونات الديناميكية
+│   │       │       ├── banner_component.dart
+│   │       │       ├── carousel_component.dart
+│   │       │       ├── category_grid_component.dart
+│   │       │       ├── property_list_component.dart
+│   │       │       ├── search_bar_component.dart
+│   │       │       ├── offer_card_component.dart
+│   │       │       ├── text_block_component.dart
+│   │       │       ├── image_gallery_component.dart
+│   │       │       ├── map_view_component.dart
+│   │       │       └── filter_bar_component.dart
+│   │       └── handlers/
+│   │           ├── action_handler.dart
+│   │           └── navigation_handler.dart
+│   │
 │   ├── auth/
 │   │   ├── data/
 │   │   │   ├── datasources/
@@ -472,6 +539,7 @@ lib/
 ├── routes/
 │   ├── app_router.dart
 │   ├── route_guards.dart
+│   ├── dynamic_route_handler.dart  # ✨ جديد - معالج التوجيه الديناميكي
 │   └── route_animations.dart
 │
 └── services/
@@ -481,6 +549,8 @@ lib/
     ├── deep_link_service.dart
     ├── analytics_service.dart
     ├── crash_reporting_service.dart
+    ├── cache_service.dart  # ✨ جديد - لتخزين القوالب محلياً
+    ├── component_data_service.dart  # ✨ جديد - لجلب بيانات المكونات
     └── websocket_service.dart
 
 # ملفات إضافية مهمة
@@ -504,13 +574,18 @@ assets/
 ├── images/
 │   ├── logo.png
 │   ├── splash_screen.png
+│   ├── banner_placeholder.png  # ✨ جديد
+│   ├── carousel_placeholder.png  # ✨ جديد
 │   └── placeholders/
 ├── icons/
 │   ├── amenity_icons/
-│   └── category_icons/
+│   ├── category_icons/
+│   └── component_icons/  # ✨ جديد
 ├── animations/
 │   ├── loading.json
-│   └── success.json
+│   ├── success.json
+│   ├── shimmer_loading.json  # ✨ جديد
+│   └── component_transitions/  # ✨ جديد
 └── fonts/
     ├── arabic_font.ttf
     └── english_font.ttf
