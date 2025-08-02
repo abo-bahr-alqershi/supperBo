@@ -6,7 +6,7 @@ import type {
   HomeScreenComponent
 } from '../types/homeScreen.types';
 import homeScreenService from '../services/homeScreenService';
-import { useNotification } from './useNotification';
+import { useNotifications } from '../stores/appStore';
 
 export interface HomeScreenBuilderState {
   template: HomeScreenTemplate | null;
