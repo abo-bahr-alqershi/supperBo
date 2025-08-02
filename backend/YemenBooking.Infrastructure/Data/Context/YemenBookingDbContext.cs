@@ -98,6 +98,8 @@ public class YemenBookingDbContext : DbContext
     /// </summary>
     public DbSet<Payment> Payments { get; set; }
 
+    public DbSet<PaymentMethod> PaymentMethods { get; set; }
+
     /// <summary>
     /// جدول خدمات الكيانات
     /// Property services table

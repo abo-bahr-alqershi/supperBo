@@ -25,7 +25,10 @@ public class Payment : BaseEntity
     /// </summary>
     [Display(Name = "المبلغ المدفوع")]
     public Money Amount { get; set; }
-    
+
+    [Display(Name = "معرف طريقة الدفع")]
+    public Guid MethodId { get; set; }
+
     /// <summary>
     /// طريقة الدفع (بطاقة، نقدي، محفظة)
     /// Payment method (Card, Cash, Wallet)
