@@ -48,7 +48,6 @@ namespace YemenBooking.Application.Mappings
 
             // Property details mapping
             CreateMap<Property, PropertyDetailsDto>()
-                .IncludeBase<Property, PropertyDto>()
                 .ForMember(dest => dest.Units, opt => opt.MapFrom(src => src.Units))
                 // map full property amenities with availability & extra cost info
                 .ForMember(dest => dest.Amenities, opt => opt.MapFrom(src => src.Amenities));
