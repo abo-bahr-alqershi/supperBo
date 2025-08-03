@@ -47,7 +47,7 @@ import {
   Language as LanguageIcon,
   CloudDone as CloudDoneIcon
 } from '@mui/icons-material';
-import { DndContext, PointerSensor, TouchSensor, useSensor, useSensors, DragOverlay } from '@dnd-kit/core';
+import { DndContext, PointerSensor, TouchSensor, useSensor, useSensors, DragOverlay, DragEndEvent } from '@dnd-kit/core';
 import { motion, AnimatePresence } from 'framer-motion';
 import { toast, Toaster } from 'react-hot-toast';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -136,6 +136,8 @@ const HomeScreenBuilder: React.FC = () => {
     // Actions
     saveTemplate,
     addSection,
+    addComponent,
+    moveComponent,
     deleteTemplate,
     publishTemplate,
     selectComponent,
@@ -174,9 +176,24 @@ const HomeScreenBuilder: React.FC = () => {
     setActiveId(event.active.id);
   };
   
-  const handleDragEnd = (event: any) => {
+  const handleDragEnd = (event: DragEndEvent) => {
     setActiveId(null);
-    // Handle drop logic here
+    const { active, over } = event;
+    if (!over) return;
+    const activeData = active.data.current;
+    const overData = over.data.current;
+    // Drop new components from the palette
+    if (activeData?.type === 'new-component' && overData.type === 'section') {
+      addComponent(overData.sectionId, activeData.componentType);
+    }
+    // Move existing components between sections
+    if (activeData?.type === 'existing-component' && overData.type === 'section') {
+      const { sourceSectionId, id: componentId } = activeData;
+      const destinationSectionId = overData.sectionId;
+      const section = template?.sections.find(s => s.id === destinationSectionId);
+      const newOrder = section ? section.components.length : 0;
+      moveComponent(componentId, sourceSectionId, destinationSectionId, newOrder);
+    }
   };
   
   // Auto-save effect
