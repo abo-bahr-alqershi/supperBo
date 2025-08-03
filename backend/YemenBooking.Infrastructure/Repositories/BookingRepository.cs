@@ -155,8 +155,8 @@ namespace YemenBooking.Infrastructure.Repositories
         /// <summary>
         /// جلب الحجوزات حسب الحالة
         /// </summary>
-        public async Task<IEnumerable<Booking>> GetBookingsByStatusAsync(string status, CancellationToken cancellationToken = default)
-            => await _dbSet.Where(b => b.Status.ToString() == status).ToListAsync(cancellationToken);
+        public async Task<IEnumerable<Booking>> GetBookingsByStatusAsync(BookingStatus status, CancellationToken cancellationToken = default)
+            => await _dbSet.Where(b => b.Status == status).ToListAsync(cancellationToken);
 
         /// <summary>
         /// جلب الحجوزات في نطاق تاريخي

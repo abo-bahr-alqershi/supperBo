@@ -47,7 +47,7 @@ namespace YemenBooking.Application.Handlers.Queries.Dashboard
             var unapprovedCount = properties.Count();
 
             // عدد الحجوزات غير المؤكدة (Pending)
-            var pendingBookings = await _bookingRepository.GetBookingsByStatusAsync(BookingStatus.Pending.ToString(), cancellationToken);
+            var pendingBookings = await _bookingRepository.GetBookingsByStatusAsync(BookingStatus.Pending, cancellationToken);
             var unconfirmedBookingsCount = pendingBookings.Count();
 
             // عدد الاشعارات غير المقروءة للمستخدم الحالي

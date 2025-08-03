@@ -1,5 +1,6 @@
 using YemenBooking.Core.Entities;
 using YemenBooking.Core.ValueObjects;
+using YemenBooking.Core.Enums;
 
 namespace YemenBooking.Core.Interfaces.Repositories;
 
@@ -91,7 +92,7 @@ public interface IBookingRepository : IRepository<Booking>
     /// الحصول على الحجوزات حسب الحالة
     /// Get bookings by status
     /// </summary>
-    Task<IEnumerable<Booking>> GetBookingsByStatusAsync(string status, CancellationToken cancellationToken = default);
+    Task<IEnumerable<Booking>> GetBookingsByStatusAsync(BookingStatus status, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// الحصول على الحجوزات في فترة زمنية
