@@ -66,6 +66,7 @@ import {
   Check as CheckIcon
 } from '@mui/icons-material';
 import { DndContext, PointerSensor, TouchSensor, useSensor, useSensors } from '@dnd-kit/core';
+import type { DragEndEvent } from '@dnd-kit/core';
 import { motion, AnimatePresence } from 'framer-motion';
 import { toast, Toaster } from 'react-hot-toast';
 
@@ -386,9 +387,28 @@ const HomeScreenBuilder: React.FC = () => {
     useSensor(PointerSensor),
     useSensor(TouchSensor)
   );
+  // Handle drag end to add or move components
+  const handleDragEnd = useCallback((event: DragEndEvent) => {
+    const { active, over } = event;
+    if (!over) return;
+    const dragData = active.data.current as any;
+    if (dragData.type === 'new-component') {
+      // Add new component to section
+      const sectionId = over.id as string;
+      addComponent(sectionId, dragData.componentType);
+    } else if (dragData.type === 'existing-component') {
+      // Move existing component between sections
+      const componentId = dragData.id as string;
+      const sourceSectionId = dragData.sourceSectionId as string;
+      const targetSectionId = over.id as string;
+      if (sourceSectionId !== targetSectionId) {
+        moveComponent(componentId, sourceSectionId, targetSectionId, 0);
+      }
+    }
+  }, [addComponent, moveComponent]);
   
   return (
-    <DndContext sensors={sensors}>
+    <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
       <Box className={styles.container}>
         {/* App Bar */}
         <AppBar position="fixed" className={styles.appBar}>
