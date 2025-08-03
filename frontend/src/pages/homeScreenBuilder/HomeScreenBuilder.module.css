@@ -6,56 +6,32 @@
   height: 100vh;
   overflow: hidden;
   background-color: var(--background-default);
+  direction: rtl;
 }
 
-.appBar {
-  z-index: 1201;
-  background-color: var(--primary-main);
+.headerToolbar {
+  position: sticky;
+  top: 0;
+  z-index: 1100;
+  background-color: var(--background-paper);
 }
 
-.loadingContainer {
+.mainLayout {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
+  flex: 1;
+  overflow: hidden;
+  position: relative;
 }
 
-.errorContainer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  padding: 24px;
-  text-align: center;
-}
-
-.emptyContainer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  padding: 24px;
-  text-align: center;
-}
-
-.leftDrawer {
-  z-index: 1200;
-}
-
-.rightDrawer {
-  z-index: 1200;
-}
-
-.drawerPaper {
-  width: 280px;
-  overflow-x: hidden;
-}
-
-.rightDrawer .drawerPaper {
-  width: 320px;
+.canvasArea {
+  flex: 1;
+  overflow: auto;
+  position: relative;
+  /* Prevent text selection during drag */
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .drawerHeader {
@@ -64,35 +40,42 @@
   justify-content: space-between;
   padding: 8px 16px;
   min-height: 64px;
+  direction: rtl;
 }
 
-.mainContent {
-  flex: 1;
+.loadingContainer,
+.errorContainer,
+.emptyContainer {
   display: flex;
   flex-direction: column;
-  overflow: hidden;
-  transition: margin 225ms cubic-bezier(0.0, 0, 0.2, 1) 0ms;
-}
-
-.canvasContainer {
-  flex: 1;
-  overflow: auto;
-  background-color: #f5f5f5;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
   padding: 24px;
+  text-align: center;
+  direction: rtl;
 }
 
 .statusBar {
   background-color: var(--background-paper);
-  z-index: 1;
+  direction: rtl;
 }
 
-.dragOverlay {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-  z-index: 9999;
+/* Prevent text selection globally when dragging */
+.container.dragging * {
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  user-select: none !important;
+}
+
+/* Draggable elements styling */
+.draggable {
+  cursor: grab;
+}
+
+.draggable:active {
+  cursor: grabbing;
 }
 
 /* Dark mode support */
@@ -101,42 +84,40 @@
     background-color: #121212;
   }
   
-  .canvasContainer {
+  .canvasArea {
     background-color: #1e1e1e;
   }
 }
 
 /* Responsive adjustments */
 @media (max-width: 960px) {
-  .drawerPaper {
-    width: 100vw;
-    max-width: 360px;
+  .mainLayout {
+    flex-direction: column;
   }
 }
 
 @media (max-width: 600px) {
-  .canvasContainer {
-    padding: 12px;
-  }
-  
   .drawerHeader {
     min-height: 56px;
   }
-}
-
-/* Animations */
-@keyframes pulse {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.05);
-  }
-  100% {
-    transform: scale(1);
+  
+  .headerToolbar {
+    padding: 8px;
   }
 }
 
-.pulseAnimation {
-  animation: pulse 2s infinite;
+/* RTL specific styles */
+[dir="rtl"] {
+  .container,
+  .drawerHeader,
+  .statusBar {
+    direction: rtl;
+    text-align: right;
+  }
+}
+
+/* Animation for smooth transitions */
+.canvasArea,
+.drawer {
+  transition: all 0.3s ease;
 }
