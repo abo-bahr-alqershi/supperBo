@@ -72,7 +72,7 @@ namespace YemenBooking.Application.Mappings
                 .ForMember(dest => dest.UnitTypeName, opt => opt.MapFrom(src => src.UnitType.Name))
                 .ForMember(dest => dest.PricingMethod, opt => opt.MapFrom(src => src.PricingMethod))
                 // include dynamic field values
-                .ForMember(dest => dest.FieldValues, opt => opt.MapFrom(src => src.UnitFieldValues));
+                .ForMember(dest => dest.FieldValues, opt => opt.MapFrom(src => src.FieldValues));
 
             // User mapping
             CreateMap<User, UserDto>()
@@ -85,7 +85,7 @@ namespace YemenBooking.Application.Mappings
             // --------- NEW / UPDATED MAPPINGS ---------
 
             // Property amenity mapping
-            CreateMap<PropertyAmenity, Properties.PropertyAmenityDto>()
+            CreateMap<PropertyAmenity, YemenBooking.Application.DTOs.Properties.PropertyAmenityDto>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
                 .ForMember(dest => dest.AmenityId, opt => opt.MapFrom(src => src.PropertyTypeAmenity.AmenityId))
                 .ForMember(dest => dest.IsAvailable, opt => opt.MapFrom(src => src.IsAvailable))
