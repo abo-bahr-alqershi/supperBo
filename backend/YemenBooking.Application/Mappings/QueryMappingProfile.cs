@@ -29,7 +29,6 @@ namespace YemenBooking.Application.Mappings
 
             // Booking details including payments and services
             CreateMap<Booking, BookingDetailsDto>()
-                .IncludeBase<Booking, BookingDto>()
                 .ForMember(dest => dest.PaymentDetails, opt => opt.MapFrom(src => src.Payments))
                 .ForMember(dest => dest.ContactInfo, opt => opt.MapFrom(src => new ContactInfoDto { PhoneNumber = src.User.Phone ?? "", Email = src.User.Email ?? "" }));
 
