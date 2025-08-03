@@ -36,7 +36,7 @@ export const useHomeScreenBuilder = (options: UseHomeScreenBuilderOptions = {}) 
   const [lastSaveTime, setLastSaveTime] = useState<Date | null>(null);
 
   // Fetch template data
-  const { data: template, isLoading: templateLoading, error: templateError } = useQuery({
+  const { data: template, isLoading: templateLoading, error: templateError } = useQuery<HomeScreenTemplate | null, Error>({
     queryKey: ['homeScreenTemplate', templateId],
     queryFn: () => templateId ? homeScreenService.getTemplateById(templateId) : null,
     enabled: !!templateId
