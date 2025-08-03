@@ -355,24 +355,31 @@ const HomeScreenBuilder: React.FC = () => {
   // Render empty state
   if (!template && !templateId) {
     return (
-      <Box className={styles.emptyContainer}>
-        <PaletteIcon sx={{ fontSize: 80, color: 'primary.main', mb: 3 }} />
-        <Typography variant="h4" gutterBottom>
-          Welcome to Home Screen Builder
-        </Typography>
-        <Typography variant="body1" color="text.secondary" sx={{ mb: 4, maxWidth: 600 }}>
-          Create beautiful, responsive home screens for your mobile app. 
-          Choose from pre-built templates or start from scratch.
-        </Typography>
-        <Button
-          variant="contained"
-          size="large"
-          startIcon={<AddIcon />}
-          onClick={handleCreateTemplate}
-        >
-          Create Your First Template
-        </Button>
-      </Box>
+      <>
+        <Box className={styles.emptyContainer}>
+          <PaletteIcon sx={{ fontSize: 80, color: 'primary.main', mb: 3 }} />
+          <Typography variant="h4" gutterBottom>
+            Welcome to Home Screen Builder
+          </Typography>
+          <Typography variant="body1" color="text.secondary" sx={{ mb: 4, maxWidth: 600 }}>
+            Create beautiful, responsive home screens for your mobile app. 
+            Choose from pre-built templates or start from scratch.
+          </Typography>
+          <Button
+            variant="contained"
+            size="large"
+            startIcon={<AddIcon />}
+            onClick={handleCreateTemplate}
+          >
+            Create Your First Template
+          </Button>
+        </Box>
+        <TemplateManager
+          open={templateManagerOpen}
+          onClose={() => setTemplateManagerOpen(false)}
+          currentTemplateId={template?.id}
+        />
+      </>
     );
   }
   

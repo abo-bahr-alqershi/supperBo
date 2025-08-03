@@ -198,7 +198,7 @@ namespace YemenBooking.Api.Controllers
         /// <returns>قائمة أنواع المكونات</returns>
         [HttpGet("component-types")]
         public async Task<ActionResult<ResultDto<List<ComponentTypeDto>>>> GetComponentTypes(
-            [FromQuery] string platform)
+            [FromQuery] string platform = null)
         {
             var query = new GetComponentTypesQuery { Platform = platform };
             var result = await _mediator.Send(query);
