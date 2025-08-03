@@ -55,7 +55,7 @@ export const useHomeScreenBuilder = (options: UseHomeScreenBuilderOptions = {}) 
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['homeScreenTemplates'] });
       toast.success('Template created successfully');
-      navigate(`/home-screen-builder/${data.id}`);
+      navigate(`/admin/home-screen-builder/${data.id}`);
     },
     onError: () => {
       toast.error('Failed to create template');
@@ -81,7 +81,7 @@ export const useHomeScreenBuilder = (options: UseHomeScreenBuilderOptions = {}) 
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['homeScreenTemplates'] });
       toast.success('Template deleted successfully');
-      navigate('/home-screen-builder');
+      navigate('/admin/home-screen-builder');
     },
     onError: () => {
       toast.error('Failed to delete template');

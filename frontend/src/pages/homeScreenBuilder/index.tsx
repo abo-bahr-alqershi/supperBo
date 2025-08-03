@@ -297,7 +297,7 @@ const HomeScreenBuilder: React.FC = () => {
     if (window.confirm('Are you sure you want to delete this template?')) {
       try {
         await deleteTemplate(template.id);
-        navigate('/home-screen-builder');
+        navigate('/admin/home-screen-builder');
       } catch (error) {
         toast.error('Failed to delete template');
       }
