@@ -35,17 +35,12 @@ export const useHomeScreenBuilder = (options: UseHomeScreenBuilderOptions = {}) 
   const [isDirty, setIsDirty] = useState(false);
   const [lastSaveTime, setLastSaveTime] = useState<Date | null>(null);
 
-  // Fetch template data with proper type inference
-  const { data: template, isLoading: templateLoading, error: templateError } = useQuery<HomeScreenTemplate | null, Error>(
-    ['homeScreenTemplate', templateId],
-    async () => {
-      if (!templateId) {
-        return null;
-      }
-      return homeScreenService.getTemplateById(templateId);
-    },
-    { enabled: !!templateId }
-  );
+  // Fetch template data
+  const { data: template, isLoading: templateLoading, error: templateError } = useQuery<HomeScreenTemplate, Error, HomeScreenTemplate>({
+    queryKey: ['homeScreenTemplate', templateId],
+    queryFn: () => homeScreenService.getTemplateById(templateId!),
+    enabled: !!templateId
+  });
 
   // Fetch component types
   const { data: componentTypes = [] } = useQuery({
