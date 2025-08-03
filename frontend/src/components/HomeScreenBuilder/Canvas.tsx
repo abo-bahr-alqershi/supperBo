@@ -18,7 +18,7 @@ import SectionContainer from './SectionContainer.tsx';
 import type { HomeScreenTemplate } from '../../types/homeScreen.types';
 
 interface CanvasProps {
-  template?: HomeScreenTemplate | null;
+  template?: HomeScreenTemplate;
   selectedComponentId: string | null;
   selectedSectionId: string | null;
   onSelectComponent: (componentId: string | null) => void;
