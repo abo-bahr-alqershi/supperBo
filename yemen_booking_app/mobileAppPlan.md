@@ -77,6 +77,8 @@ lib/
 │   │   │       ├── register_usecase.dart
 │   │   │       ├── logout_usecase.dart
 │   │   │       ├── reset_password_usecase.dart
+│   │   │       ├── update_profile_usecase.dart
+│   │   │       ├── upload_user_image_usecase.dart
 │   │   │       ├── check_auth_status_usecase.dart # Added
 │   │   │       └── get_current_user_usecase.dart   # Added
 │   │   │

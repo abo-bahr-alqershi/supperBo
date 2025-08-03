@@ -54,29 +54,6 @@ namespace YemenBooking.Api.Controllers.Admin
         }
 
         /// <summary>
-        /// إعادة ترتيب مجموعات الحقول
-        /// Reorder field groups within a property type
-        /// </summary>
-        [HttpPost("reorder")]
-        public async Task<IActionResult> ReorderFieldGroups([FromBody] ReorderFieldGroupsCommand command)
-        {
-            var result = await _mediator.Send(command);
-            return Ok(result);
-        }
-
-        /// <summary>
-        /// جلب مجموعة حقول حسب المعرف
-        /// Get field group by ID
-        /// </summary>
-        [HttpGet("{groupId}")]
-        public async Task<IActionResult> GetFieldGroupById(string groupId)
-        {
-            var query = new GetFieldGroupByIdQuery { GroupId = groupId };
-            var result = await _mediator.Send(query);
-            return Ok(result);
-        }
-
-        /// <summary>
         /// جلب مجموعات الحقول لنوع وحدة معين
         /// Get field groups by unit type
         /// </summary>
@@ -85,18 +62,6 @@ namespace YemenBooking.Api.Controllers.Admin
         {
             var query = new GetFieldGroupsByUnitTypeQuery { UnitTypeId = unitTypeId };
             var result = await _mediator.Send(query);
-            return Ok(result);
-        }
-
-        /// <summary>
-        /// تخصيص حقل لمجموعة حقول
-        /// Assign a field to a field group
-        /// </summary>
-        [HttpPost("{groupId}/assign-field")]
-        public async Task<IActionResult> AssignFieldToGroup(string groupId, [FromBody] AssignFieldToGroupCommand command)
-        {
-            command.GroupId = groupId;
-            var result = await _mediator.Send(command);
             return Ok(result);
         }
     }

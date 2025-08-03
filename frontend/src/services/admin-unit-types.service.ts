@@ -21,10 +21,6 @@ export const AdminUnitTypesService = {
   getAll: (params?: Record<string, any>) =>
     apiClient.get<PaginatedResult<UnitTypeDto>>(`${API_BASE}`, { params }).then(res => res.data),
 
-  // جلب نوع وحدة بواسطة المعرف
-  getById: (query: GetUnitTypeByIdQuery) =>
-    apiClient.get<ResultDto<UnitTypeDto>>(`${API_BASE}/${query.unitTypeId}`).then(res => res.data),
-
   // إنشاء نوع وحدة جديد
   create: (data: CreateUnitTypeCommand) =>
     apiClient.post<ResultDto<string>>(`${API_BASE}`, data).then(res => res.data),

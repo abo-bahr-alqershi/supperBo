@@ -20,17 +20,9 @@ import type { ResultDto, PaginatedResult } from '../types/common.types';
 
 // خدمات إدارة المستخدمين (Users Service)
 export const AdminUsersService = {
-  /** البحث عن المستخدمين */
-  search: (query: SearchUsersQuery) =>
-    apiClient.get<PaginatedResult<UserDto>>('/api/admin/Users/search', { params: query }).then(res => res.data),
-
   /** جلب جميع المستخدمين */
   getAll: (query?: GetAllUsersQuery) =>
     apiClient.get<PaginatedResult<UserDto>>('/api/admin/Users', { params: query }).then(res => res.data),
-
-  /** جلب مستخدم بواسطة المعرف */
-  getById: (query: GetUserByIdQuery) =>
-    apiClient.get<ResultDto<UserDto>>(`/api/admin/Users/${query.userId}`).then(res => res.data),
 
   /** إنشاء مستخدم جديد */
   create: (data: CreateUserCommand) =>
@@ -56,14 +48,6 @@ export const AdminUsersService = {
   getByRole: (query: GetUsersByRoleQuery) =>
     apiClient.get<PaginatedResult<UserDto>>('/api/admin/Users/by-role', { params: query }).then(res => res.data),
 
-  /** جلب سجلات نشاط المستخدم */
-  getActivityLog: (query: GetUserActivityLogQuery) => {
-    const { userId, from, to } = query;
-    return apiClient
-      .get<ResultDto<UserDto[]>>(`/api/admin/Users/${userId}/activity-log`, { params: { from, to } })
-      .then(res => res.data);
-  },
-
   /** جلب إحصائيات المستخدم مدى الحياة */
   getLifetimeStats: (query: GetUserLifetimeStatsQuery) =>
     apiClient.get<ResultDto<any>>(`/api/admin/Users/${query.userId}/lifetime-stats`).then(res => res.data),
@@ -75,11 +59,6 @@ export const AdminUsersService = {
       .get<PaginatedResult<any>>(`/api/admin/Users/${userId}/notifications`, { params })
       .then(res => res.data);
   },
-
-  /** جلب أدوار المستخدم */
-  getRoles: (query: GetUserRolesQuery) =>
-    apiClient.get<PaginatedResult<string>>(`/api/admin/Users/${query.userId}/roles`, { params: query }).then(res => res.data),
-
   /** جلب تفاصيل مستخدم كاملة */
   getDetails: (userId: string) =>
     apiClient.get<ResultDto<UserDetailsDto>>(`/api/admin/Users/${userId}/details`).then(res => res.data),

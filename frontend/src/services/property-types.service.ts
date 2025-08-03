@@ -11,9 +11,4 @@ export const PropertyTypesService = {
     apiClient
       .get<PaginatedResult<PropertyTypeDto>>(API_BASE, { params })
       .then(res => res.data),
-  /** جلب نوع كيان بحسب المعرف */
-  getById: (propertyTypeId: string) =>
-    apiClient
-      .get<PropertyTypeDto>(`${API_BASE}/${propertyTypeId}`)
-      .then(res => res.data),
 }; 

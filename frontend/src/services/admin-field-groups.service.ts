@@ -33,25 +33,7 @@ export const AdminFieldGroupsService = {
   delete: (command: DeleteFieldGroupCommand) =>
     apiClient.delete<ResultDto<boolean>>(`${API_BASE}/${command.groupId}`).then(res => res.data),
 
-  /** إعادة ترتيب مجموعات الحقول */
-  reorder: (command: ReorderFieldGroupsCommand) =>
-    apiClient.post<ResultDto<boolean>>(
-      `${API_BASE}/reorder`,
-      command
-    ).then(res => res.data),
-
-  /** جلب مجموعة حقول بواسطة المعرف */
-  getById: (query: GetFieldGroupByIdQuery) =>
-    apiClient.get<FieldGroupDto>(`${API_BASE}/${query.groupId}`).then(res => res.data),
-
   /** جلب مجموعات الحقول حسب نوع الوحدة */
   getByUnitType: (query: GetFieldGroupsByUnitTypeQuery) =>
     apiClient.get<FieldGroupDto[]>(`${API_BASE}/unit-type/${query.unitTypeId}`).then(res => res.data),
-
-  /** تخصيص حقل لمجموعة */
-  assignField: (command: AssignFieldToGroupCommand) =>
-    apiClient.post<ResultDto<boolean>>(
-      `${API_BASE}/${command.groupId}/assign-field`,
-      command
-    ).then(res => res.data)
 }; 

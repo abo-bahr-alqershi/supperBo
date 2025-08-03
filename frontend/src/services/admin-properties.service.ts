@@ -41,10 +41,6 @@ export const AdminPropertiesService = {
   // جلب جميع الكيانات مع الفلاتر والصفحات
   getAll: (params?: GetAllPropertiesQuery) =>
     apiClient.get<PaginatedResult<PropertyDto>>(`${API_BASE}`, { params }).then(res => res.data),
-
-  // جلب بيانات كيان بواسطة المعرف
-  getById: (propertyId: string) =>
-    apiClient.get<ResultDto<PropertyDto>>(`${API_BASE}/${propertyId}`).then(res => res.data),
   /** الموافقة على كيان */
   approve: (propertyId: string) =>
     apiClient.post<ResultDto<boolean>>(`${API_BASE}/${propertyId}/approve`).then(res => res.data),
@@ -57,26 +53,4 @@ export const AdminPropertiesService = {
   /** جلب تفاصيل الكيان مع الوحدات والحقول الديناميكية */
   getDetails: (query: GetPropertyDetailsQuery) =>
     apiClient.get<ResultDto<PropertyDetailsDto>>(`${API_BASE}/${query.propertyId}/details`, { params: { includeUnits: query.includeUnits } }).then(res => res.data),
-  /** جلب بيانات الكيان للتحرير */
-  getForEdit: (query: GetPropertyForEditQuery) =>
-    apiClient.get<ResultDto<PropertyEditDto>>(`${API_BASE}/${query.propertyId}/for-edit`, { params: { ownerId: query.ownerId } }).then(res => res.data),
-  /** جلب مرافق الكيان */
-  getAmenities: (query: GetPropertyAmenitiesQuery) =>
-    apiClient.get<ResultDto<AmenityDto[]>>(`${API_BASE}/${query.propertyId}/amenities`, { params: query }).then(res => res.data),
-
-  /** جلب الكيانات حسب المدينة */
-  getByCity: (query: GetPropertiesByCityQuery) =>
-    apiClient.get<PaginatedResult<PropertyDto>>(`${API_BASE}/by-city`, { params: { cityName: query.cityName, pageNumber: query.pageNumber, pageSize: query.pageSize } }).then(res => res.data),
-
-  /** جلب كيانات المالك */
-  getByOwner: (query: GetPropertiesByOwnerQuery) =>
-    apiClient.get<PaginatedResult<PropertyDto>>(`${API_BASE}/owner/${query.ownerId}`, { params: { pageNumber: query.pageNumber, pageSize: query.pageSize } }).then(res => res.data),
-
-  /** جلب الكيانات حسب النوع */
-  getByType: (query: GetPropertiesByTypeQuery) =>
-    apiClient.get<PaginatedResult<PropertyDto>>(`${API_BASE}/type/${query.propertyTypeId}`, { params: { pageNumber: query.pageNumber, pageSize: query.pageSize } }).then(res => res.data),
-
-  /** جلب إحصائيات تقييم الكيان */
-  getRatingStats: (query: GetPropertyRatingStatsQuery) =>
-    apiClient.get<ResultDto<PropertyRatingStatsDto>>(`${API_BASE}/${query.propertyId}/rating-stats`).then(res => res.data),
 };
