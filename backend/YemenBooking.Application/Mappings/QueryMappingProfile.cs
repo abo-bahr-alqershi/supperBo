@@ -51,7 +51,8 @@ namespace YemenBooking.Application.Mappings
             CreateMap<Property, PropertyDetailsDto>()
                 .IncludeBase<Property, PropertyDto>()
                 .ForMember(dest => dest.Units, opt => opt.MapFrom(src => src.Units))
-                .ForMember(dest => dest.Amenities, opt => opt.MapFrom(src => src.Amenities.Select(pa => pa.PropertyTypeAmenity.Amenity)));
+                // map full property amenities with availability & extra cost info
+                .ForMember(dest => dest.Amenities, opt => opt.MapFrom(src => src.Amenities));
 
             // Property type mapping
             CreateMap<PropertyType, PropertyTypeDto>();
@@ -69,7 +70,9 @@ namespace YemenBooking.Application.Mappings
             CreateMap<Unit, UnitDto>()
                 .ForMember(dest => dest.PropertyName, opt => opt.MapFrom(src => src.Property.Name))
                 .ForMember(dest => dest.UnitTypeName, opt => opt.MapFrom(src => src.UnitType.Name))
-                .ForMember(dest => dest.PricingMethod, opt => opt.MapFrom(src => src.PricingMethod));
+                .ForMember(dest => dest.PricingMethod, opt => opt.MapFrom(src => src.PricingMethod))
+                // include dynamic field values
+                .ForMember(dest => dest.FieldValues, opt => opt.MapFrom(src => src.UnitFieldValues));
 
             // User mapping
             CreateMap<User, UserDto>()
@@ -78,6 +81,40 @@ namespace YemenBooking.Application.Mappings
 
             // Role mapping
             CreateMap<Role, RoleDto>();
+
+            // --------- NEW / UPDATED MAPPINGS ---------
+
+            // Property amenity mapping
+            CreateMap<PropertyAmenity, Properties.PropertyAmenityDto>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.AmenityId, opt => opt.MapFrom(src => src.PropertyTypeAmenity.AmenityId))
+                .ForMember(dest => dest.IsAvailable, opt => opt.MapFrom(src => src.IsAvailable))
+                .ForMember(dest => dest.ExtraCost, opt => opt.MapFrom(src => src.ExtraCost != null ? src.ExtraCost.Amount : (decimal?)null))
+                .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.PropertyTypeAmenity.Amenity.Description))
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.PropertyTypeAmenity.Amenity.Name))
+                .ForMember(dest => dest.IconUrl, opt => opt.Ignore())
+                .ForMember(dest => dest.Category, opt => opt.Ignore());
+
+            // UnitType field mapping
+            CreateMap<UnitTypeField, UnitTypeFieldDto>()
+                .ForMember(dest => dest.FieldId, opt => opt.MapFrom(src => src.Id.ToString()))
+                .ForMember(dest => dest.UnitTypeId, opt => opt.MapFrom(src => src.UnitTypeId.ToString()))
+                .ForMember(dest => dest.FieldName, opt => opt.MapFrom(src => src.FieldName))
+                .ForMember(dest => dest.DisplayName, opt => opt.MapFrom(src => src.DisplayName))
+                .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
+                // ignore heavy JSON conversion for now
+                .ForMember(dest => dest.FieldOptions, opt => opt.Ignore())
+                .ForMember(dest => dest.ValidationRules, opt => opt.Ignore());
+
+            // Unit field value mapping
+            CreateMap<UnitFieldValue, UnitFieldValueDto>()
+                .ForMember(dest => dest.ValueId, opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.FieldId, opt => opt.MapFrom(src => src.UnitTypeFieldId))
+                .ForMember(dest => dest.FieldName, opt => opt.MapFrom(src => src.UnitTypeField.FieldName))
+                .ForMember(dest => dest.DisplayName, opt => opt.MapFrom(src => src.UnitTypeField.DisplayName))
+                .ForMember(dest => dest.Value, opt => opt.MapFrom(src => src.FieldValue))
+                .ForMember(dest => dest.FieldType, opt => opt.MapFrom(src => src.UnitTypeField.FieldTypeId))
+                .ForMember(dest => dest.Field, opt => opt.MapFrom(src => src.UnitTypeField));
 
             // Money value object mapping
             CreateMap<Money, MoneyDto>();
