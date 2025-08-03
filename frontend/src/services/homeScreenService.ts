@@ -24,7 +24,10 @@ export class HomeScreenService {
     isActive?: boolean;
     includeDeleted?: boolean;
   }): Promise<HomeScreenTemplate[]> {
-    const response = await apiClient.get(`${API_BASE_URL}/home-screens/templates`, { params });
+    const { platform = 'All', targetAudience = 'All', isActive, includeDeleted } = params || {};
+    const response = await apiClient.get(`${API_BASE_URL}/home-screens/templates`, {
+      params: { platform, targetAudience, isActive, includeDeleted }
+    });
     return response.data.data;
   }
 
