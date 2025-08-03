@@ -65,9 +65,7 @@ import {
   Warning as WarningIcon,
   Check as CheckIcon
 } from '@mui/icons-material';
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
-import { TouchBackend } from 'react-dnd-touch-backend';
+import { DndContext, PointerSensor, TouchSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { motion, AnimatePresence } from 'framer-motion';
 import { toast, Toaster } from 'react-hot-toast';
 
@@ -383,11 +381,14 @@ const HomeScreenBuilder: React.FC = () => {
     );
   }
   
-  const isTouchDevice = 'ontouchstart' in window;
-  const DndBackend = isTouchDevice ? TouchBackend : HTML5Backend;
+  // Add dnd-kit sensors setup
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(TouchSensor)
+  );
   
   return (
-    <DndProvider backend={DndBackend}>
+    <DndContext sensors={sensors}>
       <Box className={styles.container}>
         {/* App Bar */}
         <AppBar position="fixed" className={styles.appBar}>
@@ -813,7 +814,7 @@ const HomeScreenBuilder: React.FC = () => {
           </Fab>
         </Zoom>
       </Box>
-    </DndProvider>
+    </DndContext>
   );
 };
 
