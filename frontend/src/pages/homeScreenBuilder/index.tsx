@@ -377,7 +377,7 @@ const HomeScreenBuilder: React.FC = () => {
         <TemplateManager
           open={templateManagerOpen}
           onClose={() => setTemplateManagerOpen(false)}
-          currentTemplateId={template?.id}
+          currentTemplateId={templateId}
         />
       </>
     );
@@ -665,7 +665,7 @@ const HomeScreenBuilder: React.FC = () => {
         <TemplateManager
           open={templateManagerOpen}
           onClose={() => setTemplateManagerOpen(false)}
-          currentTemplateId={template?.id}
+          currentTemplateId={templateId}
         />
         
         {/* Publish Dialog */}
