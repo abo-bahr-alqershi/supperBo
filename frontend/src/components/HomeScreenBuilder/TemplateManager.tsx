@@ -236,7 +236,7 @@ const TemplateManager: React.FC<TemplateManagerProps> = ({
   };
 
   const handleEditTemplate = (template: HomeScreenTemplate) => {
-    navigate(`/home-screen-builder/${template.id}`);
+    navigate(`/admin/home-screen-builder/${template.id}`);
     onClose();
   };
 
