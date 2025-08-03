@@ -139,6 +139,8 @@ const HomeScreenBuilder: React.FC = () => {
     deleteTemplate,
     publishTemplate,
     selectComponent,
+    addComponent,
+    moveComponent,
   } = useHomeScreenBuilder({
     templateId,
     autoSave: autoSaveEnabled,
@@ -175,8 +177,25 @@ const HomeScreenBuilder: React.FC = () => {
   };
   
   const handleDragEnd = (event: any) => {
+    const { active, over } = event;
+    if (!over) {
+      setActiveId(null);
+      return;
+    }
+
+    const activeData = active.data.current;
+    const overData = over.data.current;
+
+    // Add new component to section
+    if (activeData?.type === 'new-component' && overData?.type === 'section') {
+      addComponent(overData.sectionId, activeData.componentType);
+    }
+    // Move existing component between sections
+    else if (activeData?.type === 'existing-component' && overData?.type === 'section') {
+      moveComponent(activeData.id, activeData.sourceSectionId, overData.sectionId, 0);
+    }
+
     setActiveId(null);
-    // Handle drop logic here
   };
   
   // Auto-save effect
@@ -522,11 +541,15 @@ const HomeScreenBuilder: React.FC = () => {
                     color: 'primary.contrastText',
                     borderRadius: 1,
                     boxShadow: 3,
-                    cursor: 'grabbing'
+                    cursor: 'grabbing',
+                    opacity: 0.9
                   }}
                 >
                   <Typography variant="body2">
-                    سحب المكون
+                    {activeId.startsWith('palette-')
+                      ? componentTypes.find(ct => `palette-${ct.type}` === activeId)?.name || 'مكون'
+                      : 'سحب العنصر'
+                    }
                   </Typography>
                 </Box>
               ) : null}
