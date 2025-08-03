@@ -1,11 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using YemenBooking.Application.Commands.Amenities;
 using YemenBooking.Application.Queries.Amenities;
-using YemenBooking.Application.DTOs;
 
 namespace YemenBooking.Api.Controllers.Admin
 {
@@ -64,30 +60,6 @@ namespace YemenBooking.Api.Controllers.Admin
         }
 
         /// <summary>
-        /// جلب مرافق بناءً على معرف الكيان
-        /// Get amenities by property ID
-        /// </summary>
-        [HttpGet("property/{propertyId}")]
-        public async Task<IActionResult> GetAmenitiesByProperty(Guid propertyId, [FromQuery] GetAmenitiesByPropertyQuery query)
-        {
-            query.PropertyId = propertyId;
-            var result = await _mediator.Send(query);
-            return Ok(result);
-        }
-
-        /// <summary>
-        /// جلب مرافق بناءً على نوع الكيان
-        /// Get amenities by property type ID
-        /// </summary>
-        [HttpGet("type/{propertyTypeId}")]
-        public async Task<IActionResult> GetAmenitiesByPropertyType(Guid propertyTypeId, [FromQuery] GetAmenitiesByPropertyTypeQuery query)
-        {
-            query.PropertyTypeId = propertyTypeId;
-            var result = await _mediator.Send(query);
-            return Ok(result);
-        }
-
-        /// <summary>
         /// إسناد مرفق لكيان
         /// Assign an amenity to a property
         /// </summary>
@@ -109,19 +81,6 @@ namespace YemenBooking.Api.Controllers.Admin
         {
             command.AmenityId = amenityId;
             command.PropertyTypeId = propertyTypeId;
-            var result = await _mediator.Send(command);
-            return Ok(result);
-        }
-
-        /// <summary>
-        /// تحديث حالة وتكلفة المرفق لكيان
-        /// Update amenity availability and extra cost for a property
-        /// </summary>
-        [HttpPut("{amenityId}/update/property/{propertyId}")]
-        public async Task<IActionResult> UpdatePropertyAmenity(Guid amenityId, Guid propertyId, [FromBody] UpdatePropertyAmenityCommand command)
-        {
-            command.AmenityId = amenityId;
-            command.PropertyId = propertyId;
             var result = await _mediator.Send(command);
             return Ok(result);
         }

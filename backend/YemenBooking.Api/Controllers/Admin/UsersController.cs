@@ -123,18 +123,6 @@ namespace YemenBooking.Api.Controllers.Admin
         }
 
         /// <summary>
-        /// استعلام سجلات نشاط المستخدم
-        /// Get user activity logs
-        /// </summary>
-        [HttpGet("{id}/activity-log")]
-        public async Task<IActionResult> GetUserActivityLog(Guid id, [FromQuery] GetUserActivityLogQuery query)
-        {
-            query.UserId = id;
-            var result = await _mediator.Send(query);
-            return Ok(result);
-        }
-
-        /// <summary>
         /// استعلام إحصائيات المستخدم مدى الحياة
         /// Get user lifetime statistics
         /// </summary>
@@ -152,18 +140,6 @@ namespace YemenBooking.Api.Controllers.Admin
         /// </summary>
         [HttpGet("{id}/notifications")]
         public async Task<IActionResult> GetUserNotifications(Guid id, [FromQuery] GetUserNotificationsQuery query)
-        {
-            query.UserId = id;
-            var result = await _mediator.Send(query);
-            return Ok(result);
-        }
-
-        /// <summary>
-        /// استعلام أدوار المستخدم
-        /// Get user roles for a specific user
-        /// </summary>
-        [HttpGet("{id}/roles")]
-        public async Task<IActionResult> GetUserRoles(Guid id, [FromQuery] GetUserRolesQuery query)
         {
             query.UserId = id;
             var result = await _mediator.Send(query);

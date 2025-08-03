@@ -1,6 +1,5 @@
 using YemenBooking.Api.Extensions;
 using YemenBooking.Api.Services;
-using YemenBooking.Application.Handlers.Commands.PropertyImages;
 using YemenBooking.Application.Interfaces.Services;
 using YemenBooking.Application.Mappings;
 using YemenBooking.Core.Interfaces.Services;
@@ -27,6 +26,7 @@ using AutoMapper;
 using AdvancedIndexingSystem.Core.Interfaces;
 using AdvancedIndexingSystem.Core.Models;
 using AdvancedIndexingSystem.Core.Services;
+using YemenBooking.Application.Handlers.Queries.MobileApp.Properties;
 
 var builder = WebApplication.CreateBuilder(args);
 // Register WebSocket manager and service for chat
@@ -82,7 +82,7 @@ builder.Services.AddSwaggerGen(options =>
 
 // إضافة MediatR مع معالجات الأوامر
 builder.Services.AddMediatR(cfg => {
-    cfg.RegisterServicesFromAssembly(typeof(CreatePropertyImageCommandHandler).Assembly);
+    cfg.RegisterServicesFromAssembly(typeof(GetPropertyDetailsQueryHandler).Assembly);
 });
 
 // إضافة AutoMapper وتهيئة ملفات Mapping يدويًا لتجنب خطأ MissingMethodException

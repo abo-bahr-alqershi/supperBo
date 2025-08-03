@@ -51,52 +51,5 @@ namespace YemenBooking.Api.Controllers.Admin
             var result = await _mediator.Send(command);
             return Ok(result);
         }
-
-        /// <summary>
-        /// الحصول على تقييم الحجز
-        /// Get review by booking
-        /// </summary>
-        [HttpGet("booking/{bookingId}")]
-        public async Task<IActionResult> GetReviewByBooking(Guid bookingId)
-        {
-            var query = new GetReviewByBookingQuery { BookingId = bookingId };
-            var result = await _mediator.Send(query);
-            return Ok(result);
-        }
-
-        /// <summary>
-        /// الحصول على تقييمات لكيان معين
-        /// Get reviews by property
-        /// </summary>
-        [HttpGet("property/{propertyId}")]
-        public async Task<IActionResult> GetReviewsByProperty(Guid propertyId, [FromQuery] GetReviewsByPropertyQuery query)
-        {
-            query.PropertyId = propertyId;
-            var result = await _mediator.Send(query);
-            return Ok(result);
-        }
-
-        /// <summary>
-        /// الحصول على تقييمات مستخدم
-        /// Get reviews by user
-        /// </summary>
-        [HttpGet("user/{userId}")]
-        public async Task<IActionResult> GetReviewsByUser(Guid userId, [FromQuery] GetReviewsByUserQuery query)
-        {
-            query.UserId = userId;
-            var result = await _mediator.Send(query);
-            return Ok(result);
-        }
-
-        /// <summary>
-        /// استعلام للحصول على المراجعات المعلقة للموافقة
-        /// Query to get pending reviews awaiting approval
-        /// </summary>
-        [HttpGet("pending")]
-        public async Task<IActionResult> GetPendingReviews([FromQuery] GetPendingReviewsQuery query)
-        {
-            var result = await _mediator.Send(query);
-            return Ok(result);
-        }
     }
 } 

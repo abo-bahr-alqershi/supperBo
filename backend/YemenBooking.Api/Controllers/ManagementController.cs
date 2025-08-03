@@ -312,18 +312,5 @@ namespace YemenBooking.Api.Controllers
             return Ok(new { data = dto });
         }
 
-        /// <summary>
-        /// تصدير البيانات
-        /// Export management data
-        /// </summary>
-        [HttpPost("export")]
-        public async Task<IActionResult> ExportData([FromQuery] string format, [FromBody] YemenBooking.Application.DTOs.Management.ExportRequestDto request)
-        {
-            // Implementation for exporting data (e.g., generate Excel/CSV)
-            var content = Array.Empty<byte>();
-            return File(content, "application/octet-stream");
-        }
-
-        // Nested DTO classes removed; using shared DTOs from Application layer
     }
 } 

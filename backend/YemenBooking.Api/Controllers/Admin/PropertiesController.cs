@@ -4,7 +4,6 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using YemenBooking.Application.Commands.Properties;
 using YemenBooking.Application.Queries.Properties;
-using YemenBooking.Application.Queries.CP.Properties;
 
 namespace YemenBooking.Api.Controllers.Admin
 {
@@ -109,17 +108,6 @@ namespace YemenBooking.Api.Controllers.Admin
             return Ok(result);
         }
 
-        /// <summary>
-        /// جلب بيانات كيان بواسطة المعرف
-        /// Get property data by ID
-        /// </summary>
-        [HttpGet("{propertyId}")]
-        public async Task<IActionResult> GetPropertyById(Guid propertyId)
-        {
-            var query = new GetPropertyByIdQuery { PropertyId = propertyId };
-            var result = await _mediator.Send(query);
-            return Ok(result);
-        }
 
         /// <summary>
         /// جلب تفاصيل الكيان مع الحقول الديناميكية
@@ -129,65 +117,6 @@ namespace YemenBooking.Api.Controllers.Admin
         public async Task<IActionResult> GetPropertyDetails(Guid propertyId, [FromQuery] bool includeUnits = true, [FromQuery] bool includeDynamicFields = true)
         {
             var query = new GetPropertyDetailsQuery { PropertyId = propertyId, IncludeUnits = includeUnits, IncludeDynamicFields = includeDynamicFields };
-            var result = await _mediator.Send(query);
-            return Ok(result);
-        }
-
-        /// <summary>
-        /// جلب بيانات الكيان للتحرير
-        /// Get property data for edit form
-        /// </summary>
-        [HttpGet("{propertyId}/for-edit")]
-        public async Task<IActionResult> GetPropertyForEdit(Guid propertyId, [FromQuery] Guid ownerId)
-        {
-            var query = new GetPropertyForEditQuery { PropertyId = propertyId, OwnerId = ownerId };
-            var result = await _mediator.Send(query);
-            return Ok(result);
-        }
-
-        /// <summary>
-        /// استعلام للحصول على مرافق الكيان
-        /// Query to get property amenities
-        /// </summary>
-        [HttpGet("{propertyId}/amenities")]
-        public async Task<IActionResult> GetPropertyAmenities(Guid propertyId, [FromQuery] GetPropertyAmenitiesQuery query)
-        {
-            query.PropertyId = propertyId;
-            var result = await _mediator.Send(query);
-            return Ok(result);
-        }
-
-        /// <summary>
-        /// الحصول على الكيانات حسب المدينة
-        /// Get properties by city
-        /// </summary>
-        [HttpGet("by-city")]
-        public async Task<IActionResult> GetPropertiesByCity([FromQuery] GetPropertiesByCityQuery query)
-        {
-            var result = await _mediator.Send(query);
-            return Ok(result);
-        }
-
-        /// <summary>
-        /// الحصول على كيانات المالك
-        /// Get properties by owner
-        /// </summary>
-        [HttpGet("owner/{ownerId}")]
-        public async Task<IActionResult> GetPropertiesByOwner(Guid ownerId, [FromQuery] GetPropertiesByOwnerQuery query)
-        {
-            query.OwnerId = ownerId;
-            var result = await _mediator.Send(query);
-            return Ok(result);
-        }
-
-        /// <summary>
-        /// الحصول على الكيانات حسب النوع
-        /// Get properties by type
-        /// </summary>
-        [HttpGet("type/{propertyTypeId}")]
-        public async Task<IActionResult> GetPropertiesByType(Guid propertyTypeId, [FromQuery] GetPropertiesByTypeQuery query)
-        {
-            query.PropertyTypeId = propertyTypeId;
             var result = await _mediator.Send(query);
             return Ok(result);
         }

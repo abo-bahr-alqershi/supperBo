@@ -54,17 +54,6 @@ namespace YemenBooking.Api.Controllers.Admin
             return Ok(result);
         }
 
-        /// <summary>
-        /// تبديل حالة تفعيل حقل النوع
-        /// Toggle the status of a property type field
-        /// </summary>
-        [HttpPatch("{fieldId}/toggle-status")]
-        public async Task<IActionResult> ToggleUnitTypeFieldStatus(string fieldId, [FromBody] ToggleUnitTypeFieldStatusCommand command)
-        {
-            command.FieldId = fieldId;
-            var result = await _mediator.Send(command);
-            return Ok(result);
-        }
 
         /// <summary>
         /// إعادة ترتيب حقول نوع الكيان
@@ -105,97 +94,5 @@ namespace YemenBooking.Api.Controllers.Admin
             return Ok(result);
         }
 
-        /// <summary>
-        /// جلب بيانات حقل نوع الوحدة بواسطة المعرف
-        /// Get property type field by id
-        /// </summary>
-        [HttpGet("{fieldId}")]
-        public async Task<IActionResult> GetUnitTypeFieldById(Guid fieldId, [FromQuery] GetUnitTypeFieldByIdQuery query)
-        {
-            query.FieldId = fieldId;
-            var result = await _mediator.Send(query);
-            return Ok(result);
-        }
-
-        /// <summary>
-        /// جلب الحقول المجمعة لحقل نوع الوحدة
-        /// Get grouped property type fields
-        /// </summary>
-        [HttpGet("grouped")]
-        public async Task<IActionResult> GetUnitTypeFieldsGrouped([FromQuery] GetUnitTypeFieldsGroupedQuery query)
-        {
-            var result = await _mediator.Send(query);
-            return Ok(result);
-        }
-
-        /// <summary>
-        /// تعيين عدة حقول إلى مجموعة نوع الوحدة
-        /// Assign multiple fields to a unit type group
-        /// </summary>
-        [HttpPost("{groupId}/assign-fields")]
-        public async Task<IActionResult> AssignFieldsToGroup(string groupId, [FromBody] AssignFieldsToGroupCommand command)
-        {
-            command.GroupId = groupId;
-            var result = await _mediator.Send(command);
-            return Ok(result);
-        }
-
-        /// <summary>
-        /// الإسناد الجماعي للحقول إلى المجموعات
-        /// Bulk assign fields to various unit type groups
-        /// </summary>
-        [HttpPost("bulk-assign-fields")]
-        public async Task<IActionResult> BulkAssignFieldsToGroups([FromBody] BulkAssignFieldsToGroupsCommand command)
-        {
-            var result = await _mediator.Send(command);
-            return Ok(result);
-        }
-
-        /// <summary>
-        /// إزالة حقل من مجموعة نوع الوحدة
-        /// Remove a field from a unit type group
-        /// </summary>
-        [HttpPost("{groupId}/remove-field")]
-        public async Task<IActionResult> RemoveFieldFromGroup(string groupId, [FromBody] RemoveFieldFromGroupCommand command)
-        {
-            command.GroupId = groupId;
-            var result = await _mediator.Send(command);
-            return Ok(result);
-        }
-
-        /// <summary>
-        /// إعادة ترتيب الحقول ضمن مجموعة نوع الوحدة
-        /// Reorder fields within a unit type group
-        /// </summary>
-        [HttpPost("reorder-fields")]
-        public async Task<IActionResult> ReorderFieldsInGroup([FromBody] ReorderFieldsInGroupCommand command)
-        {
-            var result = await _mediator.Send(command);
-            return Ok(result);
-        }
-
-        /// <summary>
-        /// جلب الحقول غير المجمعة ضمن أي مجموعة لنوع الكيان
-        /// Get ungrouped unit type fields for a property type
-        /// </summary>
-        [HttpGet("ungrouped-fields/{propertyTypeId}")]
-        public async Task<IActionResult> GetUngroupedFields(string propertyTypeId, [FromQuery] GetUngroupedFieldsQuery query)
-        {
-            query.PropertyTypeId = Guid.Parse(propertyTypeId);
-            var result = await _mediator.Send(query);
-            return Ok(result);
-        }
-
-        /// <summary>
-        /// bulk assign للحقول لمجموعة واحدة
-        /// Bulk assign fields to a group
-        /// </summary>
-        [HttpPost("{groupId}/bulk-assign-field")]
-        public async Task<IActionResult> BulkAssignFieldToGroup(string groupId, [FromBody] BulkAssignFieldToGroupCommand command)
-        {
-            command.GroupId = groupId;
-            var result = await _mediator.Send(command);
-            return Ok(result);
-        }
     }
 } 

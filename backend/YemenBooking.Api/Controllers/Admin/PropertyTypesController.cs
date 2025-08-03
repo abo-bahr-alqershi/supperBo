@@ -62,17 +62,5 @@ namespace YemenBooking.Api.Controllers.Admin
             var result = await _mediator.Send(query);
             return Ok(result);
         }
-
-        /// <summary>
-        /// جلب نوع كيان بناءً على المعرف
-        /// Get a property type by its ID
-        /// </summary>
-        [HttpGet("{propertyTypeId}")]
-        public async Task<IActionResult> GetPropertyTypeById(Guid propertyTypeId)
-        {
-            var query = new GetPropertyTypeByIdQuery { PropertyTypeId = propertyTypeId };
-            var result = await _mediator.Send(query);
-            return Ok(result);
-        }
     }
 } 

@@ -3,7 +3,6 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using YemenBooking.Application.Commands.Dashboard;
 using YemenBooking.Application.Commands.Units;
-using YemenBooking.Application.Queries.PropertyImages;
 using YemenBooking.Application.Queries.Units;
 
 namespace YemenBooking.Api.Controllers.Admin
@@ -87,65 +86,6 @@ namespace YemenBooking.Api.Controllers.Admin
         }
 
         /// <summary>
-        /// جلب الوحدات حسب الكيان
-        /// Get units by property
-        /// </summary>
-        [HttpGet("property/{propertyId}")]
-        public async Task<IActionResult> GetUnitsByProperty(Guid propertyId, [FromQuery] GetUnitsByPropertyQuery query)
-        {
-            query.PropertyId = propertyId;
-            var result = await _mediator.Send(query);
-            return Ok(result);
-        }
-
-        /// <summary>
-        /// تحديث متعدد لتوفر الوحدات في نطاق زمني
-        /// Bulk update unit availability within a date range
-        /// </summary>
-        [HttpPost("bulk-availability")]
-        public async Task<IActionResult> BulkUpdateUnitAvailability([FromBody] BulkUpdateUnitAvailabilityCommand command)
-        {
-            var result = await _mediator.Send(command);
-            return Ok(result);
-        }
-
-        /// <summary>
-        /// جلب الوحدات حسب نوع الوحدة
-        /// Get units by type
-        /// </summary>
-        [HttpGet("type/{unitTypeId}")]
-        public async Task<IActionResult> GetUnitsByType(Guid unitTypeId, [FromQuery] GetUnitsByTypeQuery query)
-        {
-            query.UnitTypeId = unitTypeId;
-            var result = await _mediator.Send(query);
-            return Ok(result);
-        }
-
-        /// <summary>
-        /// جلب توفر وحدة
-        /// Get unit availability
-        /// </summary>
-        [HttpGet("{unitId}/availability")]
-        public async Task<IActionResult> GetUnitAvailability(Guid unitId)
-        {
-            var query = new GetUnitAvailabilityQuery { UnitId = unitId };
-            var result = await _mediator.Send(query);
-            return Ok(result);
-        }
-
-        /// <summary>
-        /// جلب بيانات الوحدة للتحرير
-        /// Get unit for edit
-        /// </summary>
-        [HttpGet("{unitId}/for-edit")]
-        public async Task<IActionResult> GetUnitForEdit(Guid unitId)
-        {
-            var query = new GetUnitForEditQuery { UnitId = unitId };
-            var result = await _mediator.Send(query);
-            return Ok(result);
-        }
-
-        /// <summary>
         /// الحصول على تفاصيل الوحدة
         /// Get unit details including dynamic fields
         /// </summary>
@@ -157,16 +97,5 @@ namespace YemenBooking.Api.Controllers.Admin
             return Ok(result);
         }
 
-        /// <summary>
-        /// جلب صور الوحدة
-        /// Get unit images
-        /// </summary>
-        [HttpGet("{unitId}/images")]
-        public async Task<IActionResult> GetUnitImages(Guid unitId)
-        {
-            var query = new GetUnitImagesQuery { UnitId = unitId };
-            var result = await _mediator.Send(query);
-            return Ok(result);
-        }
     }
 } 

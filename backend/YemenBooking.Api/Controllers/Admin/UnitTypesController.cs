@@ -54,18 +54,6 @@ namespace YemenBooking.Api.Controllers.Admin
         }
 
         /// <summary>
-        /// جلب نوع وحدة بواسطة المعرف
-        /// Get unit type by ID
-        /// </summary>
-        [HttpGet("{unitTypeId}")]
-        public async Task<IActionResult> GetUnitTypeById(Guid unitTypeId)
-        {
-            var query = new GetUnitTypeByIdQuery { UnitTypeId = unitTypeId };
-            var result = await _mediator.Send(query);
-            return Ok(result);
-        }
-
-        /// <summary>
         /// جلب أنواع الوحدات حسب نوع الكيان
         /// Get unit types by property type
         /// </summary>

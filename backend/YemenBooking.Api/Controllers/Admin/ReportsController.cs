@@ -63,18 +63,6 @@ namespace YemenBooking.Api.Controllers.Admin
         }
 
         /// <summary>
-        /// جلب بلاغ بواسطة المعرف
-        /// Get a report by ID
-        /// </summary>
-        [HttpGet("{reportId}")]
-        public async Task<IActionResult> GetReportById(Guid reportId)
-        {
-            var query = new GetReportByIdQuery { Id = reportId };
-            var result = await _mediator.Send(query);
-            return Ok(result);
-        }
-
-        /// <summary>
         /// جلب البلاغات حسب كيان
         /// Get reports by property
         /// </summary>

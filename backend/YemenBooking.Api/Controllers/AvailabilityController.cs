@@ -70,29 +70,6 @@ namespace YemenBooking.Api.Controllers
             return result.IsSuccess ? Ok(new { data = result.Data }) : BadRequest(new { message = result.Message });
         }
 
-        /// <summary>
-        /// البحث في الإتاحات
-        /// Search for unit availabilities
-        /// </summary>
-        [HttpPost("search")]
-        public async Task<IActionResult> SearchAvailability([FromBody] AvailabilitySearchDto request)
-        {
-            var result = await _mediator.Send(new SearchAvailabilityQuery
-            {
-                UnitIds = request.UnitIds,
-                StartDate = request.StartDate,
-                EndDate = request.EndDate,
-                Statuses = request.Statuses
-            });
-            if (!result.IsSuccess) return BadRequest(new { message = result.Message });
-            return Ok(new
-            {
-                availabilities = result.Data.Availabilities,
-                conflicts = result.Data.Conflicts,
-                total_count = result.Data.TotalCount,
-                has_more = result.Data.HasMore
-            });
-        }
 
         /// <summary>
         /// تحديث إتاحة موجودة
@@ -128,46 +105,5 @@ namespace YemenBooking.Api.Controllers
             return result.IsSuccess ? NoContent() : NotFound();
         }
 
-        /// <summary>
-        /// إنشاء إتاحة مجمعة
-        /// Bulk create unit availabilities
-        /// </summary>
-        [HttpPost("bulk")]
-        public async Task<IActionResult> BulkCreateAvailability([FromBody] BulkAvailabilityRequestDto request)
-        {
-            var result = await _mediator.Send(new BulkCreateAvailabilityCommand
-            {
-                Requests = request.Requests.Select(r => new CreateAvailabilityCommand
-                {
-                    UnitId = r.UnitId,
-                    StartDate = r.StartDate,
-                    EndDate = r.EndDate,
-                    Status = r.Status,
-                    Reason = r.Reason,
-                    Notes = r.Notes,
-                    OverrideConflicts = r.OverrideConflicts ?? false
-                }).ToList()
-            });
-            return result.IsSuccess ? Ok(new { data = result.Data }) : BadRequest(new { message = result.Message });
-        }
-
-        /// <summary>
-        /// تحديث سريع لحالة الإتاحة
-        /// Quick update availability status for a unit
-        /// </summary>
-        [HttpPatch("quick-update/{unitId}")]
-        public async Task<IActionResult> QuickUpdateStatus(
-            [FromRoute] Guid unitId,
-            [FromBody] QuickUpdateAvailabilityRequestDto request)
-        {
-            var result = await _mediator.Send(new QuickUpdateAvailabilityCommand
-            {
-                UnitId = unitId,
-                StartDate = request.StartDate,
-                EndDate = request.EndDate,
-                IsAvailable = request.Status.Equals("available", StringComparison.OrdinalIgnoreCase)
-            });
-            return result.IsSuccess ? Ok(new { data = result.Data }) : BadRequest(new { message = result.Message });
-        }
     }
 } 
