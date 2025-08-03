@@ -66,8 +66,10 @@ const TabPanel: React.FC<TabPanelProps> = ({ children, value, index }) => {
 
 const PropertyPanel: React.FC<PropertyPanelProps> = ({ componentId, templateId }) => {
   const [activeTab, setActiveTab] = useState(0);
-  const { getSelectedComponent } = useHomeScreenBuilder({ templateId });
-  const selectedComponent = componentId ? getSelectedComponent() : null;
+  const { template } = useHomeScreenBuilder({ templateId });
+  const selectedComponent = componentId && template
+    ? template.sections.flatMap(s => s.components).find(c => c.id === componentId) || null
+    : null;
 
   const {
     component,
