@@ -13,6 +13,12 @@ class MoneyModel extends Equatable {
   final double amount;
 
   /// <summary>
+  /// سعر الصرف
+  /// Exchange rate
+  /// </summary>
+  final double exchangeRate;
+
+  /// <summary>
   /// العملة
   /// Currency
   /// </summary>
@@ -20,12 +26,14 @@ class MoneyModel extends Equatable {
 
   const MoneyModel({
     required this.amount,
+    required this.exchangeRate,
     required this.currency,
   });
 
   factory MoneyModel.fromJson(Map<String, dynamic> json) {
     return MoneyModel(
       amount: (json['amount'] ?? 0.0).toDouble(),
+      exchangeRate: (json['exchangeRate'] ?? 1.0).toDouble(),
       currency: json['currency'] ?? 'YER',
     );
   }
@@ -33,6 +41,7 @@ class MoneyModel extends Equatable {
   Map<String, dynamic> toJson() {
     return {
       'amount': amount,
+      'exchangeRate': exchangeRate,
       'currency': currency,
     };
   }

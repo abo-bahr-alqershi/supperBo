@@ -298,6 +298,36 @@ public class YemenBookingDbContext : DbContext
     /// </summary>
     public DbSet<UserHomeScreen> UserHomeScreens { get; set; }
 
+    /// <summary>
+    /// جدول الأقسام الديناميكية للصفحة الرئيسية
+    /// Dynamic home sections table
+    /// </summary>
+    public DbSet<DynamicHomeSection> DynamicHomeSections { get; set; }
+
+    /// <summary>
+    /// جدول محتوى الأقسام الديناميكية
+    /// Dynamic section content table
+    /// </summary>
+    public DbSet<DynamicSectionContent> DynamicSectionContent { get; set; }
+
+    /// <summary>
+    /// جدول الإعلانات الممولة
+    /// Sponsored ads table
+    /// </summary>
+    public DbSet<SponsoredAdSection> SponsoredAdSections { get; set; }
+
+    /// <summary>
+    /// جدول وجهات المدن
+    /// City destinations table
+    /// </summary>
+    public DbSet<CityDestinationSection> CityDestinationSections { get; set; }
+
+    /// <summary>
+    /// جدول إعدادات الصفحة الرئيسية الديناميكية
+    /// Dynamic home config table
+    /// </summary>
+    public DbSet<DynamicHomeConfig> DynamicHomeConfigs { get; set; }
+
 
     #endregion
 
