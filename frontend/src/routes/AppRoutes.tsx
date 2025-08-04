@@ -31,7 +31,6 @@ import AdminPropertyServices from '../pages/admin/AdminPropertyServices';
 import AvailabilityManagementPage from '../pages/availability/AvailabilityManagementPage';
 import PricingManagementPage from '../pages/pricing/PricingManagementPage';
 import InputManagementPage from '../pages/admin/InputManagementPage';
-import HomeScreenBuilder from '../pages/homeScreenBuilder';
 
 // Property Owner Pages
 import PropertyOwnerDashboard from '../pages/property/PropertyOwnerDashboard';
@@ -77,7 +76,6 @@ const AppRoutes = () => {
         <Route path="reports" element={<AdminReports />} />
         <Route path="audit-logs" element={<AdminAuditLogs />} />
         <Route path="settings" element={<AdminSettings />} />
-        <Route path="home-screen-builder/:templateId?" element={<HomeScreenBuilder />} />
       </Route>
 
       {/* Property Owner Routes */}

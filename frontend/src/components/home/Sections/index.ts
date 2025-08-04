@@ -1,0 +1,21 @@
+// frontend/src/components/Home/Sections/index.ts
+export { default as SinglePropertyAd } from './SinglePropertyAd';
+export { default as FeaturedPropertyAd } from './FeaturedPropertyAd';
+export { default as MultiPropertyAd } from './MultiPropertyAd';
+export { default as UnitShowcaseAd } from './UnitShowcaseAd';
+export { default as SinglePropertyOffer } from './SinglePropertyOffer';
+export { default as LimitedTimeOffer } from './LimitedTimeOffer';
+export { default as SeasonalOffer } from './SeasonalOffer';
+export { default as MultiPropertyOffersGrid } from './MultiPropertyOffersGrid';
+export { default as OffersCarousel } from './OffersCarousel';
+export { default as FlashDeals } from './FlashDeals';
+export { default as HorizontalPropertyList } from './HorizontalPropertyList';
+export { default as VerticalPropertyGrid } from './VerticalPropertyGrid';
+export { default as MixedLayoutList } from './MixedLayoutList';
+export { default as CompactPropertyList } from './CompactPropertyList';
+export { default as FeaturedPropertiesShowcase } from './FeaturedPropertiesShowcase';
+export { default as CityCardsGrid } from './CityCardsGrid';
+export { default as DestinationCarousel } from './DestinationCarousel';
+export { default as ExploreCities } from './ExploreCities';
+export { default as PremiumCarousel } from './PremiumCarousel';
+export { default as InteractiveShowcase } from './InteractiveShowcase';

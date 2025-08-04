@@ -49,6 +49,21 @@ import 'features/notifications/domain/usecases/dismiss_notification_usecase.dart
 import 'features/notifications/domain/usecases/update_notification_settings_usecase.dart';
 import 'features/notifications/presentation/bloc/notification_bloc.dart';
 
+// Features - Home
+import 'features/home/data/datasources/home_local_datasource.dart';
+import 'features/home/data/datasources/home_remote_datasource.dart';
+import 'features/home/data/repositories/home_repository_impl.dart';
+import 'features/home/domain/repositories/home_repository.dart';
+import 'features/home/domain/usecases/get_home_config_usecase.dart';
+import 'features/home/domain/usecases/get_featured_properties_usecase.dart';
+import 'features/home/domain/usecases/get_nearby_properties_usecase.dart';
+import 'features/home/domain/usecases/get_popular_destinations_usecase.dart';
+import 'features/home/domain/usecases/get_section_data_usecase.dart';
+import 'features/home/domain/usecases/refresh_home_sections_usecase.dart';
+import 'features/home/domain/usecases/track_section_impression_usecase.dart';
+import 'features/home/domain/usecases/track_section_interaction_usecase.dart';
+import 'features/home/presentation/bloc/home_bloc.dart';
+
 final sl = GetIt.instance;
 
 Future<void> init() async {
@@ -60,6 +75,9 @@ Future<void> init() async {
   
   // Features - Notifications
   _initNotifications();
+
+  // Features - Home
+  _initHome();
   
   // Core
   _initCore();
@@ -167,6 +185,47 @@ void _initNotifications() {
   );
   sl.registerLazySingleton<NotificationLocalDataSource>(
     () => NotificationLocalDataSourceImpl(localStorage: sl()),
+  );
+}
+
+void _initHome() {
+  // Bloc
+  sl.registerFactory(
+    () => HomeBloc(
+      getHomeConfigUseCase: sl(),
+      getFeaturedPropertiesUseCase: sl(),
+      getNearbyPropertiesUseCase: sl(),
+      getPopularDestinationsUseCase: sl(),
+      getSectionDataUseCase: sl(),
+      refreshHomeSectionsUseCase: sl(),
+      trackSectionImpressionUseCase: sl(),
+      trackSectionInteractionUseCase: sl(),
+    ),
+  );
+
+  // Use cases
+  sl.registerLazySingleton(() => GetHomeConfigUseCase(sl()));
+  sl.registerLazySingleton(() => GetHomeSectionsUseCase(sl()));
+  sl.registerLazySingleton(() => GetSponsoredAdsUseCase(sl()));
+  sl.registerLazySingleton(() => GetCityDestinationsUseCase(sl()));
+  sl.registerLazySingleton(() => RecordAdImpressionUseCase(sl()));
+  sl.registerLazySingleton(() => RecordAdClickUseCase(sl()));
+
+  // Repository
+  sl.registerLazySingleton<HomeRepository>(
+    () => HomeRepositoryImpl(
+      remoteDataSource: sl(),
+      localDataSource: sl(),
+      networkInfo: sl(),
+    ),
+  );
+
+  // Data sources
+  sl.registerLazySingleton<HomeRemoteDataSource>(
+    () => HomeRemoteDataSourceImpl(apiClient: sl()),
+  );
+  sl.registerLazySingleton<HomeLocalDataSource>(
+    () => HomeLocalDataSourceImpl(sharedPreferences: sl()),
   );
 }
 
