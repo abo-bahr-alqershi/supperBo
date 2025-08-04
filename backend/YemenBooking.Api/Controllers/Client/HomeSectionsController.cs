@@ -2,8 +2,8 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using YemenBooking.Application.Queries.MobileApp.HomeSections;
-using YemenBooking.Application.Commands.SponsoredAds;
+using YemenBooking.Application.Queries.HomeSections;
+using YemenBooking.Application.Commands.HomeSections.SponsoredAds;
 using System;
 
 namespace YemenBooking.Api.Controllers.Client
