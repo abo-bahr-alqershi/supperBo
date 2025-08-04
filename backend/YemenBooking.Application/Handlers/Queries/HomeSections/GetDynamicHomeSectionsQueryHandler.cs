@@ -52,22 +52,25 @@ namespace YemenBooking.Application.Handlers.MobileApp.HomeSections
                 IsActive = section.IsActive,
                 Title = GetLocalizedTitle(section, request.Language),
                 Subtitle = GetLocalizedSubtitle(section, request.Language),
-                SectionConfig = section.SectionConfig,
-                Metadata = section.Metadata,
+                CreatedAt = section.CreatedAt,
+                UpdatedAt = section.UpdatedAt,
+                SectionConfig = JsonSerializer.Deserialize<Dictionary<string, object>>(section.SectionConfig),
+                Metadata = JsonSerializer.Deserialize<Dictionary<string, object>>(section.Metadata),
                 ScheduledAt = section.ScheduledAt?.ToString("O"),
                 ExpiresAt = section.ExpiresAt?.ToString("O"),
                 TargetAudience = DeserializeJsonArray(section.TargetAudience),
                 Priority = section.Priority,
-                Content = section.Content?.Select(content => new DynamicSectionContentDto
+                Content = section.Content.Select(content => new DynamicSectionContentDto
                 {
                     Id = content.Id.ToString(),
+                    SectionId = section.Id.ToString(),
                     ContentType = content.ContentType,
-                    ContentData = content.ContentData,
-                    Metadata = content.Metadata,
+                    Data = JsonSerializer.Deserialize<Dictionary<string, object>>(content.ContentData),
+                    Metadata = JsonSerializer.Deserialize<Dictionary<string, object>>(content.Metadata),
                     ExpiresAt = content.ExpiresAt?.ToString("O"),
-                    DisplayOrder = content.DisplayOrder,
-                    IsActive = content.IsActive
-                }).OrderBy(c => c.DisplayOrder).ToList() ?? new List<DynamicSectionContentDto>()
+                    CreatedAt = content.CreatedAt.ToString("O"),
+                    UpdatedAt = content.UpdatedAt.ToString("O")
+                }).ToList()
             }).ToList();
 
             return result;
