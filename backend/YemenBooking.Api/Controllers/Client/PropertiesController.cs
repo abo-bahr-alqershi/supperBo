@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using YemenBooking.Application.Commands.MobileApp.Properties;
 using YemenBooking.Application.Queries.MobileApp.Properties;
+using YemenBooking.Application.Queries.Policies;
 using YemenBooking.Application.DTOs;
 using System.Collections.Generic;
 
@@ -70,6 +71,19 @@ namespace YemenBooking.Api.Controllers.Client
         public async Task<ActionResult<ResultDto<YemenBooking.Application.DTOs.Properties.PropertyDetailsDto>>> GetPropertyDetails(Guid id, [FromQuery] Guid? userId = null)
         {
             var query = new GetPropertyDetailsQuery { PropertyId = id, UserId = userId };
+            var result = await _mediator.Send(query);
+            return Ok(result);
+        }
+
+        /// <summary>
+        /// الحصول على سياسات العقار
+        /// Get property policies
+        /// </summary>
+        [HttpGet("{id}/policies")]
+        [AllowAnonymous]
+        public async Task<ActionResult<ResultDto<IEnumerable<PolicyDto>>>> GetPropertyPolicies(Guid id)
+        {
+            var query = new GetPropertyPoliciesQuery { PropertyId = id };
             var result = await _mediator.Send(query);
             return Ok(result);
         }
