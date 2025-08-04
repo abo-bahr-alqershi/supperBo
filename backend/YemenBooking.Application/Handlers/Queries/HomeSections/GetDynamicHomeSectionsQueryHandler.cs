@@ -22,7 +22,7 @@ namespace YemenBooking.Application.Handlers.MobileApp.HomeSections
 
         public async Task<List<DynamicHomeSectionDto>> Handle(GetDynamicHomeSectionsQuery request, CancellationToken cancellationToken)
         {
-            var query = _sectionRepository.GetQuery();
+            var query = _sectionRepository.GetQueryable();
 
             // Filter active sections if requested
             if (request.OnlyActive)

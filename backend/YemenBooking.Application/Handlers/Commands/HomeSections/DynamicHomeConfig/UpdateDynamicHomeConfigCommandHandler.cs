@@ -9,9 +9,9 @@ namespace YemenBooking.Application.Handlers.Commands.HomeSections.DynamicHomeCon
 {
     public class UpdateDynamicHomeConfigCommandHandler : IRequestHandler<UpdateDynamicHomeConfigCommand, bool>
     {
-        private readonly IRepository<DynamicHomeConfig> _repository;
+        private readonly IRepository<YemenBooking.Core.Entities.DynamicHomeConfig> _repository;
 
-        public UpdateDynamicHomeConfigCommandHandler(IRepository<DynamicHomeConfig> repository)
+        public UpdateDynamicHomeConfigCommandHandler(IRepository<YemenBooking.Core.Entities.DynamicHomeConfig> repository)
         {
             _repository = repository;
         }

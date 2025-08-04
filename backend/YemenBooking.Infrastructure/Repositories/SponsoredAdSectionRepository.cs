@@ -16,7 +16,7 @@ namespace YemenBooking.Infrastructure.Repositories
 
         public async Task<List<SponsoredAdSection>> GetActiveAdsAsync(int? limit = null)
         {
-            var query = _context.SponsoredAdSections
+            IQueryable<SponsoredAdSection> query = _context.SponsoredAdSections
                 .Where(ad => ad.IsActive && 
                     DateTime.UtcNow >= ad.StartDate && 
                     DateTime.UtcNow <= ad.EndDate)
@@ -35,7 +35,7 @@ namespace YemenBooking.Infrastructure.Repositories
             List<string> targetAudience, 
             int? limit = null)
         {
-            var query = _context.SponsoredAdSections
+            IQueryable<SponsoredAdSection> query = _context.SponsoredAdSections
                 .Where(ad => ad.IsActive && 
                     DateTime.UtcNow >= ad.StartDate && 
                     DateTime.UtcNow <= ad.EndDate &&

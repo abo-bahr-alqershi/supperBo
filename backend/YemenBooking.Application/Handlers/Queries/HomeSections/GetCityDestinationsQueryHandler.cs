@@ -23,7 +23,7 @@ namespace YemenBooking.Application.Handlers.MobileApp.HomeSections
 
         public async Task<List<CityDestinationDto>> Handle(GetCityDestinationsQuery request, CancellationToken cancellationToken)
         {
-            var query = _destinationRepository.GetQuery();
+            var query = _destinationRepository.GetQueryable();
 
             if (request.OnlyActive)
             {

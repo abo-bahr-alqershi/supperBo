@@ -10,16 +10,16 @@ namespace YemenBooking.Application.Handlers.Commands.HomeSections.DynamicHomeCon
 {
     public class CreateDynamicHomeConfigCommandHandler : IRequestHandler<CreateDynamicHomeConfigCommand, Guid>
     {
-        private readonly IRepository<DynamicHomeConfig> _repository;
+        private readonly IRepository<YemenBooking.Core.Entities.DynamicHomeConfig> _repository;
 
-        public CreateDynamicHomeConfigCommandHandler(IRepository<DynamicHomeConfig> repository)
+        public CreateDynamicHomeConfigCommandHandler(IRepository<YemenBooking.Core.Entities.DynamicHomeConfig> repository)
         {
             _repository = repository;
         }
 
         public async Task<Guid> Handle(CreateDynamicHomeConfigCommand request, CancellationToken cancellationToken)
         {
-            var entity = new DynamicHomeConfig(
+            var entity = new YemenBooking.Core.Entities.DynamicHomeConfig(
                 request.Version,
                 request.GlobalSettings,
                 request.ThemeSettings,
