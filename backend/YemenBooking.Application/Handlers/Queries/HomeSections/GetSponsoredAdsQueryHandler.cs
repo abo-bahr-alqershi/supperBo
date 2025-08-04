@@ -28,7 +28,7 @@ namespace YemenBooking.Application.Handlers.MobileApp.HomeSections
         public async Task<List<SponsoredAdDto>> Handle(GetSponsoredAdsQuery request, CancellationToken cancellationToken)
         {
             var now = DateTime.UtcNow;
-            var query = _adRepository.GetQuery();
+            var query = _adRepository.GetQueryable();
 
             if (request.OnlyActive)
             {
@@ -52,7 +52,7 @@ namespace YemenBooking.Application.Handlers.MobileApp.HomeSections
             var propertyDict = new Dictionary<Guid, Property>();
             if (request.IncludePropertyDetails && allPropertyIds.Any())
             {
-                var properties = await _propertyRepository.GetQuery().Include(p => p.Images)
+                var properties = await _propertyRepository.GetQueryable().Include(p => p.Images)
                     .Where(p => allPropertyIds.Contains(p.Id)).ToListAsync(cancellationToken);
                 propertyDict = properties.ToDictionary(p => p.Id);
             }
@@ -69,7 +69,16 @@ namespace YemenBooking.Application.Handlers.MobileApp.HomeSections
                     Description = ad.Description,
                     PropertyIds = ids,
                     Property = ids.Select(id => Guid.TryParse(id, out var g) && propertyDict.ContainsKey(g) ? propertyDict[g] : null)
-                                 .FirstOrDefault()?.ToSummaryDto(),
+                                 .Select(p => p == null ? null : new PropertySummaryDto
+                                 {
+                                     Id = p.Id.ToString(),
+                                     Name = p.Name,
+                                     MainImageUrl = p.Images.FirstOrDefault(i => i.IsMain)?.Url ?? p.Images.FirstOrDefault()?.Url,
+                                     BasePrice = p.BasePricePerNight,
+                                     Currency = p.Currency,
+                                     AverageRating = (double)p.AverageRating
+                                 })
+                                 .FirstOrDefault(),
                     CustomImageUrl = ad.CustomImageUrl,
                     BackgroundColor = ad.BackgroundColor,
                     TextColor = ad.TextColor,

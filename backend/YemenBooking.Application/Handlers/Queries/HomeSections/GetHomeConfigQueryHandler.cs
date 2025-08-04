@@ -23,7 +23,7 @@ namespace YemenBooking.Application.Handlers.MobileApp.HomeSections
 
         public async Task<DynamicHomeConfigDto> Handle(GetHomeConfigQuery request, CancellationToken cancellationToken)
         {
-            var query = _configRepository.GetQuery();
+            var query = _configRepository.GetQueryable();
 
             DynamicHomeConfig config;
 
