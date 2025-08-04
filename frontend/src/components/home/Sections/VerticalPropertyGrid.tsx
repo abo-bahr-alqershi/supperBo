@@ -2,7 +2,7 @@
 import React from 'react';
 import { Box, Grid } from '@mui/material';
 import { DynamicHomeSection } from '../../../types/homeSections.types';
-import PropertyCard from '../../Properties/PropertyCard';
+import PropertyCard from '../Properties/PropertyCard';
 import SectionHeader from '../Common/SectionHeader';
 
 interface VerticalPropertyGridProps {

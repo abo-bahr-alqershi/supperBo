@@ -2,7 +2,7 @@
 import React from 'react';
 import { Box, Grid, Typography, Paper } from '@mui/material';
 import { DynamicHomeSection } from '../../../types/homeSections.types';
-import OfferCard from '../../Offers/OfferCard';
+import OfferCard from '../Offers/OfferCard';
 import SectionHeader from '../Common/SectionHeader';
 import { motion } from 'framer-motion';
 

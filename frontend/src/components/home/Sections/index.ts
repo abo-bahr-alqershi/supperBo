@@ -1,5 +1,5 @@
 // frontend/src/components/Home/Sections/index.ts
-export { default as SinglePropertyAd } from './SinglePropertyAd';
+export { default as SinglePropertyAd } from './FeaturedPropertyAd';
 export { default as FeaturedPropertyAd } from './FeaturedPropertyAd';
 export { default as MultiPropertyAd } from './MultiPropertyAd';
 export { default as UnitShowcaseAd } from './UnitShowcaseAd';

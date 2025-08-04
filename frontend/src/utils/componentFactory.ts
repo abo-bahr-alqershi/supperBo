@@ -3,18 +3,7 @@ import type { HomeScreenComponent, ComponentType } from '../types/homeScreen.typ
 import type { ComponentTypeDefinition } from '../types/component.types';
 
 // Dynamic component imports
-const componentMap: Record<ComponentType, React.LazyExoticComponent<React.ComponentType<any>>> = {
-  Banner: React.lazy(() => import('../components/DynamicComponents/Banner.tsx')),
-  Carousel: React.lazy(() => import('../components/DynamicComponents/Carousel.tsx')),
-  CategoryGrid: React.lazy(() => import('../components/DynamicComponents/CategoryGrid.tsx')),
-  PropertyList: React.lazy(() => import('../components/DynamicComponents/PropertyList.tsx')),
-  SearchBar: React.lazy(() => import('../components/DynamicComponents/SearchBar.tsx')),
-  OfferCard: React.lazy(() => import('../components/DynamicComponents/OfferCard.tsx')),
-  TextBlock: React.lazy(() => import('../components/DynamicComponents/TextBlock.tsx')),
-  ImageGallery: React.lazy(() => import('../components/DynamicComponents/ImageGallery.tsx')),
-  MapView: React.lazy(() => import('../components/DynamicComponents/MapView.tsx')),
-  FilterBar: React.lazy(() => import('../components/DynamicComponents/FilterBar.tsx'))
-};
+const componentMap: Record<ComponentType, React.LazyExoticComponent<React.ComponentType<any>>> = {};
 
 /**
  * Create component instance from type definition

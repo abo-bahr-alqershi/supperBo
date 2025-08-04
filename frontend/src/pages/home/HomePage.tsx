@@ -1,8 +1,9 @@
 // frontend/src/pages/Home/HomePage.tsx
 import React, { useEffect } from 'react';
 import { Box } from '@mui/material';
-import { useHomeConfig, useDynamicHomeSections } from '../../hooks/homeSections';
-import HomeScreenLayout from '../../components/Home/HomeScreenLayout';
+import { useHomeConfig } from '../../hooks/useHomeConfig';
+import { useDynamicHomeSections } from '../../hooks/useDynamicSections';
+import HomeScreenLayout from '../../components/home/HomeScreenLayout';
 import LoadingScreen from '../../components/common/LoadingScreen';
 import ErrorScreen from '../../components/common/ErrorScreen';
 

@@ -5,7 +5,7 @@ import { DynamicHomeSection } from '../../../types/homeSections.types';
 import SectionHeader from '../Common/SectionHeader';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, Autoplay, EffectCoverflow } from 'swiper/modules';
-import PropertyShowcaseCard from '../../Properties/PropertyShowcaseCard';
+import PropertyShowcaseCard from './PropertyShowcaseCard';
 import 'swiper/css/effect-coverflow';
 
 interface FeaturedPropertiesShowcaseProps {

@@ -17,40 +17,37 @@ export const useCityDestinations = (params?: {
   limit?: number;
   sortBy?: string;
 }) => {
-  return useQuery(['cityDestinations', params], () => homeSectionsService.getCityDestinations(params));
+  return useQuery<CityDestination[], Error>({
+    queryKey: ['cityDestinations', params],
+    queryFn: () => homeSectionsService.getCityDestinations(params),
+  });
 };
 
 // Create city destination
 export const useCreateCityDestination = () => {
   const queryClient = useQueryClient();
-  return useMutation(
-    (command: CreateCityDestinationCommand) => homeSectionsService.createCityDestination(command),
-    {
-      onSuccess: () => queryClient.invalidateQueries(['cityDestinations']),
-    }
-  );
+  return useMutation({
+    mutationFn: (command: CreateCityDestinationCommand) => homeSectionsService.createCityDestination(command),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['cityDestinations'] }),
+  });
 };
 
 // Update city destination
 export const useUpdateCityDestination = () => {
   const queryClient = useQueryClient();
-  return useMutation(
-    ({ id, command }: { id: string; command: UpdateCityDestinationCommand }) =>
+  return useMutation({
+    mutationFn: ({ id, command }: { id: string; command: UpdateCityDestinationCommand }) =>
       homeSectionsService.updateCityDestination(id, command),
-    {
-      onSuccess: () => queryClient.invalidateQueries(['cityDestinations']),
-    }
-  );
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['cityDestinations'] }),
+  });
 };
 
 // Update city destination stats
 export const useUpdateCityDestinationStats = () => {
   const queryClient = useQueryClient();
-  return useMutation(
-    (command: UpdateCityDestinationStatsCommand) =>
+  return useMutation({
+    mutationFn: (command: UpdateCityDestinationStatsCommand) =>
       homeSectionsService.updateCityDestinationStats(command),
-    {
-      onSuccess: () => queryClient.invalidateQueries(['cityDestinations']),
-    }
-  );
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['cityDestinations'] }),
+  });
 };

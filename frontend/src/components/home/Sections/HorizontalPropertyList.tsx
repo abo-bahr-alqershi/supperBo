@@ -3,7 +3,7 @@ import React, { useRef } from 'react';
 import { Box, Typography, IconButton, useTheme, useMediaQuery } from '@mui/material';
 import { ChevronLeft, ChevronRight } from '@mui/icons-material';
 import { DynamicHomeSection } from '../../../types/homeSections.types';
-import PropertyCard from '../../Properties/PropertyCard';
+import PropertyCard from '../Properties/PropertyCard';
 import SectionHeader from '../Common/SectionHeader';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper/modules';
@@ -56,11 +56,12 @@ const HorizontalPropertyList: React.FC<HorizontalPropertyListProps> = ({ section
           navigation={{
             prevEl: navigationPrevRef.current,
             nextEl: navigationNextRef.current,
-          }}
+          } as any}
           pagination={isMobile ? { clickable: true } : false}
           onBeforeInit={(swiper) => {
-            swiper.params.navigation.prevEl = navigationPrevRef.current;
-            swiper.params.navigation.nextEl = navigationNextRef.current;
+            const nav = (swiper.params.navigation as any);
+            nav.prevEl = navigationPrevRef.current;
+            nav.nextEl = navigationNextRef.current;
           }}
           style={{ paddingBottom: isMobile ? '40px' : '0' }}
         >

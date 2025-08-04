@@ -2,12 +2,12 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Typography, Paper, Chip } from '@mui/material';
 import { DynamicHomeSection } from '../../../types/homeSections.types';
-import PropertyCard from '../../Properties/PropertyCard';
+import PropertyCard from '../Properties/PropertyCard';
 import SectionHeader from '../Common/SectionHeader';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Autoplay } from 'swiper/modules';
-import { Flash, Timer } from '@mui/icons-material';
-import CountdownTimer from '../../Common/CountdownTimer';
+import { FlashOn, Timer } from '@mui/icons-material';
+import CountdownTimer from '../Common/CountdownTimer';
 
 interface FlashDealsProps {
   section: DynamicHomeSection;
@@ -54,7 +54,7 @@ const FlashDeals: React.FC<FlashDealsProps> = ({ section }) => {
       <Box sx={{ position: 'relative', zIndex: 1 }}>
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 3 }}>
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-            <Flash sx={{ fontSize: 40 }} />
+            <FlashOn sx={{ fontSize: 40 }} />
             <Box>
               <Typography variant="h4" fontWeight="bold">
                 {section.title || 'عروض سريعة'}

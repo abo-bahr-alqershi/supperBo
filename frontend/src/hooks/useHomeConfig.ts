@@ -10,39 +10,36 @@ import type {
 
 // Fetch home config
 export const useHomeConfig = (version?: string) => {
-  return useQuery(['homeConfig', version], () => homeSectionsService.getHomeConfig(version));
+  return useQuery<DynamicHomeConfig, Error>({
+    queryKey: ['homeConfig', version],
+    queryFn: () => homeSectionsService.getHomeConfig(version),
+  });
 };
 
 // Create home config
 export const useCreateHomeConfig = () => {
   const queryClient = useQueryClient();
-  return useMutation(
-    (command: CreateDynamicConfigCommand) => homeSectionsService.createHomeConfig(command),
-    {
-      onSuccess: () => queryClient.invalidateQueries(['homeConfig']),
-    }
-  );
+  return useMutation({
+    mutationFn: (command: CreateDynamicConfigCommand) => homeSectionsService.createHomeConfig(command),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['homeConfig'] }),
+  });
 };
 
 // Update home config
 export const useUpdateHomeConfig = () => {
   const queryClient = useQueryClient();
-  return useMutation(
-    ({ id, command }: { id: string; command: UpdateDynamicConfigCommand }) =>
+  return useMutation({
+    mutationFn: ({ id, command }: { id: string; command: UpdateDynamicConfigCommand }) =>
       homeSectionsService.updateHomeConfig(id, command),
-    {
-      onSuccess: () => queryClient.invalidateQueries(['homeConfig']),
-    }
-  );
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['homeConfig'] }),
+  });
 };
 
 // Publish home config
 export const usePublishHomeConfig = () => {
   const queryClient = useQueryClient();
-  return useMutation(
-    (command: PublishDynamicConfigCommand) => homeSectionsService.publishHomeConfig(command.id),
-    {
-      onSuccess: () => queryClient.invalidateQueries(['homeConfig']),
-    }
-  );
+  return useMutation({
+    mutationFn: (command: PublishDynamicConfigCommand) => homeSectionsService.publishHomeConfig(command.id),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['homeConfig'] }),
+  });
 };

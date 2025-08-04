@@ -2,7 +2,7 @@
 import React from 'react';
 import { Box } from '@mui/material';
 import { DynamicHomeSection } from '../../../types/homeSections.types';
-import OfferCard from '../../Offers/OfferCard';
+import OfferCard from '../Offers/OfferCard';
 import SectionHeader from '../Common/SectionHeader';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination, EffectFade } from 'swiper/modules';
