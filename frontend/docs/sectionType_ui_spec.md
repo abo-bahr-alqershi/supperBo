@@ -140,20 +140,46 @@ This document details each `SectionType` from the mobile app, its data shape (`D
 ---
 
 ### Global UI Components
+-
+- **`SectionListPage`**: table or DnD canvas of sections
+- **`SectionForm`**: dynamic form generator based on `type` schema
+- **`ConfigPage`**: JSON editor with live preview
+- **`DestinationsPage`**: CRUD table + stats modal
+- **`AdsPage`**: preview cards + stats
+-
+- **Note**: Each `SectionForm` should:
+- 1. Load defaultConfig from enum
+- 2. Render common fields (id, order, schedule)
+- 3. Render `content` editor per `contentType` schema
+- 4. Render `config` panel (form fields matching defaultConfig keys)
 
-- **SectionListPage**: table or DnD canvas of sections
-- **SectionForm**: dynamic form generator based on `type` schema
-- **ConfigPage**: JSON editor with live preview
-- **DestinationsPage**: CRUD table + stats modal
-- **AdsPage**: preview cards + stats
+## Suggested UI Pages & Components
+The following pages and components should be generated to manage Home Sections:
 
-**Note**: Each `SectionForm` should:
-1. Load defaultConfig from enum
-2. Render common fields (id, order, schedule)
-3. Render `content` editor per `contentType` schema
-4. Render `config` panel (form fields matching defaultConfig keys)
+### Pages
+- **DynamicSectionsPage**: lists all dynamic sections, supports filtering, search, pagination
+- **DynamicSectionFormPage**: create/edit form for a single dynamic section with section-specific inputs and JSON config panel
+- **HomeConfigPage**: lists config versions, allows create/edit and publish
+- **CityDestinationsPage**: CRUD table of city destinations with inline stats editor modal
+- **SponsoredAdsPage**: CRUD list of sponsored ads with card previews and interaction stats
 
-Use this spec as blueprint for building detailed pages and reusable components for each `SectionType`.
+### Reusable Components
+For each SectionType, create a dedicated form component to handle its unique fields and content:
+- **SinglePropertyAdForm**, **FeaturedPropertyAdForm**, **MultiPropertyAdForm**, **UnitShowcaseAdForm**
+- **SinglePropertyOfferForm**, **LimitedTimeOfferForm**, **SeasonalOfferForm**, **FlashDealsForm**
+- **HorizontalPropertyListForm**, **VerticalPropertyGridForm**, **MixedLayoutListForm**, etc.
+- **CityCardsGridForm**, **DestinationCarouselForm**, **ExploreCitiesForm**
+- **PremiumCarouselForm**, **InteractiveShowcaseForm**
+
+Each form component should:
+1. Load its defaultConfig from `SectionType.defaultConfig`
+2. Expose inputs for all `DynamicHomeSection` fields (order, schedule, title, audience, etc.)
+3. Provide controls to add/remove `DynamicContent` items, with nested editors based on `contentType`
+4. Include a JSON viewer/editor for advanced `config` and `metadata` fields
+5. Validate inputs according to the data model (e.g. date ranges, required fields)
+6. On submission, call the corresponding service hook (e.g. `useCreateDynamicSection`, `useUpdateDynamicSection`)
+
+Use this updated spec as the foundation for the AI agent to generate robust, type-safe management pages and components, ensuring 100% compatibility with the back-end contract.
 
 ---
 
@@ -278,36 +304,3 @@ interface SponsoredAd {
   conversionRate: number;
 }
 ```
-
-## Existing Front-End Components
-
-Below is a list of reusable React components in `src/components` that you can leverage when building pages/forms for each SectionType.
-
-### DynamicComponents
-- **`Carousel.tsx`**: Generic carousel wrapper—supports `items: ComponentPreview[]`, autoplay, indicators.
-- **`CategoryGrid.tsx`**: Grid layout for category cards—accepts `items: { id,name,imageUrl }[]`, `columns` prop.
-- **`FilterBar.tsx`**: Provides search & multi-select filters—useful for searching properties or destinations.
-- **`ImageGallery.tsx`**: Gallery view—supports lightbox, thumbnails.
-- **`MapView.tsx`**: Interactive map—accepts `markers: { lat,lng }[]` for city destinations.
-- **`OfferCard.tsx`**: Card UI for offers & flash deals—displays discount, countdown timer.
-- **`PropertyList.tsx`**: List or grid of properties—pagination, sorting.
-- **`SearchBar.tsx`**: Text search input—use for property search when adding content.
-- **`TextBlock.tsx`**: Rich text renderer—use for announcement or banner sections.
-- **`Banner.tsx`**: Single-image banner with overlay text.
-
-### HomeScreenBuilder (Admin)
-- **`Canvas.tsx`**: Drag-and-drop canvas for arranging sections & components.
-- **`ComponentPalette.tsx`**: Sidebar with available components grouped by category.
-- **`ComponentWrapper.tsx`**: Draggable wrapper that renders each component in builder.
-- **`SectionContainer.tsx`**: Wrapper for each section—supports collapse/expand, reorder drag handle.
-- **`PropertyPanel.tsx`**: Dynamic form panel—renders fields for section/config/content editing.
-- **`PreviewModal.tsx`**: Displays live preview (via `usePreview`) inside a modal viewport.
-- **`TemplateManager.tsx`**: Manages templates list, create/update/delete operations.
-- **`index.tsx`**: Entry point wire-up of all builder subcomponents.
-
-Use the above components as building blocks by passing in the data shapes defined in the Data Model Reference. For each SectionType:
-1. Choose the right DynamicComponents sub-component (e.g., `Carousel` for carousel types).
-2. In the Admin side, wrap with drag-and-drop (`Canvas`, `SectionContainer`) and use `PropertyPanel` to edit section-specific fields.
-3. In the Client-side preview, map `DynamicContent` items to `ComponentPreview` via `renderComponent()` util.
-
-With these models, endpoints, and existing components documented, the agent has full context to generate pages and forms accurately for each SectionType and workflow.
