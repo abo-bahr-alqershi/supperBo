@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 using YemenBooking.Application.Queries.HomeSections;
 using YemenBooking.Core.Entities;
 using YemenBooking.Core.Interfaces;
+using System.Text.Json;
+using System.Collections.Generic;
+using System.Collections.Generic;
 
 namespace YemenBooking.Application.Handlers.MobileApp.HomeSections
 {
@@ -54,14 +57,16 @@ namespace YemenBooking.Application.Handlers.MobileApp.HomeSections
                 Id = config.Id.ToString(),
                 Version = config.Version,
                 IsActive = config.IsActive,
+                CreatedAt = config.CreatedAt.ToString("O"),
+                UpdatedAt = config.UpdatedAt.ToString("O"),
                 PublishedAt = config.PublishedAt?.ToString("O"),
-                GlobalSettings = config.GlobalSettings,
-                ThemeSettings = config.ThemeSettings,
-                LayoutSettings = config.LayoutSettings,
-                CacheSettings = config.CacheSettings,
-                AnalyticsSettings = config.AnalyticsSettings,
-                EnabledFeatures = config.EnabledFeatures,
-                ExperimentalFeatures = config.ExperimentalFeatures
+                GlobalSettings = JsonSerializer.Deserialize<Dictionary<string, object>>(config.GlobalSettings),
+                ThemeSettings = JsonSerializer.Deserialize<Dictionary<string, object>>(config.ThemeSettings),
+                LayoutSettings = JsonSerializer.Deserialize<Dictionary<string, object>>(config.LayoutSettings),
+                CacheSettings = JsonSerializer.Deserialize<Dictionary<string, object>>(config.CacheSettings),
+                AnalyticsSettings = JsonSerializer.Deserialize<Dictionary<string, object>>(config.AnalyticsSettings),
+                EnabledFeatures = JsonSerializer.Deserialize<List<string>>(config.EnabledFeatures),
+                ExperimentalFeatures = JsonSerializer.Deserialize<Dictionary<string, object>>(config.ExperimentalFeatures)
             };
         }
     }

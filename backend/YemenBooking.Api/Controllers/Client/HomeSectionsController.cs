@@ -1,39 +1,24 @@
-using MediatR;
-using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using YemenBooking.Api.Controllers.Client;
 using YemenBooking.Application.Queries.HomeSections;
 using YemenBooking.Application.Commands.HomeSections.SponsoredAds;
-using System;
 
 namespace YemenBooking.Api.Controllers.Client
 {
-    [ApiController]
-    [Route("api/client/[controller]")]
     public class HomeSectionsController : BaseClientController
     {
-        public HomeSectionsController(IMediator mediator) : base(mediator)
-        {
-        }
+        public HomeSectionsController(IMediator mediator) : base(mediator) { }
 
         /// <summary>
         /// Get dynamic home sections for mobile app
         /// </summary>
         [HttpGet("sections")]
-        public async Task<ActionResult<List<DynamicHomeSectionDto>>> GetHomeSections(
-            [FromQuery] string language = "en",
-            [FromQuery] string[] targetAudience = null,
-            [FromQuery] bool includeContent = true,
-            [FromQuery] bool onlyActive = true)
+        public async Task<ActionResult<List<DynamicHomeSectionDto>>> GetHomeSections([FromQuery] GetDynamicHomeSectionsQuery query)
         {
-            var query = new GetDynamicHomeSectionsQuery
-            {
-                Language = language,
-                TargetAudience = targetAudience?.ToList() ?? new List<string>(),
-                IncludeContent = includeContent,
-                OnlyActive = onlyActive
-            };
-
             var result = await _mediator.Send(query);
             return Ok(result);
         }
@@ -42,21 +27,12 @@ namespace YemenBooking.Api.Controllers.Client
         /// Get home configuration
         /// </summary>
         [HttpGet("config")]
-        public async Task<ActionResult<DynamicHomeConfigDto>> GetHomeConfig(
-            [FromQuery] string version = null)
+        public async Task<ActionResult<DynamicHomeConfigDto>> GetHomeConfig([FromQuery] string version = null)
         {
-            var query = new GetHomeConfigQuery
-            {
-                Version = version
-            };
-
-            var result = await _mediator.Send(query);
-            
+            var q = new GetHomeConfigQuery { Version = version };
+            var result = await _mediator.Send(q);
             if (result == null)
-            {
                 return NotFound("No home configuration found");
-            }
-
             return Ok(result);
         }
 
@@ -64,20 +40,8 @@ namespace YemenBooking.Api.Controllers.Client
         /// Get sponsored ads
         /// </summary>
         [HttpGet("sponsored-ads")]
-        public async Task<ActionResult<List<SponsoredAdDto>>> GetSponsoredAds(
-            [FromQuery] bool onlyActive = true,
-            [FromQuery] string[] targetAudience = null,
-            [FromQuery] int? limit = null,
-            [FromQuery] bool includePropertyDetails = false)
+        public async Task<ActionResult<List<SponsoredAdDto>>> GetSponsoredAds([FromQuery] GetSponsoredAdsQuery query)
         {
-            var query = new GetSponsoredAdsQuery
-            {
-                OnlyActive = onlyActive,
-                TargetAudience = targetAudience?.ToList() ?? new List<string>(),
-                Limit = limit,
-                IncludePropertyDetails = includePropertyDetails
-            };
-
             var result = await _mediator.Send(query);
             return Ok(result);
         }
@@ -86,24 +50,8 @@ namespace YemenBooking.Api.Controllers.Client
         /// Get city destinations
         /// </summary>
         [HttpGet("destinations")]
-        public async Task<ActionResult<List<CityDestinationDto>>> GetCityDestinations(
-            [FromQuery] string language = "en",
-            [FromQuery] bool onlyActive = true,
-            [FromQuery] bool onlyPopular = false,
-            [FromQuery] bool onlyFeatured = false,
-            [FromQuery] int? limit = null,
-            [FromQuery] string sortBy = "priority")
+        public async Task<ActionResult<List<CityDestinationDto>>> GetCityDestinations([FromQuery] GetCityDestinationsQuery query)
         {
-            var query = new GetCityDestinationsQuery
-            {
-                Language = language,
-                OnlyActive = onlyActive,
-                OnlyPopular = onlyPopular,
-                OnlyFeatured = onlyFeatured,
-                Limit = limit,
-                SortBy = sortBy
-            };
-
             var result = await _mediator.Send(query);
             return Ok(result);
         }
@@ -125,12 +73,8 @@ namespace YemenBooking.Api.Controllers.Client
             };
 
             var result = await _mediator.Send(command);
-            
             if (!result)
-            {
                 return NotFound("Sponsored ad not found");
-            }
-
             return Ok();
         }
 
@@ -151,18 +95,13 @@ namespace YemenBooking.Api.Controllers.Client
             };
 
             var result = await _mediator.Send(command);
-            
             if (!result)
-            {
                 return NotFound("Sponsored ad not found");
-            }
-
             return Ok();
         }
 
         private Guid? GetCurrentUserId()
         {
-            // Implementation depends on your authentication system
             var userIdClaim = User?.FindFirst("sub")?.Value ?? User?.FindFirst("id")?.Value;
             return Guid.TryParse(userIdClaim, out var userId) ? userId : null;
         }
