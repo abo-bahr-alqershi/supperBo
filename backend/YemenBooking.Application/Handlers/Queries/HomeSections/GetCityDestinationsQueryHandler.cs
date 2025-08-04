@@ -58,7 +58,7 @@ namespace YemenBooking.Application.Handlers.MobileApp.HomeSections
 
             var destinations = await query.ToListAsync(cancellationToken);
 
-            return destinations.Select(d => new CityDestinationDto
+            var result = destinations.Select(d => new CityDestinationDto
             {
                 Id = d.Id.ToString(),
                 Name = d.Name,
@@ -81,17 +81,16 @@ namespace YemenBooking.Application.Handlers.MobileApp.HomeSections
                 Priority = d.Priority,
                 Highlights = DeserializeJsonArray(d.Highlights),
                 HighlightsAr = DeserializeJsonArray(d.HighlightsAr),
-                WeatherData = d.WeatherData,
-                AttractionsData = d.AttractionsData,
-                Metadata = d.Metadata,
-                LocalizedName = d.GetLocalizedName(request.Language == "ar"),
-                LocalizedCountry = d.GetLocalizedCountry(request.Language == "ar"),
-                LocalizedDescription = d.GetLocalizedDescription(request.Language == "ar"),
-                LocalizedHighlights = request.Language == "ar"
-                    ? DeserializeJsonArray(d.HighlightsAr)
-                    : DeserializeJsonArray(d.Highlights),
+                WeatherData = JsonSerializer.Deserialize<Dictionary<string, object>>(d.WeatherData),
+                AttractionsData = JsonSerializer.Deserialize<Dictionary<string, object>>(d.AttractionsData),
+                Metadata = JsonSerializer.Deserialize<Dictionary<string, object>>(d.Metadata),
+                CreatedAt = d.CreatedAt.ToString("O"),
+                UpdatedAt = d.UpdatedAt.ToString("O"),
+                IsActive = d.IsActive,
                 LocalizedFullName = d.GetFullName(request.Language == "ar")
             }).ToList();
+
+            return result;
         }
 
         private List<string> DeserializeJsonArray(string json)

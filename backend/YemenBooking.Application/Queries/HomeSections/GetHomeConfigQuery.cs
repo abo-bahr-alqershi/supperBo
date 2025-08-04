@@ -1,4 +1,5 @@
 using MediatR;
+using System.Text.Json.Serialization;
 
 namespace YemenBooking.Application.Queries.HomeSections
 {
@@ -9,16 +10,18 @@ namespace YemenBooking.Application.Queries.HomeSections
 
     public class DynamicHomeConfigDto
     {
-        public string Id { get; set; }
-        public string Version { get; set; }
-        public bool IsActive { get; set; }
-        public string PublishedAt { get; set; }
-        public string GlobalSettings { get; set; }
-        public string ThemeSettings { get; set; }
-        public string LayoutSettings { get; set; }
-        public string CacheSettings { get; set; }
-        public string AnalyticsSettings { get; set; }
-        public string EnabledFeatures { get; set; }
-        public string ExperimentalFeatures { get; set; }
+        [JsonPropertyName("id")] public string Id { get; set; }
+        [JsonPropertyName("version")] public string Version { get; set; }
+        [JsonPropertyName("isActive")] public bool IsActive { get; set; }
+        [JsonPropertyName("createdAt")] public string CreatedAt { get; set; }
+        [JsonPropertyName("updatedAt")] public string UpdatedAt { get; set; }
+        [JsonPropertyName("publishedAt")] public string PublishedAt { get; set; }
+        [JsonPropertyName("globalSettings")] public Dictionary<string, object> GlobalSettings { get; set; }
+        [JsonPropertyName("themeSettings")] public Dictionary<string, object> ThemeSettings { get; set; }
+        [JsonPropertyName("layoutSettings")] public Dictionary<string, object> LayoutSettings { get; set; }
+        [JsonPropertyName("cacheSettings")] public Dictionary<string, object> CacheSettings { get; set; }
+        [JsonPropertyName("analyticsSettings")] public Dictionary<string, object> AnalyticsSettings { get; set; }
+        [JsonPropertyName("enabledFeatures")] public List<string> EnabledFeatures { get; set; }
+        [JsonPropertyName("experimentalFeatures")] public Dictionary<string, object> ExperimentalFeatures { get; set; }
     }
 }

@@ -42,84 +42,55 @@ namespace YemenBooking.Application.Handlers.MobileApp.HomeSections
                 ads = ads.Take(request.Limit.Value).ToList();
             }
 
-            var result = new List<SponsoredAdDto>();
+            // Prepare property details
             var allPropertyIds = new List<Guid>();
-
-            if (request.IncludePropertyDetails)
-            {
-                foreach (var ad in ads)
-                {
-                    var pids = DeserializeJsonArray(ad.PropertyIds)
-                        .Select(id => Guid.TryParse(id, out var g) ? (Guid?)g : null)
-                        .Where(g => g.HasValue)
-                        .Select(g => g.Value);
-                    allPropertyIds.AddRange(pids);
-                }
-                allPropertyIds = allPropertyIds.Distinct().ToList();
-            }
-
+            foreach (var ad in ads)
+                allPropertyIds.AddRange(DeserializeJsonArray(ad.PropertyIds)
+                    .Select(id => Guid.TryParse(id, out var g) ? g : Guid.Empty)
+                    .Where(g => g != Guid.Empty));
+            allPropertyIds = allPropertyIds.Distinct().ToList();
             var propertyDict = new Dictionary<Guid, Property>();
             if (request.IncludePropertyDetails && allPropertyIds.Any())
             {
-                var properties = await _propertyRepository.GetQuery()
-                    .Include(p => p.Images)
-                    .Where(p => allPropertyIds.Contains(p.Id))
-                    .ToListAsync(cancellationToken);
+                var properties = await _propertyRepository.GetQuery().Include(p => p.Images)
+                    .Where(p => allPropertyIds.Contains(p.Id)).ToListAsync(cancellationToken);
                 propertyDict = properties.ToDictionary(p => p.Id);
             }
 
+            var result = new List<SponsoredAdDto>();
             foreach (var ad in ads)
             {
+                var ids = DeserializeJsonArray(ad.PropertyIds);
                 var dto = new SponsoredAdDto
                 {
                     Id = ad.Id.ToString(),
                     Title = ad.Title,
                     Subtitle = ad.Subtitle,
                     Description = ad.Description,
-                    PropertyIds = DeserializeJsonArray(ad.PropertyIds),
+                    PropertyIds = ids,
+                    Property = ids.Select(id => Guid.TryParse(id, out var g) && propertyDict.ContainsKey(g) ? propertyDict[g] : null)
+                                 .FirstOrDefault()?.ToSummaryDto(),
                     CustomImageUrl = ad.CustomImageUrl,
                     BackgroundColor = ad.BackgroundColor,
                     TextColor = ad.TextColor,
-                    Styling = ad.Styling,
+                    Styling = JsonSerializer.Deserialize<Dictionary<string, object>>(ad.Styling),
                     CtaText = ad.CtaText,
                     CtaAction = ad.CtaAction,
-                    CtaData = ad.CtaData,
+                    CtaData = JsonSerializer.Deserialize<Dictionary<string, object>>(ad.CtaData),
                     StartDate = ad.StartDate,
                     EndDate = ad.EndDate,
                     Priority = ad.Priority,
-                    TargetingData = ad.TargetingData,
-                    AnalyticsData = ad.AnalyticsData,
-                    IsCurrentlyActive = ad.IsCurrentlyActive,
+                    TargetingData = JsonSerializer.Deserialize<Dictionary<string, object>>(ad.TargetingData),
+                    AnalyticsData = JsonSerializer.Deserialize<Dictionary<string, object>>(ad.AnalyticsData),
+                    IsActive = ad.IsActive,
+                    CreatedAt = ad.CreatedAt.ToString("O"),
+                    UpdatedAt = ad.UpdatedAt.ToString("O"),
                     ImpressionCount = ad.ImpressionCount,
                     ClickCount = ad.ClickCount,
                     ConversionRate = ad.ConversionRate
                 };
-
-                if (request.IncludePropertyDetails)
-                {
-                    dto.Properties = DeserializeJsonArray(ad.PropertyIds)
-                        .Select(id => Guid.TryParse(id, out var g) ? (Guid?)g : null)
-                        .Where(g => g.HasValue && propertyDict.ContainsKey(g.Value))
-                        .Select(g => propertyDict[g.Value])
-                        .Select(p =>
-                        {
-                            var mainImage = p.Images.FirstOrDefault(i => i.IsMain) ?? p.Images.OrderBy(i => i.SortOrder).FirstOrDefault();
-                            return new PropertySummaryDto
-                            {
-                                Id = p.Id.ToString(),
-                                Name = p.Name,
-                                MainImageUrl = mainImage?.Url,
-                                BasePrice = p.BasePricePerNight,
-                                Currency = p.Currency,
-                                AverageRating = (double)p.AverageRating
-                            };
-                        })
-                        .ToList();
-                }
-
                 result.Add(dto);
             }
-
             return result;
         }
 

@@ -1,6 +1,7 @@
 using MediatR;
 using System.Collections.Generic;
 using System;
+using System.Text.Json.Serialization;
 
 namespace YemenBooking.Application.Queries.HomeSections
 {
@@ -14,28 +15,30 @@ namespace YemenBooking.Application.Queries.HomeSections
 
     public class SponsoredAdDto
     {
-        public string Id { get; set; }
-        public string Title { get; set; }
-        public string Subtitle { get; set; }
-        public string Description { get; set; }
-        public List<string> PropertyIds { get; set; }
-        public string CustomImageUrl { get; set; }
-        public string BackgroundColor { get; set; }
-        public string TextColor { get; set; }
-        public string Styling { get; set; }
-        public string CtaText { get; set; }
-        public string CtaAction { get; set; }
-        public string CtaData { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
-        public int Priority { get; set; }
-        public string TargetingData { get; set; }
-        public string AnalyticsData { get; set; }
-        public bool IsCurrentlyActive { get; set; }
-        public int ImpressionCount { get; set; }
-        public int ClickCount { get; set; }
-        public decimal ConversionRate { get; set; }
-        public List<PropertySummaryDto> Properties { get; set; } = new();
+        [JsonPropertyName("id")] public string Id { get; set; }
+        [JsonPropertyName("title")] public string Title { get; set; }
+        [JsonPropertyName("subtitle")] public string Subtitle { get; set; }
+        [JsonPropertyName("description")] public string Description { get; set; }
+        [JsonPropertyName("property")] public PropertySummaryDto Property { get; set; }
+        [JsonPropertyName("propertyIds")] public List<string> PropertyIds { get; set; }
+        [JsonPropertyName("customImageUrl")] public string CustomImageUrl { get; set; }
+        [JsonPropertyName("backgroundColor")] public string BackgroundColor { get; set; }
+        [JsonPropertyName("textColor")] public string TextColor { get; set; }
+        [JsonPropertyName("styling")] public Dictionary<string, object> Styling { get; set; }
+        [JsonPropertyName("ctaText")] public string CtaText { get; set; }
+        [JsonPropertyName("ctaAction")] public string CtaAction { get; set; }
+        [JsonPropertyName("ctaData")] public Dictionary<string, object> CtaData { get; set; }
+        [JsonPropertyName("startDate")] public DateTime StartDate { get; set; }
+        [JsonPropertyName("endDate")] public DateTime EndDate { get; set; }
+        [JsonPropertyName("priority")] public int Priority { get; set; }
+        [JsonPropertyName("targetingData")] public Dictionary<string, object> TargetingData { get; set; }
+        [JsonPropertyName("analyticsData")] public Dictionary<string, object> AnalyticsData { get; set; }
+        [JsonPropertyName("isActive")] public bool IsActive { get; set; }
+        [JsonPropertyName("createdAt")] public string CreatedAt { get; set; }
+        [JsonPropertyName("updatedAt")] public string UpdatedAt { get; set; }
+        [JsonPropertyName("impressionCount")] public int ImpressionCount { get; set; }
+        [JsonPropertyName("clickCount")] public int ClickCount { get; set; }
+        [JsonPropertyName("conversionRate")] public decimal ConversionRate { get; set; }
     }
 
     public class PropertySummaryDto
