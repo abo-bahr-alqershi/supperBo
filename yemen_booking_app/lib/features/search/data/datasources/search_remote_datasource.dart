@@ -224,7 +224,9 @@ class SearchRemoteDataSourceImpl implements SearchRemoteDataSource {
       if (response.statusCode == 200) {
         return ResultDto.fromJson(
           response.data,
-          (json) => List<String>.from(json ?? []),
+          (dataJson) => (dataJson as List)
+              .map<String>((e) => (e as Map<String, dynamic>)['cityName'] as String)
+              .toList(),
         );
       } else {
         throw ServerException(response.data['message'] ?? 'Failed to get popular destinations');

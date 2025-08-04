@@ -27,6 +27,8 @@ using AdvancedIndexingSystem.Core.Interfaces;
 using AdvancedIndexingSystem.Core.Models;
 using AdvancedIndexingSystem.Core.Services;
 using YemenBooking.Application.Handlers.Queries.MobileApp.Properties;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
+using YemenBooking.Api.Transformers;
 
 var builder = WebApplication.CreateBuilder(args);
 // Register WebSocket manager and service for chat
@@ -95,8 +97,11 @@ builder.Services.AddYemenBookingServices();
 // إضافة التخزين المؤقت في الذاكرة لحفظ الفهارس
 builder.Services.AddMemoryCache();
 
-// إضافة دعم Controllers لربط المتحكمات مع دعم تحويل الـ enum كسلاسل نصية
-builder.Services.AddControllers()
+// إضافة دعم Controllers مع تحويل PascalCase إلى kebab-case في المسارات ودعم تحويل الـ enum كسلاسل نصية
+builder.Services.AddControllers(options =>
+{
+    options.Conventions.Add(new RouteTokenTransformerConvention(new KebabCaseParameterTransformer()));
+})
     .AddJsonOptions(options =>
     {
         options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
