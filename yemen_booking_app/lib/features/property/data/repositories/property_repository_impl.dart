@@ -132,17 +132,14 @@ class PropertyRemoteDataSourceImpl implements PropertyRemoteDataSource {
     DateTime? checkOutDate,
   }) async {
     try {
-      final queryParams = <String, dynamic>{};
-      if (checkInDate != null) {
-        queryParams['checkInDate'] = checkInDate.toIso8601String();
-      }
-      if (checkOutDate != null) {
-        queryParams['checkOutDate'] = checkOutDate.toIso8601String();
-      }
-
+      // Fetch available units via dedicated endpoint
       final response = await apiClient.get(
-        '/api/client/properties/$propertyId/units',
-        queryParameters: queryParams,
+        '/api/client/units/available',
+        queryParameters: <String, dynamic>{
+          'propertyId': propertyId,
+          if (checkInDate != null) 'checkIn': checkInDate.toIso8601String(),
+          if (checkOutDate != null) 'checkOut': checkOutDate.toIso8601String(),
+        },
       );
 
       if (response.statusCode == 200) {
@@ -169,18 +166,16 @@ class PropertyRemoteDataSourceImpl implements PropertyRemoteDataSource {
     int? filterByRating,
   }) async {
     try {
-      final queryParams = {
-        'pageNumber': pageNumber,
-        'pageSize': pageSize,
-        "sortBy":sortBy
-      };
-      
-      if (sortBy != null) queryParams['sortBy'] = sortBy;
-      if (filterByRating != null) queryParams['filterByRating'] = filterByRating;
-
+      // Fetch property reviews via dedicated reviews controller
       final response = await apiClient.get(
-        '/api/client/properties/$propertyId/reviews',
-        queryParameters: queryParams,
+        '/api/client/reviews/property',
+        queryParameters: <String, dynamic>{
+          'propertyId': propertyId,
+          'pageNumber': pageNumber,
+          'pageSize': pageSize,
+          if (sortBy != null) 'sortBy': sortBy,
+          if (filterByRating != null) 'rating': filterByRating,
+        },
       );
 
       if (response.statusCode == 200) {
@@ -293,11 +288,14 @@ class PropertyRemoteDataSourceImpl implements PropertyRemoteDataSource {
     required DateTime checkOutDate,
   }) async {
     try {
+      // Check availability via unified availability endpoint
       final response = await apiClient.get(
-        '/api/client/properties/$propertyId/availability',
-        queryParameters: {
+        '/api/client/properties/availability',
+        queryParameters: <String, dynamic>{
+          'propertyId': propertyId,
           'checkInDate': checkInDate.toIso8601String(),
           'checkOutDate': checkOutDate.toIso8601String(),
+          // add guestsCount if needed, default is assumed server-side
         },
       );
 
@@ -321,8 +319,9 @@ class PropertyRemoteDataSourceImpl implements PropertyRemoteDataSource {
     required String propertyId,
   }) async {
     try {
+      // Fetch global amenities (server does not support property-specific)
       final response = await apiClient.get(
-        '/api/client/properties/$propertyId/amenities',
+        '/api/client/amenities',
       );
 
       if (response.statusCode == 200) {
