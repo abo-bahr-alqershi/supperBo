@@ -12,12 +12,13 @@ export interface GridPosition {
 
 export interface DragItem {
   id: string;
-  type?: string;
+  type: string;
   index?: number;
 }
 
 export interface DropTarget {
   id: string;
   index?: number;
-  // Additional properties can be defined as needed
+  accept: string[];
+  canDrop: (dragItem: DragItem) => boolean;
 }

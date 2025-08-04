@@ -2,7 +2,7 @@
 import React from 'react';
 import { Box, Grid, Typography, Paper, Button } from '@mui/material';
 import { DynamicHomeSection } from '../../../types/homeSections.types';
-import PropertyCard from '../../Properties/PropertyCard';
+import PropertyCard from '../Properties/PropertyCard';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 

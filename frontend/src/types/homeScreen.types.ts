@@ -13,6 +13,7 @@ export interface HomeScreenComponent {
   properties: Array<any>;
   styles: Array<any>;
   actions: any[];
+  dataSource?: any;
 }
 
 export interface HomeScreenSection {

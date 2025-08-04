@@ -3,7 +3,7 @@ import React from 'react';
 import { Box, Paper, Typography, Grid, Button, Chip } from '@mui/material';
 import { DynamicHomeSection } from '../../../types/homeSections.types';
 import { AcUnit, WbSunny, LocalFlorist, BeachAccess } from '@mui/icons-material';
-import PropertyCard from '../../Properties/PropertyCard';
+import PropertyCard from '../Properties/PropertyCard';
 import { useNavigate } from 'react-router-dom';
 
 interface SeasonalOfferProps {

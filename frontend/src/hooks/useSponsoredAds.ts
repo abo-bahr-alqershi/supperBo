@@ -15,35 +15,34 @@ export const useSponsoredAds = (params?: {
   includePropertyDetails?: boolean;
   targetAudience?: string[];
 }) => {
-  return useQuery(['sponsoredAds', params], () => homeSectionsService.getSponsoredAds(params));
+  return useQuery<SponsoredAd[], Error>({
+    queryKey: ['sponsoredAds', params],
+    queryFn: () => homeSectionsService.getSponsoredAds(params),
+  });
 };
 
 // Create sponsored ad
 export const useCreateSponsoredAd = () => {
   const queryClient = useQueryClient();
-  return useMutation(
-    (command: CreateSponsoredAdCommand) => homeSectionsService.createSponsoredAd(command),
-    {
-      onSuccess: () => queryClient.invalidateQueries(['sponsoredAds']),
-    }
-  );
+  return useMutation({
+    mutationFn: (command: CreateSponsoredAdCommand) => homeSectionsService.createSponsoredAd(command),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['sponsoredAds'] }),
+  });
 };
 
 // Update sponsored ad
 export const useUpdateSponsoredAd = () => {
   const queryClient = useQueryClient();
-  return useMutation(
-    ({ id, command }: { id: string; command: UpdateSponsoredAdCommand }) =>
+  return useMutation({
+    mutationFn: ({ id, command }: { id: string; command: UpdateSponsoredAdCommand }) =>
       homeSectionsService.updateSponsoredAd(id, command),
-    {
-      onSuccess: () => queryClient.invalidateQueries(['sponsoredAds']),
-    }
-  );
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['sponsoredAds'] }),
+  });
 };
 
 // Record ad interaction (impression/click)
 export const useRecordAdInteraction = () => {
-  return useMutation(
-    (command: RecordAdInteractionCommand) => homeSectionsService.recordAdInteraction(command)
-  );
+  return useMutation({
+    mutationFn: (command: RecordAdInteractionCommand) => homeSectionsService.recordAdInteraction(command),
+  });
 };

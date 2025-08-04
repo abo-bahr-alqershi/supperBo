@@ -2,7 +2,7 @@
 import React from 'react';
 import { Box, Grid } from '@mui/material';
 import { DynamicHomeSection } from '../../../types/homeSections.types';
-import CityCard from '../../Destinations/CityCard';
+import CityCard from '../Destinations/CityCard';
 import SectionHeader from '../Common/SectionHeader';
 
 interface CityCardsGridProps {

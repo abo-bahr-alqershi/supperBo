@@ -10,6 +10,8 @@ export interface ComponentTypeDefinition {
     name: string;
     type: string;
     defaultValue: any;
+    isRequired: boolean;
+    description: string;
     validationPattern?: any;
     options?: any;
   }>;

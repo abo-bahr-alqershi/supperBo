@@ -17,62 +17,55 @@ export const useDynamicHomeSections = (params?: {
   includeContent?: boolean;
   onlyActive?: boolean;
 }) => {
-  return useQuery(['dynamicHomeSections', params], () => homeSectionsService.getDynamicSections(params));
+  return useQuery<DynamicHomeSection[], Error>({
+    queryKey: ['dynamicHomeSections', params],
+    queryFn: () => homeSectionsService.getDynamicSections(params),
+  });
 };
 
 // Create dynamic home section
 export const useCreateDynamicSection = () => {
   const queryClient = useQueryClient();
-  return useMutation(
-    (command: CreateDynamicSectionCommand) => homeSectionsService.createDynamicSection(command),
-    {
-      onSuccess: () => queryClient.invalidateQueries(['dynamicHomeSections']),
-    }
-  );
+  return useMutation({
+    mutationFn: (command: CreateDynamicSectionCommand) => homeSectionsService.createDynamicSection(command),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['dynamicHomeSections'] }),
+  });
 };
 
 // Update dynamic section
 export const useUpdateDynamicSection = () => {
   const queryClient = useQueryClient();
-  return useMutation(
-    ({ id, command }: { id: string; command: UpdateDynamicSectionCommand }) =>
+  return useMutation({
+    mutationFn: ({ id, command }: { id: string; command: UpdateDynamicSectionCommand }) =>
       homeSectionsService.updateDynamicSection(id, command),
-    {
-      onSuccess: () => queryClient.invalidateQueries(['dynamicHomeSections']),
-    }
-  );
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['dynamicHomeSections'] }),
+  });
 };
 
 // Toggle section status
 export const useToggleDynamicSection = () => {
   const queryClient = useQueryClient();
-  return useMutation(
-    ({ id, setActive }: ToggleSectionStatusCommand) =>
+  return useMutation({
+    mutationFn: ({ id, setActive }: ToggleSectionStatusCommand) =>
       homeSectionsService.toggleDynamicSection(id, setActive),
-    {
-      onSuccess: () => queryClient.invalidateQueries(['dynamicHomeSections']),
-    }
-  );
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['dynamicHomeSections'] }),
+  });
 };
 
 // Delete section
 export const useDeleteDynamicSection = () => {
   const queryClient = useQueryClient();
-  return useMutation(
-    (id: string) => homeSectionsService.deleteDynamicSection(id),
-    {
-      onSuccess: () => queryClient.invalidateQueries(['dynamicHomeSections']),
-    }
-  );
+  return useMutation({
+    mutationFn: (id: string) => homeSectionsService.deleteDynamicSection(id),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['dynamicHomeSections'] }),
+  });
 };
 
 // Reorder sections
 export const useReorderDynamicSections = () => {
   const queryClient = useQueryClient();
-  return useMutation(
-    (command: ReorderDynamicSectionsCommand) => homeSectionsService.reorderDynamicSections(command),
-    {
-      onSuccess: () => queryClient.invalidateQueries(['dynamicHomeSections']),
-    }
-  );
+  return useMutation({
+    mutationFn: (command: ReorderDynamicSectionsCommand) => homeSectionsService.reorderDynamicSections(command),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['dynamicHomeSections'] }),
+  });
 };
