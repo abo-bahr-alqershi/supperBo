@@ -28,6 +28,8 @@ namespace YemenBooking.Api.Extensions
             // تسجيل وحدة العمل
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
+            services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));  // Register generic repository for all entities
+
             // تسجيل المستودعات
             RegisterRepositories(services);
 
