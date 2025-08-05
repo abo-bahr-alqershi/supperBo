@@ -4,21 +4,28 @@ export interface DynamicContent {
   id: string;
   sectionId: string;
   contentType: string;
-  data: Record<string, any>;
+  contentData: Record<string, any>; // Match backend naming
   metadata: Record<string, any>;
   expiresAt?: string;
+  displayOrder: number; // Match backend
+  isActive: boolean; // Match backend
   createdAt: string;
   updatedAt: string;
+  // Computed properties from backend
+  isValid?: boolean;
+  isExpired?: boolean;
 }
 
 export interface DynamicHomeSection {
   id: string;
-  type: string;
+  sectionType: string; // Match backend naming
   order: number;
   isActive: boolean;
   title?: string;
   subtitle?: string;
-  config: Record<string, any>;
+  titleAr?: string; // Match backend
+  subtitleAr?: string; // Match backend
+  sectionConfig: Record<string, any>; // Match backend naming
   metadata: Record<string, any>;
   scheduledAt?: string;
   expiresAt?: string;
@@ -27,6 +34,11 @@ export interface DynamicHomeSection {
   content: DynamicContent[];
   createdAt: string;
   updatedAt: string;
+  // Computed properties from backend
+  isVisible?: boolean;
+  isExpired?: boolean;
+  isScheduled?: boolean;
+  isTimeSensitive?: boolean;
 }
 
 export interface DynamicHomeConfig {
@@ -112,20 +124,10 @@ export interface SponsoredAd {
   conversionRate: number;
 }
 
-// Command types for dynamic sections
+// Command types for dynamic sections - Match backend DTOs
 export interface CreateDynamicSectionCommand {
   sectionType: string;
   order: number;
-  title?: string;
-  titleAr?: string;
-  sectionConfig?: Record<string, any>;
-  metadata?: Record<string, any>;
-  targetAudience?: string[];
-  priority?: number;
-}
-
-export interface UpdateDynamicSectionCommand {
-  id: string;
   title?: string;
   subtitle?: string;
   titleAr?: string;
@@ -136,6 +138,39 @@ export interface UpdateDynamicSectionCommand {
   expiresAt?: string;
   targetAudience?: string[];
   priority?: number;
+  content?: CreateDynamicSectionContentCommand[];
+}
+
+export interface CreateDynamicSectionContentCommand {
+  contentType: string;
+  contentData: Record<string, any>;
+  metadata?: Record<string, any>;
+  displayOrder: number;
+  expiresAt?: string;
+}
+
+export interface UpdateDynamicSectionCommand {
+  title?: string;
+  subtitle?: string;
+  titleAr?: string;
+  subtitleAr?: string;
+  sectionConfig?: Record<string, any>;
+  metadata?: Record<string, any>;
+  scheduledAt?: string;
+  expiresAt?: string;
+  targetAudience?: string[];
+  priority?: number;
+  content?: UpdateDynamicSectionContentCommand[];
+}
+
+export interface UpdateDynamicSectionContentCommand {
+  id?: string; // null for new content
+  contentType: string;
+  contentData: Record<string, any>;
+  metadata?: Record<string, any>;
+  displayOrder: number;
+  expiresAt?: string;
+  isDeleted?: boolean; // to mark for deletion
 }
 
 export interface ToggleSectionStatusCommand {

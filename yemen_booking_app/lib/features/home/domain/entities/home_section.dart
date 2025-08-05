@@ -7,12 +7,14 @@ import 'section_config.dart';
 
 class HomeSection extends Equatable {
   final String id;
-  final SectionType type;
+  final SectionType sectionType; // Match backend and model naming
   final int order;
   final bool isActive;
   final String? title;
   final String? subtitle;
-  final SectionConfig config;
+  final String? titleAr; // Match backend
+  final String? subtitleAr; // Match backend
+  final SectionConfig sectionConfig; // Match backend and model naming
   final List<DynamicContentModel> content;
   final Map<String, dynamic> metadata;
   final DateTime? scheduledAt;
@@ -22,12 +24,14 @@ class HomeSection extends Equatable {
 
   const HomeSection({
     required this.id,
-    required this.type,
+    required this.sectionType,
     required this.order,
     required this.isActive,
     this.title,
     this.subtitle,
-    required this.config,
+    this.titleAr,
+    this.subtitleAr,
+    required this.sectionConfig,
     required this.content,
     required this.metadata,
     this.scheduledAt,
@@ -48,21 +52,21 @@ class HomeSection extends Equatable {
 
   bool get isVisible => isActive && !isScheduled && !isExpired;
 
-  bool get hasValidContent => content.isNotEmpty && content.any((c) => c.isValid);
+  bool get hasValidContent => content.isNotEmpty && content.any((c) => c.isCurrentlyValid);
 
   bool get isEmpty => content.isEmpty;
 
-  int get validContentCount => content.where((c) => c.isValid).length;
+  int get validContentCount => content.where((c) => c.isCurrentlyValid).length;
 
-  List<DynamicContentModel> get validContent => content.where((c) => c.isValid).toList();
+  List<DynamicContentModel> get validContent => content.where((c) => c.isCurrentlyValid).toList();
 
-  String get displayTitle => title ?? type.value.replaceAll('_', ' ').toUpperCase();
+  String get displayTitle => title ?? sectionType.value.replaceAll('_', ' ').toUpperCase();
 
-  String get sectionKey => '${type.value}_$id';
+  String get sectionKey => '${sectionType.value}_$id';
 
-  bool get requiresProperties => type.requiresPropertyData;
+  bool get requiresProperties => sectionType.requiresPropertyData;
 
-  bool get isTimeSensitive => type.isTimeSensitive;
+  bool get isTimeSensitive => sectionType.isTimeSensitive;
 
   Duration? get remainingTime {
     if (expiresAt == null) return null;
@@ -80,7 +84,7 @@ class HomeSection extends Equatable {
 
   Map<String, dynamic> get analyticsMetadata => {
         'section_id': id,
-        'section_type': type.value,
+        'section_type': sectionType.value,
         'section_order': order,
         'content_count': content.length,
         'valid_content_count': validContentCount,
@@ -92,12 +96,14 @@ class HomeSection extends Equatable {
   @override
   List<Object?> get props => [
         id,
-        type,
+        sectionType,
         order,
         isActive,
         title,
         subtitle,
-        config,
+        titleAr,
+        subtitleAr,
+        sectionConfig,
         content,
         metadata,
         scheduledAt,

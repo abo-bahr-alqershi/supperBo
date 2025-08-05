@@ -6,36 +6,46 @@ class DynamicContentModel extends Equatable {
   final String id;
   final String sectionId;
   final String contentType;
-  final Map<String, dynamic> data;
+  final Map<String, dynamic> contentData; // Match backend naming
   final Map<String, dynamic> metadata;
   final DateTime? expiresAt;
+  final int displayOrder; // Match backend
+  final bool isActive; // Match backend
   final DateTime createdAt;
   final DateTime updatedAt;
+  
+  // Computed properties from backend
+  final bool? isValid;
+  final bool? isExpired;
 
   const DynamicContentModel({
     required this.id,
     required this.sectionId,
     required this.contentType,
-    required this.data,
+    required this.contentData,
     required this.metadata,
     this.expiresAt,
+    required this.displayOrder,
+    required this.isActive,
     required this.createdAt,
     required this.updatedAt,
+    this.isValid,
+    this.isExpired,
   });
 
   // Check if content is expired
-  bool get isExpired {
+  bool get isCurrentlyExpired {
     if (expiresAt == null) return false;
     return DateTime.now().isAfter(expiresAt!);
   }
 
   // Check if content is valid
-  bool get isValid => !isExpired && data.isNotEmpty;
+  bool get isCurrentlyValid => isActive && !isCurrentlyExpired && contentData.isNotEmpty;
 
   // Get typed data
   T? getData<T>(String key) {
     try {
-      return data[key] as T?;
+      return contentData[key] as T?;
     } catch (_) {
       return null;
     }
@@ -70,13 +80,18 @@ class DynamicContentModel extends Equatable {
       id: json['id'] as String,
       sectionId: json['sectionId'] as String,
       contentType: json['contentType'] as String,
-      data: json['data'] as Map<String, dynamic>,
+      contentData: json['contentData'] as Map<String, dynamic>,
       metadata: json['metadata'] as Map<String, dynamic>? ?? {},
       expiresAt: json['expiresAt'] != null
           ? DateTime.parse(json['expiresAt'] as String)
           : null,
+      displayOrder: json['displayOrder'] as int,
+      isActive: json['isActive'] as bool,
       createdAt: DateTime.parse(json['createdAt'] as String),
       updatedAt: DateTime.parse(json['updatedAt'] as String),
+      // Backend computed properties
+      isValid: json['isValid'] as bool?,
+      isExpired: json['isExpired'] as bool?,
     );
   }
 
@@ -85,11 +100,16 @@ class DynamicContentModel extends Equatable {
       'id': id,
       'sectionId': sectionId,
       'contentType': contentType,
-      'data': data,
+      'contentData': contentData,
       'metadata': metadata,
       'expiresAt': expiresAt?.toIso8601String(),
+      'displayOrder': displayOrder,
+      'isActive': isActive,
       'createdAt': createdAt.toIso8601String(),
       'updatedAt': updatedAt.toIso8601String(),
+      // Include computed properties if available
+      if (isValid != null) 'isValid': isValid,
+      if (isExpired != null) 'isExpired': isExpired,
     };
   }
 
@@ -97,21 +117,29 @@ class DynamicContentModel extends Equatable {
     String? id,
     String? sectionId,
     String? contentType,
-    Map<String, dynamic>? data,
+    Map<String, dynamic>? contentData,
     Map<String, dynamic>? metadata,
     DateTime? expiresAt,
+    int? displayOrder,
+    bool? isActive,
     DateTime? createdAt,
     DateTime? updatedAt,
+    bool? isValid,
+    bool? isExpired,
   }) {
     return DynamicContentModel(
       id: id ?? this.id,
       sectionId: sectionId ?? this.sectionId,
       contentType: contentType ?? this.contentType,
-      data: data ?? this.data,
+      contentData: contentData ?? this.contentData,
       metadata: metadata ?? this.metadata,
       expiresAt: expiresAt ?? this.expiresAt,
+      displayOrder: displayOrder ?? this.displayOrder,
+      isActive: isActive ?? this.isActive,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
+      isValid: isValid ?? this.isValid,
+      isExpired: isExpired ?? this.isExpired,
     );
   }
 
@@ -120,11 +148,15 @@ class DynamicContentModel extends Equatable {
         id,
         sectionId,
         contentType,
-        data,
+        contentData,
         metadata,
         expiresAt,
+        displayOrder,
+        isActive,
         createdAt,
         updatedAt,
+        isValid,
+        isExpired,
       ];
 }
 

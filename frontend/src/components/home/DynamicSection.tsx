@@ -44,7 +44,7 @@ const DynamicSection: React.FC<DynamicSectionProps> = ({ section, config }) => {
 
   // عرض المكون المناسب بناءً على نوع القسم
   const renderSection = () => {
-    switch (section.type) {
+    switch (section.sectionType) {
       case SectionType.HORIZONTAL_PROPERTY_LIST:
         return <HorizontalPropertyList section={section} />;
       
@@ -95,7 +95,7 @@ const DynamicSection: React.FC<DynamicSectionProps> = ({ section, config }) => {
         return <InteractiveShowcase section={section} />;
       
       default:
-        console.warn(`نوع القسم غير مدعوم: ${section.type}`);
+        console.warn(`نوع القسم غير مدعوم: ${section.sectionType}`);
         return null;
     }
   };
@@ -103,7 +103,7 @@ const DynamicSection: React.FC<DynamicSectionProps> = ({ section, config }) => {
   return (
     <Box
       id={`section-${section.id}`}
-      data-section-type={section.type}
+      data-section-type={section.sectionType}
       data-section-priority={section.priority}
     >
       {renderSection()}

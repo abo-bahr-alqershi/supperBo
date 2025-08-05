@@ -29,6 +29,7 @@ import UnitImageGallery from '../pages/admin/UnitImageGallery';
 import UserDetails from '../pages/admin/UserDetails';
 import AdminPropertyServices from '../pages/admin/AdminPropertyServices';
 import AdminHomeSections from '../pages/admin/AdminHomeSections';
+import HomeScreenManagement from '../pages/admin/HomeScreenManagement';
 import AvailabilityManagementPage from '../pages/availability/AvailabilityManagementPage';
 import PricingManagementPage from '../pages/pricing/PricingManagementPage';
 import InputManagementPage from '../pages/admin/InputManagementPage';
@@ -78,6 +79,7 @@ const AppRoutes = () => {
         <Route path="audit-logs" element={<AdminAuditLogs />} />
         <Route path="settings" element={<AdminSettings />} />
         <Route path="home-sections" element={<AdminHomeSections />} />
+        <Route path="home-screen-management" element={<HomeScreenManagement />} />
       </Route>
 
       {/* Property Owner Routes */}
