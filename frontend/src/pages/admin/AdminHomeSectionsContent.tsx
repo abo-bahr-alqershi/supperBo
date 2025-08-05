@@ -91,8 +91,8 @@ const AdminHomeSectionsContent: React.FC = () => {
       <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
         <Typography variant="h5">Home Sections</Typography>
         <Box>
-          <Button variant="contained" color="primary" onClick={handleOpenCreate} disabled={createSection.isLoading}>Create Section</Button>
-          <Button variant="outlined" color="secondary" onClick={handleSaveOrder} sx={{ ml: 1 }} disabled={reorderSections.isLoading}>Save Order</Button>
+          <Button variant="contained" color="primary" onClick={handleOpenCreate} disabled={createSection.status === 'pending'}>Create Section</Button>
+          <Button variant="outlined" color="secondary" onClick={handleSaveOrder} sx={{ ml: 1 }} disabled={reorderSections.status === 'pending'}>Save Order</Button>
         </Box>
       </Box>
       {loading ? (
@@ -122,8 +122,8 @@ const AdminHomeSectionsContent: React.FC = () => {
                 <TableCell>{section.title || '—'}</TableCell>
                 <TableCell>{section.isActive ? 'Yes' : 'No'}</TableCell>
                 <TableCell>
-                  <IconButton onClick={() => handleOpenEdit(section)} disabled={updateSection.isLoading}><Edit /></IconButton>
-                  <IconButton onClick={() => handleDelete(section.id)} disabled={deleteSection.isLoading}><Delete /></IconButton>
+                  <IconButton onClick={() => handleOpenEdit(section)} disabled={updateSection.status === 'pending'}><Edit /></IconButton>
+                  <IconButton onClick={() => handleDelete(section.id)} disabled={deleteSection.status === 'pending'}><Delete /></IconButton>
                 </TableCell>
               </TableRow>
             ))}
