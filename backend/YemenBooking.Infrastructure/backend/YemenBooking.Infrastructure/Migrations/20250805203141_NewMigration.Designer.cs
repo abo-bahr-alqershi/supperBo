@@ -2,17 +2,20 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using YemenBooking.Infrastructure.Data.Context;
 
 #nullable disable
 
-namespace YemenBooking.Infrastructure.Migrations
+namespace YemenBooking.Infrastructure.backend.YemenBooking.Infrastructure.Migrations
 {
     [DbContext(typeof(YemenBookingDbContext))]
-    partial class YemenBookingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250805203141_NewMigration")]
+    partial class NewMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.11");
