@@ -15,14 +15,14 @@ const MultiPropertyAd: React.FC<MultiPropertyAdProps> = ({ section }) => {
   
   const properties = section.content
     .filter(item => item.contentType === 'PROPERTY')
-    .map(item => item.data)
+    .map(item => item.contentData)
     .slice(0, 4); // حد أقصى 4 عقارات
 
   if (properties.length === 0) {
     return null;
   }
 
-  const config = section.config || {};
+  const config = section.sectionConfig || {};
   const styleSettings = config.styleSettings || {};
 
   return (

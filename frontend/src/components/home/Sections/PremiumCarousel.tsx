@@ -19,7 +19,7 @@ const PremiumCarousel: React.FC<PremiumCarouselProps> = ({ section }) => {
     return null;
   }
 
-  const config = section.config || {};
+  const config = section.sectionConfig || {};
   const behaviorSettings = config.behaviorSettings || {};
 
   return (

@@ -7,7 +7,10 @@ import type {
   UpdateDynamicSectionCommand,
   ToggleSectionStatusCommand,
   DeleteDynamicSectionCommand,
-  ReorderDynamicSectionsCommand
+  ReorderDynamicSectionsCommand,
+  DynamicHomeConfig,
+  CityDestination,
+  SponsoredAd
 } from '../types/homeSections.types';
 
 // Fetch dynamic home sections
@@ -67,5 +70,39 @@ export const useReorderDynamicSections = () => {
   return useMutation({
     mutationFn: (command: ReorderDynamicSectionsCommand) => homeSectionsService.reorderDynamicSections(command),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['dynamicHomeSections'] }),
+  });
+};
+
+// Add hooks for city destinations, sponsored ads, and home config
+export const useCityDestinations = (params?: {
+  language?: string;
+  onlyActive?: boolean;
+  onlyPopular?: boolean;
+  onlyFeatured?: boolean;
+  limit?: number;
+  sortBy?: string;
+}) => {
+  return useQuery<CityDestination[], Error>({
+    queryKey: ['cityDestinations', params],
+    queryFn: () => homeSectionsService.getCityDestinations(params),
+  });
+};
+
+export const useSponsoredAds = (params?: {
+  onlyActive?: boolean;
+  limit?: number;
+  includePropertyDetails?: boolean;
+  targetAudience?: string[];
+}) => {
+  return useQuery<SponsoredAd[], Error>({
+    queryKey: ['sponsoredAds', params],
+    queryFn: () => homeSectionsService.getSponsoredAds(params),
+  });
+};
+
+export const useHomeConfig = (version?: string) => {
+  return useQuery<DynamicHomeConfig, Error>({
+    queryKey: ['homeConfig', version],
+    queryFn: () => homeSectionsService.getHomeConfig(version),
   });
 };

@@ -13,13 +13,13 @@ interface MultiPropertyOffersGridProps {
 const MultiPropertyOffersGrid: React.FC<MultiPropertyOffersGridProps> = ({ section }) => {
   const offers = section.content
     .filter(item => item.contentType === 'OFFER' || item.contentType === 'PROPERTY')
-    .map(item => item.data);
+    .map(item => item.contentData);
 
   if (offers.length === 0) {
     return null;
   }
 
-  const config = section.config || {};
+  const config = section.sectionConfig || {};
   const layoutSettings = config.layoutSettings || {};
   const columnsCount = layoutSettings.columnsCount || 3;
 

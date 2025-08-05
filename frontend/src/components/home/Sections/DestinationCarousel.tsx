@@ -18,13 +18,13 @@ const DestinationCarousel: React.FC<DestinationCarouselProps> = ({ section }) =>
 
   const destinations = section.content
     .filter(item => item.contentType === 'DESTINATION')
-    .map(item => item.data);
+    .map(item => item.contentData);
 
   if (destinations.length === 0) {
     return null;
   }
 
-  const config = section.config || {};
+  const config = section.sectionConfig || {};
   const behaviorSettings = config.behaviorSettings || {};
   const slidesPerView = isMobile ? 1 : isTablet ? 2 : 3;
 

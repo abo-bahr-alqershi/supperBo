@@ -19,8 +19,8 @@ const SinglePropertyOffer: React.FC<SinglePropertyOfferProps> = ({ section }) =>
   
   if (!offerContent) return null;
   
-  const data = offerContent.data;
-  const config = section.config || {};
+  const data = offerContent.contentData;
+  const config = section.sectionConfig || {};
 
   return (
     <motion.div

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Tabs, Tab } from '@mui/material';
-import AdminHomeSections from './AdminHomeSectionsContent';
+import HomeScreenManagement from './HomeScreenManagement';
 import AdminHomeConfig from './AdminHomeConfig';
 import AdminCityDestinations from './AdminCityDestinations';
 import AdminSponsoredAds from './AdminSponsoredAds';
@@ -18,7 +18,7 @@ const AdminHomeSectionsPage: React.FC = () => {
         <Tab label="Sponsored Ads" />
       </Tabs>
       <Box mt={2}>
-        {tabIndex === 0 && <AdminHomeSections />}
+        {tabIndex === 0 && <HomeScreenManagement />}
         {tabIndex === 1 && <AdminHomeConfig />}
         {tabIndex === 2 && <AdminCityDestinations />}
         {tabIndex === 3 && <AdminSponsoredAds />}

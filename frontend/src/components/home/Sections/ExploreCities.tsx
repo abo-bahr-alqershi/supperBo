@@ -26,7 +26,7 @@ const ExploreCities: React.FC<ExploreCitiesProps> = ({ section }) => {
   
   const cities = section.content
     .filter(item => item.contentType === 'DESTINATION')
-    .map(item => item.data);
+    .map(item => item.contentData);
 
   if (cities.length === 0) {
     return null;

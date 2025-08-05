@@ -17,13 +17,13 @@ const FeaturedPropertiesShowcase: React.FC<FeaturedPropertiesShowcaseProps> = ({
   
   const properties = section.content
     .filter(item => item.contentType === 'PROPERTY')
-    .map(item => item.data);
+    .map(item => item.contentData);
 
   if (properties.length === 0) {
     return null;
   }
 
-  const config = section.config || {};
+  const config = section.sectionConfig || {};
   const behaviorSettings = config.behaviorSettings || {};
 
   return (
