@@ -28,7 +28,7 @@ const FeaturedPropertyAd: React.FC<FeaturedPropertyAdProps> = ({ section }) => {
   const propertyContent = section.content.find(item => item.contentType === 'PROPERTY');
   if (!propertyContent) return null;
   
-  const property = propertyContent.data;
+  const property = propertyContent.contentData;
   const config = section.sectionConfig || {};
   const styleSettings = config.styleSettings || {};
   const animationSettings = config.animationSettings || {};

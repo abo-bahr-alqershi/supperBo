@@ -15,7 +15,7 @@ const UnitShowcaseAd: React.FC<UnitShowcaseAdProps> = ({ section }) => {
   const unitContent = section.content.find(item => item.contentType === 'PROPERTY');
   if (!unitContent) return null;
   
-  const unit = unitContent.data;
+  const unit = unitContent.contentData;
 
   return (
     <Card sx={{ overflow: 'hidden' }}>

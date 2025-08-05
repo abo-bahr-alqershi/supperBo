@@ -62,7 +62,7 @@ import {
   ViewModule as LayoutIcon,
 } from '@mui/icons-material';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
-import { ColorPicker as MuiColorPicker } from '@mui/x-date-pickers/ColorPicker';
+import { ColorPicker as MuiColorPicker } from 'mui-color-picker';
 import type { DynamicHomeSection } from '../../types/homeSections.types';
 
 // Section Types organized by category

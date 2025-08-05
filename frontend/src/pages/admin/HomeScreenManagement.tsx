@@ -617,8 +617,6 @@ const HomeScreenManagement: React.FC<HomeScreenManagementProps> = () => {
             (data) => handleUpdateSection(selectedSection!.id, data) : 
             handleCreateSection
           }
-          formData={configFormData}
-          onFormDataChange={setConfigFormData}
         />
 
         {/* Context Menu */}

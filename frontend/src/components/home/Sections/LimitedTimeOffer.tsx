@@ -17,7 +17,7 @@ const LimitedTimeOffer: React.FC<LimitedTimeOfferProps> = ({ section }) => {
   const offerContent = section.content[0];
   if (!offerContent) return null;
   
-  const offer = offerContent.data;
+  const offer = offerContent.contentData;
   const expiresAt = offerContent.expiresAt || section.expiresAt || 
     new Date(Date.now() + 48 * 60 * 60 * 1000).toISOString();
 
