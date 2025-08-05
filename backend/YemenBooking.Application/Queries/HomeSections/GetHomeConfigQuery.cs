@@ -5,7 +5,7 @@ namespace YemenBooking.Application.Queries.HomeSections
 {
     public class GetHomeConfigQuery : IRequest<DynamicHomeConfigDto>
     {
-        public string Version { get; set; } // Optional: get specific version
+        public string? Version { get; set; } // Optional: get specific version
     }
 
     public class DynamicHomeConfigDto
