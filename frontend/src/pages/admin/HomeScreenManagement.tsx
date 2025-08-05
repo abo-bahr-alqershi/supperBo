@@ -100,7 +100,7 @@ import type { DynamicHomeSection, SectionType, SectionAnimation, SectionSize, Dy
 // Import existing display components
 import DynamicSection from '../../components/home/DynamicSection';
 import HomeScreenLayout from '../../components/home/HomeScreenLayout';
-import SectionConfigDialog from '../../components/admin/SectionConfigDialog';
+import SectionDialog from '../../components/admin/SectionConfigDialog';
 
 // قائمة أنواع الأقسام مع الوصف والأيقونات
 const SECTION_TYPES = [
@@ -872,7 +872,7 @@ const HomeScreenManagement: React.FC<HomeScreenManagementProps> = () => {
         </Drawer>
 
         {/* Section Dialog */}
-        <SectionConfigDialog
+        <SectionDialog
           open={isDialogOpen}
           onClose={() => setIsDialogOpen(false)}
           section={selectedSection}

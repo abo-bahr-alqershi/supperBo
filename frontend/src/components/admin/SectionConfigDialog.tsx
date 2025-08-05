@@ -22,7 +22,6 @@ import {
   Chip,
   IconButton,
   Slider,
-  ColorPicker,
   Accordion,
   AccordionSummary,
   AccordionDetails,
@@ -63,7 +62,7 @@ import {
   ViewModule as LayoutIcon,
 } from '@mui/icons-material';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
-import { ColorPicker as MuiColorPicker } from 'mui-color-picker';
+import { ColorPicker as MuiColorPicker } from '@mui/x-date-pickers/ColorPicker';
 import type { DynamicHomeSection } from '../../types/homeSections.types';
 
 // Section Types organized by category
@@ -280,7 +279,7 @@ const SectionConfigDialog: React.FC<SectionConfigDialogProps> = ({
   useEffect(() => {
     if (section && isEdit) {
       setFormData({
-        sectionType: section.type || '',
+        sectionType: section.sectionType || '',
         order: section.order || 1,
         title: section.title || '',
         subtitle: section.subtitle || '',
@@ -292,29 +291,29 @@ const SectionConfigDialog: React.FC<SectionConfigDialogProps> = ({
         targetAudience: section.targetAudience || ['all'],
         displaySettings: {
           ...formData.displaySettings,
-          ...(section.config?.displaySettings || {})
+          ...(section.sectionConfig?.displaySettings || {})
         },
         layoutSettings: {
           ...formData.layoutSettings,
-          ...(section.config?.layoutSettings || {})
+          ...(section.sectionConfig?.layoutSettings || {})
         },
         styleSettings: {
           ...formData.styleSettings,
-          ...(section.config?.styleSettings || {})
+          ...(section.sectionConfig?.styleSettings || {})
         },
         animationSettings: {
           ...formData.animationSettings,
-          ...(section.config?.animationSettings || {})
+          ...(section.sectionConfig?.animationSettings || {})
         },
         behaviorSettings: {
           ...formData.behaviorSettings,
-          ...(section.config?.behaviorSettings || {})
+          ...(section.sectionConfig?.behaviorSettings || {})
         },
         cacheSettings: {
           ...formData.cacheSettings,
-          ...(section.config?.cacheSettings || {})
+          ...(section.sectionConfig?.cacheSettings || {})
         },
-        customData: section.config?.customData || {},
+        customData: section.sectionConfig?.customData || {},
         metadata: section.metadata || {}
       });
     } else if (!isEdit) {
@@ -794,7 +793,76 @@ const DisplaySettingsTab: React.FC<{
   );
 };
 
-// Continue with other tab components...
-// (Due to length constraints, I'll create the remaining components in separate files)
+// Layout Settings Tab Component
+const LayoutSettingsTab: React.FC<{ formData: any; onChange: (path: string, value: any) => void; }> = ({ formData, onChange }) => {
+  return (
+    <Stack spacing={3}>
+      <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+        إعدادات التخطيط
+      </Typography>
+      {/* Layout settings UI */}
+    </Stack>
+  );
+};
+
+// Style Settings Tab Component
+const StyleSettingsTab: React.FC<{ formData: any; onChange: (path: string, value: any) => void; }> = ({ formData, onChange }) => {
+  return (
+    <Stack spacing={3}>
+      <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+        إعدادات النمط
+      </Typography>
+      {/* Style settings UI */}
+    </Stack>
+  );
+};
+
+// Animation Settings Tab Component
+const AnimationSettingsTab: React.FC<{ formData: any; onChange: (path: string, value: any) => void; }> = ({ formData, onChange }) => {
+  return (
+    <Stack spacing={3}>
+      <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+        إعدادات الرسوم المتحركة
+      </Typography>
+      {/* Animation settings UI */}
+    </Stack>
+  );
+};
+
+// Behavior Settings Tab Component
+const BehaviorSettingsTab: React.FC<{ formData: any; onChange: (path: string, value: any) => void; }> = ({ formData, onChange }) => {
+  return (
+    <Stack spacing={3}>
+      <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+        إعدادات السلوك
+      </Typography>
+      {/* Behavior settings UI */}
+    </Stack>
+  );
+};
+
+// Scheduling and Targeting Tab Component
+const SchedulingTargetingTab: React.FC<{ formData: any; onChange: (path: string, value: any) => void; }> = ({ formData, onChange }) => {
+  return (
+    <Stack spacing={3}>
+      <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+        إعدادات الجدولة والاستهداف
+      </Typography>
+      {/* Scheduling and targeting UI */}
+    </Stack>
+  );
+};
+
+// Advanced Settings Tab Component
+const AdvancedSettingsTab: React.FC<{ formData: any; onChange: (path: string, value: any) => void; }> = ({ formData, onChange }) => {
+  return (
+    <Stack spacing={3}>
+      <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+        الإعدادات المتقدمة
+      </Typography>
+      {/* Advanced settings UI */}
+    </Stack>
+  );
+};
 
 export default SectionConfigDialog;

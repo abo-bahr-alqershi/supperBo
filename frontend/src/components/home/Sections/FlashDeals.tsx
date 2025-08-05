@@ -16,7 +16,7 @@ interface FlashDealsProps {
 const FlashDeals: React.FC<FlashDealsProps> = ({ section }) => {
   const deals = section.content
     .filter(item => item.contentType === 'PROPERTY' || item.contentType === 'OFFER')
-    .map(item => item.data);
+    .map(item => item.contentData);
 
   if (deals.length === 0) {
     return null;

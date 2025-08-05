@@ -29,7 +29,7 @@ const FeaturedPropertyAd: React.FC<FeaturedPropertyAdProps> = ({ section }) => {
   if (!propertyContent) return null;
   
   const property = propertyContent.data;
-  const config = section.config || {};
+  const config = section.sectionConfig || {};
   const styleSettings = config.styleSettings || {};
   const animationSettings = config.animationSettings || {};
   

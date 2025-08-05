@@ -15,13 +15,13 @@ const OffersCarousel: React.FC<OffersCarouselProps> = ({ section }) => {
   // استخراج العروض من المحتوى
   const offers = section.content
     .filter(item => item.contentType === 'OFFER' || item.contentType === 'ADVERTISEMENT')
-    .map(item => item.data);
+    .map(item => item.contentData);
 
   if (offers.length === 0) {
     return null;
   }
 
-  const config = section.config || {};
+  const config = section.sectionConfig || {};
   const behaviorSettings = config.behaviorSettings || {};
   const autoPlay = behaviorSettings.autoPlay !== false;
   const autoPlayDelay = behaviorSettings.autoPlayDelay || 5000;

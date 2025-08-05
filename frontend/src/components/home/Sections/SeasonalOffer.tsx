@@ -36,13 +36,13 @@ const seasonThemes = {
 const SeasonalOffer: React.FC<SeasonalOfferProps> = ({ section }) => {
   const navigate = useNavigate();
   
-  const config = section.config || {};
+  const config = section.sectionConfig || {};
   const season = config.season || 'summer';
   const theme = seasonThemes[season as keyof typeof seasonThemes] || seasonThemes.summer;
   
   const properties = section.content
     .filter(item => item.contentType === 'PROPERTY')
-    .map(item => item.data);
+    .map(item => item.contentData);
 
   return (
     <Paper

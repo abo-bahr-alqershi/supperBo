@@ -13,13 +13,13 @@ const CityCardsGrid: React.FC<CityCardsGridProps> = ({ section }) => {
   // استخراج المدن من المحتوى
   const cities = section.content
     .filter(item => item.contentType === 'DESTINATION')
-    .map(item => item.data);
+    .map(item => item.contentData);
 
   if (cities.length === 0) {
     return null;
   }
 
-  const config = section.config || {};
+  const config = section.sectionConfig || {};
   const layoutSettings = config.layoutSettings || {};
   const columnsCount = layoutSettings.columnsCount || 2;
 

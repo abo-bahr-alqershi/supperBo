@@ -13,7 +13,7 @@ interface MixedLayoutListProps {
 const MixedLayoutList: React.FC<MixedLayoutListProps> = ({ section }) => {
   const properties = section.content
     .filter(item => item.contentType === 'PROPERTY')
-    .map(item => item.data);
+    .map(item => item.contentData);
 
   if (properties.length === 0) {
     return null;
