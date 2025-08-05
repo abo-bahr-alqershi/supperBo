@@ -95,7 +95,7 @@ const AdminCityDestinations: React.FC = () => {
                 <TableCell>{dest.isActive ? 'Yes' : 'No'}</TableCell>
                 <TableCell>{dest.propertyCount} properties</TableCell>
                 <TableCell>
-                  <IconButton onClick={() => handleOpenEdit(dest)} disabled={updateDest.isLoading}><Edit /></IconButton>
+                  <IconButton onClick={() => handleOpenEdit(dest)} disabled={updateDest.status === 'pending'}><Edit /></IconButton>
                   <IconButton onClick={() => handleDelete(dest.id)}><Delete /></IconButton>
                 </TableCell>
               </TableRow>

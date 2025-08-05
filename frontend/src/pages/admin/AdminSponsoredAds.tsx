@@ -95,7 +95,7 @@ const AdminSponsoredAds: React.FC = () => {
                 <TableCell>{ad.impressionCount}</TableCell>
                 <TableCell>{ad.clickCount}</TableCell>
                 <TableCell>
-                  <IconButton onClick={() => handleOpenEdit(ad)} disabled={updateAd.isLoading}><Edit /></IconButton>
+                  <IconButton onClick={() => handleOpenEdit(ad)} disabled={updateAd.status === 'pending'}><Edit /></IconButton>
                   <IconButton onClick={() => handleDelete(ad.id)}><Delete /></IconButton>
                 </TableCell>
               </TableRow>
