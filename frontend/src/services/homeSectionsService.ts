@@ -22,8 +22,8 @@ import type {
 } from '../types/homeSections.types';
 
 // Base URLs for Home Sections admin and client endpoints
-const ADMIN_BASE = '/api/admin/HomeSections';
-const CLIENT_BASE = '/api/client/homeSections';
+const ADMIN_BASE = '/api/admin/home-sections';
+const CLIENT_BASE = '/api/client/home-sections';
 
 class HomeSectionsService {
   // Dynamic Sections (Admin)
