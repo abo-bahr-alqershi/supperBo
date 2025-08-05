@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   Box,
   Typography,
@@ -19,28 +19,15 @@ import { ArrowUpward, ArrowDownward, Edit, Delete } from '@mui/icons-material';
 import homeSectionsService from '../../services/homeSectionsService';
 import DynamicSectionForm from '../../components/admin/DynamicSectionForm';
 import type { DynamicHomeSection } from '../../types/homeSections.types';
+import { useHomeSections, UseHomeSectionsParams } from '../../hooks/useHomeSections';
 
 const AdminHomeSections: React.FC = () => {
-  const [sections, setSections] = useState<DynamicHomeSection[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string>('');
+  const params: UseHomeSectionsParams = { includeContent: true };
+  const { sections, loading, error, refetch } = useHomeSections(params);
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
   const [editingSection, setEditingSection] = useState<DynamicHomeSection | null>(null);
   const [formData, setFormData] = useState<any>({});
-
-  const fetchSections = async () => {
-    setLoading(true);
-    try {
-      const data = await homeSectionsService.getDynamicSections({ includeContent: true });
-      setSections(data.sort((a, b) => a.order - b.order));
-    } catch (err: any) {
-      setError(err.message || 'Failed to load sections');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => { fetchSections(); }, []);
+  // sections, loading, error, refetch provided by hook useHomeSections
 
   const handleOpenCreate = () => {
     setEditingSection(null);
@@ -64,7 +51,7 @@ const AdminHomeSections: React.FC = () => {
       } else {
         await homeSectionsService.createDynamicSection(formData);
       }
-      await fetchSections();
+      refetch();
       setDialogOpen(false);
     } catch (err: any) {
       console.error(err);
@@ -75,7 +62,7 @@ const AdminHomeSections: React.FC = () => {
     if (!window.confirm('Are you sure?')) return;
     try {
       await homeSectionsService.deleteDynamicSection(id);
-      await fetchSections();
+      refetch();
     } catch (err: any) {
       console.error(err);
     }
@@ -93,7 +80,7 @@ const AdminHomeSections: React.FC = () => {
     try {
       const payload = { sections: sections.map((s, i) => ({ sectionId: s.id, newOrder: i })) };
       await homeSectionsService.reorderDynamicSections(payload);
-      await fetchSections();
+      refetch();
     } catch (err: any) {
       console.error(err);
     }
