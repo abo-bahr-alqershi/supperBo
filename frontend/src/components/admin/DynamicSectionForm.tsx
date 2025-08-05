@@ -1,13 +1,17 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Form from '@rjsf/core';
 import DynamicSection from '../home/DynamicSection';
 import sectionSchema from '../../schemas/DynamicHomeSection.schema.json';
 
 const uiSchema = {};
 
-const DynamicSectionForm: React.FC = () => {
-  const [formData, setFormData] = useState<Record<string, any>>({});
-  const handleChange = ({ formData }: any) => setFormData(formData);
+interface DynamicSectionFormProps {
+  formData: any;
+  onChange: (e: { formData: any }) => void;
+}
+
+const DynamicSectionForm: React.FC<DynamicSectionFormProps> = ({ formData, onChange }) => {
+  const handleChange = (e: { formData: any }) => onChange(e);
 
   return (
     <div style={{ display: 'flex', gap: '16px' }}>
