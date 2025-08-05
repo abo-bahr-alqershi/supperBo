@@ -1,0 +1,45 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "DynamicHomeSection",
+  "type": "object",
+  "required": ["id", "type", "order", "isActive", "content", "createdAt", "updatedAt"],
+  "properties": {
+    "id": { "type": "string" },
+    "type": { "type": "string" },
+    "order": { "type": "integer" },
+    "isActive": { "type": "boolean" },
+    "title": { "type": "string" },
+    "subtitle": { "type": "string" },
+    "titleAr": { "type": "string" },
+    "subtitleAr": { "type": "string" },
+    "config": { "$ref": "SectionConfig.schema.json" },
+    "metadata": { "type": "object", "additionalProperties": true },
+    "scheduledAt": { "type": "string", "format": "date-time" },
+    "expiresAt": { "type": "string", "format": "date-time" },
+    "targetAudience": { "type": "array", "items": { "type": "string" } },
+    "priority": { "type": "integer" },
+    "content": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "sectionId", "contentType", "data", "metadata"],
+        "properties": {
+          "id": { "type": "string" },
+          "sectionId": { "type": "string" },
+          "contentType": { "type": "string" },
+          "data": { "type": "object", "additionalProperties": true },
+          "metadata": { "type": "object", "additionalProperties": true },
+          "expiresAt": { "type": "string", "format": "date-time" },
+          "displayOrder": { "type": "integer" },
+          "isActive": { "type": "boolean" },
+          "createdAt": { "type": "string", "format": "date-time" },
+          "updatedAt": { "type": "string", "format": "date-time" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "createdAt": { "type": "string", "format": "date-time" },
+    "updatedAt": { "type": "string", "format": "date-time" }
+  },
+  "additionalProperties": false
+}
