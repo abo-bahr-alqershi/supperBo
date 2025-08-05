@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Box,
   Typography,
@@ -16,19 +16,35 @@ import {
   DialogActions
 } from '@mui/material';
 import { ArrowUpward, ArrowDownward, Edit, Delete } from '@mui/icons-material';
-import homeSectionsService from '../../services/homeSectionsService';
 import DynamicSectionForm from '../../components/admin/DynamicSectionForm';
 import type { DynamicHomeSection } from '../../types/homeSections.types';
-import { useHomeSections, UseHomeSectionsParams } from '../../hooks/useHomeSections';
+import {
+  useDynamicHomeSections,
+  useCreateDynamicSection,
+  useUpdateDynamicSection,
+  useDeleteDynamicSection,
+  useReorderDynamicSections
+} from '../../hooks/useDynamicSections';
 
 const AdminHomeSections: React.FC = () => {
-  const params: UseHomeSectionsParams = { includeContent: true };
-  const { sections, loading, error, refetch } = useHomeSections(params);
+  // Data hooks
+  const { data: sections = [], isLoading: loading, error } = useDynamicHomeSections({ includeContent: true });
+  const createSection = useCreateDynamicSection();
+  const updateSection = useUpdateDynamicSection();
+  const deleteSection = useDeleteDynamicSection();
+  const reorderSections = useReorderDynamicSections();
+  // Local order state for reorder UI
+  const [orderState, setOrderState] = useState<DynamicHomeSection[]>([]);
+
+  // Sync orderState when sections update
+  useEffect(() => {
+    setOrderState(sections);
+  }, [sections]);
+
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
   const [editingSection, setEditingSection] = useState<DynamicHomeSection | null>(null);
   const [formData, setFormData] = useState<any>({});
-  // sections, loading, error, refetch provided by hook useHomeSections
-
+  // Handlers
   const handleOpenCreate = () => {
     setEditingSection(null);
     setFormData({});
@@ -44,46 +60,33 @@ const AdminHomeSections: React.FC = () => {
   const handleCloseDialog = () => setDialogOpen(false);
   const handleFormChange = ({ formData }: { formData: any }) => setFormData(formData);
 
-  const handleSave = async () => {
-    try {
-      if (editingSection) {
-        await homeSectionsService.updateDynamicSection(editingSection.id, formData);
-      } else {
-        await homeSectionsService.createDynamicSection(formData);
-      }
-      refetch();
-      setDialogOpen(false);
-    } catch (err: any) {
-      console.error(err);
+  const handleSave = () => {
+    if (editingSection) {
+      updateSection.mutate(
+        { id: editingSection.id, command: formData },
+        { onSuccess: () => setDialogOpen(false) }
+      );
+    } else {
+      createSection.mutate(formData, { onSuccess: () => setDialogOpen(false) });
     }
   };
 
   const handleDelete = async (id: string) => {
     if (!window.confirm('Are you sure?')) return;
-    try {
-      await homeSectionsService.deleteDynamicSection(id);
-      refetch();
-    } catch (err: any) {
-      console.error(err);
-    }
+    deleteSection.mutate(id);
   };
 
   const handleMove = (index: number, direction: 'up' | 'down') => {
-    const newSections = [...sections];
+    const newSections = [...orderState];
     const targetIndex = direction === 'up' ? index - 1 : index + 1;
     if (targetIndex < 0 || targetIndex >= newSections.length) return;
     [newSections[index], newSections[targetIndex]] = [newSections[targetIndex], newSections[index]];
-    setSections(newSections);
+    setOrderState(newSections);
   };
 
   const handleSaveOrder = async () => {
-    try {
-      const payload = { sections: sections.map((s, i) => ({ sectionId: s.id, newOrder: i })) };
-      await homeSectionsService.reorderDynamicSections(payload);
-      refetch();
-    } catch (err: any) {
-      console.error(err);
-    }
+    const payload = { sections: orderState.map((s, i) => ({ sectionId: s.id, newOrder: i })) };
+    reorderSections.mutate(payload);
   };
 
   return (
@@ -91,14 +94,14 @@ const AdminHomeSections: React.FC = () => {
       <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
         <Typography variant="h5">Home Sections</Typography>
         <Box>
-          <Button variant="contained" color="primary" onClick={handleOpenCreate}>Create Section</Button>
-          <Button variant="outlined" color="secondary" onClick={handleSaveOrder} sx={{ ml: 1 }}>Save Order</Button>
+          <Button variant="contained" color="primary" onClick={handleOpenCreate} disabled={createSection.isLoading}>Create Section</Button>
+          <Button variant="outlined" color="secondary" onClick={handleSaveOrder} sx={{ ml: 1 }} disabled={reorderSections.isLoading}>Save Order</Button>
         </Box>
       </Box>
       {loading ? (
         <CircularProgress />
       ) : error ? (
-        <Typography color="error">{error}</Typography>
+        <Typography color="error">{(error as Error).message}</Typography>
       ) : (
         <Table>
           <TableHead>
@@ -111,19 +114,19 @@ const AdminHomeSections: React.FC = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {sections.map((section, index) => (
+            {orderState.map((section, index) => (
               <TableRow key={section.id}>
                 <TableCell>
-                  {section.order}
+                  {index + 1}
                   <IconButton size="small" onClick={() => handleMove(index, 'up')} disabled={index === 0}><ArrowUpward fontSize="small" /></IconButton>
-                  <IconButton size="small" onClick={() => handleMove(index, 'down')} disabled={index === sections.length - 1}><ArrowDownward fontSize="small" /></IconButton>
+                  <IconButton size="small" onClick={() => handleMove(index, 'down')} disabled={index === orderState.length - 1}><ArrowDownward fontSize="small" /></IconButton>
                 </TableCell>
                 <TableCell>{section.type}</TableCell>
                 <TableCell>{section.title || '—'}</TableCell>
                 <TableCell>{section.isActive ? 'Yes' : 'No'}</TableCell>
                 <TableCell>
-                  <IconButton onClick={() => handleOpenEdit(section)}><Edit /></IconButton>
-                  <IconButton onClick={() => handleDelete(section.id)}><Delete /></IconButton>
+                  <IconButton onClick={() => handleOpenEdit(section)} disabled={updateSection.isLoading}><Edit /></IconButton>
+                  <IconButton onClick={() => handleDelete(section.id)} disabled={deleteSection.isLoading}><Delete /></IconButton>
                 </TableCell>
               </TableRow>
             ))}
