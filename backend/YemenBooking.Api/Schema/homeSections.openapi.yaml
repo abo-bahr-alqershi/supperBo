@@ -1,0 +1,131 @@
+openapi: 3.0.1
+info:
+  title: Home Sections API
+  version: 1.0.0
+servers:
+  - url: https://{{domain}}/api
+paths:
+  /admin/home-sections/dynamic-sections:
+    get:
+      summary: Get dynamic home sections
+      parameters:
+        - in: query
+          name: language
+          schema:
+            type: string
+            example: "en"
+        - in: query
+          name: targetAudience
+          schema:
+            type: array
+            items:
+              type: string
+        - in: query
+          name: includeContent
+          schema:
+            type: boolean
+        - in: query
+          name: onlyActive
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: List of dynamic home sections
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DynamicHomeSectionList'
+components:
+  schemas:
+    DynamicHomeSectionList:
+      type: array
+      items:
+        $ref: '#/components/schemas/DynamicHomeSection'
+    DynamicHomeSection:
+      type: object
+      required:
+        - id
+        - type
+        - order
+        - isActive
+        - content
+        - createdAt
+        - updatedAt
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+        order:
+          type: integer
+        isActive:
+          type: boolean
+        title:
+          type: string
+        titleAr:
+          type: string
+        subtitle:
+          type: string
+        subtitleAr:
+          type: string
+        sectionConfig:
+          $ref: './SectionConfig.schema.json'
+        metadata:
+          type: object
+          additionalProperties: true
+        scheduledAt:
+          type: string
+          format: date-time
+        expiresAt:
+          type: string
+          format: date-time
+        targetAudience:
+          type: array
+          items:
+            type: string
+        priority:
+          type: integer
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/DynamicSectionContent'
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    DynamicSectionContent:
+      type: object
+      required:
+        - id
+        - sectionId
+        - contentType
+        - data
+        - metadata
+      properties:
+        id:
+          type: string
+        sectionId:
+          type: string
+        contentType:
+          type: string
+        data:
+          type: object
+          additionalProperties: true
+        metadata:
+          type: object
+          additionalProperties: true
+        expiresAt:
+          type: string
+          format: date-time
+        displayOrder:
+          type: integer
+        isActive:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
