@@ -214,8 +214,8 @@ const ModernDashboardLayout: React.FC<DashboardLayoutProps> = ({ children }) => 
     },
     // إدارة الصفحة الرئيسية الديناميكية
     {
-      path: '/admin/home-screen-builder',
-      label: 'إدارة الصفحة الرئيسية الديناميكية',
+      path: '/admin/home-sections',
+      label: 'إدارة أقسام الصفحة الرئيسية',
       icon: (
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h7v7H3V3zm11 0h7v7h-7V3zM3 14h7v7H3v-7zm11 0h7v7h-7v-7z" />
