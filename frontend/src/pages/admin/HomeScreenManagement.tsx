@@ -102,7 +102,7 @@ import {
 import { CSS } from '@dnd-kit/utilities';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import arLocale from 'date-fns/locale/ar-SA';
+import { ar as arLocale } from 'date-fns/locale';
 import { 
   useDynamicHomeSections,
   useCreateDynamicSection,
@@ -395,7 +395,7 @@ const SectionCard: React.FC<SectionCardProps> = ({
 };
 
 // Main Component
-const HomeScreenManagement: React.FC = () => {
+const HomeScreenManagement: React.FC<any> = (props) => {
   const theme = useTheme();
   const [currentTab, setCurrentTab] = useState(0);
   const [configDialogOpen, setConfigDialogOpen] = useState(false);

@@ -100,8 +100,8 @@ import {
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import arLocale from 'date-fns/locale/ar-SA';
-import HomeScreenManagement from './HomeScreenManagement';
+import { ar as arLocale } from 'date-fns/locale';
+import HomeScreenManagement from '../../pages/admin/HomeScreenManagement.tsx';
 import type { DynamicHomeSection, DynamicContent } from '../../types/homeSections.types';
 
 // Professional color palette
