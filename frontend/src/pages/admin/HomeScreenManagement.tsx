@@ -102,7 +102,8 @@ import {
 import { CSS } from '@dnd-kit/utilities';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import arLocale from 'date-fns/locale/ar-SA';
+import * as arLocale from 'date-fns/locale/ar-SA';
+import type { Locale } from 'date-fns';
 import { 
   useDynamicHomeSections,
   useCreateDynamicSection,
@@ -395,7 +396,18 @@ const SectionCard: React.FC<SectionCardProps> = ({
 };
 
 // Main Component
-const HomeScreenManagement: React.FC = () => {
+interface HomeScreenManagementProps {
+  sectionType?: any;
+  currentContent?: any[];
+  onContentChange?: (content: any[]) => void;
+  maxItems?: number;
+}
+const HomeScreenManagement: React.FC<HomeScreenManagementProps> = ({
+  sectionType,
+  currentContent,
+  onContentChange,
+  maxItems
+}) => {
   const theme = useTheme();
   const [currentTab, setCurrentTab] = useState(0);
   const [configDialogOpen, setConfigDialogOpen] = useState(false);
@@ -603,7 +615,7 @@ const HomeScreenManagement: React.FC = () => {
   };
 
   return (
-    <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={arLocale}>
+    <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={arLocale as unknown as Locale}>
       <Box
         sx={{
           minHeight: '100vh',

@@ -100,8 +100,9 @@ import {
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import arLocale from 'date-fns/locale/ar-SA';
-import HomeScreenManagement from './HomeScreenManagement';
+import * as arLocale from 'date-fns/locale/ar-SA';
+import type { Locale } from 'date-fns';
+import HomeScreenManagement from '../../pages/admin/HomeScreenManagement';
 import type { DynamicHomeSection, DynamicContent } from '../../types/homeSections.types';
 
 // Professional color palette
@@ -358,7 +359,7 @@ const SectionConfigDialog: React.FC<SectionConfigDialogProps> = ({
   const CurrentTabComponent = tabConfig[currentTab].component;
 
   return (
-    <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={arLocale}>
+    <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={arLocale as unknown as Locale}>
       <Dialog 
         open={open} 
         onClose={onClose} 
