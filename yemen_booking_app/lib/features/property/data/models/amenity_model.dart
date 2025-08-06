@@ -14,12 +14,12 @@ class AmenityModel extends Amenity {
 
   factory AmenityModel.fromJson(Map<String, dynamic> json) {
     return AmenityModel(
-      id: json['id'] ?? '',
+      id: json['amenityId'] ?? json['id'] ?? '',
       name: json['name'] ?? '',
       description: json['description'] ?? '',
       iconUrl: json['iconUrl'] ?? '',
       category: json['category'] ?? '',
-      isActive: json['isActive'] ?? true,
+      isActive: json['isAvailable'] ?? json['isActive'] ?? false,
       displayOrder: json['displayOrder'] ?? 0,
       createdAt: DateTime.parse(json['createdAt'] ?? DateTime.now().toIso8601String()),
     );
