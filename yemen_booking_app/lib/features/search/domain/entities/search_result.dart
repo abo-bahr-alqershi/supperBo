@@ -25,6 +25,11 @@ class SearchResult extends Equatable {
   final bool isFeatured;
   final List<String> mainAmenities;
   final List<Review> reviews;
+  final bool isFavorite;
+  final int matchPercentage;
+  final int maxCapacity;
+  final DateTime lastUpdated;
+  final List<String> imageUrls;
 
   const SearchResult({
     required this.id,
@@ -51,6 +56,11 @@ class SearchResult extends Equatable {
     required this.isFeatured,
     required this.mainAmenities,
     required this.reviews,
+    required this.isFavorite,
+    required this.matchPercentage,
+    required this.maxCapacity,
+    required this.lastUpdated,
+    required this.imageUrls,
   });
 
   @override
@@ -79,6 +89,11 @@ class SearchResult extends Equatable {
         isFeatured,
         mainAmenities,
         reviews,
+        isFavorite,
+        matchPercentage,
+        maxCapacity,
+        lastUpdated,
+        imageUrls,
       ];
 }
 
