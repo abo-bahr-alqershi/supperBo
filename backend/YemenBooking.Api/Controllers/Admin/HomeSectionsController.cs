@@ -64,8 +64,10 @@ namespace YemenBooking.Api.Controllers.Admin
 
         // Dynamic Home Config
         [HttpGet("dynamic-config")]
-        public async Task<IActionResult> GetConfig([FromQuery] GetHomeConfigQuery query)
+        public async Task<IActionResult> GetConfig([FromQuery] string version = null)
         {
+            // Bind version manually to avoid model binding issues
+            var query = new GetHomeConfigQuery { Version = version };
             var result = await _mediator.Send(query);
             if (result == null) return NotFound();
             return Ok(result);
