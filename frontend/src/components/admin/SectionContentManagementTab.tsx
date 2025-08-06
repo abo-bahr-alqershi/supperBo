@@ -1,5 +1,8 @@
+// frontend/src/components/admin/SectionContentManagementTab.tsx
+
 import React from 'react';
-import HomeScreenManagement from '../../pages/admin/HomeScreenManagement';
+import ContentManagementPanel from './ContentManagementPanel';
+import type { DynamicContent } from '../../types/homeSections.types';
 
 interface ContentManagementTabProps {
   formData: any;
@@ -8,11 +11,15 @@ interface ContentManagementTabProps {
 }
 
 const ContentManagementTab: React.FC<ContentManagementTabProps> = ({ formData, onChange }) => {
+  const handleContentChange = (content: DynamicContent[]) => {
+    onChange('content', content);
+  };
+
   return (
-    <HomeScreenManagement
+    <ContentManagementPanel
       sectionType={formData.sectionType}
       currentContent={formData.content || []}
-      onContentChange={(content) => onChange('content', content)}
+      onContentChange={handleContentChange}
       maxItems={formData.displaySettings?.maxItems || 10}
     />
   );
