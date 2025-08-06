@@ -136,6 +136,7 @@ import { AdminPropertiesService } from '../../services/admin-properties.service'
 import { CitySettingsService } from '../../services/city-settings.service';
 import HomeSectionsService from '../../services/homeSectionsService';
 import { AdminUnitsService } from '../../services/admin-units.service';
+const PLACEHOLDER_IMAGE = 'https://via.placeholder.com/400x300';
 
 // Professional color palette
 const COLORS = {
@@ -531,7 +532,21 @@ const ContentManagementPanel: React.FC<ContentManagementPanelProps> = ({
   // Fetch data based on content type
   const { data: properties, isLoading: propertiesLoading } = useQuery({
     queryKey: ['properties', filters],
-    queryFn: () => AdminPropertiesService.getAll({ pageNumber: 1, pageSize: 1000 }).then(res => res.items),
+    queryFn: async () => {
+      const res = await AdminPropertiesService.getAll({ pageNumber: 1, pageSize: 1000 });
+      return res.items.map(p => ({
+        ...p,
+        mainImageUrl: p.images?.[0]?.url || PLACEHOLDER_IMAGE,
+        imageUrl: p.images?.[0]?.url || PLACEHOLDER_IMAGE,
+        name: p.name,
+        location: p.city || '',
+        basePrice: 0,
+        currency: '',
+        hasOffer: false,
+        featured: false,
+        discountPercentage: 0,
+      }));
+    },
     enabled: contentType === 'property',
   });
 
@@ -1964,6 +1979,8 @@ const getContentIcon = (type: string) => {
   switch (type) {
     case 'property':
       return <PropertyIcon />;
+    case 'unit':
+      return <ApartmentIcon />;
     case 'city':
       return <CityIcon />;
     case 'offer':
@@ -1979,6 +1996,8 @@ const getContentColor = (type: string): any => {
   switch (type) {
     case 'property':
       return 'primary';
+    case 'unit':
+      return 'secondary';
     case 'city':
       return 'secondary';
     case 'offer':
