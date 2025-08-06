@@ -552,6 +552,12 @@ const ContentManagementPanel: React.FC<ContentManagementPanelProps> = ({
 
   // Get appropriate tabs based on content type
   const getTabs = () => {
+    // For single property offer section, only show property tab
+    if (sectionType === 'SINGLE_PROPERTY_OFFER') {
+      return [
+        { label: 'العقارات', icon: <PropertyIcon />, count: properties?.length || 0 },
+      ];
+    }
     if (contentType === 'property') {
       return [
         { label: 'العقارات', icon: <PropertyIcon />, count: properties?.length || 0 },
@@ -569,10 +575,12 @@ const ContentManagementPanel: React.FC<ContentManagementPanelProps> = ({
 
   // Handle item selection
   const handleItemSelect = (item: any, type: string) => {
+    // Normalize content id and type uppercase for downstream components
+    const idKey = (item.id ?? item.value ?? item.name);
     const newContent: DynamicContent = {
-      id: `content-${Date.now()}-${item.id}`,
+      id: `content-${Date.now()}-${idKey}`,
       sectionId: '',
-      contentType: type,
+      contentType: type.toUpperCase(),
       contentData: item,
       metadata: {
         addedAt: new Date().toISOString(),
