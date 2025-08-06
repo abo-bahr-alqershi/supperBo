@@ -1,4 +1,5 @@
 import '../../domain/entities/unit.dart';
+import 'dart:convert';
 
 class UnitModel extends Unit {
   const UnitModel({
@@ -19,30 +20,37 @@ class UnitModel extends Unit {
   });
 
   factory UnitModel.fromJson(Map<String, dynamic> json) {
+    final unitTypeJson = json['unitType'] as Map<String, dynamic>?;
+    final basePriceJson = unitTypeJson == null
+        ? (json['basePrice'] as Map<String, dynamic>?)
+        : {
+            'amount': json['pricePerNight'] ?? 0,
+            'currency': json['currency'] ?? 'YER',
+            'exchangeRate': 1.0,
+          };
     return UnitModel(
       id: json['id'] ?? '',
       propertyId: json['propertyId'] ?? '',
-      unitTypeId: json['unitTypeId'] ?? '',
+      unitTypeId: unitTypeJson?['id'] ?? json['unitTypeId'] ?? '',
       name: json['name'] ?? '',
-      basePrice: MoneyModel.fromJson(json['basePrice'] ?? {}),
-      customFeatures: json['customFeatures'] ?? '',
-      isAvailable: json['isAvailable'] ?? false,
+      basePrice: MoneyModel.fromJson(basePriceJson ?? {}),
+      customFeatures: json['customFeatures'] is String
+          ? json['customFeatures']
+          : jsonEncode(json['customFeatures'] ?? {}),
+      isAvailable: json['isAvailable'] ?? true,
       propertyName: json['propertyName'] ?? '',
-      unitTypeName: json['unitTypeName'] ?? '',
+      unitTypeName: unitTypeJson?['name'] ?? json['unitTypeName'] ?? '',
       pricingMethod: _parsePricingMethod(json['pricingMethod']),
       fieldValues: (json['fieldValues'] as List?)
               ?.map((e) => UnitFieldValueModel.fromJson(e))
-              .toList() ??
-          [],
+              .toList() ?? [],
       dynamicFields: (json['dynamicFields'] as List?)
               ?.map((e) => FieldGroupWithValuesModel.fromJson(e))
-              .toList() ??
-          [],
+              .toList() ?? [],
       distanceKm: json['distanceKm']?.toDouble(),
       images: (json['images'] as List?)
               ?.map((e) => UnitImageModel.fromJson(e))
-              .toList() ??
-          [],
+              .toList() ?? [],
     );
   }
 

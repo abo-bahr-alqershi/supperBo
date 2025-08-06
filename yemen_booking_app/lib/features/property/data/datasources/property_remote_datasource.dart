@@ -101,8 +101,8 @@ class PropertyRemoteDataSourceImpl implements PropertyRemoteDataSource {
       );
 
       if (response.statusCode == 200) {
-        final data = response.data['data'] as List;
-        return data.map((json) => UnitModel.fromJson(json)).toList();
+        final unitsJson = (response.data['data']?['units'] as List?) ?? [];
+        return unitsJson.map((u) => UnitModel.fromJson(u as Map<String, dynamic>)).toList();
       } else {
         throw ServerException(response.data['message'] ?? 'Failed to load units');
       }
@@ -165,10 +165,6 @@ class PropertyRemoteDataSourceImpl implements PropertyRemoteDataSource {
         data: <String, dynamic>{
           'propertyId': propertyId,
           'userId': userId,
-          if (notes != null) 'notes': notes,
-          if (desiredVisitDate != null) 'desiredVisitDate': desiredVisitDate.toIso8601String(),
-          if (expectedBudget != null) 'expectedBudget': expectedBudget,
-          'currency': currency,
         },
       );
 
