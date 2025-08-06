@@ -103,6 +103,7 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import * as arLocale from 'date-fns/locale/ar-SA';
 import type { Locale } from 'date-fns';
 import HomeScreenManagement from '../../pages/admin/HomeScreenManagement';
+import ContentManagementTab from './SectionContentManagementTab';
 import type { DynamicHomeSection, DynamicContent } from '../../types/homeSections.types';
 
 // Professional color palette
@@ -793,22 +794,6 @@ const BasicInformationTab: React.FC<{
         </Grid>
       </Paper>
     </Stack>
-  );
-};
-
-// Content Management Tab - Using the HomeScreenManagement component
-const ContentManagementTab: React.FC<{
-  formData: any;
-  onChange: (path: string, value: any) => void;
-  isEdit: boolean;
-}> = ({ formData, onChange }) => {
-  return (
-    <HomeScreenManagement
-      sectionType={formData.sectionType}
-      currentContent={formData.content || []}
-      onContentChange={(content) => onChange('content', content)}
-      maxItems={formData.displaySettings?.maxItems || 10}
-    />
   );
 };
 
