@@ -135,6 +135,8 @@ import type { DynamicContent } from '../../types/homeSections.types';
 import { AdminPropertiesService } from '../../services/admin-properties.service';
 import { CitySettingsService } from '../../services/city-settings.service';
 import HomeSectionsService from '../../services/homeSectionsService';
+import { AdminUnitsService } from '../../services/admin-units.service';
+const PLACEHOLDER_IMAGE = 'https://via.placeholder.com/400x300';
 
 // Professional color palette
 const COLORS = {
@@ -518,6 +520,7 @@ const ContentManagementPanel: React.FC<ContentManagementPanelProps> = ({
 
   // Determine content type based on section type
   const getContentType = () => {
+    if (sectionType.includes('UNIT')) return 'unit';
     if (sectionType.includes('PROPERTY') || sectionType.includes('OFFER')) return 'property';
     if (sectionType.includes('CITY') || sectionType.includes('DESTINATION')) return 'city';
     if (sectionType.includes('AD')) return 'advertisement';
@@ -529,7 +532,21 @@ const ContentManagementPanel: React.FC<ContentManagementPanelProps> = ({
   // Fetch data based on content type
   const { data: properties, isLoading: propertiesLoading } = useQuery({
     queryKey: ['properties', filters],
-    queryFn: () => AdminPropertiesService.getAll({ pageNumber: 1, pageSize: 1000 }).then(res => res.items),
+    queryFn: async () => {
+      const res = await AdminPropertiesService.getAll({ pageNumber: 1, pageSize: 1000 });
+      return res.items.map(p => ({
+        ...p,
+        mainImageUrl: p.images?.[0]?.url || PLACEHOLDER_IMAGE,
+        imageUrl: p.images?.[0]?.url || PLACEHOLDER_IMAGE,
+        name: p.name,
+        location: p.city || '',
+        basePrice: 0,
+        currency: '',
+        hasOffer: false,
+        featured: false,
+        discountPercentage: 0,
+      }));
+    },
     enabled: contentType === 'property',
   });
 
@@ -547,16 +564,26 @@ const ContentManagementPanel: React.FC<ContentManagementPanelProps> = ({
     queryFn: () => HomeSectionsService.getSponsoredAds({ onlyActive: true, includePropertyDetails: true }),
     enabled: contentType === 'advertisement',
   });
+  const { data: units, isLoading: unitsLoading } = useQuery({
+    queryKey: ['units'],
+    queryFn: () => AdminUnitsService.getAll({ pageNumber: 1, pageSize: 1000 }).then(res => res.items),
+    enabled: contentType === 'unit',
+  });
 
-  const isLoading = propertiesLoading || citiesLoading || offersLoading || adsLoading;
+  const isLoading = propertiesLoading || citiesLoading || offersLoading || adsLoading || unitsLoading;
 
   // Get appropriate tabs based on content type
   const getTabs = () => {
+<<<<<<< HEAD
     // For single property offer section, only show property tab
     if (sectionType === 'SINGLE_PROPERTY_OFFER') {
       return [
         { label: 'العقارات', icon: <PropertyIcon />, count: properties?.length || 0 },
       ];
+=======
+    if (contentType === 'unit') {
+      return [{ label: 'الوحدات', icon: <ApartmentIcon />, count: units?.length || 0 }];
+>>>>>>> 2e1a295 (Add support for unit selection in content management panel)
     }
     if (contentType === 'property') {
       return [
@@ -1029,7 +1056,17 @@ const ContentManagementPanel: React.FC<ContentManagementPanelProps> = ({
                     />
                   </Grid>
                 ))}
-
+               {/* Units */}
+               {contentType === 'unit' && selectedTab === 0 && units?.map((unit) => (
+                 <Grid item xs={12} sm={6} md={4} key={unit.id}>
+                   <UnitCard
+                     unit={unit}
+                     onSelect={() => handleItemSelect(unit, 'unit')}
+                     disabled={contentItems.length >= maxItems}
+                     isSelected={contentItems.some(c => c.contentData.id === unit.id)}
+                   />
+                 </Grid>
+               ))}
                 {/* Cities */}
                 {contentType === 'city' && cities?.map((city) => (
                   <Grid item xs={12} sm={6} md={4} key={city.name}>
@@ -1876,11 +1913,74 @@ const AdCard: React.FC<{
   );
 };
 
+// Unit Card Component
+const UnitCard: React.FC<{
+  unit: any;
+  onSelect: () => void;
+  disabled: boolean;
+  isSelected: boolean;
+}> = ({ unit, onSelect, disabled, isSelected }) => {
+  return (
+    <Card
+      elevation={0}
+      sx={{
+        position: 'relative',
+        opacity: disabled && !isSelected ? 0.6 : 1,
+        border: isSelected ? `2px solid ${COLORS.success}` : `1px solid ${COLORS.border}`,
+        transition: 'all 0.3s ease',
+        '&:hover': {
+          transform: !disabled || isSelected ? 'translateY(-4px)' : 'none',
+          boxShadow: !disabled || isSelected ? 4 : 0,
+        },
+      }}
+    >
+      <CardMedia
+        component="img"
+        height="180"
+        image={unit.images?.[0]?.url || 'https://via.placeholder.com/400x300'}
+        alt={unit.name}
+      />
+      <CardContent>
+        <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ mb: 1 }}>
+          <Typography variant="subtitle1" noWrap sx={{ fontWeight: 600, flex: 1 }}>
+            {unit.name}
+          </Typography>
+          <Typography variant="caption" color="text.secondary">
+            {unit.unitTypeName}
+          </Typography>
+        </Stack>
+        <Typography variant="body2" color="text.secondary" noWrap sx={{ mb: 1 }}>
+          {unit.propertyName}
+        </Typography>
+        <Stack direction="row" spacing={1}>
+          <Typography variant="h6" sx={{ color: COLORS.primary, fontWeight: 600 }}>
+            {unit.basePrice.amount.toLocaleString()} {unit.basePrice.currency}
+          </Typography>
+        </Stack>
+      </CardContent>
+      <CardActions>
+        <Button
+          fullWidth
+          variant={isSelected ? 'contained' : 'outlined'}
+          onClick={onSelect}
+          disabled={disabled && !isSelected}
+          color={isSelected ? 'success' : 'primary'}
+          startIcon={isSelected ? <CheckCircleIcon /> : <AddIcon />}
+        >
+          {isSelected ? 'محدد' : 'اختيار'}
+        </Button>
+      </CardActions>
+    </Card>
+  );
+};
+
 // Helper functions
 const getContentIcon = (type: string) => {
   switch (type) {
     case 'property':
       return <PropertyIcon />;
+    case 'unit':
+      return <ApartmentIcon />;
     case 'city':
       return <CityIcon />;
     case 'offer':
@@ -1896,6 +1996,8 @@ const getContentColor = (type: string): any => {
   switch (type) {
     case 'property':
       return 'primary';
+    case 'unit':
+      return 'secondary';
     case 'city':
       return 'secondary';
     case 'offer':
