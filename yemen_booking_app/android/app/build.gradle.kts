@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "com.yemenbooking.app.yemen_booking_app"
-    compileSdk = flutter.compileSdkVersion
+    compileSdk = 35
     ndkVersion = "29.0.13113456"
 
     compileOptions {

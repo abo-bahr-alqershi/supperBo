@@ -278,12 +278,16 @@ lib/
 │   │       ├── pages/
 │   │       │   ├── search_page.dart
 │   │       │   ├── search_filters_page.dart
-│   │       │   └── search_results_page.dart
+│   │       │   ├── search_results_page.dart
+│   │       │   └── search_results_map_page.dart
 │   │       └── widgets/
 │   │           ├── search_input_widget.dart
 │   │           ├── filter_chips_widget.dart
 │   │           ├── sort_options_widget.dart
 │   │           ├── price_range_slider_widget.dart
+│   │           ├── dynamic_fields_widget.dart
+│   │           ├── search_result_list_widget.dart
+│   │           ├── search_result_grid_widget.dart
 │   │           └── search_result_card_widget.dart
 │   │
 │   ├── property/

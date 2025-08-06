@@ -55,13 +55,11 @@ import 'features/home/data/datasources/home_remote_datasource.dart';
 import 'features/home/data/repositories/home_repository_impl.dart';
 import 'features/home/domain/repositories/home_repository.dart';
 import 'features/home/domain/usecases/get_home_config_usecase.dart';
-import 'features/home/domain/usecases/get_featured_properties_usecase.dart';
-import 'features/home/domain/usecases/get_nearby_properties_usecase.dart';
-import 'features/home/domain/usecases/get_popular_destinations_usecase.dart';
-import 'features/home/domain/usecases/get_section_data_usecase.dart';
-import 'features/home/domain/usecases/refresh_home_sections_usecase.dart';
-import 'features/home/domain/usecases/track_section_impression_usecase.dart';
-import 'features/home/domain/usecases/track_section_interaction_usecase.dart';
+import 'features/home/domain/usecases/get_home_sections_usecase.dart';
+import 'features/home/domain/usecases/get_sponsored_ads_usecase.dart';
+import 'features/home/domain/usecases/get_city_destinations_usecase.dart';
+import 'features/home/domain/usecases/record_ad_impression_usecase.dart';
+import 'features/home/domain/usecases/record_ad_click_usecase.dart';
 import 'features/home/presentation/bloc/home_bloc.dart';
 
 final sl = GetIt.instance;
@@ -193,13 +191,11 @@ void _initHome() {
   sl.registerFactory(
     () => HomeBloc(
       getHomeConfigUseCase: sl(),
-      getFeaturedPropertiesUseCase: sl(),
-      getNearbyPropertiesUseCase: sl(),
-      getPopularDestinationsUseCase: sl(),
-      getSectionDataUseCase: sl(),
-      refreshHomeSectionsUseCase: sl(),
-      trackSectionImpressionUseCase: sl(),
-      trackSectionInteractionUseCase: sl(),
+      getHomeSectionsUseCase: sl(),
+      getSponsoredAdsUseCase: sl(),
+      getCityDestinationsUseCase: sl(),
+      recordAdImpressionUseCase: sl(),
+      recordAdClickUseCase: sl(),
     ),
   );
 

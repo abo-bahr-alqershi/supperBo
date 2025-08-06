@@ -574,16 +574,14 @@ const ContentManagementPanel: React.FC<ContentManagementPanelProps> = ({
 
   // Get appropriate tabs based on content type
   const getTabs = () => {
-<<<<<<< HEAD
     // For single property offer section, only show property tab
     if (sectionType === 'SINGLE_PROPERTY_OFFER') {
       return [
         { label: 'العقارات', icon: <PropertyIcon />, count: properties?.length || 0 },
       ];
-=======
+        }
     if (contentType === 'unit') {
       return [{ label: 'الوحدات', icon: <ApartmentIcon />, count: units?.length || 0 }];
->>>>>>> 2e1a295 (Add support for unit selection in content management panel)
     }
     if (contentType === 'property') {
       return [
