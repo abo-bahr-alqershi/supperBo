@@ -132,6 +132,9 @@ import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { useQuery } from '@tanstack/react-query';
 import type { DynamicContent } from '../../types/homeSections.types';
+import { AdminPropertiesService } from '../../services/admin-properties.service';
+import { CitySettingsService } from '../../services/city-settings.service';
+import HomeSectionsService from '../../services/homeSectionsService';
 
 // Professional color palette
 const COLORS = {
@@ -526,25 +529,22 @@ const ContentManagementPanel: React.FC<ContentManagementPanelProps> = ({
   // Fetch data based on content type
   const { data: properties, isLoading: propertiesLoading } = useQuery({
     queryKey: ['properties', filters],
-    queryFn: () => mockDataService.getProperties(filters),
+    queryFn: () => AdminPropertiesService.getAll({ pageNumber: 1, pageSize: 1000 }).then(res => res.items),
     enabled: contentType === 'property',
   });
 
   const { data: cities, isLoading: citiesLoading } = useQuery({
     queryKey: ['cities'],
-    queryFn: mockDataService.getCities,
+    queryFn: () => CitySettingsService.getCities(),
     enabled: contentType === 'city',
   });
 
-  const { data: offers, isLoading: offersLoading } = useQuery({
-    queryKey: ['offers'],
-    queryFn: mockDataService.getOffers,
-    enabled: sectionType.includes('OFFER'),
-  });
+  const offers = OFFER_TYPES;
+  const offersLoading = false;
 
   const { data: ads, isLoading: adsLoading } = useQuery({
     queryKey: ['ads'],
-    queryFn: mockDataService.getAds,
+    queryFn: () => HomeSectionsService.getSponsoredAds({ onlyActive: true, includePropertyDetails: true }),
     enabled: contentType === 'advertisement',
   });
 
@@ -552,6 +552,12 @@ const ContentManagementPanel: React.FC<ContentManagementPanelProps> = ({
 
   // Get appropriate tabs based on content type
   const getTabs = () => {
+    // For single property offer section, only show property tab
+    if (sectionType === 'SINGLE_PROPERTY_OFFER') {
+      return [
+        { label: 'العقارات', icon: <PropertyIcon />, count: properties?.length || 0 },
+      ];
+    }
     if (contentType === 'property') {
       return [
         { label: 'العقارات', icon: <PropertyIcon />, count: properties?.length || 0 },
@@ -569,10 +575,12 @@ const ContentManagementPanel: React.FC<ContentManagementPanelProps> = ({
 
   // Handle item selection
   const handleItemSelect = (item: any, type: string) => {
+    // Normalize content id and type uppercase for downstream components
+    const idKey = (item.id ?? item.value ?? item.name);
     const newContent: DynamicContent = {
-      id: `content-${Date.now()}-${item.id}`,
+      id: `content-${Date.now()}-${idKey}`,
       sectionId: '',
-      contentType: type,
+      contentType: type.toUpperCase(),
       contentData: item,
       metadata: {
         addedAt: new Date().toISOString(),
@@ -1012,24 +1020,24 @@ const ContentManagementPanel: React.FC<ContentManagementPanelProps> = ({
 
                 {/* Offers */}
                 {contentType === 'property' && selectedTab === 1 && offers?.map((offer) => (
-                  <Grid item xs={12} sm={6} md={4} key={offer.id}>
+                  <Grid item xs={12} sm={6} md={4} key={offer.value}>
                     <OfferCard
                       offer={offer}
                       onSelect={() => handleItemSelect(offer, 'offer')}
                       disabled={contentItems.length >= maxItems}
-                      isSelected={contentItems.some(c => c.contentData.id === offer.id)}
+                      isSelected={contentItems.some(c => c.contentData.value === offer.value)}
                     />
                   </Grid>
                 ))}
 
                 {/* Cities */}
                 {contentType === 'city' && cities?.map((city) => (
-                  <Grid item xs={12} sm={6} md={4} key={city.id}>
+                  <Grid item xs={12} sm={6} md={4} key={city.name}>
                     <CityCard
                       city={city}
                       onSelect={() => handleItemSelect(city, 'city')}
                       disabled={contentItems.length >= maxItems}
-                      isSelected={contentItems.some(c => c.contentData.id === city.id)}
+                      isSelected={contentItems.some(c => c.contentData.name === city.name)}
                     />
                   </Grid>
                 ))}
@@ -1600,7 +1608,7 @@ const OfferCard: React.FC<{
   disabled: boolean;
   isSelected: boolean;
 }> = ({ offer, onSelect, disabled, isSelected }) => {
-  const offerType = OFFER_TYPES.find(t => t.value === offer.offerType);
+  const offerType = OFFER_TYPES.find(t => t.value === offer.value);
   
   return (
     <Card
