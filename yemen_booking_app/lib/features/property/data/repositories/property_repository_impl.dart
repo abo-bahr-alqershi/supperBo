@@ -32,6 +32,10 @@ abstract class PropertyRemoteDataSource {
   Future<ResultDto<bool>> addToFavorites({
     required String propertyId,
     required String userId,
+    String? notes,
+    DateTime? desiredVisitDate,
+    double? expectedBudget,
+    String currency = 'YER',
   });
 
   Future<ResultDto<bool>> removeFromFavorites({
@@ -132,7 +136,6 @@ class PropertyRemoteDataSourceImpl implements PropertyRemoteDataSource {
     DateTime? checkOutDate,
   }) async {
     try {
-      // Fetch available units via dedicated endpoint
       final response = await apiClient.get(
         '/api/client/units/available',
         queryParameters: <String, dynamic>{
@@ -143,9 +146,12 @@ class PropertyRemoteDataSourceImpl implements PropertyRemoteDataSource {
       );
 
       if (response.statusCode == 200) {
+        // map the 'units' list from the response data
         return ResultDto.fromJson(
           response.data,
-          (json) => (json as List).map((e) => UnitModel.fromJson(e)).toList(),
+          (json) => (json['units'] as List)
+              .map((e) => UnitModel.fromJson(e))
+              .toList(),
         );
       } else {
         throw ServerException(response.data['message'] ?? 'Failed to load units');
@@ -200,13 +206,21 @@ class PropertyRemoteDataSourceImpl implements PropertyRemoteDataSource {
   Future<ResultDto<bool>> addToFavorites({
     required String propertyId,
     required String userId,
+    String? notes,
+    DateTime? desiredVisitDate,
+    double? expectedBudget,
+    String currency = 'YER',
   }) async {
     try {
       final response = await apiClient.post(
         '/api/client/properties/wishlist',
-        data: {
+        data: <String, dynamic>{
           'propertyId': propertyId,
           'userId': userId,
+          if (notes != null) 'notes': notes,
+          if (desiredVisitDate != null) 'desiredVisitDate': desiredVisitDate.toIso8601String(),
+          if (expectedBudget != null) 'expectedBudget': expectedBudget,
+          'currency': currency,
         },
       );
 

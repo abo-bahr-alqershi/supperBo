@@ -37,8 +37,9 @@ class PropertyDetailModel extends PropertyDetail {
       id: json['id'] ?? '',
       name: json['name'] ?? '',
       ownerId: json['ownerId'] ?? '',
-      typeId: json['typeId'] ?? '',
-      typeName: json['typeName'] ?? '',
+      // propertyType is nested object: fallback to its id and name
+      typeId: json['typeId'] ?? json['propertyType']?['id']?.toString() ?? '',
+      typeName: json['typeName'] ?? json['propertyType']?['name'] ?? '',
       ownerName: json['ownerName'] ?? '',
       address: json['address'] ?? '',
       city: json['city'] ?? '',

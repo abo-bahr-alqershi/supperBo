@@ -101,7 +101,8 @@ class PropertyRemoteDataSourceImpl implements PropertyRemoteDataSource {
       );
 
       if (response.statusCode == 200) {
-        final data = response.data['data'] as List;
+        // extract the units list from the wrapper
+        final data = response.data['data']['units'] as List;
         return data.map((json) => UnitModel.fromJson(json)).toList();
       } else {
         throw ServerException(response.data['message'] ?? 'Failed to load units');
@@ -173,7 +174,8 @@ class PropertyRemoteDataSourceImpl implements PropertyRemoteDataSource {
       );
 
       if (response.statusCode == 200 || response.statusCode == 201) {
-        return response.data['isSuccess'] ?? false;
+        // the API returns the boolean in the 'data' key
+        return response.data['data'] ?? false;
       } else {
         throw ServerException(response.data['message'] ?? 'Failed to add to favorites');
       }
@@ -199,7 +201,8 @@ class PropertyRemoteDataSourceImpl implements PropertyRemoteDataSource {
       );
 
       if (response.statusCode == 200) {
-        return response.data['isSuccess'] ?? false;
+        // extract the result from the 'data' key
+        return response.data['data'] ?? false;
       } else {
         throw ServerException(response.data['message'] ?? 'Failed to remove from favorites');
       }
@@ -223,7 +226,8 @@ class PropertyRemoteDataSourceImpl implements PropertyRemoteDataSource {
       );
 
       if (response.statusCode == 200) {
-        return response.data['isSuccess'] ?? false;
+        // API uses 'data' for the boolean result
+        return response.data['data'] ?? false;
       } else {
         throw ServerException(response.data['message'] ?? 'Failed to update view count');
       }
