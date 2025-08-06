@@ -14,14 +14,19 @@ class AmenityModel extends Amenity {
 
   factory AmenityModel.fromJson(Map<String, dynamic> json) {
     return AmenityModel(
-      id: json['id'] ?? '',
+      // prefer property-specific amenityId, fallback to global id
+      id: json['amenityId'] ?? json['id'] ?? '',
       name: json['name'] ?? '',
       description: json['description'] ?? '',
       iconUrl: json['iconUrl'] ?? '',
       category: json['category'] ?? '',
-      isActive: json['isActive'] ?? true,
+      // property JSON uses isAvailable, global DTO uses isActive
+      isActive: json['isAvailable'] ?? json['isActive'] ?? true,
       displayOrder: json['displayOrder'] ?? 0,
-      createdAt: DateTime.parse(json['createdAt'] ?? DateTime.now().toIso8601String()),
+      // createdAt may be missing in property payload
+      createdAt: json['createdAt'] != null
+          ? DateTime.parse(json['createdAt'])
+          : DateTime.now(),
     );
   }
 
