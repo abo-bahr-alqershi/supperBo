@@ -69,7 +69,26 @@ namespace YemenBooking.Api.Controllers.Admin
             // Bind version manually to avoid model binding issues
             var query = new GetHomeConfigQuery { Version = version };
             var result = await _mediator.Send(query);
-            if (result == null) return NotFound();
+            if (result == null)
+            {
+                var defaultConfig = new DynamicHomeConfigDto
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Version = "1.0",
+                    IsActive = false,
+                    CreatedAt = DateTime.UtcNow.ToString("O"),
+                    UpdatedAt = DateTime.UtcNow.ToString("O"),
+                    PublishedAt = null,
+                    GlobalSettings = new Dictionary<string, object>(),
+                    ThemeSettings = new Dictionary<string, object>(),
+                    LayoutSettings = new Dictionary<string, object>(),
+                    CacheSettings = new Dictionary<string, object>(),
+                    AnalyticsSettings = new Dictionary<string, object>(),
+                    EnabledFeatures = new List<string>(),
+                    ExperimentalFeatures = new Dictionary<string, object>()
+                };
+                return Ok(defaultConfig);
+            }
             return Ok(result);
         }
 
