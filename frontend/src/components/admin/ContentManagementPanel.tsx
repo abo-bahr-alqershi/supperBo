@@ -110,6 +110,7 @@ import {
   Loyalty as LoyaltyIcon,
   CardGiftcard as GiftIcon,
   Percent as PercentIcon,
+  TouchApp as TouchIcon,
 } from '@mui/icons-material';
 import {
   DndContext,
@@ -1119,7 +1120,7 @@ const ContentCard: React.FC<{
 }> = ({ content, index, isSelected, onSelect, onRemove, onShowDetails, viewMode }) => {
   const data = content.contentData;
   const getPropertyTypeInfo = (type: string) => {
-    return PROPERTY_TYPES.find(t => t.value === type) || { label: type, icon: <HomeIcon />, color: COLORS.primary };
+    return PROPERTY_TYPES.find(t => t.value === type) || { label: type, icon: <PropertyIcon />, color: COLORS.primary };
   };
   
   return (
