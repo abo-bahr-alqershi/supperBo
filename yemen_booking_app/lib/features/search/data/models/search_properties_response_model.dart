@@ -33,15 +33,15 @@ class SearchPropertiesResponseModel {
               ?.map((e) => SearchResultModel.fromJson(e as Map<String, dynamic>))
               .toList() ??
           [],
-      totalCount: json['total_count'] ?? 0,
-      currentPage: json['current_page'] ?? 1,
-      pageSize: json['page_size'] ?? 20,
-      totalPages: json['total_pages'] ?? 0,
-      hasPreviousPage: json['has_previous_page'] ?? false,
-      hasNextPage: json['has_next_page'] ?? false,
+      totalCount: json['totalCount'] ?? 0,
+      currentPage: json['currentPage'] ?? 1,
+      pageSize: json['pageSize'] ?? 20,
+      totalPages: json['totalPages'] ?? 0,
+      hasPreviousPage: json['hasPreviousPage'] ?? false,
+      hasNextPage: json['hasNextPage'] ?? false,
       appliedFilters: SearchFiltersModel.fromJson(
-          json['applied_filters'] as Map<String, dynamic>? ?? {}),
-      searchTimeMs: json['search_time_ms'] ?? 0,
+          json['appliedFilters'] as Map<String, dynamic>? ?? {}),
+      searchTimeMs: json['searchTimeMs'] ?? 0,
       statistics: SearchStatisticsModel.fromJson(
           json['statistics'] as Map<String, dynamic>? ?? {}),
     );
