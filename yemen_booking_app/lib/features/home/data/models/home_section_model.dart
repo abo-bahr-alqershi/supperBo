@@ -77,7 +77,7 @@ class HomeSectionModel extends Equatable {
   factory HomeSectionModel.fromJson(Map<String, dynamic> json) {
     return HomeSectionModel(
       id: json['id'] as String,
-      sectionType: SectionType.tryFromString(json['sectionType'] as String?) ?? SectionType.horizontalPropertyList,
+      sectionType: SectionType.tryFromString(json['type'] as String?) ?? SectionType.horizontalPropertyList,
       order: json['order'] as int,
       isActive: json['isActive'] as bool,
       title: json['title'] as String?,
@@ -86,7 +86,7 @@ class HomeSectionModel extends Equatable {
       subtitleAr: json['subtitleAr'] as String?,
       createdAt: DateTime.parse(json['createdAt'] as String),
       updatedAt: DateTime.parse(json['updatedAt'] as String),
-      sectionConfig: SectionConfigModel.fromJson(json['sectionConfig'] as Map<String, dynamic>),
+      sectionConfig: SectionConfigModel.fromJson(json['config'] as Map<String, dynamic>),
       content: (json['content'] as List<dynamic>?)
               ?.map((item) => DynamicContentModel.fromJson(item as Map<String, dynamic>))
               .toList() ??

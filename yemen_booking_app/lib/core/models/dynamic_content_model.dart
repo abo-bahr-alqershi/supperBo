@@ -80,13 +80,16 @@ class DynamicContentModel extends Equatable {
       id: json['id'] as String,
       sectionId: json['sectionId'] as String,
       contentType: json['contentType'] as String,
-      contentData: json['contentData'] as Map<String, dynamic>,
+      // Backend returns 'data' for the content payload
+      contentData: json['data'] as Map<String, dynamic>,
       metadata: json['metadata'] as Map<String, dynamic>? ?? {},
       expiresAt: json['expiresAt'] != null
           ? DateTime.parse(json['expiresAt'] as String)
           : null,
-      displayOrder: json['displayOrder'] as int,
-      isActive: json['isActive'] as bool,
+      // Extract displayOrder from metadata, defaulting to 0
+      displayOrder: (json['metadata'] as Map<String, dynamic>?)?['displayOrder'] as int? ?? 0,
+      // Default isActive to true, extract from metadata if available
+      isActive: (json['metadata'] as Map<String, dynamic>?)?['isActive'] as bool? ?? true,
       createdAt: DateTime.parse(json['createdAt'] as String),
       updatedAt: DateTime.parse(json['updatedAt'] as String),
       // Backend computed properties

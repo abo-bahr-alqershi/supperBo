@@ -68,8 +68,9 @@ class SponsoredAdModel extends Equatable {
       title: json['title'] as String,
       subtitle: json['subtitle'] as String?,
       description: json['description'] as String?,
-      property: json['property'] != null
-          ? PropertyModel.fromJson(json['property'] as Map<String, dynamic>)
+      // Map the first element from backend 'properties' array if available
+      property: (json['properties'] as List<dynamic>?)?.isNotEmpty == true
+          ? PropertyModel.fromJson((json['properties'] as List<dynamic>).first as Map<String, dynamic>)
           : null,
       propertyIds: (json['propertyIds'] as List<dynamic>?)?.cast<String>() ?? [],
       customImageUrl: json['customImageUrl'] as String?,
