@@ -131,8 +131,8 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         ));
 
         // Add to recent searches if it's a new search with query
-        if (event.isNewSearch && event.searchQuery != null && event.searchQuery!.isNotEmpty) {
-          add(AddToRecentSearchesEvent(searchQuery: event.searchQuery!));
+        if (event.isNewSearch && event.searchTerm != null && event.searchTerm!.isNotEmpty) {
+          add(AddToRecentSearchesEvent(suggestion: event.searchTerm!));
         }
       },
     );
@@ -330,10 +330,10 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     final recentSearches = List<String>.from(currentState.recentSearches);
     
     // Remove if already exists
-    recentSearches.remove(event.searchQuery);
+    recentSearches.remove(event.suggestion);
     
     // Add to beginning
-    recentSearches.insert(0, event.searchQuery);
+    recentSearches.insert(0, event.suggestion);
     
     // Keep only max allowed
     if (recentSearches.length > _maxRecentSearches) {

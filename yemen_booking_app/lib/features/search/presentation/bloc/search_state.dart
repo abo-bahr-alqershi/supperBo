@@ -3,6 +3,9 @@ import '../../../../core/models/paginated_result.dart';
 import '../../domain/entities/search_filter.dart';
 import '../../domain/entities/search_result.dart';
 
+// View modes for search results UI
+enum ViewMode { list, grid, map }
+
 abstract class SearchState extends Equatable {
   const SearchState();
 
