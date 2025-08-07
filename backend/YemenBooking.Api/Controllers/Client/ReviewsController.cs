@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using YemenBooking.Application.Commands.MobileApp.Reviews;
 using YemenBooking.Application.Queries.MobileApp.Reviews;
 using YemenBooking.Application.DTOs;
+using YemenBooking.Api.Controllers.Images;
 
 namespace YemenBooking.Api.Controllers.Client
 {
@@ -52,6 +53,18 @@ namespace YemenBooking.Api.Controllers.Client
         public async Task<ActionResult<ResultDto<ClientReviewsSummaryDto>>> GetReviewsSummary([FromQuery] ClientGetReviewsSummaryQuery query)
         {
             var result = await _mediator.Send(query);
+            return Ok(result);
+        }
+
+        /// <summary>
+        /// رفع صورة واحدة
+        /// Accept multipart/form-data and return UploadImageResponse
+        /// </summary>
+        [HttpPost("upload")]
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> UploadImage([FromForm] UploadImageRequest request)
+        {
+            var result = await _mediator.Send(request);
             return Ok(result);
         }
     }

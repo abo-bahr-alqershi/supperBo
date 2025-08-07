@@ -62,6 +62,16 @@ import 'features/home/domain/usecases/record_ad_impression_usecase.dart';
 import 'features/home/domain/usecases/record_ad_click_usecase.dart';
 import 'features/home/presentation/bloc/home_bloc.dart';
 
+// Features - Review
+import 'features/review/data/datasources/review_remote_datasource.dart';
+import 'features/review/data/repositories/review_repository_impl.dart';
+import 'features/review/domain/repositories/review_repository.dart';
+import 'features/review/domain/usecases/create_review_usecase.dart';
+import 'features/review/domain/usecases/get_property_reviews_usecase.dart';
+import 'features/review/domain/usecases/get_property_reviews_Summary_usecase.dart';
+import 'features/review/domain/usecases/upload_review_images_usecase.dart';
+import 'features/review/presentation/bloc/review_bloc.dart';
+
 final sl = GetIt.instance;
 
 Future<void> init() async {
@@ -77,6 +87,9 @@ Future<void> init() async {
   // Features - Home
   _initHome();
   
+  // Features - Review
+  _initReview();
+
   // Core
   _initCore();
   
@@ -222,6 +235,37 @@ void _initHome() {
   );
   sl.registerLazySingleton<HomeLocalDataSource>(
     () => HomeLocalDataSourceImpl(sharedPreferences: sl()),
+  );
+}
+
+void _initReview() {
+  // Bloc
+  sl.registerFactory(
+    () => ReviewBloc(
+      createReviewUseCase: sl(),
+      getPropertyReviewsUseCase: sl(),
+      getPropertyReviewsSummaryUseCase: sl(),
+      uploadReviewImagesUseCase: sl(),
+    ),
+  );
+
+  // Use cases
+  sl.registerLazySingleton(() => CreateReviewUseCase(sl()));
+  sl.registerLazySingleton(() => GetPropertyReviewsUseCase(sl()));
+  sl.registerLazySingleton(() => GetPropertyReviewsSummaryUseCase(sl()));
+  sl.registerLazySingleton(() => UploadReviewImagesUseCase(sl()));
+
+  // Repository
+  sl.registerLazySingleton<ReviewRepository>(
+    () => ReviewRepositoryImpl(
+      remoteDataSource: sl(),
+      networkInfo: sl(),
+    ),
+  );
+
+  // Data sources
+  sl.registerLazySingleton<ReviewRemoteDataSource>(
+    () => ReviewRemoteDataSourceImpl(apiClient: sl()),
   );
 }
 

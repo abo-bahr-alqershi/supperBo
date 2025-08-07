@@ -544,6 +544,7 @@ lib/
 │   │   │   └── usecases/
 │   │   │       ├── create_review_usecase.dart
 │   │   │       ├── get_property_reviews_usecase.dart
+│   │   │       ├── get_property_reviews_Summary_usecase.dart
 │   │   │       └── upload_review_images_usecase.dart
 │   │   │
 │   │   └── presentation/
@@ -557,6 +558,8 @@ lib/
 │   │       └── widgets/
 │   │           ├── review_form_widget.dart
 │   │           ├── review_card_widget.dart
+│   │           ├── upload_review_image_widget.dart
+│   │           ├── response_card_widget.dart
 │   │           ├── rating_selector_widget.dart
 │   │           └── review_images_picker_widget.dart
 │   │
