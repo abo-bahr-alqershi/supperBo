@@ -21,6 +21,7 @@ import MultiPropertyOffersGrid from './Sections/MultiPropertyOffersGrid';
 import ExploreCities from './Sections/ExploreCities';
 import PremiumCarousel from './Sections/PremiumCarousel';
 import InteractiveShowcase from './Sections/InteractiveShowcase';
+import UnitShowcaseAd from './Sections/UnitShowcaseAd';
 
 interface DynamicSectionProps {
   section: DynamicHomeSection;
@@ -42,69 +43,82 @@ const DynamicSection: React.FC<DynamicSectionProps> = ({ section, config }) => {
     return null;
   }
 
+  // تصفية وفرز عناصر المحتوى حسب الصلاحية وترتيب العرض
+  const filteredContent = (section.content || [])
+    .filter((c) => (c.isActive ?? true) && (!c.expiresAt || new Date(c.expiresAt) >= now))
+    .sort((a, b) => (a.displayOrder ?? 0) - (b.displayOrder ?? 0));
+
+  if (filteredContent.length === 0) {
+    return null;
+  }
+
+  const effectiveSection: DynamicHomeSection = { ...section, content: filteredContent };
+
   // عرض المكون المناسب بناءً على نوع القسم
   const renderSection = () => {
-    switch (section.sectionType) {
+    switch (effectiveSection.sectionType) {
       case SectionType.HORIZONTAL_PROPERTY_LIST:
-        return <HorizontalPropertyList section={section} />;
+        return <HorizontalPropertyList section={effectiveSection} />;
       
       case SectionType.VERTICAL_PROPERTY_GRID:
-        return <VerticalPropertyGrid section={section} />;
+        return <VerticalPropertyGrid section={effectiveSection} />;
       
       case SectionType.SINGLE_PROPERTY_AD:
       case SectionType.FEATURED_PROPERTY_AD:
-        return <FeaturedPropertyAd section={section} />;
+        return <FeaturedPropertyAd section={effectiveSection} />;
       
       case SectionType.MULTI_PROPERTY_AD:
-        return <MultiPropertyAd section={section} />;
+        return <MultiPropertyAd section={effectiveSection} />;
+
+      case SectionType.UNIT_SHOWCASE_AD:
+        return <UnitShowcaseAd section={effectiveSection} />;
       
       case SectionType.OFFERS_CAROUSEL:
-        return <OffersCarousel section={section} />;
+        return <OffersCarousel section={effectiveSection} />;
       
       case SectionType.CITY_CARDS_GRID:
-        return <CityCardsGrid section={section} />;
+        return <CityCardsGrid section={effectiveSection} />;
       
       case SectionType.DESTINATION_CAROUSEL:
-        return <DestinationCarousel section={section} />;
+        return <DestinationCarousel section={effectiveSection} />;
       
       case SectionType.FEATURED_PROPERTIES_SHOWCASE:
-        return <FeaturedPropertiesShowcase section={section} />;
+        return <FeaturedPropertiesShowcase section={effectiveSection} />;
       
       case SectionType.FLASH_DEALS:
-        return <FlashDeals section={section} />;
+        return <FlashDeals section={effectiveSection} />;
       
       case SectionType.SINGLE_PROPERTY_OFFER:
-        return <SinglePropertyOffer section={section} />;
+        return <SinglePropertyOffer section={effectiveSection} />;
       
       case SectionType.LIMITED_TIME_OFFER:
-        return <LimitedTimeOffer section={section} />;
+        return <LimitedTimeOffer section={effectiveSection} />;
       
       case SectionType.SEASONAL_OFFER:
-        return <SeasonalOffer section={section} />;
+        return <SeasonalOffer section={effectiveSection} />;
       
       case SectionType.MULTI_PROPERTY_OFFERS_GRID:
-        return <MultiPropertyOffersGrid section={section} />;
+        return <MultiPropertyOffersGrid section={effectiveSection} />;
       
       case SectionType.EXPLORE_CITIES:
-        return <ExploreCities section={section} />;
+        return <ExploreCities section={effectiveSection} />;
       
       case SectionType.PREMIUM_CAROUSEL:
-        return <PremiumCarousel section={section} />;
+        return <PremiumCarousel section={effectiveSection} />;
       
       case SectionType.INTERACTIVE_SHOWCASE:
-        return <InteractiveShowcase section={section} />;
+        return <InteractiveShowcase section={effectiveSection} />;
       
       default:
-        console.warn(`نوع القسم غير مدعوم: ${section.sectionType}`);
         return null;
     }
   };
 
   return (
     <Box
-      id={`section-${section.id}`}
-      data-section-type={section.sectionType}
-      data-section-priority={section.priority}
+      id={`section-${effectiveSection.id}`}
+      data-section-type={effectiveSection.sectionType}
+      data-section-priority={effectiveSection.priority}
     >
       {renderSection()}
     </Box>

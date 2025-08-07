@@ -31,7 +31,7 @@ const VerticalPropertyGrid: React.FC<VerticalPropertyGridProps> = ({ section }) 
       <SectionHeader
         title={section.title}
         subtitle={section.subtitle}
-        actionText={displaySettings.showViewAll ? 'عرض الكل' : undefined}
+        actionText={displaySettings.showViewAllButton ? 'عرض الكل' : undefined}
         onActionClick={() => {/* Navigate to all properties */}}
       />
       
