@@ -26,6 +26,11 @@ class SearchResultModel extends SearchResult {
     required super.isFeatured,
     required super.mainAmenities,
     required super.reviews,
+    required super.isFavorite,
+    required super.matchPercentage,
+    required super.maxCapacity,
+    required super.lastUpdated,
+    required super.imageUrls,
   });
 
   factory SearchResultModel.fromJson(Map<String, dynamic> json) {
@@ -57,6 +62,11 @@ class SearchResultModel extends SearchResult {
               ?.map((e) => ReviewModel.fromJson(e))
               .toList() ??
           [],
+      isFavorite: json['isFavorite'] ?? false,
+      matchPercentage: json['matchPercentage'] ?? 0,
+      maxCapacity: json['maxCapacity'] ?? 0,
+      lastUpdated: DateTime.parse(json['lastUpdated'] ?? DateTime.now().toIso8601String()),
+      imageUrls: List<String>.from(json['imageUrls'] ?? []),
     );
   }
 
@@ -86,6 +96,11 @@ class SearchResultModel extends SearchResult {
       'isFeatured': isFeatured,
       'mainAmenities': mainAmenities,
       'reviews': reviews.map((e) => (e as ReviewModel).toJson()).toList(),
+      'isFavorite': isFavorite,
+      'matchPercentage': matchPercentage,
+      'maxCapacity': maxCapacity,
+      'lastUpdated': lastUpdated.toIso8601String(),
+      'imageUrls': imageUrls,
     };
   }
 }
