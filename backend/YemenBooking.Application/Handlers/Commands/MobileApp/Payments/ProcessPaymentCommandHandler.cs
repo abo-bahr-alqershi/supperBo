@@ -109,7 +109,7 @@ public class ProcessPaymentCommandHandler : IRequestHandler<ProcessPaymentComman
             }
 
             // حفظ معلومات الدفع في قاعدة البيانات
-            if (!Enum.TryParse<PaymentMethodType>(request.PaymentMethod.ToString(), true, out var paymentMethodType))
+            if (!Enum.TryParse<PaymentMethodEnum>(request.PaymentMethod.ToString(), true, out var paymentMethodType))
             {
                 _logger.LogError("طريقة الدفع غير صالحة");
                 return ResultDto<ProcessPaymentResponse>.Failed("طريقة الدفع غير صالحة", "INVALID_PAYMENT_METHOD");
@@ -182,14 +182,14 @@ public class ProcessPaymentCommandHandler : IRequestHandler<ProcessPaymentComman
         }
 
         // التحقق من طريقة الدفع وبياناتها المطلوبة
-        if (!Enum.TryParse<PaymentMethodType>(request.PaymentMethod.ToString(), true, out var paymentMethodType))
+        if (!Enum.TryParse<PaymentMethodEnum>(request.PaymentMethod.ToString(), true, out var paymentMethodType))
         {
             return ResultDto<ProcessPaymentResponse>.Failed("طريقة الدفع غير صالحة", "INVALID_PAYMENT_METHOD");
         }
 
         switch (paymentMethodType)
         {
-            case PaymentMethodType.CreditCard:
+            case PaymentMethodEnum.CreditCard:
                 if (request.CardDetails == null)
                 {
                     return ResultDto<ProcessPaymentResponse>.Failed("تفاصيل البطاقة مطلوبة", "CARD_DETAILS_REQUIRED");
@@ -202,14 +202,14 @@ public class ProcessPaymentCommandHandler : IRequestHandler<ProcessPaymentComman
                 }
                 break;
 
-            case PaymentMethodType.DigitalWallet:
+            case PaymentMethodEnum.DigitalWallet:
                 if (string.IsNullOrWhiteSpace(request.WalletId))
                 {
                     return ResultDto<ProcessPaymentResponse>.Failed("معرف المحفظة الإلكترونية مطلوب", "WALLET_ID_REQUIRED");
                 }
                 break;
 
-            case PaymentMethodType.BankTransfer:
+            case PaymentMethodEnum.BankTransfer:
                 // لا توجد بيانات إضافية مطلوبة للتحويل البنكي
                 break;
 
@@ -293,7 +293,7 @@ public class ProcessPaymentCommandHandler : IRequestHandler<ProcessPaymentComman
         dynamic booking, 
         CancellationToken cancellationToken)
     {
-        if (!Enum.TryParse<PaymentMethodType>(request.PaymentMethod.ToString(), true, out var paymentMethodType))
+        if (!Enum.TryParse<PaymentMethodEnum>(request.PaymentMethod.ToString(), true, out var paymentMethodType))
         {
             _logger.LogError("طريقة الدفع غير صالحة");
             return null;
@@ -310,19 +310,19 @@ public class ProcessPaymentCommandHandler : IRequestHandler<ProcessPaymentComman
 
         return paymentMethodType switch
         {
-            PaymentMethodType.CreditCard => ConvertToProcessPaymentResponse(await _paymentService.ProcessPaymentAsync(
+            PaymentMethodEnum.CreditCard => ConvertToProcessPaymentResponse(await _paymentService.ProcessPaymentAsync(
                 request.BookingId,
                 paymentMethod.Id,
                 request.Amount.Amount,
                 request.Amount.Currency ?? "YER")),
 
-            PaymentMethodType.DigitalWallet => ConvertToProcessPaymentResponse(await _paymentService.ProcessPaymentAsync(
+            PaymentMethodEnum.DigitalWallet => ConvertToProcessPaymentResponse(await _paymentService.ProcessPaymentAsync(
                 request.BookingId,
                 paymentMethod.Id,
                 request.Amount.Amount,
                 request.Amount.Currency ?? "YER")),
 
-            PaymentMethodType.BankTransfer => ConvertToProcessPaymentResponse(await _paymentService.ProcessPaymentAsync(
+            PaymentMethodEnum.BankTransfer => ConvertToProcessPaymentResponse(await _paymentService.ProcessPaymentAsync(
                 request.BookingId,
                 paymentMethod.Id,
                 request.Amount.Amount,

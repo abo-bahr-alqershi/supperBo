@@ -52,7 +52,7 @@ public interface IPaymentMethodRepository
     /// <param name="type">نوع طريقة الدفع</param>
     /// <param name="cancellationToken">رمز الإلغاء</param>
     /// <returns>قائمة طرق الدفع</returns>
-    Task<IEnumerable<PaymentMethod>> GetByTypeAsync(PaymentMethodType type, CancellationToken cancellationToken = default);
+    Task<IEnumerable<PaymentMethod>> GetByTypeAsync(PaymentMethodEnum type, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// إضافة طريقة دفع جديدة

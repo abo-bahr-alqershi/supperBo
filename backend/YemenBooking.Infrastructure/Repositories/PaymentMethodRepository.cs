@@ -34,7 +34,7 @@ namespace YemenBooking.Infrastructure.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<PaymentMethod>> GetByTypeAsync(PaymentMethodType type, CancellationToken cancellationToken = default)
+        public Task<IEnumerable<PaymentMethod>> GetByTypeAsync(PaymentMethodEnum type, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }

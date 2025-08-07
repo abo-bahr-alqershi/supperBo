@@ -44,7 +44,7 @@ public class PaymentMethod
     /// Payment method type
     /// </summary>
     [Required]
-    public PaymentMethodType Type { get; set; }
+    public PaymentMethodEnum Type { get; set; }
 
     /// <summary>
     /// رمز طريقة الدفع
