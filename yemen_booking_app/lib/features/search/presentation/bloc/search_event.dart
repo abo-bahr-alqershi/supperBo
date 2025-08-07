@@ -50,6 +50,8 @@ class SearchPropertiesEvent extends SearchEvent {
     this.pageSize = 20,
   });
 
+  bool get isNewSearch => pageNumber == 1;
+
   @override
   List<Object?> get props => [
         searchTerm,
@@ -138,11 +140,10 @@ class ToggleViewModeEvent extends SearchEvent {
 
 class SaveSearchEvent extends SearchEvent {
   final String name;
-
-  const SaveSearchEvent({required this.name});
-
+  final Map<String, dynamic> searchParams;
+  const SaveSearchEvent({required this.name, required this.searchParams});
   @override
-  List<Object> get props => [name];
+  List<Object> get props => [name, searchParams];
 }
 
 class LoadSavedSearchEvent extends SearchEvent {
@@ -152,4 +153,45 @@ class LoadSavedSearchEvent extends SearchEvent {
 
   @override
   List<Object> get props => [searchId];
+}
+
+class ClearSearchSuggestionsEvent extends SearchEvent {
+  const ClearSearchSuggestionsEvent();
+}
+
+class ClearSearchResultsEvent extends SearchEvent {
+  const ClearSearchResultsEvent();
+}
+
+class AddToRecentSearchesEvent extends SearchEvent {
+  final String suggestion;
+  const AddToRecentSearchesEvent({required this.suggestion});
+  @override
+  List<Object> get props => [suggestion];
+}
+
+class LoadRecentSearchesEvent extends SearchEvent {
+  const LoadRecentSearchesEvent();
+}
+
+class ClearRecentSearchesEvent extends SearchEvent {
+  const ClearRecentSearchesEvent();
+}
+
+class LoadSavedSearchesEvent extends SearchEvent {
+  const LoadSavedSearchesEvent();
+}
+
+class DeleteSavedSearchEvent extends SearchEvent {
+  final String searchId;
+  const DeleteSavedSearchEvent({required this.searchId});
+  @override
+  List<Object> get props => [searchId];
+}
+
+class ApplySavedSearchEvent extends SearchEvent {
+  final Map<String, dynamic> searchParams;
+  const ApplySavedSearchEvent({required this.searchParams});
+  @override
+  List<Object> get props => [searchParams];
 }

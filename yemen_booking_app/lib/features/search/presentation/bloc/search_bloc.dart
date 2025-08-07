@@ -131,8 +131,8 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         ));
 
         // Add to recent searches if it's a new search with query
-        if (event.isNewSearch && event.searchQuery != null && event.searchQuery!.isNotEmpty) {
-          add(AddToRecentSearchesEvent(searchQuery: event.searchQuery!));
+        if (event.isNewSearch && event.searchTerm != null && event.searchTerm!.isNotEmpty) {
+          add(AddToRecentSearchesEvent(suggestion: event.searchTerm!));
         }
       },
     );
@@ -169,7 +169,6 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
           sortBy: _currentFilters['sortBy'] as String?,
           pageNumber: nextPage,
           pageSize: successState.searchResults.pageSize,
-          isNewSearch: false,
         ));
       }
     }
@@ -330,10 +329,10 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     final recentSearches = List<String>.from(currentState.recentSearches);
     
     // Remove if already exists
-    recentSearches.remove(event.searchQuery);
+    recentSearches.remove(event.suggestion);
     
     // Add to beginning
-    recentSearches.insert(0, event.searchQuery);
+    recentSearches.insert(0, event.suggestion);
     
     // Keep only max allowed
     if (recentSearches.length > _maxRecentSearches) {
@@ -498,16 +497,8 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       if (event.radiusKm != null) filters['radiusKm'] = event.radiusKm;
       if (event.sortBy != null) filters['sortBy'] = event.sortBy;
     } else if (event is UpdateSearchFiltersEvent) {
-      if (event.city != null) filters['city'] = event.city;
-      if (event.propertyTypeId != null) filters['propertyTypeId'] = event.propertyTypeId;
-      if (event.minPrice != null) filters['minPrice'] = event.minPrice;
-      if (event.maxPrice != null) filters['maxPrice'] = event.maxPrice;
-      if (event.minStarRating != null) filters['minStarRating'] = event.minStarRating;
-      if (event.requiredAmenities != null) filters['requiredAmenities'] = event.requiredAmenities;
-      if (event.checkIn != null) filters['checkIn'] = event.checkIn;
-      if (event.checkOut != null) filters['checkOut'] = event.checkOut;
-      if (event.guestsCount != null) filters['guestsCount'] = event.guestsCount;
-      if (event.sortBy != null) filters['sortBy'] = event.sortBy;
+      // Merge new filters into current filters
+      filters.addAll(event.filters);
     }
     
     return filters;

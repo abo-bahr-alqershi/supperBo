@@ -3,6 +3,9 @@ import '../../../../core/models/paginated_result.dart';
 import '../../domain/entities/search_filter.dart';
 import '../../domain/entities/search_result.dart';
 
+// View modes for search results UI
+enum ViewMode { list, grid, map }
+
 abstract class SearchState extends Equatable {
   const SearchState();
 
@@ -23,27 +26,34 @@ class SearchSuccess extends SearchState {
   final PaginatedResult<SearchResult> searchResults;
   final Map<String, dynamic> currentFilters;
   final bool hasReachedMax;
+  final ViewMode viewMode;
 
   const SearchSuccess({
     required this.searchResults,
     required this.currentFilters,
     this.hasReachedMax = false,
+    this.viewMode = ViewMode.list,
   });
 
   SearchSuccess copyWith({
     PaginatedResult<SearchResult>? searchResults,
     Map<String, dynamic>? currentFilters,
     bool? hasReachedMax,
+    ViewMode? viewMode,
   }) {
     return SearchSuccess(
       searchResults: searchResults ?? this.searchResults,
       currentFilters: currentFilters ?? this.currentFilters,
       hasReachedMax: hasReachedMax ?? this.hasReachedMax,
+      viewMode: viewMode ?? this.viewMode,
     );
   }
 
   @override
-  List<Object?> get props => [searchResults, currentFilters, hasReachedMax];
+  List<Object?> get props => [searchResults, currentFilters, hasReachedMax, viewMode];
+
+  PaginatedResult<SearchResult> get results => searchResults;
+  Map<String, dynamic> get appliedFilters => currentFilters;
 }
 
 class SearchError extends SearchState {

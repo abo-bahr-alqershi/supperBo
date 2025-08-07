@@ -163,7 +163,7 @@ class SearchRemoteDataSourceImpl implements SearchRemoteDataSource {
       if (response.statusCode == 200) {
         return ResultDto.fromJson(
           response.data,
-          (json) => List<String>.from(json ?? []),
+          (json) => (json as List<dynamic>?)?.map((e) => e as String).toList() ?? [],
         );
       } else {
         throw ServerException(response.data['message'] ?? 'Failed to get suggestions');

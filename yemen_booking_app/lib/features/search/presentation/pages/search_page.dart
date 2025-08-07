@@ -119,8 +119,7 @@ class _SearchPageState extends State<SearchPage> {
                       const Icon(Icons.tune_rounded),
                       BlocBuilder<SearchBloc, SearchState>(
                         builder: (context, state) {
-                          if (state is SearchSuccess && 
-                              state.appliedFilters.isNotEmpty) {
+                          if (state is SearchSuccess && state.currentFilters.isNotEmpty) {
                             return Positioned(
                               right: 0,
                               top: 0,
@@ -150,10 +149,10 @@ class _SearchPageState extends State<SearchPage> {
                 return Column(
                   children: [
                     FilterChipsWidget(
-                      filters: state.appliedFilters,
+                      filters: state.currentFilters,
                       onRemoveFilter: (key) {
                         final updatedFilters = Map<String, dynamic>.from(
-                          state.appliedFilters,
+                          state.currentFilters,
                         )..remove(key);
                         
                         context.read<SearchBloc>().add(
@@ -172,7 +171,7 @@ class _SearchPageState extends State<SearchPage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            '${state.results.totalItems} نتيجة',
+                            '${state.searchResults.totalCount} نتيجة',
                             style: AppTextStyles.bodyMedium.copyWith(
                               color: AppColors.textSecondary,
                             ),
@@ -180,7 +179,7 @@ class _SearchPageState extends State<SearchPage> {
                           Row(
                             children: [
                               SortOptionsWidget(
-                                currentSort: state.appliedFilters['sortBy'],
+                                currentSort: state.currentFilters['sortBy'],
                                 onSortChanged: (sortBy) {
                                   context.read<SearchBloc>().add(
                                     UpdateSearchFiltersEvent(
@@ -438,29 +437,29 @@ class _SearchPageState extends State<SearchPage> {
   Widget _buildResultsView(SearchSuccess state) {
     if (state.viewMode == ViewMode.map) {
       return SearchResultsMapPage(
-        results: state.results.items,
+        results: state.searchResults.items,
         onBackToList: () {
           context.read<SearchBloc>().add(const ToggleViewModeEvent());
         },
       );
     }
 
-    if (state.results.items.isEmpty) {
+    if (state.searchResults.items.isEmpty) {
       return _buildEmptyResults();
     }
 
     return RefreshIndicator(
       onRefresh: () async {
-        _performSearch(state.appliedFilters);
+        _performSearch(state.currentFilters);
       },
       child: state.viewMode == ViewMode.list
           ? SearchResultListWidget(
-              results: state.results.items,
+              results: state.searchResults.items,
               scrollController: _scrollController,
               isLoadingMore: state is SearchLoadingMore,
             )
           : SearchResultGridWidget(
-              results: state.results.items,
+              results: state.searchResults.items,
               scrollController: _scrollController,
               isLoadingMore: state is SearchLoadingMore,
             ),
