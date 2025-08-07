@@ -378,7 +378,7 @@ public class RefundPaymentCommandHandler : IRequestHandler<RefundPaymentCommand,
             RefundReason = refundReason,
             RefundTransactionId = payment.TransactionId,
             RefundedAt = DateTime.UtcNow,
-            RefundMethod = PaymentMethodEnum.Card, // قيمة افتراضية مؤقتة
+            RefundMethod = PaymentMethodEnum.CreditCard, // قيمة افتراضية مؤقتة
             RefundStatus = PaymentStatus.Refunded,
             OriginalAmount = payment.Amount.Amount,
             Currency = refundAmount.Currency,

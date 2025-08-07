@@ -54,7 +54,7 @@ namespace YemenBooking.Infrastructure.Services
         /// <summary>
         /// حساب الرسوم (ستب)
         /// </summary>
-        public Task<decimal> CalculateFeesAsync(decimal amount, PaymentMethodType paymentMethodType, string currency)
+        public Task<decimal> CalculateFeesAsync(decimal amount, PaymentMethodEnum paymentMethodType, string currency)
         {
             throw new NotImplementedException("PaymentService.CalculateFeesAsync is not implemented yet.");
         }

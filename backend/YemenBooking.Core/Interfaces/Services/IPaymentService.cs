@@ -58,7 +58,7 @@ namespace YemenBooking.Core.Interfaces.Services
         /// <param name="paymentMethodType">نوع طريقة الدفع</param>
         /// <param name="currency">العملة</param>
         /// <returns>الرسوم المحسوبة</returns>
-        Task<decimal> CalculateFeesAsync(decimal amount, PaymentMethodType paymentMethodType, string currency);
+        Task<decimal> CalculateFeesAsync(decimal amount, PaymentMethodEnum paymentMethodType, string currency);
 
         /// <summary>
         /// إنشاء رابط دفع آمن
