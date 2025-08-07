@@ -6,6 +6,7 @@ using YemenBooking.Core.Interfaces.Services;
 using YemenBooking.Core.Interfaces.Repositories;
 using YemenBooking.Core.Entities;
 using System.Text.Json;
+using System.Collections.Generic;
 
 namespace YemenBooking.Application.Handlers.Commands.MobileApp.Settings;
 
@@ -127,19 +128,6 @@ public class UpdateUserSettingsCommandHandler : IRequestHandler<UpdateUserSettin
             return ResultDto<bool>.Failed("المنطقة الزمنية غير صالحة", "INVALID_TIMEZONE");
         }
 
-        // التحقق من صحة JSON الإضافي إذا تم توفيره
-        if (!string.IsNullOrWhiteSpace(request.AdditionalSettingsJson))
-        {
-            try
-            {
-                JsonDocument.Parse(request.AdditionalSettingsJson);
-            }
-            catch (JsonException)
-            {
-                return ResultDto<bool>.Failed("تنسيق الإعدادات الإضافية غير صحيح", "INVALID_ADDITIONAL_SETTINGS_JSON");
-            }
-        }
-
         return ResultDto<bool>.Ok(true, "البيانات صحيحة");
     }
 
@@ -150,7 +138,7 @@ public class UpdateUserSettingsCommandHandler : IRequestHandler<UpdateUserSettin
     /// <param name="existingSettings">الإعدادات الموجودة</param>
     /// <param name="request">طلب التحديث</param>
     /// <param name="cancellationToken">رمز الإلغاء</param>
-    private async Task UpdateExistingSettings(dynamic existingSettings, UpdateUserSettingsCommand request, CancellationToken cancellationToken)
+    private async Task UpdateExistingSettings(UserSettings existingSettings, UpdateUserSettingsCommand request, CancellationToken cancellationToken)
     {
         // تحديث الإعدادات
         existingSettings.PreferredLanguage = NormalizeLanguage(request.PreferredLanguage);
@@ -158,23 +146,20 @@ public class UpdateUserSettingsCommandHandler : IRequestHandler<UpdateUserSettin
         existingSettings.TimeZone = request.TimeZone;
         existingSettings.DarkMode = request.DarkMode;
         
-        // تحويل JSON إلى Dictionary إذا تم توفيره
-        if (!string.IsNullOrWhiteSpace(request.AdditionalSettingsJson))
+        // تحديث الإعدادات الإضافية
+        if (request.AdditionalSettings != null && request.AdditionalSettings.Count > 0)
         {
-            try
-            {
-                existingSettings.AdditionalSettings = JsonSerializer.Deserialize<Dictionary<string, object>>(request.AdditionalSettingsJson);
-            }
-            catch (JsonException)
-            {
-                existingSettings.AdditionalSettings = new Dictionary<string, object>();
-            }
+            existingSettings.AdditionalSettings = request.AdditionalSettings;
+        }
+        else if (existingSettings.AdditionalSettings == null)
+        {
+            existingSettings.AdditionalSettings = new Dictionary<string, object>();
         }
         
         existingSettings.UpdatedAt = DateTime.UtcNow;
 
-        var updateResult = await _userSettingsRepository.UpdateAsync(existingSettings, cancellationToken);
-        if (!updateResult)
+        var updated = await _userSettingsRepository.UpdateAsync(existingSettings, cancellationToken);
+        if (updated == null)
         {
             _logger.LogError("فشل في تحديث إعدادات المستخدم: {UserId}", request.UserId);
             throw new InvalidOperationException("فشل في تحديث الإعدادات");
@@ -199,9 +184,7 @@ public class UpdateUserSettingsCommandHandler : IRequestHandler<UpdateUserSettin
             PreferredCurrency = request.PreferredCurrency.ToUpper(),
             TimeZone = request.TimeZone,
             DarkMode = request.DarkMode,
-            AdditionalSettings = !string.IsNullOrWhiteSpace(request.AdditionalSettingsJson) ?
-                JsonSerializer.Deserialize<Dictionary<string, object>>(request.AdditionalSettingsJson) ?? new Dictionary<string, object>() :
-                new Dictionary<string, object>(),
+            AdditionalSettings = request.AdditionalSettings ?? new Dictionary<string, object>(),
             CreatedAt = DateTime.UtcNow,
             UpdatedAt = DateTime.UtcNow
         };
