@@ -1,128 +1,158 @@
-// frontend/src/components/Home/DynamicSection.tsx
-import React from 'react';
-import { Box } from '@mui/material';
-import type { DynamicHomeSection, DynamicHomeConfig } from '../../types/homeSections.types';
+// frontend/src/components/home/DynamicSection.tsx
+import React, { memo } from 'react';
+import { Box, Typography, Grid, Button, Card, CardMedia, CardContent } from '@mui/material';
+import type { DynamicHomeSection, DynamicHomeConfig, DynamicContent } from '../../types/homeSections.types';
 import { SectionType } from '../../types/enums';
-
-// استيراد جميع مكونات الأقسام
-import HorizontalPropertyList from './Sections/HorizontalPropertyList';
-import VerticalPropertyGrid from './Sections/VerticalPropertyGrid';
-import FeaturedPropertyAd from './Sections/FeaturedPropertyAd';
-import OffersCarousel from './Sections/OffersCarousel';
-import CityCardsGrid from './Sections/CityCardsGrid';
-import DestinationCarousel from './Sections/DestinationCarousel';
-import FeaturedPropertiesShowcase from './Sections/FeaturedPropertiesShowcase';
-import FlashDeals from './Sections/FlashDeals';
-import MultiPropertyAd from './Sections/MultiPropertyAd';
-import SinglePropertyOffer from './Sections/SinglePropertyOffer';
-import LimitedTimeOffer from './Sections/LimitedTimeOffer';
-import SeasonalOffer from './Sections/SeasonalOffer';
-import MultiPropertyOffersGrid from './Sections/MultiPropertyOffersGrid';
-import ExploreCities from './Sections/ExploreCities';
-import PremiumCarousel from './Sections/PremiumCarousel';
-import InteractiveShowcase from './Sections/InteractiveShowcase';
-import UnitShowcaseAd from './Sections/UnitShowcaseAd';
 
 interface DynamicSectionProps {
   section: DynamicHomeSection;
   config: DynamicHomeConfig;
 }
 
-const DynamicSection: React.FC<DynamicSectionProps> = ({ section, config }) => {
-  // التحقق من أن القسم نشط
-  if (!section.isActive) {
-    return null;
-  }
-
-  // التحقق من تاريخ البدء والانتهاء
-  const now = new Date();
-  if (section.scheduledAt && new Date(section.scheduledAt) > now) {
-    return null;
-  }
-  if (section.expiresAt && new Date(section.expiresAt) < now) {
-    return null;
-  }
-
-  // تصفية وفرز عناصر المحتوى حسب الصلاحية وترتيب العرض
-  const filteredContent = (section.content || [])
-    .filter((c) => (c.isActive ?? true) && (!c.expiresAt || new Date(c.expiresAt) >= now))
-    .sort((a, b) => (a.displayOrder ?? 0) - (b.displayOrder ?? 0));
-
-  if (filteredContent.length === 0) {
-    return null;
-  }
-
-  const effectiveSection: DynamicHomeSection = { ...section, content: filteredContent };
-
-  // عرض المكون المناسب بناءً على نوع القسم
-  const renderSection = () => {
-    switch (effectiveSection.sectionType) {
-      case SectionType.HORIZONTAL_PROPERTY_LIST:
-        return <HorizontalPropertyList section={effectiveSection} />;
-      
-      case SectionType.VERTICAL_PROPERTY_GRID:
-        return <VerticalPropertyGrid section={effectiveSection} />;
-      
-      case SectionType.SINGLE_PROPERTY_AD:
-      case SectionType.FEATURED_PROPERTY_AD:
-        return <FeaturedPropertyAd section={effectiveSection} />;
-      
-      case SectionType.MULTI_PROPERTY_AD:
-        return <MultiPropertyAd section={effectiveSection} />;
-
-      case SectionType.UNIT_SHOWCASE_AD:
-        return <UnitShowcaseAd section={effectiveSection} />;
-      
-      case SectionType.OFFERS_CAROUSEL:
-        return <OffersCarousel section={effectiveSection} />;
-      
-      case SectionType.CITY_CARDS_GRID:
-        return <CityCardsGrid section={effectiveSection} />;
-      
-      case SectionType.DESTINATION_CAROUSEL:
-        return <DestinationCarousel section={effectiveSection} />;
-      
-      case SectionType.FEATURED_PROPERTIES_SHOWCASE:
-        return <FeaturedPropertiesShowcase section={effectiveSection} />;
-      
-      case SectionType.FLASH_DEALS:
-        return <FlashDeals section={effectiveSection} />;
-      
-      case SectionType.SINGLE_PROPERTY_OFFER:
-        return <SinglePropertyOffer section={effectiveSection} />;
-      
-      case SectionType.LIMITED_TIME_OFFER:
-        return <LimitedTimeOffer section={effectiveSection} />;
-      
-      case SectionType.SEASONAL_OFFER:
-        return <SeasonalOffer section={effectiveSection} />;
-      
-      case SectionType.MULTI_PROPERTY_OFFERS_GRID:
-        return <MultiPropertyOffersGrid section={effectiveSection} />;
-      
-      case SectionType.EXPLORE_CITIES:
-        return <ExploreCities section={effectiveSection} />;
-      
-      case SectionType.PREMIUM_CAROUSEL:
-        return <PremiumCarousel section={effectiveSection} />;
-      
-      case SectionType.INTERACTIVE_SHOWCASE:
-        return <InteractiveShowcase section={effectiveSection} />;
-      
-      default:
-        return null;
-    }
-  };
-
-  return (
-    <Box
-      id={`section-${effectiveSection.id}`}
-      data-section-type={effectiveSection.sectionType}
-      data-section-priority={effectiveSection.priority}
-    >
-      {renderSection()}
-    </Box>
-  );
+// Lightweight primitives
+type SectionContainerProps = {
+  title?: string;
+  subtitle?: string;
+  rightAction?: React.ReactNode;
+  children?: React.ReactNode;
 };
+
+const SectionContainer: React.FC<SectionContainerProps>
+  = memo(({ title, subtitle, rightAction, children }) => (
+  <Box sx={{ mb: 3 }}>
+    {(title || subtitle || rightAction) && (
+      <Box sx={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', mb: 2 }}>
+        <Box>
+          {title && (
+            <Typography variant="h5" fontWeight={700} sx={{ mb: 0.5 }}>{title}</Typography>
+          )}
+          {subtitle && (
+            <Typography variant="body2" color="text.secondary">{subtitle}</Typography>
+          )}
+        </Box>
+        {rightAction}
+      </Box>
+    )}
+    {children}
+  </Box>
+));
+
+const PropertyCardCompact: React.FC<{ data: any }>= memo(({ data }) => (
+  <Card sx={{ height: '100%' }}>
+    <CardMedia component="img" height={160} image={data.mainImageUrl || data.images?.[0]} alt={data.name} />
+    <CardContent sx={{ py: 1.5 }}>
+      <Typography variant="subtitle1" noWrap fontWeight={600}>{data.name}</Typography>
+      {data.city && (
+        <Typography variant="caption" color="text.secondary">{data.city}</Typography>
+      )}
+      {data.basePrice && (
+        <Typography variant="subtitle2" color="primary" fontWeight={700} sx={{ mt: 0.5 }}>
+          {data.basePrice.toLocaleString()} {data.currency || 'ريال'}
+        </Typography>
+      )}
+    </CardContent>
+  </Card>
+));
+
+const CityCardCompact: React.FC<{ data: any }>= memo(({ data }) => (
+  <Card sx={{ height: '100%' }}>
+    <CardMedia component="img" height={140} image={data.imageUrl} alt={data.nameAr || data.name} />
+    <CardContent sx={{ py: 1.5 }}>
+      <Typography variant="subtitle1" noWrap fontWeight={600}>{data.nameAr || data.name}</Typography>
+      {data.countryAr && (
+        <Typography variant="caption" color="text.secondary">{data.countryAr}</Typography>
+      )}
+    </CardContent>
+  </Card>
+));
+
+const byOrder = (a: DynamicContent, b: DynamicContent) => (a.displayOrder ?? 0) - (b.displayOrder ?? 0);
+const isActiveAndValid = (c: DynamicContent) => (c.isActive ?? true) && (!c.expiresAt || new Date(c.expiresAt) >= new Date());
+
+const DynamicSection: React.FC<DynamicSectionProps> = memo(({ section, config }) => {
+  // Visibility checks
+  if (!section.isActive) return null;
+  const now = new Date();
+  if (section.scheduledAt && new Date(section.scheduledAt) > now) return null;
+  if (section.expiresAt && new Date(section.expiresAt) < now) return null;
+
+  // Normalize content
+  const content = (section.content || []).filter(isActiveAndValid).sort(byOrder);
+  if (content.length === 0) return null;
+
+  const layout = section.sectionConfig?.layoutSettings || {};
+  const display = section.sectionConfig?.displaySettings || {};
+  const columns = layout.columnsCount || 2;
+
+  const rightAction = display.showViewAllButton
+    ? (<Button size="small" variant="text">عرض الكل</Button>)
+    : undefined;
+
+  const renderGrid = (items: any[], renderItem: (d: any) => React.ReactNode) => (
+    <Grid container spacing={layout.itemSpacing ?? 2}>
+      {items.map((d, idx) => (
+        <Grid key={d.id || idx} item xs={12} sm={6} md={12 / columns}>
+          {renderItem(d)}
+        </Grid>
+      ))}
+    </Grid>
+  );
+
+  switch (section.sectionType) {
+    case SectionType.HORIZONTAL_PROPERTY_LIST:
+    case SectionType.VERTICAL_PROPERTY_GRID:
+    case SectionType.FEATURED_PROPERTIES_SHOWCASE:
+    case SectionType.MULTI_PROPERTY_AD: {
+      const properties = content.filter((c) => c.contentType === 'PROPERTY').map((c) => c.contentData);
+      if (properties.length === 0) return null;
+      return (
+        <SectionContainer title={section.title} subtitle={section.subtitle} rightAction={rightAction}>
+          {renderGrid(properties, (d) => <PropertyCardCompact data={d} />)}
+        </SectionContainer>
+      );
+    }
+    case SectionType.CITY_CARDS_GRID:
+    case SectionType.DESTINATION_CAROUSEL:
+    case SectionType.EXPLORE_CITIES: {
+      const cities = content.filter((c) => c.contentType === 'DESTINATION').map((c) => c.contentData);
+      if (cities.length === 0) return null;
+      return (
+        <SectionContainer title={section.title} subtitle={section.subtitle} rightAction={rightAction}>
+          {renderGrid(cities, (d) => <CityCardCompact data={d} />)}
+        </SectionContainer>
+      );
+    }
+    case SectionType.SINGLE_PROPERTY_AD:
+    case SectionType.FEATURED_PROPERTY_AD:
+    case SectionType.SINGLE_PROPERTY_OFFER:
+    case SectionType.LIMITED_TIME_OFFER:
+    case SectionType.SEASONAL_OFFER:
+    case SectionType.MULTI_PROPERTY_OFFERS_GRID:
+    case SectionType.OFFERS_CAROUSEL:
+    case SectionType.FLASH_DEALS:
+    case SectionType.PREMIUM_CAROUSEL:
+    case SectionType.INTERACTIVE_SHOWCASE:
+    default: {
+      // Fallback to simple property grid if properties exist, else cities
+      const properties = content.filter((c) => c.contentType === 'PROPERTY').map((c) => c.contentData);
+      if (properties.length > 0) {
+        return (
+          <SectionContainer title={section.title} subtitle={section.subtitle} rightAction={rightAction}>
+            {renderGrid(properties, (d) => <PropertyCardCompact data={d} />)}
+          </SectionContainer>
+        );
+      }
+      const cities = content.filter((c) => c.contentType === 'DESTINATION').map((c) => c.contentData);
+      if (cities.length > 0) {
+        return (
+          <SectionContainer title={section.title} subtitle={section.subtitle} rightAction={rightAction}>
+            {renderGrid(cities, (d) => <CityCardCompact data={d} />)}
+          </SectionContainer>
+        );
+      }
+      return null;
+    }
+  }
+});
 
 export default DynamicSection;
