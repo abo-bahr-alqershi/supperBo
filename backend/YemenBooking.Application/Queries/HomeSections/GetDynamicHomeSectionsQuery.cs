@@ -81,6 +81,12 @@ namespace YemenBooking.Application.Queries.HomeSections
         [JsonPropertyName("expiresAt")]
         public string ExpiresAt { get; set; }
 
+        [JsonPropertyName("displayOrder")]
+        public int DisplayOrder { get; set; }
+
+        [JsonPropertyName("isActive")]
+        public bool IsActive { get; set; }
+
         [JsonPropertyName("createdAt")]
         public string CreatedAt { get; set; }
 

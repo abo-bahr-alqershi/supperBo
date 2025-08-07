@@ -1,8 +1,8 @@
-// frontend/src/components/Home/HomeScreenLayout.tsx
+// frontend/src/components/home/HomeScreenLayout.tsx
 import React, { useMemo } from 'react';
-import { Box, Container } from '@mui/material';
+import { Box } from '@mui/material';
 import type { DynamicHomeConfig, DynamicHomeSection } from '../../types/homeSections.types';
-import DynamicSection from './DynamicSection.tsx';
+import DynamicSection from './DynamicSection';
 
 interface HomeScreenLayoutProps {
   config: DynamicHomeConfig;
@@ -10,25 +10,14 @@ interface HomeScreenLayoutProps {
 }
 
 const HomeScreenLayout: React.FC<HomeScreenLayoutProps> = ({ config, sections }) => {
-  // ترتيب الأقسام حسب order
-  const sortedSections = useMemo(() => {
-    return [...sections].sort((a, b) => a.order - b.order);
-  }, [sections]);
-
-  // تطبيق إعدادات التخطيط من config
-  const layoutSettings = config.layoutSettings || {};
-  const sectionSpacing = layoutSettings.sectionSpacing || 24;
+  const sorted = useMemo(() => [...(sections || [])].sort((a, b) => a.order - b.order), [sections]);
+  const spacing = config.layoutSettings?.sectionSpacing ?? 24;
 
   return (
     <Box>
-      {sortedSections.map((section, index) => (
-        <Box
-          key={section.id}
-          sx={{
-            mb: index < sortedSections.length - 1 ? `${sectionSpacing}px` : 0,
-          }}
-        >
-          <DynamicSection section={section} config={config} />
+      {sorted.map((s, i) => (
+        <Box key={s.id} sx={{ mb: i < sorted.length - 1 ? `${spacing}px` : 0 }}>
+          <DynamicSection section={s} config={config} />
         </Box>
       ))}
     </Box>

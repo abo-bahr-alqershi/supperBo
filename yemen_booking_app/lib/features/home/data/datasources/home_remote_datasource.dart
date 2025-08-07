@@ -26,7 +26,7 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
   @override
   Future<HomeConfigModel> getHomeConfig({String? version}) async {
     try {
-      final response = await apiClient.get('/HomeSections/config', queryParameters: {'version': version});
+      final response = await apiClient.get('/api/client/home-sections/config', queryParameters: {'version': version});
       return HomeConfigModel.fromJson(response.data);
     } catch (e) {
       throw ServerException(e.toString());
@@ -36,7 +36,12 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
   @override
   Future<List<HomeSectionModel>> getHomeSections({String? userId}) async {
     try {
-      final response = await apiClient.get('/HomeSections/sections', queryParameters: {'userId': userId});
+      final response = await apiClient.get('/api/client/home-sections/sections', queryParameters: {
+        'userId': userId,
+        'includeContent': true,
+        'onlyActive': true,
+        'language': 'ar',
+      });
       final data = response.data as List;
       return data.map((item) => HomeSectionModel.fromJson(item)).toList();
     } catch (e) {
@@ -47,7 +52,7 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
   @override
   Future<List<SponsoredAdModel>> getSponsoredAds() async {
     try {
-      final response = await apiClient.get('/HomeSections/sponsored-ads');
+      final response = await apiClient.get('/api/client/home-sections/sponsored-ads');
       final data = response.data as List;
       return data.map((item) => SponsoredAdModel.fromJson(item)).toList();
     } catch (e) {
@@ -58,7 +63,7 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
   @override
   Future<List<CityDestinationModel>> getCityDestinations() async {
     try {
-      final response = await apiClient.get('/HomeSections/destinations');
+      final response = await apiClient.get('/api/client/home-sections/destinations');
       final data = response.data as List;
       return data.map((item) => CityDestinationModel.fromJson(item)).toList();
     } catch (e) {
@@ -69,7 +74,7 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
   @override
   Future<void> recordAdImpression({required String adId, String? additionalData}) async {
     try {
-      await apiClient.post('/HomeSections/sponsored-ads/$adId/impression', data: {'additionalData': additionalData});
+      await apiClient.post('/api/client/home-sections/sponsored-ads/$adId/impression', data: {'additionalData': additionalData});
     } catch (e) {
       // Fail silently
       print('Failed to record ad impression: $e');
@@ -79,7 +84,7 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
   @override
   Future<void> recordAdClick({required String adId, String? additionalData}) async {
     try {
-      await apiClient.post('/HomeSections/sponsored-ads/$adId/click', data: {'additionalData': additionalData});
+      await apiClient.post('/api/client/home-sections/sponsored-ads/$adId/click', data: {'additionalData': additionalData});
     } catch (e) {
       // Fail silently
       print('Failed to record ad click: $e');
