@@ -3,7 +3,6 @@ import 'package:yemen_booking_app/features/property/domain/entities/property_pol
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_dimensions.dart';
 import '../../../../core/theme/app_text_styles.dart';
-import '../../domain/entities/property_detail.dart';
 
 class PoliciesWidget extends StatelessWidget {
   final List<PropertyPolicy> policies;
@@ -83,7 +82,7 @@ class PoliciesWidget extends StatelessWidget {
         color: AppColors.surface,
         borderRadius: BorderRadius.circular(AppDimensions.borderRadiusMd),
         border: Border.all(
-          color: policy.isMandatory 
+          color: policy.isActive 
               ? AppColors.error.withOpacity(0.3)
               : AppColors.border,
         ),
@@ -95,13 +94,13 @@ class PoliciesWidget extends StatelessWidget {
             children: [
               Expanded(
                 child: Text(
-                  policy.title,
+                  policy.policyContent,
                   style: AppTextStyles.bodyMedium.copyWith(
                     fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
-              if (policy.isMandatory)
+              if (policy.isActive)
                 Container(
                   padding: const EdgeInsets.symmetric(
                     horizontal: AppDimensions.paddingSmall,
@@ -131,10 +130,7 @@ class PoliciesWidget extends StatelessWidget {
               height: 1.5,
             ),
           ),
-          if (policy.details.isNotEmpty) ...[
-            const SizedBox(height: AppDimensions.spacingMd),
-            _buildPolicyDetails(policy.details),
-          ],
+          // Removed details block as PropertyPolicy has no details field
         ],
       ),
     );

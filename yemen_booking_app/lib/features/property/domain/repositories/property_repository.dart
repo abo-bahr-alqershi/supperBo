@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import '../../../../core/error/failures.dart';
 import '../entities/property_detail.dart';
-import '../entities/unit.dart' hide Unit;
+import '../entities/unit.dart' as entity;
 
 abstract class PropertyRepository {
   Future<Either<Failure, PropertyDetail>> getPropertyDetails({
@@ -10,7 +10,7 @@ abstract class PropertyRepository {
     String? userId,
   });
 
-  Future<Either<Failure, List<Unit>>> getPropertyUnits({
+  Future<Either<Failure, List<entity.Unit>>> getPropertyUnits({
     required String propertyId,
     DateTime? checkInDate,
     DateTime? checkOutDate,
