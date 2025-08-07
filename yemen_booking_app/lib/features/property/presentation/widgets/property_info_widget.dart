@@ -51,35 +51,24 @@ class PropertyInfoWidget extends StatelessWidget {
       _InfoItem(
         icon: Icons.home_work_outlined,
         label: 'النوع',
-        value: property.propertyTypeName,
+        value: property.typeName,
       ),
       _InfoItem(
         icon: Icons.category_outlined,
         label: 'التصنيف',
-        value: property.categoryName,
+        value: '${property.starRating} نجوم',
       ),
       _InfoItem(
         icon: Icons.location_city_outlined,
         label: 'المدينة',
-        value: property.cityName,
+        value: property.city,
       ),
       _InfoItem(
         icon: Icons.apartment_outlined,
         label: 'عدد الوحدات',
         value: '${property.units.length} وحدة',
       ),
-      if (property.totalArea > 0)
-        _InfoItem(
-          icon: Icons.square_foot_outlined,
-          label: 'المساحة الكلية',
-          value: '${property.totalArea} م²',
-        ),
-      if (property.buildYear > 0)
-        _InfoItem(
-          icon: Icons.calendar_today_outlined,
-          label: 'سنة البناء',
-          value: property.buildYear.toString(),
-        ),
+      // Removed totalArea and buildYear info items as these fields are not available in PropertyDetail
     ];
 
     return GridView.builder(
@@ -179,16 +168,7 @@ class PropertyInfoWidget extends StatelessWidget {
               ],
             ),
           ),
-          if (property.ownerPhone.isNotEmpty)
-            IconButton(
-              onPressed: () {
-                // Call owner
-              },
-              icon: Icon(
-                Icons.phone_outlined,
-                color: AppColors.primary,
-              ),
-            ),
+          // Removed ownerPhone IconButton as ownerPhone is not defined
         ],
       ),
     );

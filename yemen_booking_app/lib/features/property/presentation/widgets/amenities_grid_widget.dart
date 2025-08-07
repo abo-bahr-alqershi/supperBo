@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_dimensions.dart';
 import '../../../../core/theme/app_text_styles.dart';
-import '../../domain/entities/property_detail.dart';
+import '../../domain/entities/amenity.dart';
 
 class AmenitiesGridWidget extends StatelessWidget {
-  final List<PropertyAmenity> amenities;
+  final List<Amenity> amenities;
 
   const AmenitiesGridWidget({
     super.key,
@@ -37,9 +37,9 @@ class AmenitiesGridWidget extends StatelessWidget {
     }
 
     // Group amenities by category
-    final groupedAmenities = <String, List<PropertyAmenity>>{};
+    final groupedAmenities = <String, List<Amenity>>{};
     for (final amenity in amenities) {
-      final category = amenity.categoryName;
+      final category = amenity.category;
       if (!groupedAmenities.containsKey(category)) {
         groupedAmenities[category] = [];
       }
@@ -101,13 +101,13 @@ class AmenitiesGridWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildAmenityItem(PropertyAmenity amenity) {
+  Widget _buildAmenityItem(Amenity amenity) {
     return Container(
       decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: BorderRadius.circular(AppDimensions.borderRadiusMd),
         border: Border.all(
-          color: amenity.isAvailable ? AppColors.primary.withOpacity(0.3) : AppColors.border,
+          color: amenity.isActive ? AppColors.primary.withOpacity(0.3) : AppColors.border,
         ),
       ),
       child: Column(
@@ -116,7 +116,7 @@ class AmenitiesGridWidget extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(AppDimensions.paddingSmall),
             decoration: BoxDecoration(
-              color: amenity.isAvailable
+              color: amenity.isActive
                   ? AppColors.primary.withOpacity(0.1)
                   : AppColors.gray200,
               shape: BoxShape.circle,
@@ -124,7 +124,7 @@ class AmenitiesGridWidget extends StatelessWidget {
             child: Icon(
               _getAmenityIcon(amenity.name),
               size: 24,
-              color: amenity.isAvailable
+              color: amenity.isActive
                   ? AppColors.primary
                   : AppColors.textSecondary,
             ),
@@ -133,35 +133,16 @@ class AmenitiesGridWidget extends StatelessWidget {
           Text(
             amenity.name,
             style: AppTextStyles.caption.copyWith(
-              color: amenity.isAvailable
+              color: amenity.isActive
                   ? AppColors.textPrimary
                   : AppColors.textSecondary,
-              fontWeight: amenity.isAvailable ? FontWeight.w500 : FontWeight.normal,
+              fontWeight: amenity.isActive ? FontWeight.w500 : FontWeight.normal,
             ),
             textAlign: TextAlign.center,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
           ),
-          if (amenity.isPaid) ...[
-            const SizedBox(height: AppDimensions.spacingXs),
-            Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: AppDimensions.paddingXSmall,
-                vertical: 2,
-              ),
-              decoration: BoxDecoration(
-                color: AppColors.warning.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(AppDimensions.borderRadiusXs),
-              ),
-              child: Text(
-                'مدفوع',
-                style: AppTextStyles.overline.copyWith(
-                  color: AppColors.warning,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ],
+          // Removed isPaid block as Amenity has no isPaid field
         ],
       ),
     );
