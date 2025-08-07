@@ -76,37 +76,34 @@ class SearchRemoteDataSourceImpl implements SearchRemoteDataSource {
     int pageSize = 20,
   }) async {
     try {
-      final queryParams = <String, dynamic>{
+      final body = <String, dynamic>{
         'pageNumber': pageNumber,
         'pageSize': pageSize,
+        if (searchTerm != null) 'searchTerm': searchTerm,
+        if (city != null) 'city': city,
+        if (propertyTypeId != null) 'propertyTypeId': propertyTypeId,
+        if (minPrice != null) 'minPrice': minPrice,
+        if (maxPrice != null) 'maxPrice': maxPrice,
+        if (minStarRating != null) 'minStarRating': minStarRating,
+        if (requiredAmenities != null && requiredAmenities.isNotEmpty)
+          'requiredAmenities': requiredAmenities,
+        if (unitTypeId != null) 'unitTypeId': unitTypeId,
+        if (serviceIds != null && serviceIds.isNotEmpty)
+          'serviceIds': serviceIds,
+        if (dynamicFieldFilters != null && dynamicFieldFilters.isNotEmpty)
+          'dynamicFieldFilters': dynamicFieldFilters,
+        if (checkIn != null) 'checkIn': checkIn.toIso8601String(),
+        if (checkOut != null) 'checkOut': checkOut.toIso8601String(),
+        if (guestsCount != null) 'guestsCount': guestsCount,
+        if (latitude != null) 'latitude': latitude,
+        if (longitude != null) 'longitude': longitude,
+        if (radiusKm != null) 'radiusKm': radiusKm,
+        if (sortBy != null) 'sortBy': sortBy,
       };
-      if (searchTerm != null) queryParams['searchTerm'] = searchTerm;
-      if (city != null) queryParams['city'] = city;
-      if (propertyTypeId != null) queryParams['propertyTypeId'] = propertyTypeId;
-      if (minPrice != null) queryParams['minPrice'] = minPrice;
-      if (maxPrice != null) queryParams['maxPrice'] = maxPrice;
-      if (minStarRating != null) queryParams['minStarRating'] = minStarRating;
-      if (requiredAmenities != null && requiredAmenities.isNotEmpty) {
-        queryParams['requiredAmenities'] = requiredAmenities.join(',');
-      }
-      if (unitTypeId != null) queryParams['unitTypeId'] = unitTypeId;
-      if (serviceIds != null && serviceIds.isNotEmpty) {
-        queryParams['serviceIds'] = serviceIds.join(',');
-      }
-      if (dynamicFieldFilters != null && dynamicFieldFilters.isNotEmpty) {
-        queryParams['dynamicFieldFilters'] = dynamicFieldFilters;
-      }
-      if (checkIn != null) queryParams['checkIn'] = checkIn.toIso8601String();
-      if (checkOut != null) queryParams['checkOut'] = checkOut.toIso8601String();
-      if (guestsCount != null) queryParams['guestsCount'] = guestsCount;
-      if (latitude != null) queryParams['latitude'] = latitude;
-      if (longitude != null) queryParams['longitude'] = longitude;
-      if (radiusKm != null) queryParams['radiusKm'] = radiusKm;
-      if (sortBy != null) queryParams['sortBy'] = sortBy;
 
-      final response = await apiClient.get(
+      final response = await apiClient.post(
         '/api/client/properties/search',
-        queryParameters: queryParams,
+        data: body,
       );
 
       if (response.statusCode == 200) {
