@@ -13,7 +13,7 @@ namespace YemenBooking.Application.Handlers.Commands.MobileApp.Settings;
 /// معالج أمر تحديث إعدادات المستخدم
 /// Handler for update user settings command
 /// </summary>
-public class UpdateUserSettingsCommandHandler : IRequestHandler<UpdateUserSettingsCommand, ResultDto<UpdateUserSettingsResponse>>
+public class UpdateUserSettingsCommandHandler : IRequestHandler<UpdateUserSettingsCommand, ResultDto<bool>>
 {
     private readonly IUserRepository _userRepository;
     private readonly IUserSettingsRepository _userSettingsRepository;
@@ -43,7 +43,7 @@ public class UpdateUserSettingsCommandHandler : IRequestHandler<UpdateUserSettin
     /// <param name="request">طلب تحديث الإعدادات</param>
     /// <param name="cancellationToken">رمز الإلغاء</param>
     /// <returns>نتيجة العملية</returns>
-    public async Task<ResultDto<UpdateUserSettingsResponse>> Handle(UpdateUserSettingsCommand request, CancellationToken cancellationToken)
+    public async Task<ResultDto<bool>> Handle(UpdateUserSettingsCommand request, CancellationToken cancellationToken)
     {
         try
         {
@@ -61,7 +61,7 @@ public class UpdateUserSettingsCommandHandler : IRequestHandler<UpdateUserSettin
             if (user == null)
             {
                 _logger.LogWarning("لم يتم العثور على المستخدم: {UserId}", request.UserId);
-                return ResultDto<UpdateUserSettingsResponse>.Failed("المستخدم غير موجود", "USER_NOT_FOUND");
+                return ResultDto<bool>.Failed("المستخدم غير موجود", "USER_NOT_FOUND");
             }
 
             // البحث عن إعدادات المستخدم الحالية أو إنشاؤها
@@ -80,18 +80,13 @@ public class UpdateUserSettingsCommandHandler : IRequestHandler<UpdateUserSettin
 
             _logger.LogInformation("تم تحديث إعدادات المستخدم بنجاح: {UserId}", request.UserId);
 
-            var response = new UpdateUserSettingsResponse
-            {
-                Success = true,
-                Message = "تم تحديث الإعدادات بنجاح"
-            };
 
-            return ResultDto<UpdateUserSettingsResponse>.Ok(response, "تم تحديث الإعدادات بنجاح");
+            return ResultDto<bool>.Ok( true, "تم تحديث الإعدادات بنجاح");
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "خطأ أثناء تحديث إعدادات المستخدم: {UserId}", request.UserId);
-            return ResultDto<UpdateUserSettingsResponse>.Failed($"حدث خطأ أثناء تحديث الإعدادات: {ex.Message}", "UPDATE_SETTINGS_ERROR");
+            return ResultDto<bool>.Failed($"حدث خطأ أثناء تحديث الإعدادات: {ex.Message}", "UPDATE_SETTINGS_ERROR");
         }
     }
 
@@ -101,25 +96,25 @@ public class UpdateUserSettingsCommandHandler : IRequestHandler<UpdateUserSettin
     /// </summary>
     /// <param name="request">طلب تحديث الإعدادات</param>
     /// <returns>نتيجة التحقق</returns>
-    private ResultDto<UpdateUserSettingsResponse> ValidateRequest(UpdateUserSettingsCommand request)
+    private ResultDto<bool> ValidateRequest(UpdateUserSettingsCommand request)
     {
         if (request.UserId == Guid.Empty)
         {
-            return ResultDto<UpdateUserSettingsResponse>.Failed("معرف المستخدم غير صالح", "INVALID_USER_ID");
+            return ResultDto<bool>.Failed("معرف المستخدم غير صالح", "INVALID_USER_ID");
         }
 
         // التحقق من اللغة المفضلة
         var supportedLanguages = new[] { "ar", "en", "arabic", "english" };
         if (!supportedLanguages.Contains(request.PreferredLanguage.ToLower()))
         {
-            return ResultDto<UpdateUserSettingsResponse>.Failed("اللغة المفضلة غير مدعومة", "UNSUPPORTED_LANGUAGE");
+            return ResultDto<bool>.Failed("اللغة المفضلة غير مدعومة", "UNSUPPORTED_LANGUAGE");
         }
 
         // التحقق من العملة المفضلة
         var supportedCurrencies = new[] { "YER", "USD", "SAR", "AED", "EUR", "GBP" };
         if (!supportedCurrencies.Contains(request.PreferredCurrency.ToUpper()))
         {
-            return ResultDto<UpdateUserSettingsResponse>.Failed("العملة المفضلة غير مدعومة", "UNSUPPORTED_CURRENCY");
+            return ResultDto<bool>.Failed("العملة المفضلة غير مدعومة", "UNSUPPORTED_CURRENCY");
         }
 
         // التحقق من المنطقة الزمنية
@@ -129,7 +124,7 @@ public class UpdateUserSettingsCommandHandler : IRequestHandler<UpdateUserSettin
         }
         catch (TimeZoneNotFoundException)
         {
-            return ResultDto<UpdateUserSettingsResponse>.Failed("المنطقة الزمنية غير صالحة", "INVALID_TIMEZONE");
+            return ResultDto<bool>.Failed("المنطقة الزمنية غير صالحة", "INVALID_TIMEZONE");
         }
 
         // التحقق من صحة JSON الإضافي إذا تم توفيره
@@ -141,11 +136,11 @@ public class UpdateUserSettingsCommandHandler : IRequestHandler<UpdateUserSettin
             }
             catch (JsonException)
             {
-                return ResultDto<UpdateUserSettingsResponse>.Failed("تنسيق الإعدادات الإضافية غير صحيح", "INVALID_ADDITIONAL_SETTINGS_JSON");
+                return ResultDto<bool>.Failed("تنسيق الإعدادات الإضافية غير صحيح", "INVALID_ADDITIONAL_SETTINGS_JSON");
             }
         }
 
-        return ResultDto<UpdateUserSettingsResponse>.Ok(null, "البيانات صحيحة");
+        return ResultDto<bool>.Ok(true, "البيانات صحيحة");
     }
 
     /// <summary>

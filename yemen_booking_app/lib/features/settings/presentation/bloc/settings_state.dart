@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:equatable/equatable.dart';
 import '../../domain/entities/app_settings.dart';
 
@@ -6,124 +5,64 @@ abstract class SettingsState extends Equatable {
   const SettingsState();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
-/// Initial state when the settings bloc is first created
-class SettingsInitial extends SettingsState {
-  const SettingsInitial();
-}
+class SettingsInitial extends SettingsState {}
 
-/// State when any settings operation is in progress
-class SettingsLoading extends SettingsState {
-  const SettingsLoading();
-}
+class SettingsLoading extends SettingsState {}
 
-/// State when settings are successfully loaded
 class SettingsLoaded extends SettingsState {
   final AppSettings settings;
 
-  const SettingsLoaded({required this.settings});
+  const SettingsLoaded(this.settings);
 
   @override
   List<Object> get props => [settings];
 }
 
-/// State when a settings error occurs
-class SettingsError extends SettingsState {
+class SettingsUpdating extends SettingsState {
+  final AppSettings currentSettings;
+
+  const SettingsUpdating(this.currentSettings);
+
+  @override
+  List<Object> get props => [currentSettings];
+}
+
+class SettingsUpdated extends SettingsState {
+  final AppSettings settings;
   final String message;
 
-  const SettingsError({required this.message});
+  const SettingsUpdated(this.settings, {this.message = 'تم التحديث بنجاح'});
 
   @override
-  List<Object> get props => [message];
+  List<Object> get props => [settings, message];
 }
 
-/// State when language is successfully updated
-class LanguageUpdateSuccess extends SettingsState {
-  final AppSettings settings;
+class SettingsError extends SettingsState {
+  final String message;
+  final AppSettings? lastKnownSettings;
 
-  const LanguageUpdateSuccess({required this.settings});
+  const SettingsError(this.message, {this.lastKnownSettings});
 
   @override
-  List<Object> get props => [settings];
+  List<Object?> get props => [message, lastKnownSettings];
 }
 
-/// State when theme is successfully updated
-class ThemeUpdateSuccess extends SettingsState {
-  final AppSettings settings;
+class SettingsSyncing extends SettingsState {
+  final AppSettings currentSettings;
 
-  const ThemeUpdateSuccess({required this.settings});
+  const SettingsSyncing(this.currentSettings);
 
   @override
-  List<Object> get props => [settings];
+  List<Object> get props => [currentSettings];
 }
 
-/// State when notification settings are successfully updated
-class NotificationSettingsUpdateSuccess extends SettingsState {
+class SettingsSynced extends SettingsState {
   final AppSettings settings;
 
-  const NotificationSettingsUpdateSuccess({required this.settings});
-
-  @override
-  List<Object> get props => [settings];
-}
-
-/// State when biometric auth setting is successfully updated
-class BiometricAuthUpdateSuccess extends SettingsState {
-  final AppSettings settings;
-
-  const BiometricAuthUpdateSuccess({required this.settings});
-
-  @override
-  List<Object> get props => [settings];
-}
-
-/// State when auto login setting is successfully updated
-class AutoLoginUpdateSuccess extends SettingsState {
-  final AppSettings settings;
-
-  const AutoLoginUpdateSuccess({required this.settings});
-
-  @override
-  List<Object> get props => [settings];
-}
-
-/// State when currency is successfully updated
-class CurrencyUpdateSuccess extends SettingsState {
-  final AppSettings settings;
-
-  const CurrencyUpdateSuccess({required this.settings});
-
-  @override
-  List<Object> get props => [settings];
-}
-
-/// State when onboarding visibility is successfully updated
-class OnboardingVisibilityUpdateSuccess extends SettingsState {
-  final AppSettings settings;
-
-  const OnboardingVisibilityUpdateSuccess({required this.settings});
-
-  @override
-  List<Object> get props => [settings];
-}
-
-/// State when settings are successfully reset
-class SettingsResetSuccess extends SettingsState {
-  final AppSettings settings;
-
-  const SettingsResetSuccess({required this.settings});
-
-  @override
-  List<Object> get props => [settings];
-}
-
-/// State when settings are successfully refreshed
-class SettingsRefreshSuccess extends SettingsState {
-  final AppSettings settings;
-
-  const SettingsRefreshSuccess({required this.settings});
+  const SettingsSynced(this.settings);
 
   @override
   List<Object> get props => [settings];

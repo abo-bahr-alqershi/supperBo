@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:yemen_booking_app/features/auth/data/datasources/auth_local_datasource.dart';
 import '../../../../core/usecases/usecase.dart';
 import '../../domain/entities/app_settings.dart';
 import '../../domain/usecases/get_settings_usecase.dart';
@@ -13,36 +14,45 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
   final UpdateLanguageUseCase updateLanguageUseCase;
   final UpdateThemeUseCase updateThemeUseCase;
   final UpdateNotificationSettingsUseCase updateNotificationSettingsUseCase;
+  final AuthLocalDataSource localDataSource;
+
+  AppSettings? _currentSettings;
 
   SettingsBloc({
     required this.getSettingsUseCase,
     required this.updateLanguageUseCase,
     required this.updateThemeUseCase,
     required this.updateNotificationSettingsUseCase,
-  }) : super(const SettingsInitial()) {
+    required this.localDataSource,
+  }) : super(SettingsInitial()) {
     on<LoadSettingsEvent>(_onLoadSettings);
     on<UpdateLanguageEvent>(_onUpdateLanguage);
     on<UpdateThemeEvent>(_onUpdateTheme);
     on<UpdateNotificationSettingsEvent>(_onUpdateNotificationSettings);
-    on<UpdateBiometricAuthEvent>(_onUpdateBiometricAuth);
-    on<UpdateAutoLoginEvent>(_onUpdateAutoLogin);
     on<UpdateCurrencyEvent>(_onUpdateCurrency);
-    on<UpdateOnboardingVisibilityEvent>(_onUpdateOnboardingVisibility);
+    on<UpdateTimeZoneEvent>(_onUpdateTimeZone);
     on<ResetSettingsEvent>(_onResetSettings);
-    on<RefreshSettingsEvent>(_onRefreshSettings);
+    on<SyncSettingsEvent>(_onSyncSettings);
+    on<AcceptPrivacyPolicyEvent>(_onAcceptPrivacyPolicy);
+
+    // Load settings on initialization
+    add(LoadSettingsEvent());
   }
 
   Future<void> _onLoadSettings(
     LoadSettingsEvent event,
     Emitter<SettingsState> emit,
   ) async {
-    emit(const SettingsLoading());
+    emit(SettingsLoading());
 
     final result = await getSettingsUseCase(NoParams());
 
     result.fold(
-      (failure) => emit(SettingsError(message: failure.message)),
-      (settings) => emit(SettingsLoaded(settings: settings)),
+      (failure) => emit(SettingsError(failure.message)),
+      (settings) {
+        _currentSettings = settings;
+        emit(SettingsLoaded(settings));
+      },
     );
   }
 
@@ -50,169 +60,186 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     UpdateLanguageEvent event,
     Emitter<SettingsState> emit,
   ) async {
-    emit(const SettingsLoading());
+    if (_currentSettings != null) {
+      emit(SettingsUpdating(_currentSettings!));
 
-    final result = await updateLanguageUseCase(
-      UpdateLanguageParams(language: event.language),
-    );
+      final result = await updateLanguageUseCase(
+        UpdateLanguageParams(languageCode: event.languageCode),
+      );
 
-    result.fold(
-      (failure) => emit(SettingsError(message: failure.message)),
-      (settings) => emit(LanguageUpdateSuccess(settings: settings)),
-    );
+      await result.fold(
+        (failure) async => emit(
+          SettingsError(failure.message, lastKnownSettings: _currentSettings),
+        ),
+        (success) async {
+          _currentSettings = _currentSettings!.copyWith(
+            preferredLanguage: event.languageCode,
+          );
+          emit(SettingsUpdated(
+            _currentSettings!,
+            message: 'تم تغيير اللغة بنجاح',
+          ));
+          // Reload to ensure consistency
+          add(LoadSettingsEvent());
+        },
+      );
+    }
   }
 
   Future<void> _onUpdateTheme(
     UpdateThemeEvent event,
     Emitter<SettingsState> emit,
   ) async {
-    emit(const SettingsLoading());
+    if (_currentSettings != null) {
+      emit(SettingsUpdating(_currentSettings!));
 
-    final result = await updateThemeUseCase(
-      UpdateThemeParams(themeMode: event.themeMode),
-    );
+      final result = await updateThemeUseCase(
+        UpdateThemeParams(isDarkMode: event.isDarkMode),
+      );
 
-    result.fold(
-      (failure) => emit(SettingsError(message: failure.message)),
-      (settings) => emit(ThemeUpdateSuccess(settings: settings)),
-    );
+      await result.fold(
+        (failure) async => emit(
+          SettingsError(failure.message, lastKnownSettings: _currentSettings),
+        ),
+        (success) async {
+          _currentSettings = _currentSettings!.copyWith(
+            darkMode: event.isDarkMode,
+          );
+          emit(SettingsUpdated(
+            _currentSettings!,
+            message: event.isDarkMode 
+              ? 'تم تفعيل الوضع الليلي' 
+              : 'تم تفعيل الوضع النهاري',
+          ));
+          // Reload to ensure consistency
+          add(LoadSettingsEvent());
+        },
+      );
+    }
   }
 
   Future<void> _onUpdateNotificationSettings(
     UpdateNotificationSettingsEvent event,
     Emitter<SettingsState> emit,
   ) async {
-    emit(const SettingsLoading());
+    if (_currentSettings != null) {
+      emit(SettingsUpdating(_currentSettings!));
 
-    final result = await updateNotificationSettingsUseCase(
-      UpdateNotificationSettingsParams(
-        notificationSettings: event.notificationSettings,
-      ),
-    );
+      final result = await updateNotificationSettingsUseCase(
+        UpdateNotificationSettingsParams(settings: event.settings),
+      );
 
-    result.fold(
-      (failure) => emit(SettingsError(message: failure.message)),
-      (settings) => emit(NotificationSettingsUpdateSuccess(settings: settings)),
-    );
-  }
-
-  Future<void> _onUpdateBiometricAuth(
-    UpdateBiometricAuthEvent event,
-    Emitter<SettingsState> emit,
-  ) async {
-    emit(const SettingsLoading());
-
-    // For now, we'll get current settings and update with new biometric setting
-    // This would typically call a specific use case
-    final currentResult = await getSettingsUseCase(NoParams());
-    
-    currentResult.fold(
-      (failure) => emit(SettingsError(message: failure.message)),
-      (currentSettings) {
-        final updatedSettings = currentSettings.copyWith(
-          biometricAuth: event.enabled,
-          lastUpdated: DateTime.now(),
-        );
-        emit(BiometricAuthUpdateSuccess(settings: updatedSettings));
-      },
-    );
-  }
-
-  Future<void> _onUpdateAutoLogin(
-    UpdateAutoLoginEvent event,
-    Emitter<SettingsState> emit,
-  ) async {
-    emit(const SettingsLoading());
-
-    // For now, we'll get current settings and update with new auto login setting
-    // This would typically call a specific use case
-    final currentResult = await getSettingsUseCase(NoParams());
-    
-    currentResult.fold(
-      (failure) => emit(SettingsError(message: failure.message)),
-      (currentSettings) {
-        final updatedSettings = currentSettings.copyWith(
-          autoLogin: event.enabled,
-          lastUpdated: DateTime.now(),
-        );
-        emit(AutoLoginUpdateSuccess(settings: updatedSettings));
-      },
-    );
+      await result.fold(
+        (failure) async => emit(
+          SettingsError(failure.message, lastKnownSettings: _currentSettings),
+        ),
+        (success) async {
+          _currentSettings = _currentSettings!.copyWith(
+            notificationSettings: event.settings,
+          );
+          emit(SettingsUpdated(
+            _currentSettings!,
+            message: 'تم تحديث إعدادات الإشعارات',
+          ));
+          // Reload to ensure consistency
+          add(LoadSettingsEvent());
+        },
+      );
+    }
   }
 
   Future<void> _onUpdateCurrency(
     UpdateCurrencyEvent event,
     Emitter<SettingsState> emit,
   ) async {
-    emit(const SettingsLoading());
-
-    // For now, we'll get current settings and update with new currency
-    // This would typically call a specific use case
-    final currentResult = await getSettingsUseCase(NoParams());
-    
-    currentResult.fold(
-      (failure) => emit(SettingsError(message: failure.message)),
-      (currentSettings) {
-        final updatedSettings = currentSettings.copyWith(
-          currency: event.currency,
-          lastUpdated: DateTime.now(),
-        );
-        emit(CurrencyUpdateSuccess(settings: updatedSettings));
-      },
-    );
+    if (_currentSettings != null) {
+      emit(SettingsUpdating(_currentSettings!));
+      
+      // Since we don't have a specific use case for currency,
+      // we'll update the settings directly
+      _currentSettings = _currentSettings!.copyWith(
+        preferredCurrency: event.currencyCode,
+      );
+      
+      emit(SettingsUpdated(
+        _currentSettings!,
+        message: 'تم تغيير العملة بنجاح',
+      ));
+    }
   }
 
-  Future<void> _onUpdateOnboardingVisibility(
-    UpdateOnboardingVisibilityEvent event,
+  Future<void> _onUpdateTimeZone(
+    UpdateTimeZoneEvent event,
     Emitter<SettingsState> emit,
   ) async {
-    emit(const SettingsLoading());
-
-    // For now, we'll get current settings and update with new onboarding visibility
-    // This would typically call a specific use case
-    final currentResult = await getSettingsUseCase(NoParams());
-    
-    currentResult.fold(
-      (failure) => emit(SettingsError(message: failure.message)),
-      (currentSettings) {
-        final updatedSettings = currentSettings.copyWith(
-          showOnboarding: event.showOnboarding,
-          lastUpdated: DateTime.now(),
-        );
-        emit(OnboardingVisibilityUpdateSuccess(settings: updatedSettings));
-      },
-    );
+    if (_currentSettings != null) {
+      emit(SettingsUpdating(_currentSettings!));
+      
+      _currentSettings = _currentSettings!.copyWith(
+        timeZone: event.timeZone,
+      );
+      
+      emit(SettingsUpdated(
+        _currentSettings!,
+        message: 'تم تغيير المنطقة الزمنية',
+      ));
+    }
   }
 
   Future<void> _onResetSettings(
     ResetSettingsEvent event,
     Emitter<SettingsState> emit,
   ) async {
-    emit(const SettingsLoading());
+    emit(SettingsLoading());
+    
+    // Reset to default settings
+    _currentSettings = const AppSettings();
+    
+    emit(SettingsUpdated(
+      _currentSettings!,
+      message: 'تم إعادة الإعدادات إلى الوضع الافتراضي',
+    ));
+    
+    // Reload settings
+    add(LoadSettingsEvent());
+  }
 
-    // For now, we'll create default settings
-    // This would typically call a specific use case that resets settings in repository
-    try {
-      final defaultSettings = AppSettings(
-        lastUpdated: DateTime.now(),
-      );
-      emit(SettingsResetSuccess(settings: defaultSettings));
-    } catch (e) {
-      emit(SettingsError(message: 'فشل في إعادة تعيين الإعدادات: ${e.toString()}'));
+  Future<void> _onSyncSettings(
+    SyncSettingsEvent event,
+    Emitter<SettingsState> emit,
+  ) async {
+    if (_currentSettings != null) {
+      emit(SettingsSyncing(_currentSettings!));
+      
+      // Simulate sync delay
+      await Future.delayed(const Duration(seconds: 2));
+      
+      emit(SettingsSynced(_currentSettings!));
+      
+      // Reload settings after sync
+      add(LoadSettingsEvent());
     }
   }
 
-  Future<void> _onRefreshSettings(
-    RefreshSettingsEvent event,
+    Future<void> _onAcceptPrivacyPolicy(
+    AcceptPrivacyPolicyEvent event,
     Emitter<SettingsState> emit,
   ) async {
-    emit(const SettingsLoading());
-
-    final result = await getSettingsUseCase(NoParams());
-
-    result.fold(
-      (failure) => emit(SettingsError(message: failure.message)),
-      (settings) => emit(SettingsRefreshSuccess(settings: settings)),
-    );
+    // Save that user accepted privacy policy
+    await localDataSource.saveData('privacy_policy_accepted', true);
+    await localDataSource.saveData('privacy_policy_accepted_date', DateTime.now().toIso8601String());
+    
+    // Optionally update settings
+    if (_currentSettings != null) {
+      final updatedSettings = _currentSettings!.copyWith(
+        additionalSettings: {
+          ..._currentSettings!.additionalSettings,
+          'privacyPolicyAccepted': true,
+          'privacyPolicyAcceptedDate': DateTime.now().toIso8601String(),
+        },
+      );
+      _currentSettings = updatedSettings;
+      emit(SettingsUpdated(updatedSettings, message: 'تم قبول سياسة الخصوصية'));
+    }
   }
 }

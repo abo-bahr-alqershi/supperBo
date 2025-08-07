@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:equatable/equatable.dart';
 import '../../domain/entities/app_settings.dart';
 
@@ -6,90 +5,63 @@ abstract class SettingsEvent extends Equatable {
   const SettingsEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
-/// Event to load the current settings
-class LoadSettingsEvent extends SettingsEvent {
-  const LoadSettingsEvent();
-}
+class LoadSettingsEvent extends SettingsEvent {}
 
-/// Event to update app language
 class UpdateLanguageEvent extends SettingsEvent {
-  final AppLanguage language;
+  final String languageCode;
 
-  const UpdateLanguageEvent({required this.language});
+  const UpdateLanguageEvent(this.languageCode);
 
   @override
-  List<Object> get props => [language];
+  List<Object> get props => [languageCode];
 }
 
-/// Event to update app theme
 class UpdateThemeEvent extends SettingsEvent {
-  final ThemeMode themeMode;
+  final bool isDarkMode;
 
-  const UpdateThemeEvent({required this.themeMode});
+  const UpdateThemeEvent(this.isDarkMode);
 
   @override
-  List<Object> get props => [themeMode];
+  List<Object> get props => [isDarkMode];
 }
 
-/// Event to update notification settings
 class UpdateNotificationSettingsEvent extends SettingsEvent {
-  final NotificationSettings notificationSettings;
+  final NotificationSettings settings;
 
-  const UpdateNotificationSettingsEvent({required this.notificationSettings});
-
-  @override
-  List<Object> get props => [notificationSettings];
-}
-
-/// Event to toggle biometric authentication
-class UpdateBiometricAuthEvent extends SettingsEvent {
-  final bool enabled;
-
-  const UpdateBiometricAuthEvent({required this.enabled});
+  const UpdateNotificationSettingsEvent(this.settings);
 
   @override
-  List<Object> get props => [enabled];
+  List<Object> get props => [settings];
 }
 
-/// Event to toggle auto login
-class UpdateAutoLoginEvent extends SettingsEvent {
-  final bool enabled;
-
-  const UpdateAutoLoginEvent({required this.enabled});
-
-  @override
-  List<Object> get props => [enabled];
-}
-
-/// Event to update currency
 class UpdateCurrencyEvent extends SettingsEvent {
-  final String currency;
+  final String currencyCode;
 
-  const UpdateCurrencyEvent({required this.currency});
-
-  @override
-  List<Object> get props => [currency];
-}
-
-/// Event to update onboarding visibility
-class UpdateOnboardingVisibilityEvent extends SettingsEvent {
-  final bool showOnboarding;
-
-  const UpdateOnboardingVisibilityEvent({required this.showOnboarding});
+  const UpdateCurrencyEvent(this.currencyCode);
 
   @override
-  List<Object> get props => [showOnboarding];
+  List<Object> get props => [currencyCode];
 }
 
-/// Event to reset all settings to default
-class ResetSettingsEvent extends SettingsEvent {
-  const ResetSettingsEvent();
+class UpdateTimeZoneEvent extends SettingsEvent {
+  final String timeZone;
+
+  const UpdateTimeZoneEvent(this.timeZone);
+
+  @override
+  List<Object> get props => [timeZone];
 }
 
-/// Event to refresh settings from storage
-class RefreshSettingsEvent extends SettingsEvent {
-  const RefreshSettingsEvent();
+class ResetSettingsEvent extends SettingsEvent {}
+
+class SyncSettingsEvent extends SettingsEvent {}
+
+class AcceptPrivacyPolicyEvent extends SettingsEvent {
+  const AcceptPrivacyPolicyEvent();
+  
+  @override
+  List<Object?> get props => [];
 }

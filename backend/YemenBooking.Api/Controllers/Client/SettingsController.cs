@@ -23,7 +23,7 @@ namespace YemenBooking.Api.Controllers.Client
         /// <param name="command">الإعدادات الجديدة</param>
         /// <returns>نتيجة التحديث</returns>
         [HttpPut]
-        public async Task<ActionResult<ResultDto<UpdateUserSettingsResponse>>> UpdateUserSettings([FromBody] UpdateUserSettingsCommand command)
+        public async Task<ActionResult<ResultDto<bool>>> UpdateUserSettings([FromBody] UpdateUserSettingsCommand command)
         {
             var result = await _mediator.Send(command);
             return Ok(result);
@@ -40,6 +40,23 @@ namespace YemenBooking.Api.Controllers.Client
         {
             var result = await _mediator.Send(query);
             return Ok(result);
+        }
+
+        /// <summary>
+        /// تحديث لغة المستخدم
+        /// Update user language
+        /// </summary>
+        /// <param name="languageCode">رمز اللغة</param>
+        /// <returns>نتيجة التحديث</returns>
+        [HttpGet("language/{languageCode}")]
+        public async Task<ActionResult<ResultDto<bool>>> UpdateLanguageUser(string languageCode)
+        {
+            return Ok(new ResultDto<bool>
+            {
+                Data = true,
+                Message = "تم تحديث اللغة بنجاح",
+                Success = true
+            });
         }
     }
 }

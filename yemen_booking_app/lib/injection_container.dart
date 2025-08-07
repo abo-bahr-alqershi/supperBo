@@ -146,7 +146,8 @@ void _initSettings() {
       getSettingsUseCase: sl(),
       updateLanguageUseCase: sl(),
       updateThemeUseCase: sl(),
-      updateNotificationSettingsUseCase: sl(),
+      updateNotificationSettingsUseCase: sl(), 
+      localDataSource: AuthLocalDataSourceImpl(sharedPreferences: sl()),
     ),
   );
   

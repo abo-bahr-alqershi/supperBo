@@ -15,6 +15,8 @@ abstract class AuthLocalDataSource {
   Future<UserModel?> getCachedUser();
   Future<void> clearAuthData();
   Future<bool> isLoggedIn();
+
+  Future<void> saveData(String key, dynamic value) async {}
 }
 
 class AuthLocalDataSourceImpl implements AuthLocalDataSource {
@@ -27,6 +29,25 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
   static const String _refreshTokenKey = 'REFRESH_TOKEN';
   static const String _userKey = 'USER_DATA';
 
+  @override
+   Future<void> saveData(String key, dynamic value ) async {
+    try {
+      if (value is String) {
+        await sharedPreferences.setString(key, value);
+      } else if (value is int) {
+        await sharedPreferences.setInt(key, value);
+      } else if (value is double) {
+        await sharedPreferences.setDouble(key, value);
+      } else if (value is bool) {
+        await sharedPreferences.setBool(key, value);
+      } else if (value is List<String>) {
+        await sharedPreferences.setStringList(key, value);
+      }
+    } catch (e) {
+      throw CacheException('فشل حفظ البيانات');
+    }
+  }
+  
   @override
   Future<void> cacheAuthResponse(AuthResponseModel authResponse) async {
     try {
@@ -127,6 +148,10 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
       throw CacheException('فشل مسح بيانات المصادقة');
     }
   }
+
+
+
+
 
   @override
   Future<bool> isLoggedIn() async {
