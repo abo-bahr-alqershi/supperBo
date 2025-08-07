@@ -61,7 +61,7 @@ class _SearchResultsPageState extends State<SearchResultsPage> {
       body: BlocBuilder<SearchBloc, SearchState>(
         builder: (context, state) {
           if (state is SearchSuccess) {
-            return _buildResults(state.results.items);
+            return _buildResults(state.searchResults.items);
           }
           return _buildResults(widget.initialResults);
         },
