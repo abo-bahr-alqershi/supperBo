@@ -12,7 +12,7 @@ import type {
 export const useHomeConfig = (version?: string) => {
   return useQuery<DynamicHomeConfig, Error>({
     queryKey: ['homeConfig', version],
-    queryFn: () => homeSectionsService.getHomeConfig(version),
+    queryFn: () => homeSectionsService.getClientHomeConfig(version),
   });
 };
 

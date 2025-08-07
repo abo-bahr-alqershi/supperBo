@@ -68,6 +68,8 @@ namespace YemenBooking.Application.Handlers.MobileApp.HomeSections
                     Data = JsonSerializer.Deserialize<Dictionary<string, object>>(content.ContentData),
                     Metadata = JsonSerializer.Deserialize<Dictionary<string, object>>(content.Metadata),
                     ExpiresAt = content.ExpiresAt?.ToString("O"),
+                    DisplayOrder = content.DisplayOrder,
+                    IsActive = content.IsActive,
                     CreatedAt = content.CreatedAt.ToString("O"),
                     UpdatedAt = content.UpdatedAt.ToString("O")
                 }).ToList()

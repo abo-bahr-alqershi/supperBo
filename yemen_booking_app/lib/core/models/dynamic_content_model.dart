@@ -76,11 +76,12 @@ class DynamicContentModel extends Equatable {
   Map<String, dynamic>? get analytics => getMetadata<Map<String, dynamic>>('analytics');
 
   factory DynamicContentModel.fromJson(Map<String, dynamic> json) {
+    final dataMap = (json['contentData'] ?? json['data']) as Map<String, dynamic>?;
     return DynamicContentModel(
       id: json['id'] as String,
       sectionId: json['sectionId'] as String,
       contentType: json['contentType'] as String,
-      contentData: json['contentData'] as Map<String, dynamic>,
+      contentData: (dataMap ?? <String, dynamic>{}) as Map<String, dynamic>,
       metadata: json['metadata'] as Map<String, dynamic>? ?? {},
       expiresAt: json['expiresAt'] != null
           ? DateTime.parse(json['expiresAt'] as String)

@@ -22,7 +22,7 @@ export const useDynamicHomeSections = (params?: {
 }) => {
   return useQuery<DynamicHomeSection[], Error>({
     queryKey: ['dynamicHomeSections', params],
-    queryFn: () => homeSectionsService.getDynamicSections(params),
+    queryFn: () => homeSectionsService.getClientDynamicSections(params),
   });
 };
 
@@ -103,6 +103,6 @@ export const useSponsoredAds = (params?: {
 export const useHomeConfig = (version?: string) => {
   return useQuery<DynamicHomeConfig, Error>({
     queryKey: ['homeConfig', version],
-    queryFn: () => homeSectionsService.getHomeConfig(version),
+    queryFn: () => homeSectionsService.getClientHomeConfig(version),
   });
 };

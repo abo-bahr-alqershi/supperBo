@@ -26,6 +26,53 @@ const ADMIN_BASE = '/api/admin/home-sections';
 const CLIENT_BASE = '/api/client/home-sections';
 
 class HomeSectionsService {
+  // Client endpoints (for app/web consumption)
+  async getClientHomeConfig(version?: string): Promise<DynamicHomeConfig> {
+    const response = await apiClient.get(`${CLIENT_BASE}/config`, { params: { version } });
+    return response.data;
+  }
+
+  async getClientDynamicSections(params?: {
+    language?: string;
+    targetAudience?: string[];
+    includeContent?: boolean;
+    onlyActive?: boolean;
+  }): Promise<DynamicHomeSection[]> {
+    const response = await apiClient.get(`${CLIENT_BASE}/sections`, { params });
+    const rawList: any[] = response.data;
+    return rawList.map(raw => {
+      const { type, sectionType, config, sectionConfig, content, ...rest } = raw;
+      const normalizedType = sectionType ?? type;
+      const normalizedConfig = sectionConfig ?? config ?? {};
+      const normalizedContent = (content ?? []).map((c: any) => ({
+        ...c,
+        contentData: c.data ?? c.contentData,
+      }));
+      return {
+        ...rest,
+        sectionType: normalizedType,
+        sectionConfig: normalizedConfig,
+        content: normalizedContent,
+      } as DynamicHomeSection;
+    });
+  }
+
+  async getClientSponsoredAds(params?: { onlyActive?: boolean; limit?: number; includePropertyDetails?: boolean; targetAudience?: string[] }): Promise<SponsoredAd[]> {
+    const response = await apiClient.get(`${CLIENT_BASE}/sponsored-ads`, { params });
+    return response.data;
+  }
+
+  async getClientCityDestinations(params?: {
+    language?: string;
+    onlyActive?: boolean;
+    onlyPopular?: boolean;
+    onlyFeatured?: boolean;
+    limit?: number;
+    sortBy?: string;
+  }): Promise<CityDestination[]> {
+    const response = await apiClient.get(`${CLIENT_BASE}/destinations`, { params });
+    return response.data;
+  }
   // Dynamic Sections (Admin)
   async getDynamicSections(params?: {
     language?: string;
