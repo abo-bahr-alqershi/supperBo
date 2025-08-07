@@ -1,10 +1,11 @@
 using MediatR;
 using Microsoft.Extensions.Logging;
-using YemenBooking.Application.Features.Bookings.Commands;
+using YemenBooking.Application.Commands.MobileApp.Bookings;
 using YemenBooking.Core.Interfaces;
 using YemenBooking.Core.Interfaces.Services;
 using YemenBooking.Core.Enums;
 using YemenBooking.Core.ValueObjects;
+using YemenBooking.Application.DTOs;
 
 namespace YemenBooking.Application.Handlers.Commands.MobileApp.Booking;
 
@@ -12,16 +13,16 @@ namespace YemenBooking.Application.Handlers.Commands.MobileApp.Booking;
 /// معالج أمر إضافة خدمة إلى الحجز من تطبيق الجوال
 /// Handles AddServiceToBookingCommand coming from Mobile App
 /// </summary>
-public class AddServiceToBookingCommandHandler : IRequestHandler<AddServiceToBookingCommand, AddServiceToBookingResponse>
+public class AddServicesToBookingCommandHandler : IRequestHandler<AddServicesToBookingCommand, ResultDto<AddServicesToBookingResponse>>
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IAuditService _auditService;
-    private readonly ILogger<AddServiceToBookingCommandHandler> _logger;
+    private readonly ILogger<AddServicesToBookingCommandHandler> _logger;
 
-    public AddServiceToBookingCommandHandler(
+    public AddServicesToBookingCommandHandler(
         IUnitOfWork unitOfWork,
         IAuditService auditService,
-        ILogger<AddServiceToBookingCommandHandler> logger)
+        ILogger<AddServicesToBookingCommandHandler> logger)
     {
         _unitOfWork = unitOfWork;
         _auditService = auditService;
@@ -29,14 +30,14 @@ public class AddServiceToBookingCommandHandler : IRequestHandler<AddServiceToBoo
     }
 
     /// <inheritdoc />
-    public async Task<AddServiceToBookingResponse> Handle(AddServiceToBookingCommand request, CancellationToken cancellationToken)
+    public async Task<ResultDto<AddServicesToBookingResponse>> Handle(AddServicesToBookingCommand request, CancellationToken cancellationToken)
     {
         _logger.LogInformation("بدء إضافة خدمة {ServiceId} إلى الحجز {BookingId}", request.ServiceId, request.BookingId);
 
         // basic validation
         if (request.Quantity <= 0)
         {
-            return new AddServiceToBookingResponse
+            return new ResultDto<AddServicesToBookingResponse>
             {
                 Success = false,
                 Message = "الكمية غير صحيحة"
@@ -48,7 +49,7 @@ public class AddServiceToBookingCommandHandler : IRequestHandler<AddServiceToBoo
         var booking = await bookingRepo.GetByIdAsync(request.BookingId);
         if (booking == null)
         {
-            return new AddServiceToBookingResponse
+            return new ResultDto<AddServicesToBookingResponse>
             {
                 Success = false,
                 Message = "الحجز غير موجود"
@@ -70,11 +71,14 @@ public class AddServiceToBookingCommandHandler : IRequestHandler<AddServiceToBoo
             null,
             cancellationToken);
 
-        return new AddServiceToBookingResponse
+        return new ResultDto<AddServicesToBookingResponse>
         {
             Success = true,
             Message = "تمت إضافة الخدمة بنجاح",
-            NewTotalPrice = booking.TotalPrice ?? new Money(0, "YER")
+            Data = new AddServicesToBookingResponse
+            {
+                NewTotalPrice = booking.TotalPrice ?? new Money(0, "YER")
+            }
         };
     }
 }

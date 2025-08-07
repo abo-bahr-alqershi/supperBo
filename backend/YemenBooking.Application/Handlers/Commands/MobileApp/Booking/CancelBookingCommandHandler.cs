@@ -1,16 +1,17 @@
 using MediatR;
 using Microsoft.Extensions.Logging;
-using YemenBooking.Application.Features.Bookings.Commands;
+using YemenBooking.Application.Commands.MobileApp.Bookings;
 using YemenBooking.Core.Interfaces;
 using YemenBooking.Core.Interfaces.Services;
 using YemenBooking.Core.Enums;
+using YemenBooking.Application.DTOs;
 
 namespace YemenBooking.Application.Handlers.Commands.MobileApp.Booking;
 
 /// <summary>
 /// معالج أمر إلغاء الحجز للعميل عبر تطبيق الجوال
 /// </summary>
-public class CancelBookingCommandHandler : IRequestHandler<CancelBookingCommand, CancelBookingResponse>
+public class CancelBookingCommandHandler : IRequestHandler<CancelBookingCommand, ResultDto<CancelBookingResponse>>
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IAuditService _auditService;
@@ -27,7 +28,7 @@ public class CancelBookingCommandHandler : IRequestHandler<CancelBookingCommand,
     }
 
     /// <inheritdoc />
-    public async Task<CancelBookingResponse> Handle(CancelBookingCommand request, CancellationToken cancellationToken)
+    public async Task<ResultDto<CancelBookingResponse>> Handle(CancelBookingCommand request, CancellationToken cancellationToken)
     {
         _logger.LogInformation("بدء إلغاء الحجز {BookingId} من قبل المستخدم {UserId}", request.BookingId, request.UserId);
 
@@ -35,12 +36,12 @@ public class CancelBookingCommandHandler : IRequestHandler<CancelBookingCommand,
         var booking = await bookingRepo.GetByIdAsync(request.BookingId);
         if (booking == null)
         {
-            return new CancelBookingResponse { Success = false, Message = "الحجز غير موجود" };
+            return new ResultDto<CancelBookingResponse> { Success = false, Message = "الحجز غير موجود" };
         }
 
         if (booking.UserId != request.UserId)
         {
-            return new CancelBookingResponse { Success = false, Message = "غير مصرح بإلغاء هذا الحجز" };
+            return new ResultDto<CancelBookingResponse> { Success = false, Message = "غير مصرح بإلغاء هذا الحجز" };
         }
 
         booking.Status = BookingStatus.Cancelled;
@@ -58,11 +59,14 @@ public class CancelBookingCommandHandler : IRequestHandler<CancelBookingCommand,
             null,
             cancellationToken);
 
-        return new CancelBookingResponse
+        return new ResultDto<CancelBookingResponse>
         {
             Success = true,
             Message = "تم إلغاء الحجز بنجاح",
-            RefundAmount = 0 // TODO: حساب المبلغ المسترد بناءً على سياسة الإلغاء
+            Data = new CancelBookingResponse
+            {
+                RefundAmount = 0 // TODO: حساب المبلغ المسترد بناءً على سياسة الإلغاء
+            }
         };
     }
 }

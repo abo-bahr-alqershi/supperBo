@@ -9,7 +9,7 @@ namespace YemenBooking.Application.Queries.MobileApp.Booking;
 /// استعلام الحصول على حجوزات المستخدم
 /// Query to get user bookings
 /// </summary>
-public class GetUserBookingsQuery : IRequest<ResultDto<UserBookingsResponse>>
+public class GetUserBookingsQuery : IRequest<ResultDto<PaginatedResult<BookingDto>>>
 {
     /// <summary>
     /// معرف المستخدم
@@ -30,32 +30,6 @@ public class GetUserBookingsQuery : IRequest<ResultDto<UserBookingsResponse>>
     /// حجم الصفحة
     /// </summary>
     public int PageSize { get; set; } = 10;
-}
-
-/// <summary>
-/// استجابة حجوزات المستخدم
-/// </summary>
-public class UserBookingsResponse
-{
-    /// <summary>
-    /// قائمة الحجوزات
-    /// </summary>
-    public List<BookingDto> Bookings { get; set; } = new();
-    
-    /// <summary>
-    /// إجمالي عدد الحجوزات
-    /// </summary>
-    public int TotalCount { get; set; }
-    
-    /// <summary>
-    /// رقم الصفحة الحالية
-    /// </summary>
-    public int CurrentPage { get; set; }
-    
-    /// <summary>
-    /// إجمالي عدد الصفحات
-    /// </summary>
-    public int TotalPages { get; set; }
 }
 
 /// <summary>

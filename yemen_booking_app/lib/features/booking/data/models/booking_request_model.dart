@@ -1,80 +1,27 @@
-import 'package:equatable/equatable.dart';
 import '../../domain/entities/booking_request.dart';
 
-/// <summary>
-/// نموذج بيانات طلب الحجز
-/// Booking request data model
-/// </summary>
-class BookingRequestModel extends Equatable {
-  /// <summary>
-  /// معرف المستخدم
-  /// User ID
-  /// </summary>
-  final String userId;
-
-  /// <summary>
-  /// معرف الوحدة
-  /// Unit ID
-  /// </summary>
-  final String unitId;
-
-  /// <summary>
-  /// تاريخ الوصول
-  /// Check-in date
-  /// </summary>
-  final DateTime checkIn;
-
-  /// <summary>
-  /// تاريخ المغادرة
-  /// Check-out date
-  /// </summary>
-  final DateTime checkOut;
-
-  /// <summary>
-  /// عدد الضيوف
-  /// Guests count
-  /// </summary>
-  final int guestsCount;
-
-  /// <summary>
-  /// الخدمات المطلوبة
-  /// Requested services
-  /// </summary>
-  final List<Map<String, dynamic>> services;
-
-  /// <summary>
-  /// ملاحظات خاصة
-  /// Special requests
-  /// </summary>
-  final String? specialRequests;
-
-  /// <summary>
-  /// مصدر الحجز
-  /// Booking source
-  /// </summary>
-  final String bookingSource;
-
+class BookingRequestModel extends BookingRequest {
   const BookingRequestModel({
-    required this.userId,
-    required this.unitId,
-    required this.checkIn,
-    required this.checkOut,
-    required this.guestsCount,
-    required this.services,
-    this.specialRequests,
-    required this.bookingSource,
+    required super.userId,
+    required super.unitId,
+    required super.checkIn,
+    required super.checkOut,
+    required super.guestsCount,
+    super.services,
+    super.specialRequests,
+    super.bookingSource,
   });
 
-  factory BookingRequestModel.fromJson(Map<String, dynamic> json) {
+  factory BookingRequestModel.fromEntity(BookingRequest entity) {
     return BookingRequestModel(
-      userId: json['userId'] ?? '',
-      unitId: json['unitId'] ?? '',
-      checkIn: DateTime.parse(json['checkIn']),
-      checkOut: DateTime.parse(json['checkOut']),
-      guestsCount: json['guestsCount'] ?? 1,
-      services: List<Map<String, dynamic>>.from(json['services'] ?? []),
-      specialRequests: json['specialRequests'],
-      bookingSource: json['bookingSource'] ?? 'MobileApp',
+      userId: entity.userId,
+      unitId: entity.unitId,
+      checkIn: entity.checkIn,
+      checkOut: entity.checkOut,
+      guestsCount: entity.guestsCount,
+      services: entity.services,
+      specialRequests: entity.specialRequests,
+      bookingSource: entity.bookingSource,
     );
   }
 
@@ -85,25 +32,39 @@ class BookingRequestModel extends Equatable {
       'checkIn': checkIn.toIso8601String(),
       'checkOut': checkOut.toIso8601String(),
       'guestsCount': guestsCount,
-      'services': services,
+      'services': services
+          .map((e) => BookingServiceRequestModel.fromEntity(e).toJson())
+          .toList(),
       'specialRequests': specialRequests,
       'bookingSource': bookingSource,
     };
   }
+}
 
-  BookingRequest toEntity() {
-    return BookingRequest(
-      userId: userId,
-      unitId: unitId,
-      checkIn: checkIn,
-      checkOut: checkOut,
-      guestsCount: guestsCount,
-      services: services,
-      specialRequests: specialRequests,
-      bookingSource: bookingSource,
+class BookingServiceRequestModel extends BookingServiceRequest {
+  const BookingServiceRequestModel({
+    required super.serviceId,
+    required super.quantity,
+  });
+
+  factory BookingServiceRequestModel.fromEntity(BookingServiceRequest entity) {
+    return BookingServiceRequestModel(
+      serviceId: entity.serviceId,
+      quantity: entity.quantity,
     );
   }
 
-  @override
-  List<Object?> get props => [userId, unitId, checkIn, checkOut, guestsCount, services, specialRequests, bookingSource];
+  factory BookingServiceRequestModel.fromJson(Map<String, dynamic> json) {
+    return BookingServiceRequestModel(
+      serviceId: json['serviceId'] ?? '',
+      quantity: json['quantity'] ?? 1,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'serviceId': serviceId,
+      'quantity': quantity,
+    };
+  }
 }

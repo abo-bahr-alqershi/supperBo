@@ -12,7 +12,7 @@ namespace YemenBooking.Application.Handlers.Queries.MobileApp.Booking;
 /// معالج استعلام الحصول على حجوزات المستخدم
 /// Handler for get user bookings query
 /// </summary>
-public class GetUserBookingsQueryHandler : IRequestHandler<GetUserBookingsQuery, ResultDto<UserBookingsResponse>>
+public class GetUserBookingsQueryHandler : IRequestHandler<GetUserBookingsQuery, ResultDto<PaginatedResult<BookingDto>>>
 {
     private readonly IBookingRepository _bookingRepository;
     private readonly IPropertyRepository _propertyRepository;
@@ -50,7 +50,7 @@ public class GetUserBookingsQueryHandler : IRequestHandler<GetUserBookingsQuery,
     /// <param name="request">طلب الاستعلام</param>
     /// <param name="cancellationToken">رمز الإلغاء</param>
     /// <returns>قائمة حجوزات المستخدم</returns>
-    public async Task<ResultDto<UserBookingsResponse>> Handle(GetUserBookingsQuery request, CancellationToken cancellationToken)
+    public async Task<ResultDto<PaginatedResult<BookingDto>>> Handle(GetUserBookingsQuery request, CancellationToken cancellationToken)
     {
         try
         {
@@ -61,7 +61,7 @@ public class GetUserBookingsQueryHandler : IRequestHandler<GetUserBookingsQuery,
             var validationResult = ValidateRequest(request);
             if (!validationResult.IsSuccess)
             {
-                return validationResult;
+                return ResultDto<PaginatedResult<BookingDto>>.Failed(validationResult.Message ?? "", validationResult.ErrorCode);
             }
 
             // التحقق من وجود المستخدم
@@ -69,7 +69,7 @@ public class GetUserBookingsQueryHandler : IRequestHandler<GetUserBookingsQuery,
             if (user == null)
             {
                 _logger.LogWarning("لم يتم العثور على المستخدم: {UserId}", request.UserId);
-                return ResultDto<UserBookingsResponse>.Failed("المستخدم غير موجود", "USER_NOT_FOUND");
+                return ResultDto<PaginatedResult<BookingDto>>.Failed("المستخدم غير موجود", "USER_NOT_FOUND");
             }
 
             // الحصول على حجوزات المستخدم مع التصفح
@@ -90,13 +90,12 @@ public class GetUserBookingsQueryHandler : IRequestHandler<GetUserBookingsQuery,
             {
                 _logger.LogInformation("لم يتم العثور على حجوزات للمستخدم: {UserId}", request.UserId);
                 
-                return ResultDto<UserBookingsResponse>.Ok(
-                    new UserBookingsResponse
+                return ResultDto<PaginatedResult<BookingDto>>.Ok(
+                    new PaginatedResult<BookingDto>
                     {
-                        Bookings = new List<BookingDto>(),
+                        Items = new List<BookingDto>(),
                         TotalCount = 0,
-                        CurrentPage = request.PageNumber,
-                        TotalPages = 0
+                        PageNumber = request.PageNumber,
                     }, 
                     "لا توجد حجوزات متاحة"
                 );
@@ -141,25 +140,30 @@ public class GetUserBookingsQueryHandler : IRequestHandler<GetUserBookingsQuery,
             // حساب إجمالي عدد الصفحات
             var totalPages = (int)Math.Ceiling((double)totalCount / request.PageSize);
 
-            var response = new UserBookingsResponse
+            var response = new PaginatedResult<BookingDto>
             {
-                Bookings = bookingDtos,
+                Items = bookingDtos,
                 TotalCount = totalCount,
-                CurrentPage = request.PageNumber,
-                TotalPages = totalPages
+                PageNumber = request.PageNumber,
             };
 
             _logger.LogInformation("تم الحصول على {Count} حجز للمستخدم {UserId} بنجاح", bookingDtos.Count, request.UserId);
 
-            return ResultDto<UserBookingsResponse>.Ok(
-                response, 
+            return ResultDto<PaginatedResult<BookingDto>>.Ok(
+                new PaginatedResult<BookingDto>
+                {
+                    Items = bookingDtos,
+                    TotalCount = totalCount,
+                    PageNumber = request.PageNumber,
+                    PageSize = request.PageSize
+                },
                 $"تم الحصول على {bookingDtos.Count} حجز من أصل {totalCount}"
             );
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "خطأ أثناء الحصول على حجوزات المستخدم. معرف المستخدم: {UserId}", request.UserId);
-            return ResultDto<UserBookingsResponse>.Failed(
+            return ResultDto<PaginatedResult<BookingDto>>.Failed(
                 $"حدث خطأ أثناء الحصول على الحجوزات: {ex.Message}", 
                 "GET_USER_BOOKINGS_ERROR"
             );
@@ -172,27 +176,27 @@ public class GetUserBookingsQueryHandler : IRequestHandler<GetUserBookingsQuery,
     /// </summary>
     /// <param name="request">طلب الاستعلام</param>
     /// <returns>نتيجة التحقق</returns>
-    private ResultDto<UserBookingsResponse> ValidateRequest(GetUserBookingsQuery request)
+    private ResultDto<PaginatedResult<BookingDto>> ValidateRequest(GetUserBookingsQuery request)
     {
         if (request.UserId == Guid.Empty)
         {
             _logger.LogWarning("معرف المستخدم مطلوب");
-            return ResultDto<UserBookingsResponse>.Failed("معرف المستخدم مطلوب", "USER_ID_REQUIRED");
+            return ResultDto<PaginatedResult<BookingDto>>.Failed("معرف المستخدم مطلوب", "USER_ID_REQUIRED");
         }
 
         if (request.PageNumber < 1)
         {
             _logger.LogWarning("رقم الصفحة يجب أن يكون أكبر من صفر");
-            return ResultDto<UserBookingsResponse>.Failed("رقم الصفحة يجب أن يكون أكبر من صفر", "INVALID_PAGE_NUMBER");
+            return ResultDto<PaginatedResult<BookingDto>>.Failed("رقم الصفحة يجب أن يكون أكبر من صفر", "INVALID_PAGE_NUMBER");
         }
 
         if (request.PageSize < 1 || request.PageSize > 100)
         {
             _logger.LogWarning("حجم الصفحة يجب أن يكون بين 1 و 100");
-            return ResultDto<UserBookingsResponse>.Failed("حجم الصفحة يجب أن يكون بين 1 و 100", "INVALID_PAGE_SIZE");
+            return ResultDto<PaginatedResult<BookingDto>>.Failed("حجم الصفحة يجب أن يكون بين 1 و 100", "INVALID_PAGE_SIZE");
         }
 
-        return ResultDto<UserBookingsResponse>.Ok(null, "البيانات صحيحة");
+        return ResultDto<PaginatedResult<BookingDto>>.Ok(null, "البيانات صحيحة");
     }
 
     /// <summary>

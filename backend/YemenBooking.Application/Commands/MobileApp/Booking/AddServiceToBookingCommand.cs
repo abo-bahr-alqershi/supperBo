@@ -1,13 +1,14 @@
 using MediatR;
+using YemenBooking.Application.DTOs;
 using YemenBooking.Core.ValueObjects;
 
-namespace YemenBooking.Application.Features.Bookings.Commands;
+namespace YemenBooking.Application.Commands.MobileApp.Bookings;
 
 /// <summary>
 /// أمر إضافة خدمة إلى الحجز
 /// Command to add service to booking
 /// </summary>
-public class AddServiceToBookingCommand : IRequest<AddServiceToBookingResponse>
+public class AddServicesToBookingCommand : IRequest<ResultDto<AddServicesToBookingResponse>>
 {
     /// <summary>
     /// معرف الحجز
@@ -28,7 +29,7 @@ public class AddServiceToBookingCommand : IRequest<AddServiceToBookingResponse>
 /// <summary>
 /// استجابة إضافة الخدمة
 /// </summary>
-public class AddServiceToBookingResponse
+public class AddServicesToBookingResponse
 {
     /// <summary>
     /// نجاح الإضافة

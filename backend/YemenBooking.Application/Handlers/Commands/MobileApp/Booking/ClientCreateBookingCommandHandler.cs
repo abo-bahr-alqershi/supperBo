@@ -1,7 +1,7 @@
 using MediatR;
 using Microsoft.Extensions.Logging;
 using YemenBooking.Application.DTOs;
-using YemenBooking.Application.Features.Bookings.Commands;
+using YemenBooking.Application.Commands.MobileApp.Bookings;
 using YemenBooking.Core.Interfaces;
 using YemenBooking.Core.Enums;
 using YemenBooking.Core.ValueObjects;
@@ -12,14 +12,14 @@ namespace YemenBooking.Application.Handlers.Commands.MobileApp.Booking;
 /// معالج أمر إنشاء حجز جديد للعميل
 /// Handler for client create booking command
 /// </summary>
-public class ClientCreateBookingCommandHandler : IRequestHandler<CreateBookingCommand, CreateBookingResponse>
+public class CreateBookingCommandHandler : IRequestHandler<CreateBookingCommand, ResultDto<CreateBookingResponse>>
 {
     private readonly IUnitOfWork _unitOfWork;
-    private readonly ILogger<ClientCreateBookingCommandHandler> _logger;
+    private readonly ILogger<CreateBookingCommandHandler> _logger;
 
-    public ClientCreateBookingCommandHandler(
+    public CreateBookingCommandHandler(
         IUnitOfWork unitOfWork,
-        ILogger<ClientCreateBookingCommandHandler> logger)
+        ILogger<CreateBookingCommandHandler> logger)
     {
         _unitOfWork = unitOfWork;
         _logger = logger;
@@ -32,7 +32,7 @@ public class ClientCreateBookingCommandHandler : IRequestHandler<CreateBookingCo
     /// <param name="request">الطلب</param>
     /// <param name="cancellationToken">رمز الإلغاء</param>
     /// <returns>نتيجة العملية</returns>
-    public async Task<CreateBookingResponse> Handle(CreateBookingCommand request, CancellationToken cancellationToken)
+    public async Task<ResultDto<CreateBookingResponse>> Handle(CreateBookingCommand request, CancellationToken cancellationToken)
     {
         try
         {
@@ -42,7 +42,7 @@ public class ClientCreateBookingCommandHandler : IRequestHandler<CreateBookingCo
             var validationError = ValidateRequest(request);
             if (validationError != null)
             {
-                return validationError;
+                return ResultDto<CreateBookingResponse>.Failure(validationError.Message);
             }
 
             // التحقق من وجود المستخدم
@@ -51,9 +51,9 @@ public class ClientCreateBookingCommandHandler : IRequestHandler<CreateBookingCo
             if (user == null)
             {
                 _logger.LogWarning("المستخدم غير موجود {UserId}", request.UserId);
-                return new CreateBookingResponse
+                return new ResultDto<CreateBookingResponse>
                 {
-                    BookingId = Guid.Empty,
+                    Success = false,
                     Message = "المستخدم غير موجود"
                 };
             }
@@ -64,18 +64,22 @@ public class ClientCreateBookingCommandHandler : IRequestHandler<CreateBookingCo
             if (unit == null)
             {
                 _logger.LogWarning("الوحدة غير موجودة {UnitId}", request.UnitId);
-                return new CreateBookingResponse
-                {
-                    BookingId = Guid.Empty,
-                    Message = "الوحدة غير موجودة"
-                };
+                    return new ResultDto<CreateBookingResponse>
+                    {
+                        Success = false,
+                        Message = "الوحدة غير موجودة"
+                    };
             }
 
             // التحقق من توفر الوحدة في التواريخ المطلوبة
             var availabilityError = await CheckAvailability(request.UnitId, request.CheckIn, request.CheckOut);
             if (availabilityError != null)
             {
-                return availabilityError;
+                return new ResultDto<CreateBookingResponse>
+                {
+                    Success = false,
+                    Message = availabilityError.Message
+                };
             }
 
             // حساب السعر الإجمالي
@@ -119,14 +123,18 @@ public class ClientCreateBookingCommandHandler : IRequestHandler<CreateBookingCo
 
             _logger.LogInformation("تم إنشاء الحجز بنجاح {BookingId} للمستخدم {UserId}", booking.Id, request.UserId);
 
-            return response;
+            return new ResultDto<CreateBookingResponse>
+            {
+                Success = true,
+                Data = response
+            };
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "خطأ أثناء إنشاء الحجز للمستخدم {UserId}", request.UserId);
-            return new CreateBookingResponse
+            return new ResultDto<CreateBookingResponse>
             {
-                BookingId = Guid.Empty,
+                Success = false,
                 Message = $"حدث خطأ أثناء إنشاء الحجز: {ex.Message}"
             };
         }

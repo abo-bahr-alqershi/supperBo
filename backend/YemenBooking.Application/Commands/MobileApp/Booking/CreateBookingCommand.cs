@@ -1,14 +1,15 @@
 using MediatR;
+using YemenBooking.Application.DTOs;
 using YemenBooking.Core.Enums;
 using YemenBooking.Core.ValueObjects;
 
-namespace YemenBooking.Application.Features.Bookings.Commands;
+namespace YemenBooking.Application.Commands.MobileApp.Bookings;
 
 /// <summary>
 /// أمر إنشاء حجز جديد
 /// Command to create new booking
 /// </summary>
-public class CreateBookingCommand : IRequest<CreateBookingResponse>
+public class CreateBookingCommand : IRequest<ResultDto<CreateBookingResponse>>
 {
     /// <summary>
     /// معرف المستخدم

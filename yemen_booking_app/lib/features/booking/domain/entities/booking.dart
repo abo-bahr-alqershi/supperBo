@@ -1,110 +1,171 @@
 import 'package:equatable/equatable.dart';
-import '../../data/models/booking_model.dart';
+import 'package:yemen_booking_app/features/booking/domain/entities/payment.dart';
+import '../../../../core/enums/booking_status.dart';
 
-/// <summary>
-/// كيان الحجز
-/// Booking entity
-/// </summary>
 class Booking extends Equatable {
   final String id;
   final String bookingNumber;
   final String userId;
+  final String userName;
   final String propertyId;
   final String propertyName;
-  final String unitId;
-  final String unitName;
-  final DateTime checkIn;
-  final DateTime checkOut;
-  final int guestsCount;
-  final BookingGuestModel primaryGuest;
-  final List<BookingGuestModel> additionalGuests;
-  final List<BookingServiceModel> services;
-  final String? specialRequests;
+  final String? propertyAddress;
+  final String? unitId;
+  final String? unitName;
+  final DateTime checkInDate;
+  final DateTime checkOutDate;
+  final int numberOfNights;
+  final int adultGuests;
+  final int childGuests;
+  final int totalGuests;
+  final double totalAmount;
+  final double? platformCommissionAmount;
+  final double? finalAmount;
+  final String currency;
   final BookingStatus status;
-  final MoneyModel basePrice;
-  final MoneyModel servicesPrice;
-  final MoneyModel taxesAndFees;
-  final MoneyModel discounts;
-  final MoneyModel totalPrice;
-  final DateTime bookedAt;
-  final DateTime lastUpdated;
-  final String propertyImageUrl;
+  final DateTime bookingDate;
+  final DateTime? actualCheckInDate;
+  final DateTime? actualCheckOutDate;
+  final String? specialRequests;
+  final String? cancellationReason;
+  final String? bookingSource;
+  final bool isWalkIn;
+  final int? customerRating;
+  final String? completionNotes;
+  final List<BookingService> services;
+  final List<Payment> payments;
+  final List<String> unitImages;
+  final ContactInfo contactInfo;
   final bool canCancel;
   final bool canReview;
-  final String bookingSource;
-  final Map<String, dynamic> additionalInfo;
-  final String? cancellationReason;
-  final DateTime? cancelledAt;
+  final bool canModify;
 
   const Booking({
     required this.id,
     required this.bookingNumber,
     required this.userId,
+    required this.userName,
     required this.propertyId,
     required this.propertyName,
-    required this.unitId,
-    required this.unitName,
-    required this.checkIn,
-    required this.checkOut,
-    required this.guestsCount,
-    required this.primaryGuest,
-    required this.additionalGuests,
-    required this.services,
-    this.specialRequests,
+    this.propertyAddress,
+    this.unitId,
+    this.unitName,
+    required this.checkInDate,
+    required this.checkOutDate,
+    required this.numberOfNights,
+    required this.adultGuests,
+    required this.childGuests,
+    required this.totalGuests,
+    required this.totalAmount,
+    this.platformCommissionAmount,
+    this.finalAmount,
+    required this.currency,
     required this.status,
-    required this.basePrice,
-    required this.servicesPrice,
-    required this.taxesAndFees,
-    required this.discounts,
-    required this.totalPrice,
-    required this.bookedAt,
-    required this.lastUpdated,
-    required this.propertyImageUrl,
-    required this.canCancel,
-    required this.canReview,
-    required this.bookingSource,
-    required this.additionalInfo,
+    required this.bookingDate,
+    this.actualCheckInDate,
+    this.actualCheckOutDate,
+    this.specialRequests,
     this.cancellationReason,
-    this.cancelledAt,
+    this.bookingSource,
+    this.isWalkIn = false,
+    this.customerRating,
+    this.completionNotes,
+    this.services = const [],
+    this.payments = const [],
+    this.unitImages = const [],
+    required this.contactInfo,
+    this.canCancel = false,
+    this.canReview = false,
+    this.canModify = false,
   });
-
-  /// <summary>
-  /// حساب عدد الليالي
-  /// Calculate number of nights
-  /// </summary>
-  int get nightsCount => checkOut.difference(checkIn).inDays;
-
-  /// <summary>
-  /// التحقق من إمكانية الإلغاء
-  /// Check if cancellable
-  /// </summary>
-  bool get isCancellable => canCancel && status != BookingStatus.cancelled && status != BookingStatus.completed;
-
-  /// <summary>
-  /// الحصول على وصف الحالة
-  /// Get status description
-  /// </summary>
-  String get statusDescription {
-    switch (status) {
-      case BookingStatus.pending:
-        return 'معلق';
-      case BookingStatus.confirmed:
-        return 'مؤكد';
-      case BookingStatus.cancelled:
-        return 'ملغى';
-      case BookingStatus.completed:
-        return 'مكتمل';
-      case BookingStatus.checkedIn:
-        return 'تم تسجيل الوصول';
-    }
-  }
 
   @override
   List<Object?> get props => [
-    id, bookingNumber, userId, propertyId, propertyName, unitId, unitName,
-    checkIn, checkOut, guestsCount, primaryGuest, additionalGuests, services,
-    specialRequests, status, basePrice, servicesPrice, taxesAndFees, discounts,
-    totalPrice, bookedAt, lastUpdated, propertyImageUrl, canCancel, canReview,
-    bookingSource, additionalInfo, cancellationReason, cancelledAt,
-  ];
+        id,
+        bookingNumber,
+        userId,
+        userName,
+        propertyId,
+        propertyName,
+        propertyAddress,
+        unitId,
+        unitName,
+        checkInDate,
+        checkOutDate,
+        numberOfNights,
+        adultGuests,
+        childGuests,
+        totalGuests,
+        totalAmount,
+        platformCommissionAmount,
+        finalAmount,
+        currency,
+        status,
+        bookingDate,
+        actualCheckInDate,
+        actualCheckOutDate,
+        specialRequests,
+        cancellationReason,
+        bookingSource,
+        isWalkIn,
+        customerRating,
+        completionNotes,
+        services,
+        payments,
+        unitImages,
+        contactInfo,
+        canCancel,
+        canReview,
+        canModify,
+      ];
+}
+
+class BookingService extends Equatable {
+  final String id;
+  final String serviceId;
+  final String serviceName;
+  final int quantity;
+  final double unitPrice;
+  final double totalPrice;
+  final String currency;
+
+  const BookingService({
+    required this.id,
+    required this.serviceId,
+    required this.serviceName,
+    required this.quantity,
+    required this.unitPrice,
+    required this.totalPrice,
+    required this.currency,
+  });
+
+  @override
+  List<Object> get props => [
+        id,
+        serviceId,
+        serviceName,
+        quantity,
+        unitPrice,
+        totalPrice,
+        currency,
+      ];
+}
+
+class ContactInfo extends Equatable {
+  final String phoneNumber;
+  final String email;
+  final String? alternativePhone;
+
+  const ContactInfo({
+    required this.phoneNumber,
+    required this.email,
+    this.alternativePhone,
+  });
+
+  @override
+  List<Object?> get props => [
+        phoneNumber,
+        email,
+        alternativePhone,
+      ];
 }

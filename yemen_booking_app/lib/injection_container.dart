@@ -90,6 +90,9 @@ Future<void> init() async {
   // Features - Review
   _initReview();
 
+  // Features - Booking
+  _initBooking();
+
   // Core
   _initCore();
   
@@ -266,6 +269,43 @@ void _initReview() {
   // Data sources
   sl.registerLazySingleton<ReviewRemoteDataSource>(
     () => ReviewRemoteDataSourceImpl(apiClient: sl()),
+  );
+}
+
+void _initBooking() {
+  // Bloc
+  sl.registerFactory(
+    () => BookingBloc(
+      createBookingUseCase: sl(),
+      getBookingDetailsUseCase: sl(),
+      cancelBookingUseCase: sl(),
+      getUserBookingsUseCase: sl(),
+      getUserBookingsSummaryUseCase: sl(),
+      addServicesToBookingUseCase: sl(),
+      checkAvailabilityUseCase: sl(),
+    ),
+  );
+
+  // Use cases
+  sl.registerLazySingleton(() => CreateBookingUseCase(sl()));
+  sl.registerLazySingleton(() => GetBookingDetailsUseCase(sl()));
+  sl.registerLazySingleton(() => CancelBookingUseCase(sl()));
+  sl.registerLazySingleton(() => GetUserBookingsUseCase(sl()));
+  sl.registerLazySingleton(() => GetUserBookingsSummaryUseCase(sl()));
+  sl.registerLazySingleton(() => AddServicesToBookingUseCase(sl()));
+  sl.registerLazySingleton(() => CheckAvailabilityUseCase(sl()));
+
+  // Repository
+  sl.registerLazySingleton<BookingRepository>(
+    () => BookingRepositoryImpl(
+      remoteDataSource: sl(),
+      internetConnectionChecker: sl(),
+    ),
+  );
+
+  // Data sources
+  sl.registerLazySingleton<BookingRemoteDataSource>(
+    () => BookingRemoteDataSourceImpl(apiClient: sl()),
   );
 }
 

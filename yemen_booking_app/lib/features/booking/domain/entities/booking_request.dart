@@ -6,7 +6,7 @@ class BookingRequest extends Equatable {
   final DateTime checkIn;
   final DateTime checkOut;
   final int guestsCount;
-  final List<Map<String, dynamic>> services;
+  final List<BookingServiceRequest> services;
   final String? specialRequests;
   final String bookingSource;
 
@@ -16,13 +16,33 @@ class BookingRequest extends Equatable {
     required this.checkIn,
     required this.checkOut,
     required this.guestsCount,
-    required this.services,
+    this.services = const [],
     this.specialRequests,
-    required this.bookingSource,
+    this.bookingSource = 'MobileApp',
   });
 
-  int get nightsCount => checkOut.difference(checkIn).inDays;
+  @override
+  List<Object?> get props => [
+        userId,
+        unitId,
+        checkIn,
+        checkOut,
+        guestsCount,
+        services,
+        specialRequests,
+        bookingSource,
+      ];
+}
+
+class BookingServiceRequest extends Equatable {
+  final String serviceId;
+  final int quantity;
+
+  const BookingServiceRequest({
+    required this.serviceId,
+    required this.quantity,
+  });
 
   @override
-  List<Object?> get props => [userId, unitId, checkIn, checkOut, guestsCount, services, specialRequests, bookingSource];
+  List<Object> get props => [serviceId, quantity];
 }

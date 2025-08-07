@@ -1,6 +1,6 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using YemenBooking.Application.Features.Bookings.Commands;
+using YemenBooking.Application.Commands.MobileApp.Bookings;
 using YemenBooking.Application.Queries.MobileApp.Booking;
 using YemenBooking.Application.DTOs;
 
@@ -49,7 +49,7 @@ namespace YemenBooking.Api.Controllers.Client
         /// <param name="command">بيانات الخدمة المراد إضافتها</param>
         /// <returns>نتيجة إضافة الخدمة</returns>
         [HttpPost("add-service")]
-        public async Task<ActionResult<ResultDto<AddServiceToBookingResponse>>> AddServiceToBooking([FromBody] AddServiceToBookingCommand command)
+        public async Task<ActionResult<ResultDto<AddServicesToBookingResponse>>> AddServiceToBooking([FromBody] AddServicesToBookingCommand command)
         {
             var result = await _mediator.Send(command);
             return Ok(result);
@@ -62,7 +62,7 @@ namespace YemenBooking.Api.Controllers.Client
         /// <param name="query">معايير البحث والفلترة</param>
         /// <returns>قائمة حجوزات المستخدم</returns>
         [HttpGet]
-        public async Task<ActionResult<ResultDto<UserBookingsResponse>>> GetUserBookings([FromQuery] GetUserBookingsQuery query)
+        public async Task<ActionResult<ResultDto<PaginatedResult<Application.Queries.MobileApp.Booking.BookingDto>>>> GetUserBookings([FromQuery] GetUserBookingsQuery query)
         {
             var result = await _mediator.Send(query);
             return Ok(result);

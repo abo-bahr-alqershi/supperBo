@@ -360,6 +360,8 @@ lib/
 │   │   │       ├── get_booking_details_usecase.dart
 │   │   │       ├── cancel_booking_usecase.dart
 │   │   │       ├── get_user_bookings_usecase.dart
+│   │   │       ├── get_user_bookings_Summary_usecase.dart
+│   │   │       ├── add_services_to_booking_usecase.dart
 │   │   │       └── check_availability_usecase.dart
 │   │   │
 │   │   └── presentation/
@@ -379,6 +381,7 @@ lib/
 │   │           ├── guest_selector_widget.dart
 │   │           ├── services_selector_widget.dart
 │   │           ├── price_breakdown_widget.dart
+│   │           ├── cancellation_deadline_has_expired_widget.dart
 │   │           ├── booking_card_widget.dart
 │   │           ├── booking_status_widget.dart
 │   │           └── payment_methods_widget.dart

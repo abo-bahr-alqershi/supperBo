@@ -1,12 +1,13 @@
 using MediatR;
+using YemenBooking.Application.DTOs;
 
-namespace YemenBooking.Application.Features.Bookings.Commands;
+namespace YemenBooking.Application.Commands.MobileApp.Bookings;
 
 /// <summary>
 /// أمر إلغاء الحجز
 /// Command to cancel booking
 /// </summary>
-public class CancelBookingCommand : IRequest<CancelBookingResponse>
+public class CancelBookingCommand : IRequest<ResultDto<CancelBookingResponse>>
 {
     /// <summary>
     /// معرف الحجز
