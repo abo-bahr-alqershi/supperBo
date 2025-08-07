@@ -2,14 +2,12 @@
 
 import 'package:equatable/equatable.dart';
 import '../../domain/entities/sponsored_ad.dart';
-import 'property_model.dart';
 
 class SponsoredAdModel extends Equatable {
   final String id;
   final String title;
   final String? subtitle;
   final String? description;
-  final PropertyModel? property;
   final List<String> propertyIds;
   final String? customImageUrl;
   final String? backgroundColor;
@@ -32,7 +30,6 @@ class SponsoredAdModel extends Equatable {
     required this.title,
     this.subtitle,
     this.description,
-    this.property,
     required this.propertyIds,
     this.customImageUrl,
     this.backgroundColor,
@@ -68,9 +65,6 @@ class SponsoredAdModel extends Equatable {
       title: json['title'] as String,
       subtitle: json['subtitle'] as String?,
       description: json['description'] as String?,
-      property: json['property'] != null
-          ? PropertyModel.fromJson(json['property'] as Map<String, dynamic>)
-          : null,
       propertyIds: (json['propertyIds'] as List<dynamic>?)?.cast<String>() ?? [],
       customImageUrl: json['customImageUrl'] as String?,
       backgroundColor: json['backgroundColor'] as String?,
@@ -96,7 +90,6 @@ class SponsoredAdModel extends Equatable {
       'title': title,
       'subtitle': subtitle,
       'description': description,
-      'property': property?.toJson(),
       'propertyIds': propertyIds,
       'customImageUrl': customImageUrl,
       'backgroundColor': backgroundColor,
@@ -122,7 +115,7 @@ class SponsoredAdModel extends Equatable {
       title: title,
       subtitle: subtitle,
       description: description,
-      property: property?.toEntity(),
+      property: null,
       propertyIds: propertyIds,
       customImageUrl: customImageUrl,
       backgroundColor: backgroundColor,
@@ -145,7 +138,6 @@ class SponsoredAdModel extends Equatable {
     String? title,
     String? subtitle,
     String? description,
-    PropertyModel? property,
     List<String>? propertyIds,
     String? customImageUrl,
     String? backgroundColor,
@@ -168,7 +160,6 @@ class SponsoredAdModel extends Equatable {
       title: title ?? this.title,
       subtitle: subtitle ?? this.subtitle,
       description: description ?? this.description,
-      property: property ?? this.property,
       propertyIds: propertyIds ?? this.propertyIds,
       customImageUrl: customImageUrl ?? this.customImageUrl,
       backgroundColor: backgroundColor ?? this.backgroundColor,
@@ -194,7 +185,6 @@ class SponsoredAdModel extends Equatable {
         title,
         subtitle,
         description,
-        property,
         propertyIds,
         customImageUrl,
         backgroundColor,
