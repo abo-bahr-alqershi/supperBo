@@ -1,55 +1,154 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart'; // Assuming you use SVG for icons
 import '../theme/app_colors.dart';
+import '../theme/app_dimensions.dart';
 import '../theme/app_text_styles.dart';
 
-class ErrorWidget extends StatelessWidget {
-  final String message;
+class CustomErrorWidget extends StatelessWidget {
+  final String? message;
+  final String? title;
   final VoidCallback? onRetry;
-  final String? errorImage; // Path to an error illustration (e.g., SVG or PNG)
+  final Widget? icon;
+  final ErrorType type;
 
-  const ErrorWidget({
+  const CustomErrorWidget({
     super.key,
-    required this.message,
+    this.message,
+    this.title,
     this.onRetry,
-    this.errorImage,
+    this.icon,
+    this.type = ErrorType.general,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
+    final theme = Theme.of(context);
+    
+    return Container(
+      padding: const EdgeInsets.all(AppDimensions.paddingLarge),
+      child: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
           children: [
-            if (errorImage != null && errorImage!.toLowerCase().endsWith('.svg'))
-              SvgPicture.asset(
-                errorImage!,
-                height: 100, // Adjust size as needed
-                // colorFilter: ColorFilter.mode(Theme.of(context).colorScheme.error, BlendMode.srcIn), // Example color tint
-              )
-            else if (errorImage != null)
-              Image.asset(
-                errorImage!,
-                height: 100, // Adjust size as needed
-              ),
-            const SizedBox(height: 20.0),
-            Text(
-              message,
-              textAlign: TextAlign.center,
-              style: AppTextStyles.bodyLarge.copyWith(color: Theme.of(context).colorScheme.error),
-            ),
+            _buildIcon(context),
+            const SizedBox(height: AppDimensions.spacingLg),
+            _buildTitle(context),
+            if (message != null) ...[
+              const SizedBox(height: AppDimensions.spacingSm),
+              _buildMessage(context),
+            ],
             if (onRetry != null) ...[
-              const SizedBox(height: 24.0),
-              ElevatedButton(
-                onPressed: onRetry,
-                child: Text('إعادة المحاولة'), // Retry button text
-              ),
+              const SizedBox(height: AppDimensions.spacingXl),
+              _buildRetryButton(context),
             ],
           ],
         ),
       ),
     );
   }
+
+  Widget _buildIcon(BuildContext context) {
+    if (icon != null) return icon!;
+
+    IconData iconData;
+    Color iconColor;
+
+    switch (type) {
+      case ErrorType.network:
+        iconData = Icons.wifi_off_rounded;
+        iconColor = AppColors.error;
+        break;
+      case ErrorType.server:
+        iconData = Icons.cloud_off_rounded;
+        iconColor = AppColors.error;
+        break;
+      case ErrorType.notFound:
+        iconData = Icons.search_off_rounded;
+        iconColor = AppColors.textSecondary;
+        break;
+      case ErrorType.permission:
+        iconData = Icons.lock_outline_rounded;
+        iconColor = AppColors.warning;
+        break;
+      case ErrorType.general:
+      default:
+        iconData = Icons.error_outline_rounded;
+        iconColor = AppColors.error;
+        break;
+    }
+
+    return Container(
+      padding: const EdgeInsets.all(AppDimensions.paddingLarge),
+      decoration: BoxDecoration(
+        color: iconColor.withOpacity(0.1),
+        shape: BoxShape.circle,
+      ),
+      child: Icon(
+        iconData,
+        size: AppDimensions.iconXLarge,
+        color: iconColor,
+      ),
+    );
+  }
+
+  Widget _buildTitle(BuildContext context) {
+    String displayTitle = title ?? _getDefaultTitle();
+    
+    return Text(
+      displayTitle,
+      style: AppTextStyles.heading3.copyWith(
+        color: AppColors.textPrimary,
+      ),
+      textAlign: TextAlign.center,
+    );
+  }
+
+  Widget _buildMessage(BuildContext context) {
+    return Text(
+      message!,
+      style: AppTextStyles.bodyMedium.copyWith(
+        color: AppColors.textSecondary,
+      ),
+      textAlign: TextAlign.center,
+      maxLines: 3,
+      overflow: TextOverflow.ellipsis,
+    );
+  }
+
+  Widget _buildRetryButton(BuildContext context) {
+    return ElevatedButton.icon(
+      onPressed: onRetry,
+      icon: const Icon(Icons.refresh_rounded),
+      label: const Text('إعادة المحاولة'),
+      style: ElevatedButton.styleFrom(
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppDimensions.paddingLarge,
+          vertical: AppDimensions.paddingMedium,
+        ),
+      ),
+    );
+  }
+
+  String _getDefaultTitle() {
+    switch (type) {
+      case ErrorType.network:
+        return 'لا يوجد اتصال بالإنترنت';
+      case ErrorType.server:
+        return 'خطأ في الخادم';
+      case ErrorType.notFound:
+        return 'لم يتم العثور على النتائج';
+      case ErrorType.permission:
+        return 'ليس لديك صلاحية';
+      case ErrorType.general:
+      default:
+        return 'حدث خطأ ما';
+    }
+  }
+}
+
+enum ErrorType {
+  general,
+  network,
+  server,
+  notFound,
+  permission,
 }

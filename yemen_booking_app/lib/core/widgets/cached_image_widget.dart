@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:cached_network_image/cached_network_image.dart'; // Add to pubspec.yaml
+import 'package:cached_network_image/cached_network_image.dart';
 import '../theme/app_colors.dart';
-import '../constants/api_constants.dart'; // For imageBaseUrl
+import '../theme/app_dimensions.dart';
 
 class CachedImageWidget extends StatelessWidget {
-  final String? imageUrl;
+  final String imageUrl;
   final double? width;
   final double? height;
   final BoxFit fit;
-  final String? placeholderImage; // Local asset path for placeholder
-  final String? errorImage; // Local asset path for error fallback
+  final BorderRadius? borderRadius;
+  final Widget? placeholder;
+  final Widget? errorWidget;
+  final bool showLoadingIndicator;
+  final Color? backgroundColor;
+  final List<BoxShadow>? boxShadow;
+  final Gradient? gradient;
+  final BlendMode? colorBlendMode;
+  final Color? color;
 
   const CachedImageWidget({
     super.key,
@@ -17,47 +24,83 @@ class CachedImageWidget extends StatelessWidget {
     this.width,
     this.height,
     this.fit = BoxFit.cover,
-    this.placeholderImage,
-    this.errorImage,
+    this.borderRadius,
+    this.placeholder,
+    this.errorWidget,
+    this.showLoadingIndicator = true,
+    this.backgroundColor,
+    this.boxShadow,
+    this.gradient,
+    this.colorBlendMode,
+    this.color,
   });
 
   @override
   Widget build(BuildContext context) {
-    // Construct full image URL if needed (e.g., if imageUrl is relative)
-    // If imageUrl already contains the full URL, this part can be simplified.
-    final String fullImageUrl = imageUrl != null && !imageUrl!.startsWith('http')
-        ? '${ApiConstants.imageBaseUrl}/$imageUrl'
-        : imageUrl ?? '';
-
-    return CachedNetworkImage(
-      imageUrl: fullImageUrl,
+    return Container(
       width: width,
       height: height,
-      fit: fit,
-      placeholder: (context, url) => Container(
-        width: width,
-        height: height,
-        color: AppColors.gray200, // Placeholder background color
-        child: placeholderImage != null
-            ? Image.asset(placeholderImage!, fit: BoxFit.contain)
-            : const Center(child: Icon(Icons.image_outlined, color: AppColors.gray500)), // Default placeholder icon
+      decoration: BoxDecoration(
+        color: backgroundColor ?? AppColors.surface,
+        borderRadius: borderRadius,
+        boxShadow: boxShadow,
       ),
-      errorWidget: (context, url, error) => Container(
-        width: width,
-        height: height,
-        color: AppColors.gray200, // Error background color
-        child: errorImage != null
-            ? Image.asset(errorImage!, fit: BoxFit.contain)
-            : const Center(child: Icon(Icons.error_outline, color: AppColors.error)), // Default error icon
+      child: ClipRRect(
+        borderRadius: borderRadius ?? BorderRadius.zero,
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            CachedNetworkImage(
+              imageUrl: imageUrl,
+              fit: fit,
+              width: width,
+              height: height,
+              color: color,
+              colorBlendMode: colorBlendMode,
+              placeholder: (context, url) => placeholder ?? _buildPlaceholder(),
+              errorWidget: (context, url, error) => 
+                errorWidget ?? _buildErrorWidget(),
+            ),
+            if (gradient != null)
+              Container(
+                decoration: BoxDecoration(
+                  gradient: gradient,
+                ),
+              ),
+          ],
+        ),
       ),
-      imageBuilder: (context, imageProvider) => Container(
-        width: width,
-        height: height,
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: imageProvider,
-            fit: fit,
-          ),
+    );
+  }
+
+  Widget _buildPlaceholder() {
+    return Container(
+      color: AppColors.shimmer.withOpacity(0.1),
+      child: showLoadingIndicator
+          ? Center(
+              child: SizedBox(
+                width: 24,
+                height: 24,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                    AppColors.primary.withOpacity(0.5),
+                  ),
+                ),
+              ),
+            )
+          : const SizedBox.shrink(),
+    );
+  }
+
+  Widget _buildErrorWidget() {
+    return Container(
+      color: AppColors.surface,
+      child: Center(
+        child: Icon(
+          Icons.image_not_supported_outlined,
+          color: AppColors.textSecondary.withOpacity(0.5),
+          size: AppDimensions.iconLarge,
         ),
       ),
     );

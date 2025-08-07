@@ -27,7 +27,6 @@ class SearchPropertiesEvent extends SearchEvent {
   final String? sortBy;
   final int pageNumber;
   final int pageSize;
-  final bool isNewSearch;
 
   const SearchPropertiesEvent({
     this.searchTerm,
@@ -49,7 +48,6 @@ class SearchPropertiesEvent extends SearchEvent {
     this.sortBy,
     this.pageNumber = 1,
     this.pageSize = 20,
-    this.isNewSearch = true,
   });
 
   @override
@@ -73,7 +71,6 @@ class SearchPropertiesEvent extends SearchEvent {
         sortBy,
         pageNumber,
         pageSize,
-        isNewSearch,
       ];
 }
 
@@ -96,10 +93,6 @@ class GetSearchSuggestionsEvent extends SearchEvent {
 
   @override
   List<Object> get props => [query, limit];
-}
-
-class ClearSearchSuggestionsEvent extends SearchEvent {
-  const ClearSearchSuggestionsEvent();
 }
 
 class GetRecommendedPropertiesEvent extends SearchEvent {
@@ -126,98 +119,37 @@ class GetPopularDestinationsEvent extends SearchEvent {
   List<Object> get props => [limit];
 }
 
+class ClearSearchEvent extends SearchEvent {
+  const ClearSearchEvent();
+}
+
 class UpdateSearchFiltersEvent extends SearchEvent {
-  final String? city;
-  final String? propertyTypeId;
-  final double? minPrice;
-  final double? maxPrice;
-  final int? minStarRating;
-  final List<String>? requiredAmenities;
-  final DateTime? checkIn;
-  final DateTime? checkOut;
-  final int? guestsCount;
-  final String? sortBy;
+  final Map<String, dynamic> filters;
 
-  const UpdateSearchFiltersEvent({
-    this.city,
-    this.propertyTypeId,
-    this.minPrice,
-    this.maxPrice,
-    this.minStarRating,
-    this.requiredAmenities,
-    this.checkIn,
-    this.checkOut,
-    this.guestsCount,
-    this.sortBy,
-  });
+  const UpdateSearchFiltersEvent({required this.filters});
 
   @override
-  List<Object?> get props => [
-        city,
-        propertyTypeId,
-        minPrice,
-        maxPrice,
-        minStarRating,
-        requiredAmenities,
-        checkIn,
-        checkOut,
-        guestsCount,
-        sortBy,
-      ];
+  List<Object> get props => [filters];
 }
 
-class ClearSearchResultsEvent extends SearchEvent {
-  const ClearSearchResultsEvent();
-}
-
-class AddToRecentSearchesEvent extends SearchEvent {
-  final String searchQuery;
-
-  const AddToRecentSearchesEvent({required this.searchQuery});
-
-  @override
-  List<Object> get props => [searchQuery];
-}
-
-class LoadRecentSearchesEvent extends SearchEvent {
-  const LoadRecentSearchesEvent();
-}
-
-class ClearRecentSearchesEvent extends SearchEvent {
-  const ClearRecentSearchesEvent();
+class ToggleViewModeEvent extends SearchEvent {
+  const ToggleViewModeEvent();
 }
 
 class SaveSearchEvent extends SearchEvent {
   final String name;
-  final Map<String, dynamic> searchParams;
 
-  const SaveSearchEvent({
-    required this.name,
-    required this.searchParams,
-  });
+  const SaveSearchEvent({required this.name});
 
   @override
-  List<Object> get props => [name, searchParams];
+  List<Object> get props => [name];
 }
 
-class LoadSavedSearchesEvent extends SearchEvent {
-  const LoadSavedSearchesEvent();
-}
-
-class DeleteSavedSearchEvent extends SearchEvent {
+class LoadSavedSearchEvent extends SearchEvent {
   final String searchId;
 
-  const DeleteSavedSearchEvent({required this.searchId});
+  const LoadSavedSearchEvent({required this.searchId});
 
   @override
   List<Object> get props => [searchId];
-}
-
-class ApplySavedSearchEvent extends SearchEvent {
-  final Map<String, dynamic> searchParams;
-
-  const ApplySavedSearchEvent({required this.searchParams});
-
-  @override
-  List<Object> get props => [searchParams];
 }
