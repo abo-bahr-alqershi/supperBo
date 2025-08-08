@@ -11,6 +11,7 @@ class RouteConstants {
   static const String verifyOtp = '/verify-otp';
   
   // Main Routes
+  static const String main = '/main';
   static const String home = '/home';
   static const String search = '/search';
   static const String searchResults = '/search/results';
