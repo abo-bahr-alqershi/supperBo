@@ -72,7 +72,7 @@ class ReviewRemoteDataSourceImpl implements ReviewRemoteDataSource {
 
       final resultDto = ResultDto<Map<String, dynamic>>.fromJson(
         response.data,
-        (json) => json as Map<String, dynamic>,
+        (json) => json,
       );
 
       if (resultDto.success && resultDto.data != null) {
@@ -119,7 +119,7 @@ class ReviewRemoteDataSourceImpl implements ReviewRemoteDataSource {
 
       final resultDto = ResultDto<Map<String, dynamic>>.fromJson(
         response.data,
-        (json) => json as Map<String, dynamic>,
+        (json) => json,
       );
 
       if (resultDto.success && resultDto.data != null) {
@@ -149,7 +149,7 @@ class ReviewRemoteDataSourceImpl implements ReviewRemoteDataSource {
 
       final resultDto = ResultDto<Map<String, dynamic>>.fromJson(
         response.data,
-        (json) => json as Map<String, dynamic>,
+        (json) => json,
       );
 
       if (resultDto.success && resultDto.data != null) {
@@ -186,7 +186,7 @@ class ReviewRemoteDataSourceImpl implements ReviewRemoteDataSource {
         );
       }
       
-      formData.fields.add(MapEntry('category', 'review'));
+      formData.fields.add(const MapEntry('category', 'review'));
       formData.fields.add(MapEntry('reviewId', reviewId));
 
       final response = await apiClient.upload(

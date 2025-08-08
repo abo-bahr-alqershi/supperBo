@@ -61,7 +61,7 @@ class LanguageSettingsPage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(AppDimensions.borderRadiusLg),
                   boxShadow: [
                     BoxShadow(
-                      color: AppColors.shadow.withOpacity(0.05),
+                      color: AppColors.shadow.withValues(alpha: 0.05),
                       blurRadius: 10,
                       offset: const Offset(0, 2),
                     ),

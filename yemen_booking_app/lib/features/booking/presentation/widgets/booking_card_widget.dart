@@ -36,11 +36,11 @@ class BookingCardWidget extends StatelessWidget {
         decoration: BoxDecoration(
           color: AppColors.surface,
           borderRadius: BorderRadius.circular(AppDimensions.borderRadiusMd),
-          boxShadow: [
+          boxShadow: const [
             BoxShadow(
               color: AppColors.shadow,
               blurRadius: AppDimensions.blurSmall,
-              offset: const Offset(0, 2),
+              offset: Offset(0, 2),
             ),
           ],
         ),
@@ -60,7 +60,7 @@ class BookingCardWidget extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(AppDimensions.paddingMedium),
       decoration: BoxDecoration(
-        color: _getStatusColor().withOpacity(0.1),
+        color: _getStatusColor().withValues(alpha: 0.1),
         borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(AppDimensions.borderRadiusMd),
           topRight: Radius.circular(AppDimensions.borderRadiusMd),
@@ -114,10 +114,10 @@ class BookingCardWidget extends StatelessWidget {
               width: 80,
               height: 80,
               decoration: BoxDecoration(
-                color: AppColors.primary.withOpacity(0.1),
+                color: AppColors.primary.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(AppDimensions.borderRadiusSm),
               ),
-              child: Icon(
+              child: const Icon(
                 Icons.apartment,
                 color: AppColors.primary,
                 size: AppDimensions.iconLarge,
@@ -150,7 +150,7 @@ class BookingCardWidget extends StatelessWidget {
                 const SizedBox(height: AppDimensions.spacingXs),
                 Row(
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.location_on_outlined,
                       size: AppDimensions.iconXSmall,
                       color: AppColors.textSecondary,
@@ -179,7 +179,7 @@ class BookingCardWidget extends StatelessWidget {
   Widget _buildBookingDetails(DateFormat dateFormat) {
     return Container(
       padding: const EdgeInsets.all(AppDimensions.paddingMedium),
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: AppColors.background,
         border: Border(
           top: BorderSide(color: AppColors.divider),

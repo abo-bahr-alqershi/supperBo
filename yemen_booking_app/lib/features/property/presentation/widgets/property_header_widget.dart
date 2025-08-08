@@ -49,7 +49,7 @@ class PropertyHeaderWidget extends StatelessWidget {
                             vertical: AppDimensions.paddingXSmall,
                           ),
                           decoration: BoxDecoration(
-                            color: AppColors.primary.withOpacity(0.1),
+                            color: AppColors.primary.withValues(alpha: 0.1),
                             borderRadius: BorderRadius.circular(
                               AppDimensions.borderRadiusXs,
                             ),
@@ -67,7 +67,7 @@ class PropertyHeaderWidget extends StatelessWidget {
                           Row(
                             children: List.generate(
                               property.starRating,
-                              (index) => Icon(
+                              (index) => const Icon(
                                 Icons.star,
                                 size: 16,
                                 color: AppColors.ratingStar,
@@ -114,7 +114,7 @@ class PropertyHeaderWidget extends StatelessWidget {
   Widget _buildLocationRow() {
     return Row(
       children: [
-        Icon(
+        const Icon(
           Icons.location_on_outlined,
           size: 20,
           color: AppColors.textSecondary,

@@ -58,7 +58,7 @@ class _DynamicFieldsWidgetState extends State<DynamicFieldsWidget> {
             Icon(
               Icons.filter_alt_off_rounded,
               size: AppDimensions.iconLarge,
-              color: AppColors.textSecondary.withOpacity(0.5),
+              color: AppColors.textSecondary.withValues(alpha: 0.5),
             ),
             const SizedBox(height: AppDimensions.spacingSm),
             Text(
@@ -158,7 +158,7 @@ class _DynamicFieldsWidgetState extends State<DynamicFieldsWidget> {
                   widget.onChanged(_values);
                 },
                 activeColor: AppColors.primary,
-                inactiveColor: AppColors.primary.withOpacity(0.2),
+                inactiveColor: AppColors.primary.withValues(alpha: 0.2),
               ),
             ),
             Container(
@@ -167,7 +167,7 @@ class _DynamicFieldsWidgetState extends State<DynamicFieldsWidget> {
                 vertical: AppDimensions.paddingSmall,
               ),
               decoration: BoxDecoration(
-                color: AppColors.primary.withOpacity(0.1),
+                color: AppColors.primary.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(AppDimensions.borderRadiusSm),
               ),
               child: Text(
@@ -269,7 +269,7 @@ class _DynamicFieldsWidgetState extends State<DynamicFieldsWidget> {
                 });
                 widget.onChanged(_values);
               },
-              selectedColor: AppColors.primary.withOpacity(0.2),
+              selectedColor: AppColors.primary.withValues(alpha: 0.2),
               checkmarkColor: AppColors.primary,
               labelStyle: TextStyle(
                 color: isSelected ? AppColors.primary : AppColors.textPrimary,
@@ -344,7 +344,7 @@ class _DynamicFieldsWidgetState extends State<DynamicFieldsWidget> {
             activeColor: AppColors.primary,
             contentPadding: EdgeInsets.zero,
           );
-        }).toList(),
+        }),
       ],
     );
   }
@@ -375,7 +375,7 @@ class _DynamicFieldsWidgetState extends State<DynamicFieldsWidget> {
             widget.onChanged(_values);
           },
           activeColor: AppColors.primary,
-          inactiveColor: AppColors.primary.withOpacity(0.2),
+          inactiveColor: AppColors.primary.withValues(alpha: 0.2),
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: AppDimensions.paddingSmall),

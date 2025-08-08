@@ -41,7 +41,7 @@ class UploadReviewImageWidget extends StatelessWidget {
                 child: Container(
                   padding: const EdgeInsets.all(4),
                   decoration: BoxDecoration(
-                    color: AppColors.error.withOpacity(0.9),
+                    color: AppColors.error.withValues(alpha: 0.9),
                     shape: BoxShape.circle,
                   ),
                   child: const Icon(

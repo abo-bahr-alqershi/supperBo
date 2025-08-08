@@ -105,7 +105,7 @@ abstract class BaseSectionWidget extends StatelessWidget {
   Color _getSecondaryTextColor() {
     if (config.textColor != null) {
       return Color(int.parse(config.textColor!.replaceAll('#', '0xFF')))
-          .withOpacity(0.7);
+          .withValues(alpha: 0.7);
     }
     return AppColors.textSecondary;
   }

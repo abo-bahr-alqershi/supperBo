@@ -84,7 +84,7 @@ class LoadingWidget extends StatelessWidget {
       width: double.infinity,
       child: LinearProgressIndicator(
         valueColor: AlwaysStoppedAnimation<Color>(color),
-        backgroundColor: color.withOpacity(0.2),
+        backgroundColor: color.withValues(alpha: 0.2),
       ),
     );
   }
@@ -92,7 +92,7 @@ class LoadingWidget extends StatelessWidget {
   Widget _buildShimmerLoader() {
     return Shimmer.fromColors(
       baseColor: AppColors.shimmer,
-      highlightColor: AppColors.shimmer.withOpacity(0.5),
+      highlightColor: AppColors.shimmer.withValues(alpha: 0.5),
       child: Container(
         width: double.infinity,
         height: 200,
@@ -115,7 +115,7 @@ class LoadingWidget extends StatelessWidget {
             width: size,
             height: size,
             decoration: BoxDecoration(
-              color: color.withOpacity(0.3),
+              color: color.withValues(alpha: 0.3),
               shape: BoxShape.circle,
             ),
             child: Center(
@@ -148,7 +148,7 @@ class LoadingWidget extends StatelessWidget {
               width: 12,
               height: 12,
               decoration: BoxDecoration(
-                color: color.withOpacity(value),
+                color: color.withValues(alpha: value),
                 shape: BoxShape.circle,
               ),
             );

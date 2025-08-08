@@ -13,7 +13,7 @@ class UpdateLanguageUseCase implements UseCase<bool, UpdateLanguageParams> {
   Future<Either<Failure, bool>> call(UpdateLanguageParams params) async {
     // Validate language code
     if (!['ar', 'en'].contains(params.languageCode)) {
-      return Left(ValidationFailure('Invalid language code'));
+      return const Left(ValidationFailure('Invalid language code'));
     }
     
     return await repository.updateLanguage(params.languageCode);

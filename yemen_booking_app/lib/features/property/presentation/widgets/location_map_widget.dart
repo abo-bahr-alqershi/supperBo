@@ -56,7 +56,7 @@ class _LocationMapWidgetState extends State<LocationMapWidget> {
             children: [
               Row(
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.location_on,
                     color: AppColors.primary,
                     size: 24,
@@ -227,7 +227,7 @@ class _LocationMapWidgetState extends State<LocationMapWidget> {
           Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: AppColors.primary.withOpacity(0.1),
+              color: AppColors.primary.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(8.0),
             ),
             child: Icon(
@@ -329,7 +329,7 @@ class FullScreenMapView extends StatelessWidget {
             borderRadius: BorderRadius.circular(8.0),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.1),
+                color: Colors.black.withValues(alpha: 0.1),
                 blurRadius: 8,
                 offset: const Offset(0, 2),
               ),

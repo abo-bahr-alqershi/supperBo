@@ -51,7 +51,7 @@ class PoliciesWidget extends StatelessWidget {
         vertical: AppDimensions.paddingSmall,
       ),
       decoration: BoxDecoration(
-        color: _getPolicyTypeColor(type).withOpacity(0.1),
+        color: _getPolicyTypeColor(type).withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(AppDimensions.borderRadiusSm),
       ),
       child: Row(
@@ -83,7 +83,7 @@ class PoliciesWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(AppDimensions.borderRadiusMd),
         border: Border.all(
           color: policy.isActive 
-              ? AppColors.error.withOpacity(0.3)
+              ? AppColors.error.withValues(alpha: 0.3)
               : AppColors.border,
         ),
       ),
@@ -107,7 +107,7 @@ class PoliciesWidget extends StatelessWidget {
                     vertical: AppDimensions.paddingXSmall,
                   ),
                   decoration: BoxDecoration(
-                    color: AppColors.error.withOpacity(0.1),
+                    color: AppColors.error.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(
                       AppDimensions.borderRadiusXs,
                     ),
@@ -151,7 +151,7 @@ class PoliciesWidget extends StatelessWidget {
                 margin: const EdgeInsets.only(top: 6),
                 width: 4,
                 height: 4,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: AppColors.textSecondary,
                   shape: BoxShape.circle,
                 ),

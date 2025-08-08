@@ -81,7 +81,7 @@ class _PriceRangeSliderWidgetState extends State<PriceRangeSliderWidget> {
         Container(
           padding: const EdgeInsets.all(AppDimensions.paddingSmall),
           decoration: BoxDecoration(
-            color: AppColors.primary.withOpacity(0.1),
+            color: AppColors.primary.withValues(alpha: 0.1),
             shape: BoxShape.circle,
           ),
           child: const Icon(
@@ -167,9 +167,9 @@ class _PriceRangeSliderWidgetState extends State<PriceRangeSliderWidget> {
         SliderTheme(
           data: SliderThemeData(
             activeTrackColor: AppColors.primary,
-            inactiveTrackColor: AppColors.primary.withOpacity(0.2),
+            inactiveTrackColor: AppColors.primary.withValues(alpha: 0.2),
             thumbColor: AppColors.primary,
-            overlayColor: AppColors.primary.withOpacity(0.2),
+            overlayColor: AppColors.primary.withValues(alpha: 0.2),
             trackHeight: 4,
             thumbShape: const RoundSliderThumbShape(
               enabledThumbRadius: 8,

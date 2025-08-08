@@ -1,7 +1,6 @@
 import 'package:dartz/dartz.dart';
 import '../../../../core/error/failures.dart';
 import '../../../../core/models/paginated_result.dart';
-import '../entities/search_filter.dart';
 import '../entities/search_result.dart';
 
 abstract class SearchRepository {

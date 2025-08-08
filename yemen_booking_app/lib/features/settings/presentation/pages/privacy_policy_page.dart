@@ -80,10 +80,10 @@ class _PrivacyPolicyPageState extends State<PrivacyPolicyPage> {
               horizontal: AppDimensions.paddingMedium,
               vertical: AppDimensions.paddingSmall,
             ),
-            color: AppColors.info.withOpacity(0.1),
+            color: AppColors.info.withValues(alpha: 0.1),
             child: Row(
               children: [
-                Icon(
+                const Icon(
                   Icons.info_outline_rounded,
                   size: 16,
                   color: AppColors.info,
@@ -270,10 +270,10 @@ class _PrivacyPolicyPageState extends State<PrivacyPolicyPage> {
                     Container(
                       padding: const EdgeInsets.all(AppDimensions.paddingMedium),
                       decoration: BoxDecoration(
-                        color: AppColors.primary.withOpacity(0.05),
+                        color: AppColors.primary.withValues(alpha: 0.05),
                         borderRadius: BorderRadius.circular(AppDimensions.borderRadiusLg),
                         border: Border.all(
-                          color: AppColors.primary.withOpacity(0.2),
+                          color: AppColors.primary.withValues(alpha: 0.2),
                         ),
                       ),
                       child: Column(

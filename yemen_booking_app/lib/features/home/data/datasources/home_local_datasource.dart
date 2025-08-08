@@ -26,7 +26,7 @@ class HomeLocalDataSourceImpl implements HomeLocalDataSource {
       final jsonString = json.encode(config.toJson());
       await sharedPreferences.setString(_homeConfigKey, jsonString);
     } catch (e) {
-      throw CacheException('فشل حفظ إعدادات الصفحة الرئيسية');
+      throw const CacheException('فشل حفظ إعدادات الصفحة الرئيسية');
     }
   }
 
@@ -37,7 +37,7 @@ class HomeLocalDataSourceImpl implements HomeLocalDataSource {
       try {
         return HomeConfigModel.fromJson(json.decode(jsonString) as Map<String, dynamic>);
       } catch (e) {
-        throw CacheException('فشل قراءة إعدادات الصفحة الرئيسية المحفوظة');
+        throw const CacheException('فشل قراءة إعدادات الصفحة الرئيسية المحفوظة');
       }
     }
     return null;
@@ -49,7 +49,7 @@ class HomeLocalDataSourceImpl implements HomeLocalDataSource {
       final jsonString = json.encode(sections.map((s) => s.toJson()).toList());
       await sharedPreferences.setString(_homeSectionsKey, jsonString);
     } catch (e) {
-      throw CacheException('فشل حفظ أقسام الصفحة الرئيسية');
+      throw const CacheException('فشل حفظ أقسام الصفحة الرئيسية');
     }
   }
 
@@ -61,7 +61,7 @@ class HomeLocalDataSourceImpl implements HomeLocalDataSource {
         final List<dynamic> jsonList = json.decode(jsonString);
         return jsonList.map((jsonItem) => HomeSectionModel.fromJson(jsonItem as Map<String, dynamic>)).toList();
       } catch (e) {
-        throw CacheException('فشل قراءة أقسام الصفحة الرئيسية المحفوظة');
+        throw const CacheException('فشل قراءة أقسام الصفحة الرئيسية المحفوظة');
       }
     }
     return null;
@@ -73,7 +73,7 @@ class HomeLocalDataSourceImpl implements HomeLocalDataSource {
       await sharedPreferences.remove(_homeConfigKey);
       await sharedPreferences.remove(_homeSectionsKey);
     } catch (e) {
-      throw CacheException('فشل مسح بيانات الصفحة الرئيسية المحفوظة');
+      throw const CacheException('فشل مسح بيانات الصفحة الرئيسية المحفوظة');
     }
   }
 }

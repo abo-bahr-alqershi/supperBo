@@ -1,7 +1,6 @@
 // lib/features/home/presentation/widgets/property_categories_widget.dart
 
 import 'package:flutter/material.dart';
-import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_dimensions.dart';
 import '../../../../core/theme/app_text_styles.dart';
 
@@ -157,13 +156,13 @@ class _PropertyCategoriesWidgetState extends State<PropertyCategoriesWidget>
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   colors: [
-                    category.color.withOpacity(0.1),
-                    category.color.withOpacity(0.2),
+                    category.color.withValues(alpha: 0.1),
+                    category.color.withValues(alpha: 0.2),
                   ],
                 ),
                 borderRadius: BorderRadius.circular(16),
                 border: Border.all(
-                  color: category.color.withOpacity(0.2),
+                  color: category.color.withValues(alpha: 0.2),
                   width: 1,
                 ),
               ),

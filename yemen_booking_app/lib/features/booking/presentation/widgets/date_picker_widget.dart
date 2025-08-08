@@ -35,7 +35,7 @@ class DatePickerWidget extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(AppDimensions.paddingMedium),
         decoration: BoxDecoration(
-          color: enabled ? AppColors.surface : AppColors.surface.withOpacity(0.5),
+          color: enabled ? AppColors.surface : AppColors.surface.withValues(alpha: 0.5),
           borderRadius: BorderRadius.circular(AppDimensions.borderRadiusMd),
         ),
         child: Row(
@@ -109,18 +109,17 @@ class DatePickerWidget extends StatelessWidget {
       builder: (context, child) {
         return Theme(
           data: Theme.of(context).copyWith(
-            colorScheme: ColorScheme.light(
+            colorScheme: const ColorScheme.light(
               primary: AppColors.primary,
               onPrimary: AppColors.white,
               surface: AppColors.surface,
               onSurface: AppColors.textPrimary,
             ),
-            dialogBackgroundColor: AppColors.surface,
             textButtonTheme: TextButtonThemeData(
               style: TextButton.styleFrom(
                 foregroundColor: AppColors.primary,
               ),
-            ),
+            ), dialogTheme: const DialogThemeData(backgroundColor: AppColors.surface),
           ),
           child: child!,
         );

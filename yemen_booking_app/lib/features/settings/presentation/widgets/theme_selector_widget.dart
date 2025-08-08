@@ -38,8 +38,8 @@ class ThemeSelectorWidget extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: isDarkMode 
-            ? AppColors.primaryDark.withOpacity(0.1) 
-            : AppColors.secondary.withOpacity(0.1),
+            ? AppColors.primaryDark.withValues(alpha: 0.1) 
+            : AppColors.secondary.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(AppDimensions.radiusCircular),
       ),
       child: Row(
@@ -142,7 +142,7 @@ class ThemeSelectorWidget extends StatelessWidget {
         ),
         decoration: BoxDecoration(
           color: isSelected 
-              ? AppColors.primary.withOpacity(0.1)
+              ? AppColors.primary.withValues(alpha: 0.1)
               : Colors.transparent,
         ),
         child: Row(
@@ -180,7 +180,7 @@ class ThemeSelectorWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(AppDimensions.borderRadiusLg),
         boxShadow: [
           BoxShadow(
-            color: AppColors.shadow.withOpacity(0.05),
+            color: AppColors.shadow.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 2),
           ),
@@ -297,7 +297,7 @@ class ThemeSelectorWidget extends StatelessWidget {
           value: isDarkMode,
           onChanged: (value) => _handleThemeChange(value, context),
           activeColor: AppColors.primary,
-          activeTrackColor: AppColors.primary.withOpacity(0.5),
+          activeTrackColor: AppColors.primary.withValues(alpha: 0.5),
         ),
       ],
     );

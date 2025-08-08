@@ -38,11 +38,11 @@ class PriceBreakdownWidget extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: BorderRadius.circular(AppDimensions.borderRadiusMd),
-        boxShadow: [
+        boxShadow: const [
           BoxShadow(
             color: AppColors.shadow,
             blurRadius: AppDimensions.blurSmall,
-            offset: const Offset(0, 2),
+            offset: Offset(0, 2),
           ),
         ],
       ),
@@ -51,7 +51,7 @@ class PriceBreakdownWidget extends StatelessWidget {
         children: [
           Row(
             children: [
-              Icon(
+              const Icon(
                 Icons.receipt_long,
                 color: AppColors.primary,
                 size: AppDimensions.iconMedium,
@@ -88,7 +88,7 @@ class PriceBreakdownWidget extends StatelessWidget {
           const SizedBox(height: AppDimensions.spacingMd),
           Container(
             padding: const EdgeInsets.symmetric(vertical: AppDimensions.paddingSmall),
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               border: Border(
                 top: BorderSide(color: AppColors.divider),
                 bottom: BorderSide(color: AppColors.divider),
@@ -125,7 +125,7 @@ class PriceBreakdownWidget extends StatelessWidget {
                             vertical: 2,
                           ),
                           decoration: BoxDecoration(
-                            color: AppColors.success.withOpacity(0.1),
+                            color: AppColors.success.withValues(alpha: 0.1),
                             borderRadius: BorderRadius.circular(AppDimensions.borderRadiusXs),
                           ),
                           child: Text(
@@ -166,7 +166,7 @@ class PriceBreakdownWidget extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(AppDimensions.paddingMedium),
             decoration: BoxDecoration(
-              color: AppColors.primary.withOpacity(0.05),
+              color: AppColors.primary.withValues(alpha: 0.05),
               borderRadius: BorderRadius.circular(AppDimensions.borderRadiusSm),
               border: Border.all(color: AppColors.primary),
             ),
@@ -197,12 +197,12 @@ class PriceBreakdownWidget extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(AppDimensions.paddingSmall),
             decoration: BoxDecoration(
-              color: AppColors.info.withOpacity(0.1),
+              color: AppColors.info.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(AppDimensions.borderRadiusSm),
             ),
             child: Row(
               children: [
-                Icon(
+                const Icon(
                   Icons.info_outline,
                   size: AppDimensions.iconSmall,
                   color: AppColors.info,

@@ -1,8 +1,6 @@
 // lib/features/home/presentation/widgets/sections/listings/vertical_property_grid.dart
 
 import 'package:flutter/material.dart';
-import '../../../../domain/entities/home_section.dart';
-import '../../../../domain/entities/section_config.dart';
 import '../base/base_section_widget.dart';
 
 class VerticalPropertyGrid extends BaseSectionWidget {
@@ -12,12 +10,12 @@ class VerticalPropertyGrid extends BaseSectionWidget {
 
   const VerticalPropertyGrid({
     super.key,
-    required HomeSection section,
+    required super.section,
     required this.properties,
-    required SectionConfig config,
+    required super.config,
     this.isFullScreen = false,
     this.onPropertyTap,
-  }) : super(section: section, config: config);
+  });
 
   @override
   Widget build(BuildContext context) {

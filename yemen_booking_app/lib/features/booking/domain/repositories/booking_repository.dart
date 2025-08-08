@@ -3,7 +3,6 @@ import '../../../../core/error/failures.dart';
 import '../../../../core/models/paginated_result.dart';
 import '../entities/booking.dart';
 import '../entities/booking_request.dart';
-import '../entities/payment.dart';
 
 abstract class BookingRepository {
   Future<Either<Failure, Booking>> createBooking(BookingRequest request);

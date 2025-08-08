@@ -167,7 +167,7 @@ class _PropertyDetailsPageState extends State<PropertyDetailsPage>
     return Container(
       margin: const EdgeInsets.all(AppDimensions.paddingSmall),
       decoration: BoxDecoration(
-        color: AppColors.black.withOpacity(0.5),
+        color: AppColors.black.withValues(alpha: 0.5),
         shape: BoxShape.circle,
       ),
       child: IconButton(
@@ -185,7 +185,7 @@ class _PropertyDetailsPageState extends State<PropertyDetailsPage>
     return Container(
       margin: const EdgeInsets.all(AppDimensions.paddingSmall),
       decoration: BoxDecoration(
-        color: AppColors.black.withOpacity(0.5),
+        color: AppColors.black.withValues(alpha: 0.5),
         shape: BoxShape.circle,
       ),
       child: IconButton(
@@ -314,7 +314,7 @@ class _PropertyDetailsPageState extends State<PropertyDetailsPage>
               ],
             ],
           ),
-          backgroundColor: AppColors.primary.withOpacity(0.1),
+          backgroundColor: AppColors.primary.withValues(alpha: 0.1),
         );
       }).toList(),
     );
@@ -340,13 +340,13 @@ class _PropertyDetailsPageState extends State<PropertyDetailsPage>
             padding: const EdgeInsets.symmetric(
               horizontal: AppDimensions.paddingMedium,
             ),
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: AppColors.surface,
               boxShadow: [
                 BoxShadow(
                   color: AppColors.shadow,
                   blurRadius: AppDimensions.blurMedium,
-                  offset: const Offset(0, 2),
+                  offset: Offset(0, 2),
                 ),
               ],
             ),
@@ -409,13 +409,13 @@ class _PropertyDetailsPageState extends State<PropertyDetailsPage>
       right: 0,
       child: Container(
         padding: const EdgeInsets.all(AppDimensions.paddingMedium),
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           color: AppColors.surface,
           boxShadow: [
             BoxShadow(
               color: AppColors.shadow,
               blurRadius: AppDimensions.blurLarge,
-              offset: const Offset(0, -2),
+              offset: Offset(0, -2),
             ),
           ],
         ),

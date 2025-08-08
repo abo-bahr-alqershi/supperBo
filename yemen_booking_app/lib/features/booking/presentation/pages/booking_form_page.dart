@@ -5,7 +5,6 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_dimensions.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/widgets/loading_widget.dart';
-import '../../../../core/utils/validators.dart';
 import '../../../auth/presentation/bloc/auth_bloc.dart';
 import '../../../auth/presentation/bloc/auth_state.dart';
 import '../bloc/booking_bloc.dart';
@@ -42,7 +41,7 @@ class _BookingFormPageState extends State<BookingFormPage> {
   int _adultsCount = 1;
   int _childrenCount = 0;
   List<Map<String, dynamic>> _selectedServices = [];
-  bool _isCheckingAvailability = false;
+  final bool _isCheckingAvailability = false;
 
   @override
   void dispose() {
@@ -109,9 +108,9 @@ class _BookingFormPageState extends State<BookingFormPage> {
           ),
         ],
       ),
-      bottom: PreferredSize(
-        preferredSize: const Size.fromHeight(4),
-        child: Container(
+      bottom: const PreferredSize(
+        preferredSize: Size.fromHeight(4),
+        child: SizedBox(
           height: 4,
           child: LinearProgressIndicator(
             value: 0.33,
@@ -271,15 +270,15 @@ class _BookingFormPageState extends State<BookingFormPage> {
         fillColor: AppColors.surface,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppDimensions.borderRadiusMd),
-          borderSide: BorderSide(color: AppColors.outline),
+          borderSide: const BorderSide(color: AppColors.outline),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppDimensions.borderRadiusMd),
-          borderSide: BorderSide(color: AppColors.outline),
+          borderSide: const BorderSide(color: AppColors.outline),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppDimensions.borderRadiusMd),
-          borderSide: BorderSide(color: AppColors.primary, width: 2),
+          borderSide: const BorderSide(color: AppColors.primary, width: 2),
         ),
       ),
     );

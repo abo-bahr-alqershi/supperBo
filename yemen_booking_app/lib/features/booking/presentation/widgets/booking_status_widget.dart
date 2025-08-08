@@ -26,7 +26,7 @@ class BookingStatusWidget extends StatelessWidget {
         vertical: AppDimensions.paddingXSmall,
       ),
       decoration: BoxDecoration(
-        color: _getStatusColor().withOpacity(0.1),
+        color: _getStatusColor().withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(AppDimensions.borderRadiusXs),
         border: Border.all(
           color: _getStatusColor(),

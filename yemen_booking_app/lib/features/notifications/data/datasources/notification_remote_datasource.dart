@@ -44,7 +44,7 @@ class NotificationRemoteDataSourceImpl implements NotificationRemoteDataSource {
     );
 
     if (response.statusCode == 200) {
-      final result = ResultDto.fromJson(response.data, (json) => json as Map<String, dynamic>);
+      final result = ResultDto.fromJson(response.data, (json) => json);
       final data = result.data!;
       final items = (data['items'] as List<dynamic>?)?.map((e) => NotificationModel.fromJson(e)).toList() ?? <NotificationModel>[];
       return PaginatedResult<NotificationModel>(
@@ -113,7 +113,7 @@ class NotificationRemoteDataSourceImpl implements NotificationRemoteDataSource {
       },
     );
     if (response.statusCode == 200) {
-      final result = ResultDto.fromJson(response.data, (json) => json as Map<String, dynamic>);
+      final result = ResultDto.fromJson(response.data, (json) => json);
       final data = result.data ?? {};
       return (data['unreadCount'] as int?) ?? 0;
     }

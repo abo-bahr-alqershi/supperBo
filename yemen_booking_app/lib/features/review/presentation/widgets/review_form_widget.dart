@@ -132,7 +132,7 @@ class _ReviewFormWidgetState extends State<ReviewFormWidget> {
             vertical: AppDimensions.paddingMedium,
           ),
           decoration: BoxDecoration(
-            color: isSelected ? color.withOpacity(0.1) : Colors.transparent,
+            color: isSelected ? color.withValues(alpha: 0.1) : Colors.transparent,
             border: isSelected
                 ? Border(
                     bottom: BorderSide(

@@ -2,11 +2,8 @@
 
 import 'package:flutter/material.dart';
 import '../../../../../../core/theme/app_colors.dart';
-import '../../../../../../core/theme/app_dimensions.dart';
 import '../../../../../../core/theme/app_text_styles.dart';
 import '../../../../../../core/widgets/cached_image_widget.dart';
-import '../../../../domain/entities/home_section.dart';
-import '../../../../domain/entities/section_config.dart';
 import '../base/base_section_widget.dart';
 import '../common/countdown_timer_widget.dart';
 
@@ -16,11 +13,11 @@ class SinglePropertyOfferWidget extends BaseSectionWidget {
 
   const SinglePropertyOfferWidget({
     super.key,
-    required HomeSection section,
+    required super.section,
     required this.offer,
-    required SectionConfig config,
+    required super.config,
     this.onTap,
-  }) : super(section: section, config: config);
+  });
 
   @override
   Widget build(BuildContext context) {

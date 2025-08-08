@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import '../../../../core/constants/api_constants.dart';
 import '../../../../core/error/exceptions.dart';
 import '../../../../core/models/paginated_result.dart';
 import '../../../../core/models/result_dto.dart';
@@ -406,7 +405,7 @@ class PropertyRemoteDataSourceImpl implements PropertyRemoteDataSource {
       if (response.statusCode == 200) {
         return ResultDto.fromJson(
           response.data,
-          (json) => json as Map<String, dynamic>,
+          (json) => json,
         );
       } else {
         throw ServerException(response.data['message'] ?? 'Failed to search properties');

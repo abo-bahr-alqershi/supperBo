@@ -82,13 +82,13 @@ class _SearchPageState extends State<SearchPage> {
 
   Widget _buildHeader() {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: AppColors.surface,
         boxShadow: [
           BoxShadow(
             color: AppColors.shadow,
             blurRadius: AppDimensions.blurSmall,
-            offset: const Offset(0, 2),
+            offset: Offset(0, 2),
           ),
         ],
       ),
@@ -241,7 +241,7 @@ class _SearchPageState extends State<SearchPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
+        const Text(
           'الوجهات الشائعة',
           style: AppTextStyles.heading3,
         ),
@@ -308,7 +308,7 @@ class _SearchPageState extends State<SearchPage> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
+            const Text(
               'عمليات البحث الأخيرة',
               style: AppTextStyles.heading3,
             ),
@@ -328,8 +328,8 @@ class _SearchPageState extends State<SearchPage> {
           itemBuilder: (context, index) {
             return ListTile(
               leading: const Icon(Icons.history_rounded),
-              title: Text('فندق في صنعاء'),
-              subtitle: Text('منذ يومين'),
+              title: const Text('فندق في صنعاء'),
+              subtitle: const Text('منذ يومين'),
               trailing: IconButton(
                 icon: const Icon(Icons.close_rounded),
                 onPressed: () {
@@ -350,7 +350,7 @@ class _SearchPageState extends State<SearchPage> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
+        const Text(
           'البحث حسب النوع',
           style: AppTextStyles.heading3,
         ),
@@ -398,10 +398,10 @@ class _SearchPageState extends State<SearchPage> {
       child: Container(
         padding: const EdgeInsets.all(AppDimensions.paddingMedium),
         decoration: BoxDecoration(
-          color: color.withOpacity(0.1),
+          color: color.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(AppDimensions.borderRadiusMd),
           border: Border.all(
-            color: color.withOpacity(0.3),
+            color: color.withValues(alpha: 0.3),
             width: 1,
           ),
         ),
@@ -474,7 +474,7 @@ class _SearchPageState extends State<SearchPage> {
           Icon(
             Icons.search_off_rounded,
             size: 100,
-            color: AppColors.textSecondary.withOpacity(0.5),
+            color: AppColors.textSecondary.withValues(alpha: 0.5),
           ),
           const SizedBox(height: AppDimensions.spacingLg),
           Text(
@@ -514,7 +514,7 @@ class _SearchPageState extends State<SearchPage> {
             color: AppColors.error,
           ),
           const SizedBox(height: AppDimensions.spacingLg),
-          Text(
+          const Text(
             'حدث خطأ',
             style: AppTextStyles.heading3,
           ),

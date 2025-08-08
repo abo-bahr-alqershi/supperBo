@@ -145,7 +145,7 @@ class PriceWidget extends StatelessWidget {
                 vertical: AppDimensions.paddingXSmall,
               ),
               decoration: BoxDecoration(
-                color: AppColors.success.withOpacity(0.1),
+                color: AppColors.success.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(AppDimensions.borderRadiusXs),
               ),
               child: Text(
@@ -192,7 +192,7 @@ class PriceWidget extends StatelessWidget {
         vertical: AppDimensions.paddingXSmall,
       ),
       decoration: BoxDecoration(
-        color: AppColors.primary.withOpacity(0.1),
+        color: AppColors.primary.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(AppDimensions.borderRadiusXs),
       ),
       child: Row(

@@ -67,7 +67,7 @@ class BookingRemoteDataSourceImpl implements BookingRemoteDataSource {
         );
         
         if (resultDto.success && resultDto.data != null) {
-          return resultDto as ResultDto<BookingModel>;
+          return resultDto;
         } else {
           throw ServerException(resultDto.message ?? 'Failed to create booking');
         }
@@ -216,7 +216,7 @@ class BookingRemoteDataSourceImpl implements BookingRemoteDataSource {
       if (response.statusCode == 200) {
         return ResultDto.fromJson(
           response.data,
-          (json) => json as Map<String, dynamic>,
+          (json) => json,
         );
       } else {
         throw ServerException(response.data['message'] ?? 'Failed to get booking summary');
@@ -252,7 +252,7 @@ class BookingRemoteDataSourceImpl implements BookingRemoteDataSource {
         );
         
         if (resultDto.success && resultDto.data != null) {
-          return resultDto as ResultDto<BookingModel>;
+          return resultDto;
         } else {
           throw ServerException(resultDto.message ?? 'Failed to add service');
         }
@@ -324,9 +324,9 @@ class BookingRemoteDataSourceImpl implements BookingRemoteDataSource {
       currency: json['totalPrice']?['currency'] ?? 'YER',
       status: BookingModel.parseBookingStatus(json['status']),
       bookingDate: DateTime.now(),
-      services: [],
-      payments: [],
-      unitImages: [],
+      services: const [],
+      payments: const [],
+      unitImages: const [],
       contactInfo: const ContactInfoModel(
         phoneNumber: '',
         email: '',
@@ -355,9 +355,9 @@ class BookingRemoteDataSourceImpl implements BookingRemoteDataSource {
       currency: json['newTotalPrice']?['currency'] ?? 'YER',
       status: BookingStatus.confirmed,
       bookingDate: DateTime.now(),
-      services: [],
-      payments: [],
-      unitImages: [],
+      services: const [],
+      payments: const [],
+      unitImages: const [],
       contactInfo: const ContactInfoModel(
         phoneNumber: '',
         email: '',

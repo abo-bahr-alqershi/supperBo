@@ -152,7 +152,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
       margin: const EdgeInsets.all(AppDimensions.paddingMedium),
       padding: const EdgeInsets.all(AppDimensions.paddingMedium),
       decoration: BoxDecoration(
-        color: _getStatusColor(booking.status).withOpacity(0.1),
+        color: _getStatusColor(booking.status).withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(AppDimensions.borderRadiusMd),
         border: Border.all(color: _getStatusColor(booking.status)),
       ),
@@ -197,11 +197,11 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
       decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: BorderRadius.circular(AppDimensions.borderRadiusMd),
-        boxShadow: [
+        boxShadow: const [
           BoxShadow(
             color: AppColors.shadow,
             blurRadius: AppDimensions.blurSmall,
-            offset: const Offset(0, 2),
+            offset: Offset(0, 2),
           ),
         ],
       ),
@@ -239,11 +239,11 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
       decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: BorderRadius.circular(AppDimensions.borderRadiusMd),
-        boxShadow: [
+        boxShadow: const [
           BoxShadow(
             color: AppColors.shadow,
             blurRadius: AppDimensions.blurSmall,
-            offset: const Offset(0, 2),
+            offset: Offset(0, 2),
           ),
         ],
       ),
@@ -271,7 +271,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                       width: 80,
                       height: 80,
                       color: AppColors.shimmer,
-                      child: Icon(
+                      child: const Icon(
                         Icons.apartment,
                         color: AppColors.textSecondary,
                       ),
@@ -283,10 +283,10 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                   width: 80,
                   height: 80,
                   decoration: BoxDecoration(
-                    color: AppColors.primary.withOpacity(0.1),
+                    color: AppColors.primary.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(AppDimensions.borderRadiusSm),
                   ),
-                  child: Icon(
+                  child: const Icon(
                     Icons.apartment,
                     color: AppColors.primary,
                     size: AppDimensions.iconLarge,
@@ -313,7 +313,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                     const SizedBox(height: AppDimensions.spacingXs),
                     Row(
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.location_on_outlined,
                           size: AppDimensions.iconSmall,
                           color: AppColors.textSecondary,
@@ -475,7 +475,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
       margin: const EdgeInsets.all(AppDimensions.paddingMedium),
       padding: const EdgeInsets.all(AppDimensions.paddingMedium),
       decoration: BoxDecoration(
-        color: AppColors.primary.withOpacity(0.05),
+        color: AppColors.primary.withValues(alpha: 0.05),
         borderRadius: BorderRadius.circular(AppDimensions.borderRadiusMd),
         border: Border.all(color: AppColors.primary),
       ),
@@ -493,7 +493,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
+              const Text(
                 'المبلغ الإجمالي',
                 style: AppTextStyles.bodyMedium,
               ),
@@ -533,7 +533,7 @@ class _BookingDetailsPageState extends State<BookingDetailsPage> {
                         color: _getPaymentStatusColor(payment.status),
                       ),
                     ),
-                    backgroundColor: _getPaymentStatusColor(payment.status).withOpacity(0.1),
+                    backgroundColor: _getPaymentStatusColor(payment.status).withValues(alpha: 0.1),
                   ),
                 ],
               ),

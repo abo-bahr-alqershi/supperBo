@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:http/http.dart' as apiClient;
 import 'package:yemen_booking_app/core/network/api_exceptions.dart';
 import '../../../../core/error/exceptions.dart' hide ApiException;
 import '../../../../core/models/result_dto.dart';

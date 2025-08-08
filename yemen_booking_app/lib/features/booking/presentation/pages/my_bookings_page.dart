@@ -278,7 +278,7 @@ class _MyBookingsPageState extends State<MyBookingsPage>
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               'هل أنت متأكد من إلغاء هذا الحجز؟',
               style: AppTextStyles.bodyMedium,
             ),
@@ -286,13 +286,13 @@ class _MyBookingsPageState extends State<MyBookingsPage>
             Container(
               padding: const EdgeInsets.all(AppDimensions.paddingSmall),
               decoration: BoxDecoration(
-                color: AppColors.warning.withOpacity(0.1),
+                color: AppColors.warning.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(AppDimensions.borderRadiusSm),
                 border: Border.all(color: AppColors.warning),
               ),
               child: Row(
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.info_outline,
                     color: AppColors.warning,
                     size: AppDimensions.iconSmall,

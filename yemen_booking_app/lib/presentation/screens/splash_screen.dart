@@ -6,8 +6,6 @@ import '../../core/theme/app_colors.dart';
 import '../../core/theme/app_text_styles.dart';
 import '../../features/auth/presentation/bloc/auth_bloc.dart';
 import '../../features/auth/presentation/bloc/auth_state.dart';
-import '../../features/settings/presentation/bloc/settings_bloc.dart';
-import '../../features/settings/presentation/bloc/settings_state.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -131,7 +129,7 @@ class _SplashScreenState extends State<SplashScreen>
             end: Alignment.bottomRight,
             colors: [
               Colors.white,
-              AppColors.primary.withOpacity(0.05),
+              AppColors.primary.withValues(alpha: 0.05),
             ],
           ),
         ),
@@ -141,7 +139,7 @@ class _SplashScreenState extends State<SplashScreen>
             Positioned.fill(
               child: CustomPaint(
                 painter: _BackgroundPatternPainter(
-                  color: AppColors.primary.withOpacity(0.03),
+                  color: AppColors.primary.withValues(alpha: 0.03),
                 ),
               ),
             ),
@@ -194,7 +192,7 @@ class _SplashScreenState extends State<SplashScreen>
                     child: Text(
                       'تجربة حجز استثنائية',
                       style: AppTextStyles.bodySmall.copyWith(
-                        color: AppColors.primary.withOpacity(0.4),
+                        color: AppColors.primary.withValues(alpha: 0.4),
                         letterSpacing: 1.2,
                       ),
                       textAlign: TextAlign.center,
@@ -222,13 +220,13 @@ class _SplashScreenState extends State<SplashScreen>
               end: Alignment.bottomRight,
               colors: [
                 AppColors.primary,
-                AppColors.primary.withOpacity(_shimmerAnimation.value),
+                AppColors.primary.withValues(alpha: _shimmerAnimation.value),
               ],
             ),
             shape: BoxShape.circle,
             boxShadow: [
               BoxShadow(
-                color: AppColors.primary.withOpacity(0.15),
+                color: AppColors.primary.withValues(alpha: 0.15),
                 blurRadius: 30,
                 offset: const Offset(0, 15),
               ),
@@ -244,7 +242,7 @@ class _SplashScreenState extends State<SplashScreen>
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   border: Border.all(
-                    color: Colors.white.withOpacity(0.2),
+                    color: Colors.white.withValues(alpha: 0.2),
                     width: 1,
                   ),
                 ),
@@ -279,7 +277,7 @@ class _SplashScreenState extends State<SplashScreen>
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
           decoration: BoxDecoration(
             border: Border.all(
-              color: AppColors.primary.withOpacity(0.2),
+              color: AppColors.primary.withValues(alpha: 0.2),
               width: 1,
             ),
             borderRadius: BorderRadius.circular(20),
@@ -287,7 +285,7 @@ class _SplashScreenState extends State<SplashScreen>
           child: Text(
             'YEMEN BOOKING',
             style: AppTextStyles.bodySmall.copyWith(
-              color: AppColors.primary.withOpacity(0.6),
+              color: AppColors.primary.withValues(alpha: 0.6),
               fontSize: 11,
               letterSpacing: 2,
               fontWeight: FontWeight.w500,
@@ -306,9 +304,9 @@ class _SplashScreenState extends State<SplashScreen>
           width: 50,
           height: 2,
           child: LinearProgressIndicator(
-            backgroundColor: AppColors.primary.withOpacity(0.1),
+            backgroundColor: AppColors.primary.withValues(alpha: 0.1),
             valueColor: AlwaysStoppedAnimation<Color>(
-              AppColors.primary.withOpacity(0.6),
+              AppColors.primary.withValues(alpha: 0.6),
             ),
           ),
         ),
@@ -325,7 +323,7 @@ class _SplashScreenState extends State<SplashScreen>
                   height: 6,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: AppColors.primary.withOpacity(
+                    color: AppColors.primary.withValues(alpha: 
                       index == 0 ? _shimmerAnimation.value
                         : index == 1 ? (1 - _shimmerAnimation.value)
                         : 0.3,
@@ -377,7 +375,7 @@ class _BackgroundPatternPainter extends CustomPainter {
 
     // دوائر زخرفية في الزوايا
     final circlePaint = Paint()
-      ..color = color.withOpacity(0.5)
+      ..color = color.withValues(alpha: 0.5)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 0.5;
 

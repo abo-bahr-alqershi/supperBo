@@ -1,11 +1,8 @@
-import '../../../../core/models/paginated_result.dart';
-import '../../../../core/models/result_dto.dart';
 import '../../../../core/network/api_client.dart';
 import '../../../../core/error/exceptions.dart';
 import '../models/home_config_model.dart';
 import '../models/home_section_model.dart';
 import '../models/city_destination_model.dart';
-import '../models/section_data_model.dart';
 import '../models/sponsored_ad_model.dart';
 
 abstract class HomeRemoteDataSource {

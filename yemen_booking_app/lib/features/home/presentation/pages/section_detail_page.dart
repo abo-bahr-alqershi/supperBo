@@ -133,7 +133,7 @@ class _SectionDetailPageState extends State<SectionDetailPage> {
           Icon(
             Icons.error_outline,
             size: 64,
-            color: AppColors.error.withOpacity(0.5),
+            color: AppColors.error.withValues(alpha: 0.5),
           ),
           const SizedBox(height: AppDimensions.spacingMd),
           Text(
@@ -184,7 +184,7 @@ class _SectionDetailPageState extends State<SectionDetailPage> {
               vertical: AppDimensions.paddingSmall,
             ),
             decoration: BoxDecoration(
-              color: AppColors.primary.withOpacity(0.1),
+              color: AppColors.primary.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(
                 AppDimensions.borderRadiusSm,
               ),
@@ -267,7 +267,7 @@ class _SectionDetailPageState extends State<SectionDetailPage> {
               ),
               const SizedBox(height: AppDimensions.spacingMd),
               
-              Text(
+              const Text(
                 'تصفية النتائج',
                 style: AppTextStyles.heading3,
               ),
@@ -325,7 +325,7 @@ class _SectionDetailPageState extends State<SectionDetailPage> {
               ),
               const SizedBox(height: AppDimensions.spacingMd),
               
-              Text(
+              const Text(
                 'ترتيب حسب',
                 style: AppTextStyles.heading3,
               ),

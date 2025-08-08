@@ -45,11 +45,11 @@ class SearchResultCardWidget extends StatelessWidget {
         decoration: BoxDecoration(
           color: AppColors.surface,
           borderRadius: BorderRadius.circular(AppDimensions.borderRadiusLg),
-          boxShadow: [
+          boxShadow: const [
             BoxShadow(
               color: AppColors.shadow,
               blurRadius: AppDimensions.blurMedium,
-              offset: const Offset(0, 2),
+              offset: Offset(0, 2),
             ),
           ],
         ),
@@ -88,11 +88,11 @@ class SearchResultCardWidget extends StatelessWidget {
         decoration: BoxDecoration(
           color: AppColors.surface,
           borderRadius: BorderRadius.circular(AppDimensions.borderRadiusMd),
-          boxShadow: [
+          boxShadow: const [
             BoxShadow(
               color: AppColors.shadow,
               blurRadius: AppDimensions.blurSmall,
-              offset: const Offset(0, 1),
+              offset: Offset(0, 1),
             ),
           ],
         ),
@@ -121,7 +121,7 @@ class SearchResultCardWidget extends StatelessWidget {
                     ),
                     Row(
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.location_on_outlined,
                           size: AppDimensions.iconXSmall,
                           color: AppColors.textSecondary,
@@ -206,7 +206,7 @@ class SearchResultCardWidget extends StatelessWidget {
                     ),
                     Row(
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.star_rounded,
                           size: AppDimensions.iconSmall,
                           color: AppColors.ratingStar,
@@ -335,12 +335,12 @@ class SearchResultCardWidget extends StatelessWidget {
   Widget _buildFavoriteButton() {
     return Container(
       decoration: BoxDecoration(
-        color: AppColors.white.withOpacity(0.9),
+        color: AppColors.white.withValues(alpha: 0.9),
         shape: BoxShape.circle,
       ),
       child: IconButton(
         onPressed: onFavoriteToggle,
-        icon: Icon(
+        icon: const Icon(
           Icons.favorite_border_rounded,
           color: AppColors.error,
           size: AppDimensions.iconMedium,
@@ -381,13 +381,13 @@ class SearchResultCardWidget extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(AppDimensions.paddingSmall),
             decoration: BoxDecoration(
-              color: AppColors.primary.withOpacity(0.1),
+              color: AppColors.primary.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(AppDimensions.borderRadiusSm),
             ),
             child: Row(
               children: List.generate(
                 result.starRating,
-                (index) => Icon(
+                (index) => const Icon(
                   Icons.star_rounded,
                   size: AppDimensions.iconSmall,
                   color: AppColors.primary,
@@ -402,7 +402,7 @@ class SearchResultCardWidget extends StatelessWidget {
   Widget _buildLocation() {
     return Row(
       children: [
-        Icon(
+        const Icon(
           Icons.location_on_outlined,
           size: AppDimensions.iconSmall,
           color: AppColors.textSecondary,
@@ -426,7 +426,7 @@ class SearchResultCardWidget extends StatelessWidget {
               vertical: AppDimensions.paddingXSmall,
             ),
             decoration: BoxDecoration(
-              color: AppColors.info.withOpacity(0.1),
+              color: AppColors.info.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(AppDimensions.borderRadiusXs),
             ),
             child: Text(
@@ -458,7 +458,7 @@ class SearchResultCardWidget extends StatelessWidget {
               vertical: AppDimensions.paddingXSmall,
             ),
             decoration: BoxDecoration(
-              color: AppColors.success.withOpacity(0.1),
+              color: AppColors.success.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(AppDimensions.borderRadiusXs),
             ),
             child: Text(
@@ -476,7 +476,7 @@ class SearchResultCardWidget extends StatelessWidget {
               vertical: AppDimensions.paddingXSmall,
             ),
             decoration: BoxDecoration(
-              color: AppColors.error.withOpacity(0.1),
+              color: AppColors.error.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(AppDimensions.borderRadiusXs),
             ),
             child: Text(
