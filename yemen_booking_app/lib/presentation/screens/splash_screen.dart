@@ -18,11 +18,12 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen>
     with TickerProviderStateMixin {
-  late AnimationController _logoController;
-  late AnimationController _textController;
-  late Animation<double> _logoAnimation;
-  late Animation<double> _textAnimation;
-  late Animation<Offset> _slideAnimation;
+  late AnimationController _fadeController;
+  late AnimationController _scaleController;
+  late AnimationController _shimmerController;
+  late Animation<double> _fadeAnimation;
+  late Animation<double> _scaleAnimation;
+  late Animation<double> _shimmerAnimation;
 
   @override
   void initState() {
@@ -33,60 +34,59 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   void _initializeAnimations() {
-    // تحكم في حركة الشعار
-    _logoController = AnimationController(
+    // تحكم بالظهور التدريجي
+    _fadeController = AnimationController(
+      duration: const Duration(milliseconds: 2000),
+      vsync: this,
+    );
+
+    // تحكم بالحجم
+    _scaleController = AnimationController(
       duration: const Duration(milliseconds: 1500),
       vsync: this,
     );
 
-    // تحكم في حركة النص
-    _textController = AnimationController(
-      duration: const Duration(milliseconds: 1000),
+    // تحكم بتأثير اللمعان
+    _shimmerController = AnimationController(
+      duration: const Duration(milliseconds: 2000),
       vsync: this,
-    );
+    )..repeat(reverse: true);
 
-    // حركة تكبير الشعار
-    _logoAnimation = Tween<double>(
+    // حركة الظهور التدريجي
+    _fadeAnimation = Tween<double>(
       begin: 0.0,
       end: 1.0,
     ).animate(CurvedAnimation(
-      parent: _logoController,
-      curve: Curves.elasticOut,
+      parent: _fadeController,
+      curve: const Interval(0.0, 0.5, curve: Curves.easeIn),
     ));
 
-    // حركة ظهور النص
-    _textAnimation = Tween<double>(
-      begin: 0.0,
+    // حركة التكبير البسيطة
+    _scaleAnimation = Tween<double>(
+      begin: 0.8,
       end: 1.0,
     ).animate(CurvedAnimation(
-      parent: _textController,
+      parent: _scaleController,
+      curve: Curves.easeOutBack,
+    ));
+
+    // حركة اللمعان
+    _shimmerAnimation = Tween<double>(
+      begin: 0.3,
+      end: 1.0,
+    ).animate(CurvedAnimation(
+      parent: _shimmerController,
       curve: Curves.easeInOut,
-    ));
-
-    // حركة انزلاق النص
-    _slideAnimation = Tween<Offset>(
-      begin: const Offset(0, 0.5),
-      end: Offset.zero,
-    ).animate(CurvedAnimation(
-      parent: _textController,
-      curve: Curves.easeOutCubic,
     ));
   }
 
   void _startAnimations() {
-    // بدء حركة الشعار
-    _logoController.forward();
-    
-    // بدء حركة النص بعد تأخير
-    Future.delayed(const Duration(milliseconds: 500), () {
-      if (mounted) {
-        _textController.forward();
-      }
-    });
+    _fadeController.forward();
+    _scaleController.forward();
   }
 
   void _navigateAfterDelay() {
-    Future.delayed(const Duration(milliseconds: 3000), () {
+    Future.delayed(const Duration(milliseconds: 3500), () {
       if (mounted) {
         _checkAuthAndNavigate();
       }
@@ -95,183 +95,305 @@ class _SplashScreenState extends State<SplashScreen>
 
   void _checkAuthAndNavigate() {
     final authState = context.read<AuthBloc>().state;
-    final settingsState = context.read<SettingsBloc>().state;
-
-    // التحقق من حالة المصادقة
+    
     if (authState is AuthAuthenticated) {
-      // المستخدم مسجل دخول - الانتقال للشاشة الرئيسية
       context.go('/main');
     } else if (authState is AuthUnauthenticated) {
-      // المستخدم غير مسجل دخول - الانتقال لصفحة تسجيل الدخول
       context.go('/login');
     } else {
-      // حالة تحميل - الانتقال للشاشة الرئيسية (سيتم التحقق لاحقاً)
       context.go('/main');
     }
   }
 
   @override
   void dispose() {
-    _logoController.dispose();
-    _textController.dispose();
+    _fadeController.dispose();
+    _scaleController.dispose();
+    _shimmerController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    // إخفاء شريط الحالة
     SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
-        statusBarIconBrightness: Brightness.light,
+        statusBarIconBrightness: Brightness.dark,
       ),
     );
 
     return Scaffold(
-      backgroundColor: AppColors.primary,
+      backgroundColor: Colors.white,
       body: Container(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
             colors: [
-              AppColors.primary,
-              AppColors.primary.withOpacity(0.8),
-              AppColors.primary.withOpacity(0.6),
+              Colors.white,
+              AppColors.primary.withOpacity(0.05),
             ],
           ),
         ),
-        child: SafeArea(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              // مساحة علوية
-              const Spacer(flex: 2),
-              
-              // الشعار
-              AnimatedBuilder(
-                animation: _logoAnimation,
-                builder: (context, child) {
-                  return Transform.scale(
-                    scale: _logoAnimation.value,
-                    child: Container(
-                      width: 120,
-                      height: 120,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(30),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.2),
-                            blurRadius: 20,
-                            offset: const Offset(0, 10),
-                          ),
-                        ],
-                      ),
-                      child: Icon(
-                        Icons.hotel,
-                        size: 60,
-                        color: AppColors.primary,
-                      ),
-                    ),
-                  );
-                },
+        child: Stack(
+          children: [
+            // خلفية بنمط هندسي خفيف
+            Positioned.fill(
+              child: CustomPaint(
+                painter: _BackgroundPatternPainter(
+                  color: AppColors.primary.withOpacity(0.03),
+                ),
               ),
-              
-              const SizedBox(height: 40),
-              
-              // اسم التطبيق
-              AnimatedBuilder(
-                animation: _textAnimation,
+            ),
+            
+            // المحتوى الرئيسي
+            Center(
+              child: AnimatedBuilder(
+                animation: Listenable.merge([
+                  _fadeAnimation,
+                  _scaleAnimation,
+                ]),
                 builder: (context, child) {
-                  return SlideTransition(
-                    position: _slideAnimation,
-                    child: FadeTransition(
-                      opacity: _textAnimation,
+                  return FadeTransition(
+                    opacity: _fadeAnimation,
+                    child: Transform.scale(
+                      scale: _scaleAnimation.value,
                       child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(
-                            'حجوزات اليمن',
-                            style: AppTextStyles.displayLarge.copyWith(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
-                          const SizedBox(height: 8),
-                          Text(
-                            'Yemen Booking',
-                            style: AppTextStyles.heading3.copyWith(
-                              color: Colors.white.withOpacity(0.8),
-                              fontWeight: FontWeight.w300,
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
+                          // الشعار
+                          _buildLogo(),
+                          
+                          const SizedBox(height: 48),
+                          
+                          // اسم التطبيق
+                          _buildAppName(),
+                          
+                          const SizedBox(height: 80),
+                          
+                          // مؤشر التحميل المخصص
+                          _buildLoadingIndicator(),
                         ],
                       ),
                     ),
                   );
                 },
               ),
-              
-              const SizedBox(height: 60),
-              
-              // مؤشر التحميل
-              AnimatedBuilder(
-                animation: _textAnimation,
+            ),
+            
+            // النص السفلي
+            Positioned(
+              bottom: 60,
+              left: 0,
+              right: 0,
+              child: AnimatedBuilder(
+                animation: _fadeAnimation,
                 builder: (context, child) {
                   return FadeTransition(
-                    opacity: _textAnimation,
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          width: 40,
-                          height: 40,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 3,
-                            valueColor: AlwaysStoppedAnimation<Color>(
-                              Colors.white.withOpacity(0.8),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 16),
-                        Text(
-                          'جاري التحميل...',
-                          style: AppTextStyles.bodyMedium.copyWith(
-                            color: Colors.white.withOpacity(0.7),
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ),
-              
-              const Spacer(flex: 1),
-              
-              // معلومات إضافية في الأسفل
-              AnimatedBuilder(
-                animation: _textAnimation,
-                builder: (context, child) {
-                  return FadeTransition(
-                    opacity: _textAnimation,
-                    child: Padding(
-                      padding: const EdgeInsets.all(20),
-                      child: Text(
-                        'أفضل منصة لحجز الفنادق والشقق في اليمن',
-                        style: AppTextStyles.bodySmall.copyWith(
-                          color: Colors.white.withOpacity(0.6),
-                        ),
-                        textAlign: TextAlign.center,
+                    opacity: _fadeAnimation,
+                    child: Text(
+                      'تجربة حجز استثنائية',
+                      style: AppTextStyles.bodySmall.copyWith(
+                        color: AppColors.primary.withOpacity(0.4),
+                        letterSpacing: 1.2,
                       ),
+                      textAlign: TextAlign.center,
                     ),
                   );
                 },
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
   }
+
+  Widget _buildLogo() {
+    return AnimatedBuilder(
+      animation: _shimmerAnimation,
+      builder: (context, child) {
+        return Container(
+          width: 100,
+          height: 100,
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                AppColors.primary,
+                AppColors.primary.withOpacity(_shimmerAnimation.value),
+              ],
+            ),
+            shape: BoxShape.circle,
+            boxShadow: [
+              BoxShadow(
+                color: AppColors.primary.withOpacity(0.15),
+                blurRadius: 30,
+                offset: const Offset(0, 15),
+              ),
+            ],
+          ),
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              // حلقة خارجية
+              Container(
+                width: 100,
+                height: 100,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: Colors.white.withOpacity(0.2),
+                    width: 1,
+                  ),
+                ),
+              ),
+              // الأيقونة
+              const Icon(
+                Icons.apartment_rounded,
+                size: 45,
+                color: Colors.white,
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildAppName() {
+    return Column(
+      children: [
+        Text(
+          'حجوزات اليمن',
+          style: AppTextStyles.displayLarge.copyWith(
+            color: AppColors.primary,
+            fontWeight: FontWeight.w600,
+            fontSize: 28,
+            letterSpacing: 0.5,
+          ),
+        ),
+        const SizedBox(height: 8),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: AppColors.primary.withOpacity(0.2),
+              width: 1,
+            ),
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Text(
+            'YEMEN BOOKING',
+            style: AppTextStyles.bodySmall.copyWith(
+              color: AppColors.primary.withOpacity(0.6),
+              fontSize: 11,
+              letterSpacing: 2,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildLoadingIndicator() {
+    return Column(
+      children: [
+        // مؤشر تحميل مخصص
+        SizedBox(
+          width: 50,
+          height: 2,
+          child: LinearProgressIndicator(
+            backgroundColor: AppColors.primary.withOpacity(0.1),
+            valueColor: AlwaysStoppedAnimation<Color>(
+              AppColors.primary.withOpacity(0.6),
+            ),
+          ),
+        ),
+        const SizedBox(height: 16),
+        AnimatedBuilder(
+          animation: _shimmerAnimation,
+          builder: (context, child) {
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: List.generate(3, (index) {
+                return Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 3),
+                  width: 6,
+                  height: 6,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: AppColors.primary.withOpacity(
+                      index == 0 ? _shimmerAnimation.value
+                        : index == 1 ? (1 - _shimmerAnimation.value)
+                        : 0.3,
+                    ),
+                  ),
+                );
+              }),
+            );
+          },
+        ),
+      ],
+    );
+  }
+}
+
+// رسام النمط الهندسي للخلفية
+class _BackgroundPatternPainter extends CustomPainter {
+  final Color color;
+
+  _BackgroundPatternPainter({required this.color});
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = color
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 0.5;
+
+    // رسم خطوط هندسية خفيفة
+    const spacing = 50.0;
+    
+    // خطوط عمودية
+    for (double x = 0; x < size.width; x += spacing) {
+      canvas.drawLine(
+        Offset(x, 0),
+        Offset(x, size.height),
+        paint,
+      );
+    }
+    
+    // خطوط أفقية
+    for (double y = 0; y < size.height; y += spacing) {
+      canvas.drawLine(
+        Offset(0, y),
+        Offset(size.width, y),
+        paint,
+      );
+    }
+
+    // دوائر زخرفية في الزوايا
+    final circlePaint = Paint()
+      ..color = color.withOpacity(0.5)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 0.5;
+
+    canvas.drawCircle(
+      Offset(size.width * 0.1, size.height * 0.15),
+      80,
+      circlePaint,
+    );
+    
+    canvas.drawCircle(
+      Offset(size.width * 0.9, size.height * 0.85),
+      100,
+      circlePaint,
+    );
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
