@@ -13,7 +13,6 @@ import '../bloc/home_bloc.dart';
 import '../bloc/analytics_bloc/home_analytics_bloc.dart';
 import '../widgets/search_bar_widget.dart';
 import '../widgets/choose_required_from_date_to_date_and_capacity_and_city.dart';
-import '../widgets/featured_properties_widget.dart';
 import '../widgets/property_categories_widget.dart';
 import '../widgets/popular_destinations_widget.dart';
 import '../widgets/home_sections_list_widget.dart';
@@ -134,7 +133,6 @@ class _HomePageState extends State<HomePage>
     return RefreshIndicator(
       onRefresh: () async {
         context.read<HomeBloc>().add(const RefreshHome());
-        // Wait for refresh to complete
         await Future.delayed(const Duration(seconds: 1));
       },
       color: AppColors.primary,
@@ -149,12 +147,6 @@ class _HomePageState extends State<HomePage>
           if (_isSearchExpanded)
             SliverToBoxAdapter(
               child: _buildExpandedSearch(state),
-            ),
-          
-          // Featured Properties Section
-          if (state.featuredProperties.isNotEmpty)
-            SliverToBoxAdapter(
-              child: _buildFeaturedSection(state),
             ),
           
           // Property Categories
@@ -347,54 +339,6 @@ class _HomePageState extends State<HomePage>
           // Navigate to search results
         },
       ),
-    );
-  }
-
-  Widget _buildFeaturedSection(HomeLoaded state) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(AppDimensions.paddingMedium),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                'عقارات مميزة',
-                style: AppTextStyles.heading2.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              TextButton(
-                onPressed: () {
-                  // Navigate to all featured
-                },
-                child: Text(
-                  'عرض الكل',
-                  style: AppTextStyles.bodyMedium.copyWith(
-                    color: AppColors.primary,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-        FeaturedPropertiesWidget(
-          properties: state.featuredProperties,
-          onPropertyTap: (property) {
-            // Track analytics
-            context.read<HomeAnalyticsBloc>().add(
-              TrackItemClick(
-                sectionId: 'featured',
-                itemId: property.id,
-                itemType: 'property',
-                position: 0,
-              ),
-            );
-            // Navigate to property details
-          },
-        ),
-      ],
     );
   }
 

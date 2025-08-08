@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../domain/entities/home_section.dart';
-import '../../domain/entities/featured_property.dart';
 import '../../domain/entities/city_destination.dart';
 import '../../domain/usecases/get_home_config_usecase.dart';
 import '../../domain/usecases/get_home_sections_usecase.dart';
@@ -72,12 +71,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       final sections = sectionsEither.fold((failure) => throw failure, (r) => r);
       final destinations = destinationsEither.fold((failure) => throw failure, (r) => r);
 
-      // Optionally: we could also fetch sponsored ads via _getSponsoredAdsUseCase, but UI expects FeaturedProperty list.
-      final List<FeaturedProperty> featuredProperties = const [];
-
       emit(HomeLoaded(
         sections: sections,
-        featuredProperties: featuredProperties,
         destinations: destinations,
         searchQuery: '',
         selectedCity: null,

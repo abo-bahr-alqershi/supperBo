@@ -82,7 +82,7 @@ class SectionBuilderWidget extends StatelessWidget {
     switch (section.sectionType) {
       case SectionType.singlePropertyAd:
         return 320;
-      case SectionType.featuredPropertyAd:
+      // case SectionType.featuredPropertyAd: // removed
         return 400;
       case SectionType.multiPropertyAd:
         return 280;

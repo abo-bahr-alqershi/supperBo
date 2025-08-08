@@ -203,7 +203,7 @@ This document serves as a complete reference for the Home Sections feature, cove
 3. **City Destinations**
    - CRUD table with inline editing or modal form
    - Stats update action (modal or inline form)
-   - List filters: active/popular/featured
+   - List filters: active/popular
 
 4. **Sponsored Ads**
    - CRUD table with preview card

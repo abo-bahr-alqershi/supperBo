@@ -97,12 +97,6 @@ public interface IPropertyRepository : IRepository<Property>
     Task<IEnumerable<Property>> GetPendingPropertiesAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// الحصول على الكيانات المميزة
-    /// Get featured properties
-    /// </summary>
-    Task<IEnumerable<Property>> GetFeaturedPropertiesAsync(int count, CancellationToken cancellationToken = default);
-
-    /// <summary>
     /// الحصول على الكيانات الشائعة
     /// Get popular destinations
     /// </summary>

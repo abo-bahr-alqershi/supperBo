@@ -1,7 +1,6 @@
 // lib/features/home/data/models/property_model.dart
 
 import 'package:equatable/equatable.dart';
-import '../../domain/entities/featured_property.dart';
 
 class PropertyModel extends Equatable {
   final String id;
@@ -110,30 +109,6 @@ class PropertyModel extends Equatable {
       'propertyType': propertyType,
       'customData': customData,
     };
-  }
-
-  FeaturedProperty toEntity() {
-    return FeaturedProperty(
-      id: id,
-      name: name,
-      address: address,
-      city: city,
-      latitude: latitude,
-      longitude: longitude,
-      starRating: starRating,
-      description: description,
-      images: images,
-      basePrice: basePrice,
-      currency: currency,
-      amenities: amenities,
-      averageRating: averageRating,
-      viewCount: viewCount,
-      bookingCount: bookingCount,
-      mainImageUrl: mainImageUrl,
-      isFeatured: isFeatured,
-      discountPercentage: discountPercentage,
-      propertyType: propertyType,
-    );
   }
 
   PropertyModel copyWith({

@@ -5,7 +5,6 @@ class SectionConstants {
 
   // Section Type Keys (matching backend)
   static const String singlePropertyAd = 'SINGLE_PROPERTY_AD';
-  static const String featuredPropertyAd = 'FEATURED_PROPERTY_AD';
   static const String multiPropertyAd = 'MULTI_PROPERTY_AD';
   static const String unitShowcaseAd = 'UNIT_SHOWCASE_AD';
   
@@ -20,7 +19,6 @@ class SectionConstants {
   static const String verticalPropertyGrid = 'VERTICAL_PROPERTY_GRID';
   static const String mixedLayoutList = 'MIXED_LAYOUT_LIST';
   static const String compactPropertyList = 'COMPACT_PROPERTY_LIST';
-  static const String featuredPropertiesShowcase = 'FEATURED_PROPERTIES_SHOWCASE';
   
   static const String cityCardsGrid = 'CITY_CARDS_GRID';
   static const String destinationCarousel = 'DESTINATION_CAROUSEL';
@@ -70,32 +68,8 @@ class SectionConstants {
   static const bool defaultParallaxEnabled = false;
   static const String defaultAnimationType = 'fade';
   static const String defaultLayoutType = 'standard';
-  static const String defaultSortBy = 'featured';
-  
-  // Badge Types
-  static const String newBadge = 'NEW';
-  static const String hotBadge = 'HOT';
-  static const String saleBadge = 'SALE';
-  static const String exclusiveBadge = 'EXCLUSIVE';
-  static const String limitedBadge = 'LIMITED';
-  
-  // Theme Types
-  static const String summerTheme = 'SUMMER';
-  static const String winterTheme = 'WINTER';
-  static const String springTheme = 'SPRING';
-  static const String autumnTheme = 'AUTUMN';
-  static const String holidayTheme = 'HOLIDAY';
-  static const String ramadanTheme = 'RAMADAN';
-  static const String eidTheme = 'EID';
-  
-  // Layout Types
-  static const String standardLayout = 'STANDARD';
-  static const String compactLayout = 'COMPACT';
-  static const String expandedLayout = 'EXPANDED';
-  static const String minimalLayout = 'MINIMAL';
   
   // Sort Options
-  static const String sortByFeatured = 'featured';
   static const String sortByPrice = 'price';
   static const String sortByRating = 'rating';
   static const String sortByDistance = 'distance';

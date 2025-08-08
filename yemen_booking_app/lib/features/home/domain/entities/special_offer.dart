@@ -1,14 +1,13 @@
 // lib/features/home/domain/entities/special_offer.dart
 
 import 'package:equatable/equatable.dart';
-import 'featured_property.dart';
 
 class SpecialOffer extends Equatable {
   final String id;
   final String title;
   final String? subtitle;
   final String description;
-  final FeaturedProperty? property;
+  final String? propertyId;
   final List<String> propertyIds;
   final String offerType;
   final double discountPercentage;
@@ -39,7 +38,7 @@ class SpecialOffer extends Equatable {
     required this.title,
     this.subtitle,
     required this.description,
-    this.property,
+    this.propertyId,
     required this.propertyIds,
     required this.offerType,
     required this.discountPercentage,
@@ -122,7 +121,7 @@ class SpecialOffer extends Equatable {
   String get formattedOriginalPrice {
     if (originalPrice == null) return '';
     return '${originalPrice!.toStringAsFixed(0)} ${currency ?? ''}';
-  }
+    }
 
   String get formattedOfferPrice {
     final price = finalPrice;
@@ -136,9 +135,9 @@ class SpecialOffer extends Equatable {
     return '${savings.toStringAsFixed(0)} ${currency ?? ''}';
   }
 
-  String get displayImage => bannerImageUrl ?? property?.displayImage ?? '';
+  String get displayImage => bannerImageUrl ?? '';
 
-  bool get hasProperty => property != null;
+  bool get hasProperty => propertyId != null;
 
   bool get hasMultipleProperties => propertyIds.length > 1;
 
@@ -202,7 +201,7 @@ class SpecialOffer extends Equatable {
         'remaining_time_seconds': remainingTime.inSeconds,
         'usage_percentage': usagePercentage,
         'priority': priority,
-        'property_id': property?.id,
+        'property_id': propertyId,
         'property_ids': propertyIds,
         'tags': tags,
       };
@@ -213,7 +212,7 @@ class SpecialOffer extends Equatable {
         title,
         subtitle,
         description,
-        property,
+        propertyId,
         propertyIds,
         offerType,
         discountPercentage,
