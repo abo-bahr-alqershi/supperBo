@@ -73,7 +73,7 @@ class PaymentMethodsWidget extends StatelessWidget {
               padding: const EdgeInsets.all(AppDimensions.paddingMedium),
               decoration: BoxDecoration(
                 color: isSelected
-                    ? AppColors.primary.withOpacity(0.05)
+                    ? AppColors.primary.withValues(alpha: 0.05)
                     : AppColors.surface,
                 borderRadius: BorderRadius.circular(AppDimensions.borderRadiusMd),
                 border: Border.all(
@@ -106,7 +106,7 @@ class PaymentMethodsWidget extends StatelessWidget {
                   Container(
                     padding: const EdgeInsets.all(AppDimensions.paddingSmall),
                     decoration: BoxDecoration(
-                      color: (method['color'] as Color).withOpacity(0.1),
+                      color: (method['color'] as Color).withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(AppDimensions.borderRadiusSm),
                     ),
                     child: Icon(
@@ -136,7 +136,7 @@ class PaymentMethodsWidget extends StatelessWidget {
                                   vertical: 2,
                                 ),
                                 decoration: BoxDecoration(
-                                  color: AppColors.disabled.withOpacity(0.2),
+                                  color: AppColors.disabled.withValues(alpha: 0.2),
                                   borderRadius: BorderRadius.circular(
                                     AppDimensions.borderRadiusXs,
                                   ),
@@ -162,7 +162,7 @@ class PaymentMethodsWidget extends StatelessWidget {
                     ),
                   ),
                   if (isSelected)
-                    Icon(
+                    const Icon(
                       Icons.check_circle,
                       color: AppColors.primary,
                       size: AppDimensions.iconMedium,

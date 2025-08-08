@@ -132,7 +132,7 @@ class _ReviewCardWidgetState extends State<ReviewCardWidget> {
       width: 48,
       height: 48,
       decoration: BoxDecoration(
-        color: AppColors.primary.withOpacity(0.1),
+        color: AppColors.primary.withValues(alpha: 0.1),
         shape: BoxShape.circle,
       ),
       child: Center(
@@ -156,7 +156,7 @@ class _ReviewCardWidgetState extends State<ReviewCardWidget> {
         vertical: AppDimensions.paddingXSmall,
       ),
       decoration: BoxDecoration(
-        color: AppColors.primary.withOpacity(0.1),
+        color: AppColors.primary.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(AppDimensions.borderRadiusXs),
       ),
       child: Text(
@@ -179,7 +179,7 @@ class _ReviewCardWidgetState extends State<ReviewCardWidget> {
         vertical: AppDimensions.paddingSmall,
       ),
       decoration: BoxDecoration(
-        color: AppColors.success.withOpacity(0.1),
+        color: AppColors.success.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(AppDimensions.borderRadiusSm),
       ),
       child: Row(
@@ -372,7 +372,7 @@ class _ReviewCardWidgetState extends State<ReviewCardWidget> {
                       width: 100,
                       height: 100,
                       decoration: BoxDecoration(
-                        color: AppColors.textPrimary.withOpacity(0.6),
+                        color: AppColors.textPrimary.withValues(alpha: 0.6),
                         borderRadius: BorderRadius.circular(
                           AppDimensions.borderRadiusMd,
                         ),
@@ -441,7 +441,7 @@ class _ReviewCardWidgetState extends State<ReviewCardWidget> {
   Widget _buildFooter() {
     return Container(
       padding: const EdgeInsets.all(AppDimensions.paddingMedium),
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         border: Border(
           top: BorderSide(
             color: AppColors.divider,
@@ -478,7 +478,7 @@ class _ReviewCardWidgetState extends State<ReviewCardWidget> {
                 vertical: AppDimensions.paddingXSmall,
               ),
               decoration: BoxDecoration(
-                color: AppColors.info.withOpacity(0.1),
+                color: AppColors.info.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(
                   AppDimensions.borderRadiusXs,
                 ),

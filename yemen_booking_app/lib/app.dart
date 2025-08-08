@@ -20,23 +20,21 @@ class YemenBookingApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (_) => sl<SettingsBloc>()..add(const LoadSettingsEvent())),
+        BlocProvider(create: (_) => sl<SettingsBloc>()..add(LoadSettingsEvent())),
         BlocProvider(create: (_) => sl<AuthBloc>()..add(const CheckAuthStatusEvent())),
         BlocProvider(create: (_) => sl<NotificationBloc>()),
       ],
       child: BlocBuilder<SettingsBloc, SettingsState>(
         builder: (context, settingsState) {
+          final mode = _themeModeFrom(settingsState);
+          final locale = _localeFrom(settingsState);
           return MaterialApp.router(
             title: 'Yemen Booking',
             debugShowCheckedModeBanner: false,
             theme: AppTheme.lightTheme,
             darkTheme: AppTheme.darkTheme,
-            themeMode: settingsState is SettingsLoaded 
-                ? settingsState.settings.themeMode 
-                : ThemeMode.system,
-            locale: settingsState is SettingsLoaded
-                ? settingsState.settings.locale
-                : const Locale('ar', 'YE'),
+            themeMode: mode,
+            locale: locale,
             localizationsDelegates: const [
               AppLocalizations.delegate,
               GlobalMaterialLocalizations.delegate,
@@ -50,4 +48,19 @@ class YemenBookingApp extends StatelessWidget {
       ),
     );
   }
+}
+
+ThemeMode _themeModeFrom(SettingsState state) {
+  if (state is SettingsLoaded) {
+    return state.settings.darkMode ? ThemeMode.dark : ThemeMode.light;
+  }
+  return ThemeMode.system;
+}
+
+Locale _localeFrom(SettingsState state) {
+  if (state is SettingsLoaded) {
+    final code = state.settings.preferredLanguage;
+    return Locale(code);
+  }
+  return const Locale('ar', 'YE');
 }

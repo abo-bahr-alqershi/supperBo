@@ -350,7 +350,7 @@ class _ReviewsListPageState extends State<ReviewsListPage> {
       ),
       selected: isSelected,
       onSelected: onSelected,
-      selectedColor: AppColors.primary.withOpacity(0.1),
+      selectedColor: AppColors.primary.withValues(alpha: 0.1),
       backgroundColor: AppColors.surface,
       side: BorderSide(
         color: isSelected ? AppColors.primary : AppColors.border,
@@ -369,7 +369,7 @@ class _ReviewsListPageState extends State<ReviewsListPage> {
           Icon(
             Icons.rate_review_outlined,
             size: 80,
-            color: AppColors.textSecondary.withOpacity(0.3),
+            color: AppColors.textSecondary.withValues(alpha: 0.3),
           ),
           const SizedBox(height: AppDimensions.spacingLg),
           Text(

@@ -37,10 +37,10 @@ class LanguageSelectorWidget extends StatelessWidget {
         vertical: AppDimensions.paddingXSmall,
       ),
       decoration: BoxDecoration(
-        color: AppColors.primary.withOpacity(0.1),
+        color: AppColors.primary.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(AppDimensions.borderRadiusSm),
         border: Border.all(
-          color: AppColors.primary.withOpacity(0.3),
+          color: AppColors.primary.withValues(alpha: 0.3),
           width: 1,
         ),
       ),
@@ -48,7 +48,7 @@ class LanguageSelectorWidget extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           if (showLabel) ...[
-            Icon(
+            const Icon(
               Icons.language_rounded,
               size: 18,
               color: AppColors.primary,
@@ -220,23 +220,23 @@ class LanguageSelectorWidget extends StatelessWidget {
 
   List<DropdownMenuItem<String>> _buildDropdownItems() {
     return [
-      DropdownMenuItem(
+      const DropdownMenuItem(
         value: 'ar',
         child: Row(
           children: [
-            const Text('🇾🇪', style: TextStyle(fontSize: 18)),
-            const SizedBox(width: 8),
-            const Text('العربية'),
+            Text('🇾🇪', style: TextStyle(fontSize: 18)),
+            SizedBox(width: 8),
+            Text('العربية'),
           ],
         ),
       ),
-      DropdownMenuItem(
+      const DropdownMenuItem(
         value: 'en',
         child: Row(
           children: [
-            const Text('🇬🇧', style: TextStyle(fontSize: 18)),
-            const SizedBox(width: 8),
-            const Text('English'),
+            Text('🇬🇧', style: TextStyle(fontSize: 18)),
+            SizedBox(width: 8),
+            Text('English'),
           ],
         ),
       ),
@@ -261,7 +261,7 @@ class QuickLanguageToggle extends StatelessWidget {
       icon: Container(
         padding: const EdgeInsets.all(8),
         decoration: BoxDecoration(
-          color: AppColors.primary.withOpacity(0.1),
+          color: AppColors.primary.withValues(alpha: 0.1),
           shape: BoxShape.circle,
         ),
         child: Text(

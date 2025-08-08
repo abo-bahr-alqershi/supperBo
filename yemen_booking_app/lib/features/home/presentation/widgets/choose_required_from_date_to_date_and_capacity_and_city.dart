@@ -113,7 +113,7 @@ class _ChooseRequiredFromDateToDateAndCapacityAndCityState
                     ),
                   ),
                   const SizedBox(width: AppDimensions.spacingSm),
-                  Icon(
+                  const Icon(
                     Icons.arrow_forward_rounded,
                     color: AppColors.textSecondary,
                     size: 20,
@@ -151,7 +151,7 @@ class _ChooseRequiredFromDateToDateAndCapacityAndCityState
         color: AppColors.white,
         borderRadius: BorderRadius.circular(AppDimensions.borderRadiusMd),
         border: Border.all(
-          color: AppColors.border.withOpacity(0.3),
+          color: AppColors.border.withValues(alpha: 0.3),
         ),
       ),
       child: InkWell(
@@ -164,10 +164,10 @@ class _ChooseRequiredFromDateToDateAndCapacityAndCityState
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: AppColors.primary.withOpacity(0.1),
+                  color: AppColors.primary.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(8),
                 ),
-                child: Icon(
+                child: const Icon(
                   Icons.location_city_rounded,
                   color: AppColors.primary,
                   size: 20,
@@ -197,7 +197,7 @@ class _ChooseRequiredFromDateToDateAndCapacityAndCityState
                   ],
                 ),
               ),
-              Icon(
+              const Icon(
                 Icons.arrow_drop_down_rounded,
                 color: AppColors.textSecondary,
               ),
@@ -222,7 +222,7 @@ class _ChooseRequiredFromDateToDateAndCapacityAndCityState
         color: AppColors.white,
         borderRadius: BorderRadius.circular(AppDimensions.borderRadiusMd),
         border: Border.all(
-          color: AppColors.border.withOpacity(0.3),
+          color: AppColors.border.withValues(alpha: 0.3),
         ),
       ),
       child: InkWell(
@@ -262,7 +262,7 @@ class _ChooseRequiredFromDateToDateAndCapacityAndCityState
         color: AppColors.white,
         borderRadius: BorderRadius.circular(AppDimensions.borderRadiusMd),
         border: Border.all(
-          color: AppColors.border.withOpacity(0.3),
+          color: AppColors.border.withValues(alpha: 0.3),
         ),
       ),
       child: Padding(
@@ -272,10 +272,10 @@ class _ChooseRequiredFromDateToDateAndCapacityAndCityState
             Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: AppColors.primary.withOpacity(0.1),
+                color: AppColors.primary.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: Icon(
+              child: const Icon(
                 Icons.people_rounded,
                 color: AppColors.primary,
                 size: 20,
@@ -348,7 +348,7 @@ class _ChooseRequiredFromDateToDateAndCapacityAndCityState
   }) {
     return Material(
       color: onPressed != null
-          ? AppColors.primary.withOpacity(0.1)
+          ? AppColors.primary.withValues(alpha: 0.1)
           : AppColors.gray200,
       borderRadius: BorderRadius.circular(8),
       child: InkWell(
@@ -433,7 +433,7 @@ class _ChooseRequiredFromDateToDateAndCapacityAndCityState
               ),
               const SizedBox(height: AppDimensions.spacingMd),
               
-              Text(
+              const Text(
                 'اختر المدينة',
                 style: AppTextStyles.heading3,
               ),
@@ -490,7 +490,7 @@ class _ChooseRequiredFromDateToDateAndCapacityAndCityState
       builder: (context, child) {
         return Theme(
           data: Theme.of(context).copyWith(
-            colorScheme: ColorScheme.light(
+            colorScheme: const ColorScheme.light(
               primary: AppColors.primary,
               onPrimary: Colors.white,
               surface: AppColors.surface,
@@ -517,7 +517,7 @@ class _ChooseRequiredFromDateToDateAndCapacityAndCityState
       builder: (context, child) {
         return Theme(
           data: Theme.of(context).copyWith(
-            colorScheme: ColorScheme.light(
+            colorScheme: const ColorScheme.light(
               primary: AppColors.primary,
               onPrimary: Colors.white,
               surface: AppColors.surface,

@@ -30,7 +30,7 @@ class _SearchBarWidgetState extends State<SearchBarWidget>
   late TextEditingController _controller;
   late AnimationController _animationController;
   late Animation<double> _scaleAnimation;
-  bool _hasFocus = false;
+  final bool _hasFocus = false;
 
   @override
   void initState() {
@@ -75,12 +75,12 @@ class _SearchBarWidgetState extends State<SearchBarWidget>
             border: Border.all(
               color: _hasFocus 
                   ? AppColors.primary 
-                  : AppColors.border.withOpacity(0.3),
+                  : AppColors.border.withValues(alpha: 0.3),
               width: _hasFocus ? 2 : 1,
             ),
             boxShadow: [
               BoxShadow(
-                color: AppColors.shadow.withOpacity(0.08),
+                color: AppColors.shadow.withValues(alpha: 0.08),
                 blurRadius: 10,
                 offset: const Offset(0, 4),
               ),
@@ -129,7 +129,7 @@ class _SearchBarWidgetState extends State<SearchBarWidget>
               // Clear Button
               if (_controller.text.isNotEmpty)
                 IconButton(
-                  icon: Icon(
+                  icon: const Icon(
                     Icons.clear_rounded,
                     color: AppColors.textSecondary,
                     size: 20,
@@ -149,13 +149,13 @@ class _SearchBarWidgetState extends State<SearchBarWidget>
                     right: AppDimensions.paddingSmall,
                   ),
                   decoration: BoxDecoration(
-                    color: AppColors.primary.withOpacity(0.1),
+                    color: AppColors.primary.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(
                       AppDimensions.borderRadiusMd,
                     ),
                   ),
                   child: IconButton(
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.tune_rounded,
                       color: AppColors.primary,
                       size: 22,

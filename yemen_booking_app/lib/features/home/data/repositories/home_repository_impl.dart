@@ -9,6 +9,7 @@ import '../../domain/entities/sponsored_ad.dart';
 import '../../domain/repositories/home_repository.dart';
 import '../datasources/home_local_datasource.dart';
 import '../datasources/home_remote_datasource.dart';
+import '../../data/models/section_data_model.dart';
 
 class HomeRepositoryImpl implements HomeRepository {
   final HomeRemoteDataSource remoteDataSource;
@@ -111,6 +112,45 @@ class HomeRepositoryImpl implements HomeRepository {
   Future<Either<Failure, void>> recordAdClick({required String adId, String? additionalData}) async {
     try {
       await remoteDataSource.recordAdClick(adId: adId, additionalData: additionalData);
+      return const Right(null);
+    } catch (e) {
+      return ErrorHandler.handle(e);
+    }
+  }
+
+  @override
+  Future<Either<Failure, SectionDataModel?>> getSectionData({required String sectionId}) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await remoteDataSource.getSectionData(sectionId: sectionId);
+        return Right(result);
+      } catch (e) {
+        return ErrorHandler.handle(e);
+      }
+    } else {
+      return const Left(NetworkFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> recordSectionImpression({required String sectionId}) async {
+    try {
+      await remoteDataSource.recordSectionImpression(sectionId: sectionId);
+      return const Right(null);
+    } catch (e) {
+      return ErrorHandler.handle(e);
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> recordSectionInteraction({required String sectionId, required String interactionType, String? itemId, Map<String, dynamic>? metadata}) async {
+    try {
+      await remoteDataSource.recordSectionInteraction(
+        sectionId: sectionId,
+        interactionType: interactionType,
+        itemId: itemId,
+        metadata: metadata,
+      );
       return const Right(null);
     } catch (e) {
       return ErrorHandler.handle(e);

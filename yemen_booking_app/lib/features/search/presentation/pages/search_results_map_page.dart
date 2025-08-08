@@ -4,7 +4,6 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_dimensions.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../domain/entities/search_result.dart';
-import '../widgets/search_result_card_widget.dart';
 
 class SearchResultsMapPage extends StatefulWidget {
   final List<SearchResult> results;
@@ -134,8 +133,8 @@ class _SearchResultsMapPageState extends State<SearchResultsMapPage> {
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              AppColors.black.withOpacity(0.7),
-              AppColors.black.withOpacity(0.0),
+              AppColors.black.withValues(alpha: 0.7),
+              AppColors.black.withValues(alpha: 0.0),
             ],
           ),
         ),
@@ -236,14 +235,14 @@ class _SearchResultsMapPageState extends State<SearchResultsMapPage> {
     return Container(
       width: size,
       height: size,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: AppColors.surface,
         shape: BoxShape.circle,
         boxShadow: [
           BoxShadow(
             color: AppColors.shadow,
             blurRadius: AppDimensions.blurMedium,
-            offset: const Offset(0, 2),
+            offset: Offset(0, 2),
           ),
         ],
       ),
@@ -325,8 +324,8 @@ class _SearchResultsMapPageState extends State<SearchResultsMapPage> {
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.all(AppDimensions.paddingMedium),
+              const Padding(
+                padding: EdgeInsets.all(AppDimensions.paddingMedium),
                 child: Text(
                   'نوع الخريطة',
                   style: AppTextStyles.heading3,
@@ -395,7 +394,7 @@ class _MapPropertyCard extends StatelessWidget {
           boxShadow: [
             BoxShadow(
               color: isSelected
-                  ? AppColors.primary.withOpacity(0.3)
+                  ? AppColors.primary.withValues(alpha: 0.3)
                   : AppColors.shadow,
               blurRadius: isSelected
                   ? AppDimensions.blurLarge
@@ -464,7 +463,7 @@ class _MapPropertyCard extends StatelessWidget {
                     ),
                     Row(
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.location_on_outlined,
                           size: AppDimensions.iconXSmall,
                           color: AppColors.textSecondary,
@@ -484,7 +483,7 @@ class _MapPropertyCard extends StatelessWidget {
                     ),
                     Row(
                       children: [
-                        Icon(
+                        const Icon(
                           Icons.star_rounded,
                           size: AppDimensions.iconSmall,
                           color: AppColors.ratingStar,
@@ -505,7 +504,7 @@ class _MapPropertyCard extends StatelessWidget {
                         ),
                         const Spacer(),
                         Text(
-                          '${result.minPrice.toStringAsFixed(0)}',
+                          result.minPrice.toStringAsFixed(0),
                           style: AppTextStyles.priceSmall.copyWith(
                             color: AppColors.primary,
                             fontWeight: FontWeight.bold,

@@ -1,7 +1,7 @@
 // lib/features/home/data/models/section_data_model.dart
 
 import 'package:equatable/equatable.dart';
-import '../../../../core/enums/section_type_enum.dart';
+import '../../../../core/enums/section_type_enum.dart' as core_enum;
 import 'property_model.dart';
 import 'sponsored_ad_model.dart';
 import 'special_offer_model.dart';
@@ -9,7 +9,7 @@ import 'city_destination_model.dart';
 
 class SectionDataModel extends Equatable {
   final String sectionId;
-  final SectionType sectionType;
+  final core_enum.SectionType sectionType;
   final List<PropertyModel> properties;
   final List<SponsoredAdModel> sponsoredAds;
   final List<SpecialOfferModel> specialOffers;
@@ -54,7 +54,7 @@ class SectionDataModel extends Equatable {
   factory SectionDataModel.fromJson(Map<String, dynamic> json) {
     return SectionDataModel(
       sectionId: json['sectionId'] as String,
-      sectionType: SectionType.tryFromString(json['sectionType'] as String?) ?? SectionType.horizontalPropertyList,
+      sectionType: core_enum.SectionTypeExtension.tryFromString(json['sectionType'] as String? ?? '') ?? core_enum.SectionType.horizontalPropertyList,
       properties: (json['properties'] as List<dynamic>?)
               ?.map((item) => PropertyModel.fromJson(item as Map<String, dynamic>))
               .toList() ??
@@ -99,7 +99,7 @@ class SectionDataModel extends Equatable {
 
   SectionDataModel copyWith({
     String? sectionId,
-    SectionType? sectionType,
+    core_enum.SectionType? sectionType,
     List<PropertyModel>? properties,
     List<SponsoredAdModel>? sponsoredAds,
     List<SpecialOfferModel>? specialOffers,

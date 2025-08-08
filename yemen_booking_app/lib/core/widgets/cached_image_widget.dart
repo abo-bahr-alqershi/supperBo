@@ -75,7 +75,7 @@ class CachedImageWidget extends StatelessWidget {
 
   Widget _buildPlaceholder() {
     return Container(
-      color: AppColors.shimmer.withOpacity(0.1),
+      color: AppColors.shimmer.withValues(alpha: 0.1),
       child: showLoadingIndicator
           ? Center(
               child: SizedBox(
@@ -84,7 +84,7 @@ class CachedImageWidget extends StatelessWidget {
                 child: CircularProgressIndicator(
                   strokeWidth: 2,
                   valueColor: AlwaysStoppedAnimation<Color>(
-                    AppColors.primary.withOpacity(0.5),
+                    AppColors.primary.withValues(alpha: 0.5),
                   ),
                 ),
               ),
@@ -99,7 +99,7 @@ class CachedImageWidget extends StatelessWidget {
       child: Center(
         child: Icon(
           Icons.image_not_supported_outlined,
-          color: AppColors.textSecondary.withOpacity(0.5),
+          color: AppColors.textSecondary.withValues(alpha: 0.5),
           size: AppDimensions.iconLarge,
         ),
       ),

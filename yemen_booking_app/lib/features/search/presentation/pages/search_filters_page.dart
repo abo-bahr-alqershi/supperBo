@@ -63,7 +63,7 @@ class _SearchFiltersPageState extends State<SearchFiltersPage> {
         onPressed: () => Navigator.pop(context),
         icon: const Icon(Icons.close_rounded),
       ),
-      title: Text(
+      title: const Text(
         'الفلاتر والترتيب',
         style: AppTextStyles.heading3,
       ),
@@ -243,7 +243,7 @@ class _SearchFiltersPageState extends State<SearchFiltersPage> {
                     vertical: AppDimensions.paddingSmall,
                   ),
                   decoration: BoxDecoration(
-                    color: AppColors.primary.withOpacity(0.1),
+                    color: AppColors.primary.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(AppDimensions.borderRadiusSm),
                   ),
                   child: Text(
@@ -278,7 +278,7 @@ class _SearchFiltersPageState extends State<SearchFiltersPage> {
     return Material(
       color: onPressed != null
           ? AppColors.primary
-          : AppColors.textSecondary.withOpacity(0.3),
+          : AppColors.textSecondary.withValues(alpha: 0.3),
       borderRadius: BorderRadius.circular(AppDimensions.borderRadiusSm),
       child: InkWell(
         onTap: onPressed,
@@ -415,7 +415,7 @@ class _SearchFiltersPageState extends State<SearchFiltersPage> {
               ),
               decoration: BoxDecoration(
                 color: isSelected
-                    ? AppColors.ratingStar.withOpacity(0.2)
+                    ? AppColors.ratingStar.withValues(alpha: 0.2)
                     : AppColors.surface,
                 borderRadius: BorderRadius.circular(AppDimensions.borderRadiusMd),
                 border: Border.all(
@@ -428,7 +428,7 @@ class _SearchFiltersPageState extends State<SearchFiltersPage> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   ...List.generate(rating, (i) {
-                    return Icon(
+                    return const Icon(
                       Icons.star_rounded,
                       size: AppDimensions.iconSmall,
                       color: AppColors.ratingStar,
@@ -436,7 +436,7 @@ class _SearchFiltersPageState extends State<SearchFiltersPage> {
                   }),
                   if (rating < 5) ...[
                     const SizedBox(width: AppDimensions.spacingXs),
-                    Text(
+                    const Text(
                       'فما فوق',
                       style: AppTextStyles.caption,
                     ),
@@ -493,7 +493,7 @@ class _SearchFiltersPageState extends State<SearchFiltersPage> {
               ),
               decoration: BoxDecoration(
                 color: isSelected
-                    ? AppColors.primary.withOpacity(0.1)
+                    ? AppColors.primary.withValues(alpha: 0.1)
                     : AppColors.surface,
                 borderRadius: BorderRadius.circular(AppDimensions.borderRadiusLg),
                 border: Border.all(
@@ -583,7 +583,7 @@ class _SearchFiltersPageState extends State<SearchFiltersPage> {
       icon: Icons.tune_rounded,
       expandable: true,
       child: DynamicFieldsWidget(
-        fields: [],
+        fields: const [],
         values: _filters['dynamicFieldFilters'] ?? {},
         onChanged: (values) {
           setState(() {
@@ -610,13 +610,13 @@ class _SearchFiltersPageState extends State<SearchFiltersPage> {
         top: AppDimensions.paddingMedium,
         bottom: MediaQuery.of(context).padding.bottom + AppDimensions.paddingMedium,
       ),
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: AppColors.surface,
         boxShadow: [
           BoxShadow(
             color: AppColors.shadow,
             blurRadius: AppDimensions.blurMedium,
-            offset: const Offset(0, -2),
+            offset: Offset(0, -2),
           ),
         ],
       ),

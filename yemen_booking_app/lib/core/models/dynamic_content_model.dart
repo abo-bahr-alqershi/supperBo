@@ -81,7 +81,7 @@ class DynamicContentModel extends Equatable {
       id: json['id'] as String,
       sectionId: json['sectionId'] as String,
       contentType: json['contentType'] as String,
-      contentData: (dataMap ?? <String, dynamic>{}) as Map<String, dynamic>,
+      contentData: (dataMap ?? <String, dynamic>{}),
       metadata: json['metadata'] as Map<String, dynamic>? ?? {},
       expiresAt: json['expiresAt'] != null
           ? DateTime.parse(json['expiresAt'] as String)

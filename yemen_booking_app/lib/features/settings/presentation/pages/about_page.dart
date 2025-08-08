@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -119,7 +118,7 @@ class _AboutPageState extends State<AboutPage> with SingleTickerProviderStateMix
           width: 120,
           height: 120,
           decoration: BoxDecoration(
-            gradient: LinearGradient(
+            gradient: const LinearGradient(
               colors: [
                 AppColors.primary,
                 AppColors.primaryLight,
@@ -130,13 +129,13 @@ class _AboutPageState extends State<AboutPage> with SingleTickerProviderStateMix
             borderRadius: BorderRadius.circular(AppDimensions.borderRadiusXl),
             boxShadow: [
               BoxShadow(
-                color: AppColors.primary.withOpacity(0.3),
+                color: AppColors.primary.withValues(alpha: 0.3),
                 blurRadius: 20,
                 offset: const Offset(0, 10),
               ),
             ],
           ),
-          child: Center(
+          child: const Center(
             child: Icon(
               Icons.hotel_rounded,
               size: 60,
@@ -242,7 +241,7 @@ class _AboutPageState extends State<AboutPage> with SingleTickerProviderStateMix
             width: 48,
             height: 48,
             decoration: BoxDecoration(
-              color: AppColors.primary.withOpacity(0.1),
+              color: AppColors.primary.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(AppDimensions.borderRadiusMd),
             ),
             child: Icon(
@@ -361,7 +360,7 @@ class _AboutPageState extends State<AboutPage> with SingleTickerProviderStateMix
                 ],
               ),
             ),
-            Icon(
+            const Icon(
               Icons.arrow_forward_ios_rounded,
               size: 16,
               color: AppColors.textSecondary,
@@ -427,7 +426,7 @@ class _AboutPageState extends State<AboutPage> with SingleTickerProviderStateMix
         width: 56,
         height: 56,
         decoration: BoxDecoration(
-          color: color.withOpacity(0.1),
+          color: color.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(AppDimensions.borderRadiusMd),
         ),
         child: Icon(

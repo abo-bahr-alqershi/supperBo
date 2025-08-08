@@ -1,14 +1,14 @@
 // lib/features/home/data/models/section_config_model.dart
 
 import 'package:equatable/equatable.dart';
-import '../../../../core/enums/section_type_enum.dart';
+import '../../../../core/enums/section_type_enum.dart' as core_enum;
 import '../../../../core/enums/section_size_enum.dart';
 import '../../../../core/enums/section_animation_enum.dart';
 import '../../domain/entities/section_config.dart';
 
 class SectionConfigModel extends Equatable {
   final String id;
-  final SectionType sectionType;
+  final core_enum.SectionType sectionType;
   final Map<String, dynamic> displaySettings;
   final Map<String, dynamic> layoutSettings;
   final Map<String, dynamic> styleSettings;
@@ -95,7 +95,7 @@ class SectionConfigModel extends Equatable {
   factory SectionConfigModel.fromJson(Map<String, dynamic> json) {
     return SectionConfigModel(
       id: json['id'] as String,
-      sectionType: SectionType.tryFromString(json['sectionType'] as String?) ?? SectionType.horizontalPropertyList,
+      sectionType: core_enum.SectionTypeExtension.tryFromString(json['sectionType'] as String? ?? '') ?? core_enum.SectionType.horizontalPropertyList,
       displaySettings: json['displaySettings'] as Map<String, dynamic>? ?? {},
       layoutSettings: json['layoutSettings'] as Map<String, dynamic>? ?? {},
       styleSettings: json['styleSettings'] as Map<String, dynamic>? ?? {},
@@ -160,7 +160,7 @@ class SectionConfigModel extends Equatable {
 
   SectionConfigModel copyWith({
     String? id,
-    SectionType? sectionType,
+    core_enum.SectionType? sectionType,
     Map<String, dynamic>? displaySettings,
     Map<String, dynamic>? layoutSettings,
     Map<String, dynamic>? styleSettings,

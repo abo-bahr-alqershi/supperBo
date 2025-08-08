@@ -92,8 +92,8 @@ class SettingsPage extends StatelessWidget {
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
               colors: [
-                AppColors.primary.withOpacity(0.1),
-                (isDark ? AppColors.surfaceDark : AppColors.white).withOpacity(0.95),
+                AppColors.primary.withValues(alpha: 0.1),
+                (isDark ? AppColors.surfaceDark : AppColors.white).withValues(alpha: 0.95),
               ],
             ),
           ),
@@ -123,7 +123,7 @@ class SettingsPage extends StatelessWidget {
             borderRadius: BorderRadius.circular(AppDimensions.borderRadiusLg),
             boxShadow: [
               BoxShadow(
-                color: AppColors.shadow.withOpacity(0.05),
+                color: AppColors.shadow.withValues(alpha: 0.05),
                 blurRadius: 10,
                 offset: const Offset(0, 2),
               ),
@@ -161,7 +161,7 @@ class SettingsPage extends StatelessWidget {
             borderRadius: BorderRadius.circular(AppDimensions.borderRadiusLg),
             boxShadow: [
               BoxShadow(
-                color: AppColors.shadow.withOpacity(0.05),
+                color: AppColors.shadow.withValues(alpha: 0.05),
                 blurRadius: 10,
                 offset: const Offset(0, 2),
               ),
@@ -219,7 +219,7 @@ class SettingsPage extends StatelessWidget {
             borderRadius: BorderRadius.circular(AppDimensions.borderRadiusLg),
             boxShadow: [
               BoxShadow(
-                color: AppColors.shadow.withOpacity(0.05),
+                color: AppColors.shadow.withValues(alpha: 0.05),
                 blurRadius: 10,
                 offset: const Offset(0, 2),
               ),
@@ -265,7 +265,7 @@ class SettingsPage extends StatelessWidget {
             borderRadius: BorderRadius.circular(AppDimensions.borderRadiusLg),
             boxShadow: [
               BoxShadow(
-                color: AppColors.shadow.withOpacity(0.05),
+                color: AppColors.shadow.withValues(alpha: 0.05),
                 blurRadius: 10,
                 offset: const Offset(0, 2),
               ),
@@ -397,8 +397,8 @@ class SettingsPage extends StatelessWidget {
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(AppDimensions.paddingLarge),
+            const Padding(
+              padding: EdgeInsets.all(AppDimensions.paddingLarge),
               child: Text(
                 'اختر العملة',
                 style: AppTextStyles.heading3,
@@ -412,7 +412,7 @@ class SettingsPage extends StatelessWidget {
             ].map((currency) {
               return ListTile(
                 leading: CircleAvatar(
-                  backgroundColor: AppColors.primary.withOpacity(0.1),
+                  backgroundColor: AppColors.primary.withValues(alpha: 0.1),
                   child: Text(
                     currency['symbol']!,
                     style: AppTextStyles.button.copyWith(
@@ -431,7 +431,7 @@ class SettingsPage extends StatelessWidget {
                   Navigator.pop(bottomSheetContext);
                 },
               );
-            }).toList(),
+            }),
             const SizedBox(height: AppDimensions.paddingLarge),
           ],
         );

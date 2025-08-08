@@ -28,7 +28,7 @@ class ReviewsSummaryWidget extends StatelessWidget {
             Icon(
               Icons.rate_review_outlined,
               size: 48,
-              color: AppColors.textSecondary.withOpacity(0.5),
+              color: AppColors.textSecondary.withValues(alpha: 0.5),
             ),
             const SizedBox(height: AppDimensions.spacingMd),
             Text(
@@ -76,11 +76,11 @@ class ReviewsSummaryWidget extends StatelessWidget {
   Widget _buildRatingSummary() {
     return Card(
       elevation: 0,
-      color: AppColors.primary.withOpacity(0.05),
+      color: AppColors.primary.withValues(alpha: 0.05),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(AppDimensions.borderRadiusLg),
         side: BorderSide(
-          color: AppColors.primary.withOpacity(0.2),
+          color: AppColors.primary.withValues(alpha: 0.2),
         ),
       ),
       child: Padding(
@@ -239,7 +239,7 @@ class ReviewsSummaryWidget extends StatelessWidget {
               ],
             ),
           );
-        }).toList(),
+        }),
       ],
     );
   }
@@ -295,7 +295,7 @@ class ReviewsSummaryWidget extends StatelessWidget {
               children: [
                 CircleAvatar(
                   radius: 20,
-                  backgroundColor: AppColors.primary.withOpacity(0.1),
+                  backgroundColor: AppColors.primary.withValues(alpha: 0.1),
                   child: Text(
                     userName[0],
                     style: AppTextStyles.bodyMedium.copyWith(

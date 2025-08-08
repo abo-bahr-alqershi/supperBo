@@ -132,18 +132,18 @@ class PropertyInfoWidget extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(AppDimensions.paddingMedium),
       decoration: BoxDecoration(
-        color: AppColors.primary.withOpacity(0.05),
+        color: AppColors.primary.withValues(alpha: 0.05),
         borderRadius: BorderRadius.circular(AppDimensions.borderRadiusMd),
         border: Border.all(
-          color: AppColors.primary.withOpacity(0.2),
+          color: AppColors.primary.withValues(alpha: 0.2),
         ),
       ),
       child: Row(
         children: [
           CircleAvatar(
             radius: 24,
-            backgroundColor: AppColors.primary.withOpacity(0.2),
-            child: Icon(
+            backgroundColor: AppColors.primary.withValues(alpha: 0.2),
+            child: const Icon(
               Icons.person_outline,
               color: AppColors.primary,
             ),

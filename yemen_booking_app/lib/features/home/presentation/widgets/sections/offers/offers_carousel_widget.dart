@@ -2,8 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import '../../../../domain/entities/home_section.dart';
-import '../../../../domain/entities/section_config.dart';
 import '../base/base_section_widget.dart';
 
 class OffersCarouselWidget extends BaseSectionWidget {
@@ -12,11 +10,11 @@ class OffersCarouselWidget extends BaseSectionWidget {
 
   const OffersCarouselWidget({
     super.key,
-    required HomeSection section,
+    required super.section,
     required this.offers,
-    required SectionConfig config,
+    required super.config,
     this.onOfferTap,
-  }) : super(section: section, config: config);
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -47,7 +47,7 @@ class SortOptionsWidget extends StatelessWidget {
               ),
             ),
             const SizedBox(width: AppDimensions.spacingXs),
-            Icon(
+            const Icon(
               Icons.keyboard_arrow_down_rounded,
               size: AppDimensions.iconSmall,
               color: AppColors.textSecondary,
@@ -105,13 +105,13 @@ class SortOptionsWidget extends StatelessWidget {
           ),
         ),
       ),
-      child: Row(
+      child: const Row(
         children: [
-          const Icon(
+          Icon(
             Icons.sort_rounded,
             color: AppColors.primary,
           ),
-          const SizedBox(width: AppDimensions.spacingSm),
+          SizedBox(width: AppDimensions.spacingSm),
           Text(
             'ترتيب حسب',
             style: AppTextStyles.heading3,
@@ -180,9 +180,9 @@ class SortOptionsWidget extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.all(AppDimensions.paddingMedium),
             decoration: BoxDecoration(
-              color: isSelected ? AppColors.primary.withOpacity(0.05) : null,
+              color: isSelected ? AppColors.primary.withValues(alpha: 0.05) : null,
               border: isSelected
-                  ? Border(
+                  ? const Border(
                       right: BorderSide(
                         color: AppColors.primary,
                         width: 3,
@@ -196,7 +196,7 @@ class SortOptionsWidget extends StatelessWidget {
                   padding: const EdgeInsets.all(AppDimensions.paddingSmall),
                   decoration: BoxDecoration(
                     color: isSelected
-                        ? AppColors.primary.withOpacity(0.1)
+                        ? AppColors.primary.withValues(alpha: 0.1)
                         : AppColors.background,
                     borderRadius: BorderRadius.circular(AppDimensions.borderRadiusSm),
                   ),
@@ -229,7 +229,7 @@ class SortOptionsWidget extends StatelessWidget {
                   ),
                 ),
                 if (isSelected)
-                  Icon(
+                  const Icon(
                     Icons.check_circle_rounded,
                     color: AppColors.primary,
                     size: AppDimensions.iconMedium,

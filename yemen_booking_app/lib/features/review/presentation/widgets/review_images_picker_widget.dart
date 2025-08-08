@@ -77,7 +77,7 @@ class _ReviewImagesPickerWidgetState extends State<ReviewImagesPickerWidget> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(
+              const Icon(
                 Icons.add_photo_alternate_outlined,
                 size: 32,
                 color: AppColors.textSecondary,
@@ -111,7 +111,7 @@ class _ReviewImagesPickerWidgetState extends State<ReviewImagesPickerWidget> {
           borderRadius: BorderRadius.circular(AppDimensions.borderRadiusMd),
           color: AppColors.inputBackground,
         ),
-        child: Center(
+        child: const Center(
           child: Icon(
             Icons.add,
             size: 32,
@@ -144,7 +144,7 @@ class _ReviewImagesPickerWidgetState extends State<ReviewImagesPickerWidget> {
             child: Container(
               padding: const EdgeInsets.all(4),
               decoration: BoxDecoration(
-                color: AppColors.error.withOpacity(0.9),
+                color: AppColors.error.withValues(alpha: 0.9),
                 shape: BoxShape.circle,
               ),
               child: const Icon(
@@ -184,7 +184,7 @@ class _ReviewImagesPickerWidgetState extends State<ReviewImagesPickerWidget> {
               height: 4,
               margin: const EdgeInsets.only(bottom: AppDimensions.spacingMd),
               decoration: BoxDecoration(
-                color: AppColors.textSecondary.withOpacity(0.3),
+                color: AppColors.textSecondary.withValues(alpha: 0.3),
                 borderRadius: BorderRadius.circular(2),
               ),
             ),

@@ -41,11 +41,11 @@ class FilterChipsWidget extends StatelessWidget {
                 ),
               ),
               onPressed: onClearAll,
-              backgroundColor: AppColors.error.withOpacity(0.1),
+              backgroundColor: AppColors.error.withValues(alpha: 0.1),
               side: BorderSide(
-                color: AppColors.error.withOpacity(0.3),
+                color: AppColors.error.withValues(alpha: 0.3),
               ),
-              avatar: Icon(
+              avatar: const Icon(
                 Icons.clear_all_rounded,
                 size: AppDimensions.iconSmall,
                 color: AppColors.error,
@@ -62,7 +62,7 @@ class FilterChipsWidget extends StatelessWidget {
                 () => onRemoveFilter(entry.key),
               ),
             );
-          }).toList(),
+          }),
         ],
       ),
     );
@@ -91,9 +91,9 @@ class FilterChipsWidget extends StatelessWidget {
         color: color,
       ),
       onDeleted: onDelete,
-      backgroundColor: color.withOpacity(0.1),
+      backgroundColor: color.withValues(alpha: 0.1),
       side: BorderSide(
-        color: color.withOpacity(0.3),
+        color: color.withValues(alpha: 0.3),
       ),
       padding: const EdgeInsets.symmetric(
         horizontal: AppDimensions.paddingSmall,

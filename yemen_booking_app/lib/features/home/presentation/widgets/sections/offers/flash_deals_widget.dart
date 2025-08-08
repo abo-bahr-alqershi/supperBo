@@ -1,8 +1,6 @@
 // lib/features/home/presentation/widgets/sections/offers/flash_deals_widget.dart
 
 import 'package:flutter/material.dart';
-import '../../../../domain/entities/home_section.dart';
-import '../../../../domain/entities/section_config.dart';
 import '../base/base_section_widget.dart';
 
 class FlashDealsWidget extends BaseSectionWidget {
@@ -11,11 +9,11 @@ class FlashDealsWidget extends BaseSectionWidget {
 
   const FlashDealsWidget({
     super.key,
-    required HomeSection section,
+    required super.section,
     required this.deals,
-    required SectionConfig config,
+    required super.config,
     this.onDealTap,
-  }) : super(section: section, config: config);
+  });
 
   @override
   Widget build(BuildContext context) {

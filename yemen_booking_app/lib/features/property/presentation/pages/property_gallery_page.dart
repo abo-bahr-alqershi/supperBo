@@ -75,7 +75,7 @@ class _PropertyGalleryPageState extends State<PropertyGalleryPage> {
         },
         itemCount: widget.images.length,
         loadingBuilder: (context, event) => Center(
-          child: Container(
+          child: SizedBox(
             width: 30.0,
             height: 30.0,
             child: CircularProgressIndicator(
@@ -109,7 +109,7 @@ class _PropertyGalleryPageState extends State<PropertyGalleryPage> {
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              AppColors.black.withOpacity(0.7),
+              AppColors.black.withValues(alpha: 0.7),
               AppColors.transparent,
             ],
           ),
@@ -166,7 +166,7 @@ class _PropertyGalleryPageState extends State<PropertyGalleryPage> {
               begin: Alignment.bottomCenter,
               end: Alignment.topCenter,
               colors: [
-                AppColors.black.withOpacity(0.8),
+                AppColors.black.withValues(alpha: 0.8),
                 AppColors.transparent,
               ],
             ),
@@ -195,7 +195,7 @@ class _PropertyGalleryPageState extends State<PropertyGalleryPage> {
                 Text(
                   currentImage.altText,
                   style: AppTextStyles.bodyMedium.copyWith(
-                    color: AppColors.white.withOpacity(0.8),
+                    color: AppColors.white.withValues(alpha: 0.8),
                   ),
                 ),
               if (currentImage.tags.isNotEmpty) ...[
@@ -210,7 +210,7 @@ class _PropertyGalleryPageState extends State<PropertyGalleryPage> {
                           color: AppColors.white,
                         ),
                       ),
-                      backgroundColor: AppColors.white.withOpacity(0.2),
+                      backgroundColor: AppColors.white.withValues(alpha: 0.2),
                       padding: const EdgeInsets.symmetric(horizontal: AppDimensions.paddingSmall),
                     );
                   }).toList(),
@@ -237,7 +237,7 @@ class _PropertyGalleryPageState extends State<PropertyGalleryPage> {
             vertical: AppDimensions.paddingSmall,
           ),
           decoration: BoxDecoration(
-            color: AppColors.black.withOpacity(0.5),
+            color: AppColors.black.withValues(alpha: 0.5),
             borderRadius: BorderRadius.circular(AppDimensions.borderRadiusLg),
           ),
           child: Row(
@@ -252,7 +252,7 @@ class _PropertyGalleryPageState extends State<PropertyGalleryPage> {
                 decoration: BoxDecoration(
                   color: _currentIndex == index
                       ? AppColors.primary
-                      : AppColors.white.withOpacity(0.5),
+                      : AppColors.white.withValues(alpha: 0.5),
                   borderRadius: BorderRadius.circular(4),
                 ),
               ),

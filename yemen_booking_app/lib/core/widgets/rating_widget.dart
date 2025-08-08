@@ -109,7 +109,7 @@ class RatingWidget extends StatelessWidget {
         vertical: AppDimensions.paddingXSmall,
       ),
       decoration: BoxDecoration(
-        color: _getRatingColor().withOpacity(0.1),
+        color: _getRatingColor().withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(AppDimensions.borderRadiusXs),
       ),
       child: Text(

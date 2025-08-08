@@ -123,7 +123,7 @@ class PropertyBloc extends Bloc<PropertyEvent, PropertyState> {
     result.fold(
       (failure) => emit(PropertyError(message: failure.message)),
       (success) {
-        emit(PropertyFavoriteUpdated(
+        emit(const PropertyFavoriteUpdated(
           isFavorite: true,
           message: 'تمت الإضافة إلى المفضلة',
         ));
@@ -142,7 +142,7 @@ class PropertyBloc extends Bloc<PropertyEvent, PropertyState> {
     Emitter<PropertyState> emit,
   ) async {
     // Implementation for removing from favorites
-    emit(PropertyFavoriteUpdated(
+    emit(const PropertyFavoriteUpdated(
       isFavorite: false,
       message: 'تمت الإزالة من المفضلة',
     ));

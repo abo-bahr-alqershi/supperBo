@@ -2,12 +2,9 @@ import 'package:dartz/dartz.dart';
 import '../../../../core/error/error_handler.dart';
 import '../../../../core/error/failures.dart';
 import '../../../../core/models/paginated_result.dart';
-import '../../domain/entities/search_filter.dart';
 import '../../domain/entities/search_result.dart';
 import '../../domain/repositories/search_repository.dart';
 import '../datasources/search_remote_datasource.dart';
-import '../models/search_filter_model.dart';
-import '../models/search_result_model.dart';
 
 class SearchRepositoryImpl implements SearchRepository {
   final SearchRemoteDataSource remoteDataSource;

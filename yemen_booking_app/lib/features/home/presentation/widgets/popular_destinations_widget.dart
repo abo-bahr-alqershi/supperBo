@@ -91,7 +91,7 @@ class _PopularDestinationsWidgetState extends State<PopularDestinationsWidget>
                 borderRadius: BorderRadius.circular(AppDimensions.borderRadiusLg),
                 boxShadow: [
                   BoxShadow(
-                    color: AppColors.shadow.withOpacity(0.1),
+                    color: AppColors.shadow.withValues(alpha: 0.1),
                     blurRadius: 10,
                     offset: const Offset(0, 5),
                   ),
@@ -118,7 +118,7 @@ class _PopularDestinationsWidgetState extends State<PopularDestinationsWidget>
                             end: Alignment.bottomCenter,
                             colors: [
                               Colors.transparent,
-                              Colors.black.withOpacity(0.7),
+                              Colors.black.withValues(alpha: 0.7),
                             ],
                             stops: const [0.4, 1.0],
                           ),
@@ -137,7 +137,7 @@ class _PopularDestinationsWidgetState extends State<PopularDestinationsWidget>
                             vertical: 4,
                           ),
                           decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.9),
+                            color: Colors.white.withValues(alpha: 0.9),
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: Row(
@@ -208,14 +208,14 @@ class _PopularDestinationsWidgetState extends State<PopularDestinationsWidget>
                               children: [
                                 Icon(
                                   Icons.home_work_outlined,
-                                  color: Colors.white.withOpacity(0.8),
+                                  color: Colors.white.withValues(alpha: 0.8),
                                   size: 14,
                                 ),
                                 const SizedBox(width: 4),
                                 Text(
                                   '${destination.propertyCount} عقار',
                                   style: AppTextStyles.caption.copyWith(
-                                    color: Colors.white.withOpacity(0.8),
+                                    color: Colors.white.withValues(alpha: 0.8),
                                   ),
                                 ),
                               ],

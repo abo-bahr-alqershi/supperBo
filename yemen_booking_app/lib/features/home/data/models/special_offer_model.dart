@@ -187,7 +187,7 @@ class SpecialOfferModel extends Equatable {
       title: title,
       subtitle: subtitle,
       description: description,
-      property: property?.toEntity(),
+      propertyId: property?.id,
       propertyIds: propertyIds,
       offerType: offerType,
       discountPercentage: discountPercentage,

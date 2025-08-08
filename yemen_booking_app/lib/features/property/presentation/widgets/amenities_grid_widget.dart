@@ -22,7 +22,7 @@ class AmenitiesGridWidget extends StatelessWidget {
             Icon(
               Icons.info_outline,
               size: 48,
-              color: AppColors.textSecondary.withOpacity(0.5),
+              color: AppColors.textSecondary.withValues(alpha: 0.5),
             ),
             const SizedBox(height: AppDimensions.spacingMd),
             Text(
@@ -107,7 +107,7 @@ class AmenitiesGridWidget extends StatelessWidget {
         color: AppColors.surface,
         borderRadius: BorderRadius.circular(AppDimensions.borderRadiusMd),
         border: Border.all(
-          color: amenity.isActive ? AppColors.primary.withOpacity(0.3) : AppColors.border,
+          color: amenity.isActive ? AppColors.primary.withValues(alpha: 0.3) : AppColors.border,
         ),
       ),
       child: Column(
@@ -117,7 +117,7 @@ class AmenitiesGridWidget extends StatelessWidget {
             padding: const EdgeInsets.all(AppDimensions.paddingSmall),
             decoration: BoxDecoration(
               color: amenity.isActive
-                  ? AppColors.primary.withOpacity(0.1)
+                  ? AppColors.primary.withValues(alpha: 0.1)
                   : AppColors.gray200,
               shape: BoxShape.circle,
             ),

@@ -1,8 +1,6 @@
 // lib/features/home/presentation/widgets/sections/offers/seasonal_offer_widget.dart
 
 import 'package:flutter/material.dart';
-import '../../../../domain/entities/home_section.dart';
-import '../../../../domain/entities/section_config.dart';
 import '../base/base_section_widget.dart';
 
 class SeasonalOfferWidget extends BaseSectionWidget {
@@ -11,11 +9,11 @@ class SeasonalOfferWidget extends BaseSectionWidget {
 
   const SeasonalOfferWidget({
     super.key,
-    required HomeSection section,
+    required super.section,
     required this.offers,
-    required SectionConfig config,
+    required super.config,
     this.onOfferTap,
-  }) : super(section: section, config: config);
+  });
 
   @override
   Widget build(BuildContext context) {

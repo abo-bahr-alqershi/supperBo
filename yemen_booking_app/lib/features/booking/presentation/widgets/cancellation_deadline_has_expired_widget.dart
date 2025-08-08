@@ -26,8 +26,8 @@ class CancellationDeadlineHasExpiredWidget extends StatelessWidget {
       padding: const EdgeInsets.all(AppDimensions.paddingMedium),
       decoration: BoxDecoration(
         color: hasExpired
-            ? AppColors.error.withOpacity(0.1)
-            : AppColors.warning.withOpacity(0.1),
+            ? AppColors.error.withValues(alpha: 0.1)
+            : AppColors.warning.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(AppDimensions.borderRadiusMd),
         border: Border.all(
           color: hasExpired ? AppColors.error : AppColors.warning,
@@ -60,7 +60,7 @@ class CancellationDeadlineHasExpiredWidget extends StatelessWidget {
           const SizedBox(height: AppDimensions.spacingMd),
           
           if (hasExpired) ...[
-            Text(
+            const Text(
               'لقد انتهت المهلة المسموح بها للإلغاء المجاني.',
               style: AppTextStyles.bodyMedium,
             ),
@@ -72,7 +72,7 @@ class CancellationDeadlineHasExpiredWidget extends StatelessWidget {
               ),
             ),
           ] else ...[
-            Text(
+            const Text(
               'يمكنك إلغاء الحجز مجاناً حتى:',
               style: AppTextStyles.bodyMedium,
             ),
@@ -89,7 +89,7 @@ class CancellationDeadlineHasExpiredWidget extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.access_time,
                     size: AppDimensions.iconSmall,
                     color: AppColors.warning,
@@ -165,7 +165,7 @@ class CancellationDeadlineHasExpiredWidget extends StatelessWidget {
         vertical: AppDimensions.paddingSmall,
       ),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
+        color: color.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(AppDimensions.borderRadiusSm),
         border: Border.all(color: color),
       ),

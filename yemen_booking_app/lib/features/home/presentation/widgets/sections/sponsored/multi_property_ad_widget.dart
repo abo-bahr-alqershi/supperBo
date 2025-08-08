@@ -5,8 +5,6 @@ import '../../../../../../core/theme/app_colors.dart';
 import '../../../../../../core/theme/app_dimensions.dart';
 import '../../../../../../core/theme/app_text_styles.dart';
 import '../../../../../../core/widgets/cached_image_widget.dart';
-import '../../../../domain/entities/home_section.dart';
-import '../../../../domain/entities/section_config.dart';
 import '../base/base_section_widget.dart';
 
 class MultiPropertyAdWidget extends BaseSectionWidget {
@@ -15,11 +13,11 @@ class MultiPropertyAdWidget extends BaseSectionWidget {
 
   const MultiPropertyAdWidget({
     super.key,
-    required HomeSection section,
+    required super.section,
     required this.properties,
-    required SectionConfig config,
+    required super.config,
     this.onPropertyTap,
-  }) : super(section: section, config: config);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +58,7 @@ class MultiPropertyAdWidget extends BaseSectionWidget {
           borderRadius: BorderRadius.circular(config.borderRadius),
           boxShadow: [
             BoxShadow(
-              color: AppColors.shadow.withOpacity(0.1),
+              color: AppColors.shadow.withValues(alpha: 0.1),
               blurRadius: 10,
               offset: const Offset(0, 4),
             ),
@@ -88,7 +86,7 @@ class MultiPropertyAdWidget extends BaseSectionWidget {
                       end: Alignment.bottomCenter,
                       colors: [
                         Colors.transparent,
-                        Colors.black.withOpacity(0.7),
+                        Colors.black.withValues(alpha: 0.7),
                       ],
                     ),
                   ),

@@ -80,7 +80,7 @@ class _SearchResultsPageState extends State<SearchResultsPage> {
       title: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
+          const Text(
             'نتائج البحث',
             style: AppTextStyles.subtitle1,
           ),
@@ -145,7 +145,7 @@ class _SearchResultsPageState extends State<SearchResultsPage> {
                   Icons.close_rounded,
                   size: AppDimensions.iconSmall,
                 ),
-                backgroundColor: AppColors.primary.withOpacity(0.1),
+                backgroundColor: AppColors.primary.withValues(alpha: 0.1),
                 deleteIconColor: AppColors.primary,
                 labelStyle: AppTextStyles.caption.copyWith(
                   color: AppColors.primary,
@@ -189,7 +189,7 @@ class _SearchResultsPageState extends State<SearchResultsPage> {
           Icon(
             Icons.search_off_rounded,
             size: 100,
-            color: AppColors.textSecondary.withOpacity(0.5),
+            color: AppColors.textSecondary.withValues(alpha: 0.5),
           ),
           const SizedBox(height: AppDimensions.spacingLg),
           Text(

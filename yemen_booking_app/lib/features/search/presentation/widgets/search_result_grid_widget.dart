@@ -73,10 +73,10 @@ class SearchResultGridWidget extends StatelessWidget {
           Icon(
             Icons.grid_off_rounded,
             size: 80,
-            color: AppColors.textSecondary.withOpacity(0.5),
+            color: AppColors.textSecondary.withValues(alpha: 0.5),
           ),
           const SizedBox(height: AppDimensions.spacingLg),
-          Text(
+          const Text(
             'لا توجد نتائج',
             style: TextStyle(
               fontSize: 18,

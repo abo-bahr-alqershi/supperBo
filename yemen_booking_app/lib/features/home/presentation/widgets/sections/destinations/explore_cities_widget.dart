@@ -1,8 +1,6 @@
 // lib/features/home/presentation/widgets/sections/destinations/explore_cities_widget.dart
 
 import 'package:flutter/material.dart';
-import '../../../../domain/entities/home_section.dart';
-import '../../../../domain/entities/section_config.dart';
 import '../base/base_section_widget.dart';
 
 class ExploreCitiesWidget extends BaseSectionWidget {
@@ -11,11 +9,11 @@ class ExploreCitiesWidget extends BaseSectionWidget {
 
   const ExploreCitiesWidget({
     super.key,
-    required HomeSection section,
+    required super.section,
     required this.cities,
-    required SectionConfig config,
+    required super.config,
     this.onCityTap,
-  }) : super(section: section, config: config);
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -64,8 +64,8 @@ class _PropertyMapPageState extends State<PropertyMapPage> {
         circleId: const CircleId('property_radius'),
         center: LatLng(widget.latitude, widget.longitude),
         radius: 500,
-        fillColor: AppColors.primary.withOpacity(0.1),
-        strokeColor: AppColors.primary.withOpacity(0.3),
+        fillColor: AppColors.primary.withValues(alpha: 0.1),
+        strokeColor: AppColors.primary.withValues(alpha: 0.3),
         strokeWidth: 2,
       ),
     );
@@ -92,7 +92,7 @@ class _PropertyMapPageState extends State<PropertyMapPage> {
       title: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
+          const Text(
             'الموقع على الخريطة',
             style: AppTextStyles.heading3,
           ),
@@ -187,11 +187,11 @@ class _PropertyMapPageState extends State<PropertyMapPage> {
       decoration: BoxDecoration(
         color: isActive ? AppColors.primary : AppColors.surface,
         shape: BoxShape.circle,
-        boxShadow: [
+        boxShadow: const [
           BoxShadow(
             color: AppColors.shadow,
             blurRadius: AppDimensions.blurMedium,
-            offset: const Offset(0, 2),
+            offset: Offset(0, 2),
           ),
         ],
       ),
@@ -213,16 +213,16 @@ class _PropertyMapPageState extends State<PropertyMapPage> {
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 300),
         height: 320,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           color: AppColors.surface,
-          borderRadius: const BorderRadius.vertical(
+          borderRadius: BorderRadius.vertical(
             top: Radius.circular(AppDimensions.borderRadiusXl),
           ),
           boxShadow: [
             BoxShadow(
               color: AppColors.shadow,
               blurRadius: AppDimensions.blurLarge,
-              offset: const Offset(0, -2),
+              offset: Offset(0, -2),
             ),
           ],
         ),
@@ -314,7 +314,7 @@ class _PropertyMapPageState extends State<PropertyMapPage> {
               color: isSelected ? AppColors.primary : AppColors.textSecondary,
             ),
             label: Text(category['name'] as String),
-            selectedColor: AppColors.primary.withOpacity(0.1),
+            selectedColor: AppColors.primary.withValues(alpha: 0.1),
             backgroundColor: AppColors.surface,
             side: BorderSide(
               color: isSelected ? AppColors.primary : AppColors.border,
@@ -337,7 +337,7 @@ class _PropertyMapPageState extends State<PropertyMapPage> {
             Icon(
               Icons.explore_off,
               size: 48,
-              color: AppColors.textSecondary.withOpacity(0.5),
+              color: AppColors.textSecondary.withValues(alpha: 0.5),
             ),
             const SizedBox(height: AppDimensions.spacingMd),
             Text(
@@ -373,7 +373,7 @@ class _PropertyMapPageState extends State<PropertyMapPage> {
               width: 48,
               height: 48,
               decoration: BoxDecoration(
-                color: _getCategoryColor(place.category).withOpacity(0.1),
+                color: _getCategoryColor(place.category).withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(AppDimensions.borderRadiusMd),
               ),
               child: Icon(
@@ -395,7 +395,7 @@ class _PropertyMapPageState extends State<PropertyMapPage> {
                   const SizedBox(height: AppDimensions.spacingXs),
                   Row(
                     children: [
-                      Icon(
+                      const Icon(
                         Icons.location_on_outlined,
                         size: 14,
                         color: AppColors.textSecondary,
@@ -408,7 +408,7 @@ class _PropertyMapPageState extends State<PropertyMapPage> {
                         ),
                       ),
                       const SizedBox(width: AppDimensions.spacingMd),
-                      Icon(
+                      const Icon(
                         Icons.directions_walk,
                         size: 14,
                         color: AppColors.textSecondary,
@@ -427,7 +427,7 @@ class _PropertyMapPageState extends State<PropertyMapPage> {
             ),
             IconButton(
               onPressed: () => _getDirections(place),
-              icon: Icon(
+              icon: const Icon(
                 Icons.directions,
                 color: AppColors.primary,
               ),

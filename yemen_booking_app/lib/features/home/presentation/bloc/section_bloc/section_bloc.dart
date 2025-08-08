@@ -2,9 +2,7 @@
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:injectable/injectable.dart';
 
-import '../../../../../core/enums/section_type_enum.dart';
 import '../../../domain/entities/home_section.dart';
 import '../../../domain/usecases/get_section_data_usecase.dart';
 import '../../../domain/usecases/track_section_impression_usecase.dart';
@@ -13,7 +11,6 @@ import '../../../domain/usecases/track_section_interaction_usecase.dart';
 part 'section_event.dart';
 part 'section_state.dart';
 
-@injectable
 class SectionBloc extends Bloc<SectionEvent, SectionState> {
   final GetSectionDataUseCase _getSectionData;
   final TrackSectionImpressionUseCase _trackImpression;
@@ -40,25 +37,16 @@ class SectionBloc extends Bloc<SectionEvent, SectionState> {
     Emitter<SectionState> emit,
   ) async {
     emit(SectionLoading(sectionId: event.section.id));
-
-    try {
-      final data = await _getSectionData.call(
-        sectionId: event.section.id,
-        sectionType: event.section.sectionType,
-      );
-
-      emit(SectionLoaded(
+    final result = await _getSectionData(GetSectionDataParams(sectionId: event.section.id));
+    result.fold(
+      (failure) => emit(SectionError(sectionId: event.section.id, message: failure.message)),
+      (data) => emit(SectionLoaded(
         section: event.section,
         data: data,
         isVisible: true,
         hasTrackedImpression: false,
-      ));
-    } catch (error) {
-      emit(SectionError(
-        sectionId: event.section.id,
-        message: _getErrorMessage(error),
-      ));
-    }
+      )),
+    );
   }
 
   Future<void> _onRefreshSection(
@@ -69,23 +57,11 @@ class SectionBloc extends Bloc<SectionEvent, SectionState> {
 
     final currentState = state as SectionLoaded;
     emit(currentState.copyWith(isRefreshing: true));
-
-    try {
-      final data = await _getSectionData.call(
-        sectionId: currentState.section.id,
-        sectionType: currentState.section.sectionType,
-      );
-
-      emit(currentState.copyWith(
-        data: data,
-        isRefreshing: false,
-      ));
-    } catch (error) {
-      emit(currentState.copyWith(
-        isRefreshing: false,
-        lastError: _getErrorMessage(error),
-      ));
-    }
+    final result = await _getSectionData(GetSectionDataParams(sectionId: currentState.section.id));
+    emit(result.fold(
+      (failure) => currentState.copyWith(isRefreshing: false, lastError: failure.message),
+      (data) => currentState.copyWith(data: data, isRefreshing: false),
+    ));
   }
 
   Future<void> _onLoadMoreSectionItems(
@@ -98,32 +74,8 @@ class SectionBloc extends Bloc<SectionEvent, SectionState> {
     if (currentState.hasReachedEnd || currentState.isLoadingMore) return;
 
     emit(currentState.copyWith(isLoadingMore: true));
-
-    try {
-      final moreData = await _getSectionData.call(
-        sectionId: currentState.section.id,
-        sectionType: currentState.section.sectionType,
-        page: currentState.currentPage + 1,
-      );
-
-      if (moreData == null || moreData.isEmpty) {
-        emit(currentState.copyWith(
-          hasReachedEnd: true,
-          isLoadingMore: false,
-        ));
-      } else {
-        emit(currentState.copyWith(
-          data: currentState.data?.appendData(moreData),
-          currentPage: currentState.currentPage + 1,
-          isLoadingMore: false,
-        ));
-      }
-    } catch (error) {
-      emit(currentState.copyWith(
-        isLoadingMore: false,
-        lastError: _getErrorMessage(error),
-      ));
-    }
+    // Assuming pagination supported later; for now mark end
+    emit(currentState.copyWith(hasReachedEnd: true, isLoadingMore: false));
   }
 
   Future<void> _onTrackSectionImpression(
@@ -134,38 +86,20 @@ class SectionBloc extends Bloc<SectionEvent, SectionState> {
 
     final currentState = state as SectionLoaded;
     if (currentState.hasTrackedImpression) return;
-
-    try {
-      await _trackImpression.call(
-        sectionId: currentState.section.id,
-        sectionType: currentState.section.sectionType,
-      );
-
-      emit(currentState.copyWith(hasTrackedImpression: true));
-    } catch (_) {
-      // Silently fail for analytics
-    }
+    await _trackImpression(TrackSectionImpressionParams(sectionId: currentState.section.id));
+    emit(currentState.copyWith(hasTrackedImpression: true));
   }
 
   Future<void> _onTrackSectionInteraction(
     TrackSectionInteraction event,
     Emitter<SectionState> emit,
   ) async {
-    if (state is! SectionLoaded) return;
-
-    final currentState = state as SectionLoaded;
-
-    try {
-      await _trackInteraction.call(
-        sectionId: currentState.section.id,
-        sectionType: currentState.section.sectionType,
-        interactionType: event.interactionType,
-        itemId: event.itemId,
-        metadata: event.metadata,
-      );
-    } catch (_) {
-      // Silently fail for analytics
-    }
+    await _trackInteraction(TrackSectionInteractionParams(
+      sectionId: event.sectionId,
+      interactionType: event.interactionType,
+      itemId: event.itemId,
+      metadata: event.metadata,
+    ));
   }
 
   void _onUpdateSectionVisibility(

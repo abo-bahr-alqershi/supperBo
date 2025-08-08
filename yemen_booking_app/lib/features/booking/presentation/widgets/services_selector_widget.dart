@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:yemen_booking_app/core/theme/app_colors.dart';
 import 'package:yemen_booking_app/core/theme/app_dimensions.dart';
 import 'package:yemen_booking_app/core/theme/app_text_styles.dart';
-import 'package:yemen_booking_app/core/widgets/loading_widget.dart';
 
 class ServicesSelectorWidget extends StatefulWidget {
   final String propertyId;
@@ -84,7 +83,7 @@ class _ServicesSelectorWidgetState extends State<ServicesSelectorWidget> {
             padding: const EdgeInsets.all(AppDimensions.paddingMedium),
             child: Row(
               children: [
-                Icon(
+                const Icon(
                   Icons.room_service,
                   color: AppColors.primary,
                   size: AppDimensions.iconSmall,
@@ -123,7 +122,7 @@ class _ServicesSelectorWidgetState extends State<ServicesSelectorWidget> {
             padding: const EdgeInsets.all(AppDimensions.paddingMedium),
             decoration: BoxDecoration(
               color: isSelected
-                  ? AppColors.primary.withOpacity(0.05)
+                  ? AppColors.primary.withValues(alpha: 0.05)
                   : Colors.transparent,
             ),
             child: Row(
@@ -151,7 +150,7 @@ class _ServicesSelectorWidgetState extends State<ServicesSelectorWidget> {
                 Container(
                   padding: const EdgeInsets.all(AppDimensions.paddingSmall),
                   decoration: BoxDecoration(
-                    color: AppColors.primary.withOpacity(0.1),
+                    color: AppColors.primary.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(AppDimensions.borderRadiusSm),
                   ),
                   child: Icon(
@@ -241,7 +240,7 @@ class _ServicesSelectorWidgetState extends State<ServicesSelectorWidget> {
                               },
                               child: Container(
                                 padding: const EdgeInsets.all(2),
-                                child: Icon(
+                                child: const Icon(
                                   Icons.add,
                                   size: 16,
                                   color: AppColors.primary,

@@ -1,6 +1,5 @@
 import '../../../../core/enums/booking_status.dart';
 import '../../domain/entities/booking.dart';
-import '../../domain/entities/payment.dart';
 import 'payment_model.dart';
 
 class BookingModel extends Booking {

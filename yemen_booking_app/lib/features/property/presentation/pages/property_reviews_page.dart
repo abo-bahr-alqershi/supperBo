@@ -7,7 +7,6 @@ import '../../../../core/widgets/loading_widget.dart';
 import '../../../../core/widgets/error_widget.dart';
 import '../../../../core/widgets/empty_widget.dart';
 import '../../../../injection_container.dart';
-import '../../../review/presentation/widgets/review_card_widget.dart';
 import '../bloc/property_bloc.dart';
 import '../bloc/property_event.dart';
 import '../bloc/property_state.dart';
@@ -150,7 +149,7 @@ class _PropertyReviewsPageState extends State<PropertyReviewsPage> {
       title: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
+          const Text(
             'التقييمات',
             style: AppTextStyles.heading3,
           ),
@@ -249,7 +248,7 @@ class _PropertyReviewsPageState extends State<PropertyReviewsPage> {
       ),
       selected: isSelected,
       onSelected: onSelected,
-      selectedColor: AppColors.primary.withOpacity(0.1),
+      selectedColor: AppColors.primary.withValues(alpha: 0.1),
       backgroundColor: AppColors.surface,
       side: BorderSide(
         color: isSelected ? AppColors.primary : AppColors.border,
@@ -324,7 +323,7 @@ class _PropertyReviewsPageState extends State<PropertyReviewsPage> {
               children: [
                 CircleAvatar(
                   radius: 24,
-                  backgroundColor: AppColors.primary.withOpacity(0.1),
+                  backgroundColor: AppColors.primary.withValues(alpha: 0.1),
                   child: Text(
                     review.userName[0].toUpperCase(),
                     style: AppTextStyles.subtitle1.copyWith(
@@ -358,7 +357,7 @@ class _PropertyReviewsPageState extends State<PropertyReviewsPage> {
                     vertical: AppDimensions.paddingXSmall,
                   ),
                   decoration: BoxDecoration(
-                    color: _getRatingColor(review.averageRating).withOpacity(0.1),
+                    color: _getRatingColor(review.averageRating).withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(AppDimensions.borderRadiusXs),
                   ),
                   child: Row(
@@ -433,7 +432,7 @@ class _PropertyReviewsPageState extends State<PropertyReviewsPage> {
         const SizedBox(height: AppDimensions.spacingXs),
         Row(
           children: [
-            Icon(
+            const Icon(
               Icons.star,
               size: 14,
               color: AppColors.ratingStar,
@@ -479,10 +478,10 @@ class _PropertyReviewsPageState extends State<PropertyReviewsPage> {
     return Container(
       padding: const EdgeInsets.all(AppDimensions.paddingMedium),
       decoration: BoxDecoration(
-        color: AppColors.primary.withOpacity(0.05),
+        color: AppColors.primary.withValues(alpha: 0.05),
         borderRadius: BorderRadius.circular(AppDimensions.borderRadiusMd),
         border: Border.all(
-          color: AppColors.primary.withOpacity(0.2),
+          color: AppColors.primary.withValues(alpha: 0.2),
         ),
       ),
       child: Column(
@@ -490,7 +489,7 @@ class _PropertyReviewsPageState extends State<PropertyReviewsPage> {
         children: [
           Row(
             children: [
-              Icon(
+              const Icon(
                 Icons.business,
                 size: 20,
                 color: AppColors.primary,

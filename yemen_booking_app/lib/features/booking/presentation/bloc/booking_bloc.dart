@@ -1,7 +1,4 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../core/models/paginated_result.dart';
-import '../../domain/entities/booking.dart';
-import '../../domain/entities/booking_request.dart';
 import '../../domain/usecases/create_booking_usecase.dart';
 import '../../domain/usecases/get_booking_details_usecase.dart';
 import '../../domain/usecases/cancel_booking_usecase.dart';

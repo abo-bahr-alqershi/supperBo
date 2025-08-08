@@ -84,10 +84,10 @@ class _BookingConfirmationPageState extends State<BookingConfirmationPage>
         width: 120,
         height: 120,
         decoration: BoxDecoration(
-          color: AppColors.success.withOpacity(0.1),
+          color: AppColors.success.withValues(alpha: 0.1),
           shape: BoxShape.circle,
         ),
-        child: Center(
+        child: const Center(
           child: Icon(
             Icons.check_circle,
             color: AppColors.success,
@@ -128,11 +128,11 @@ class _BookingConfirmationPageState extends State<BookingConfirmationPage>
       decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: BorderRadius.circular(AppDimensions.borderRadiusMd),
-        boxShadow: [
+        boxShadow: const [
           BoxShadow(
             color: AppColors.shadow,
             blurRadius: AppDimensions.blurSmall,
-            offset: const Offset(0, 2),
+            offset: Offset(0, 2),
           ),
         ],
       ),
@@ -183,10 +183,10 @@ class _BookingConfirmationPageState extends State<BookingConfirmationPage>
         Container(
           padding: const EdgeInsets.all(AppDimensions.paddingSmall),
           decoration: BoxDecoration(
-            color: AppColors.primary.withOpacity(0.1),
+            color: AppColors.primary.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(AppDimensions.borderRadiusSm),
           ),
-          child: Icon(
+          child: const Icon(
             Icons.confirmation_number,
             color: AppColors.primary,
             size: AppDimensions.iconMedium,
@@ -248,7 +248,7 @@ class _BookingConfirmationPageState extends State<BookingConfirmationPage>
                 const SizedBox(width: AppDimensions.spacingSm),
                 InkWell(
                   onTap: () => _copyToClipboard(value),
-                  child: Icon(
+                  child: const Icon(
                     Icons.copy,
                     size: AppDimensions.iconSmall,
                     color: AppColors.primary,
@@ -302,7 +302,7 @@ class _BookingConfirmationPageState extends State<BookingConfirmationPage>
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(AppDimensions.borderRadiusMd),
               ),
-              side: BorderSide(color: AppColors.primary),
+              side: const BorderSide(color: AppColors.primary),
             ),
           ),
         ),
@@ -324,7 +324,7 @@ class _BookingConfirmationPageState extends State<BookingConfirmationPage>
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(AppDimensions.borderRadiusMd),
               ),
-              side: BorderSide(color: AppColors.outline),
+              side: const BorderSide(color: AppColors.outline),
             ),
           ),
         ),
@@ -352,7 +352,7 @@ class _BookingConfirmationPageState extends State<BookingConfirmationPage>
       SnackBar(
         content: Row(
           children: [
-            Icon(
+            const Icon(
               Icons.check_circle,
               color: AppColors.white,
               size: AppDimensions.iconSmall,
@@ -382,22 +382,22 @@ class _BookingConfirmationPageState extends State<BookingConfirmationPage>
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppDimensions.borderRadiusMd),
         ),
-        title: Row(
+        title: const Row(
           children: [
             Icon(
               Icons.calendar_today,
               color: AppColors.primary,
               size: AppDimensions.iconMedium,
             ),
-            const SizedBox(width: AppDimensions.spacingSm),
-            const Text('إضافة إلى التقويم'),
+            SizedBox(width: AppDimensions.spacingSm),
+            Text('إضافة إلى التقويم'),
           ],
         ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
+            const Text(
               'سيتم إضافة موعد الحجز إلى تقويمك:',
               style: AppTextStyles.bodyMedium,
             ),
@@ -468,15 +468,15 @@ class _BookingConfirmationPageState extends State<BookingConfirmationPage>
     
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Row(
+        content: const Row(
           children: [
             Icon(
               Icons.check_circle,
               color: AppColors.white,
               size: AppDimensions.iconSmall,
             ),
-            const SizedBox(width: AppDimensions.spacingSm),
-            const Text('تمت الإضافة إلى التقويم بنجاح'),
+            SizedBox(width: AppDimensions.spacingSm),
+            Text('تمت الإضافة إلى التقويم بنجاح'),
           ],
         ),
         backgroundColor: AppColors.success,
@@ -614,9 +614,9 @@ ${widget.booking.unitName != null ? '🏠 الوحدة: ${widget.booking.unitNam
           vertical: AppDimensions.paddingMedium,
         ),
         decoration: BoxDecoration(
-          color: color.withOpacity(0.1),
+          color: color.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(AppDimensions.borderRadiusMd),
-          border: Border.all(color: color.withOpacity(0.3)),
+          border: Border.all(color: color.withValues(alpha: 0.3)),
         ),
         child: Column(
           children: [

@@ -129,7 +129,7 @@ class _PropertyUnitsPageState extends State<PropertyUnitsPage> {
       title: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
+          const Text(
             'الوحدات المتاحة',
             style: AppTextStyles.heading3,
           ),
@@ -172,7 +172,7 @@ class _PropertyUnitsPageState extends State<PropertyUnitsPage> {
                 margin: const EdgeInsets.symmetric(horizontal: AppDimensions.spacingMd),
                 child: Column(
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.nights_stay,
                       color: AppColors.primary,
                       size: 20,
@@ -263,9 +263,9 @@ class _PropertyUnitsPageState extends State<PropertyUnitsPage> {
       ),
       child: Row(
         children: [
-          Icon(Icons.people_outline, color: AppColors.textSecondary),
+          const Icon(Icons.people_outline, color: AppColors.textSecondary),
           const SizedBox(width: AppDimensions.spacingMd),
-          Expanded(
+          const Expanded(
             child: Text(
               'عدد الضيوف',
               style: AppTextStyles.bodyMedium,
@@ -289,7 +289,7 @@ class _PropertyUnitsPageState extends State<PropertyUnitsPage> {
               vertical: AppDimensions.paddingSmall,
             ),
             decoration: BoxDecoration(
-              color: AppColors.primary.withOpacity(0.1),
+              color: AppColors.primary.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(AppDimensions.borderRadiusSm),
             ),
             child: Text(
@@ -352,7 +352,7 @@ class _PropertyUnitsPageState extends State<PropertyUnitsPage> {
                     if (!unit.isAvailable)
                       Container(
                         decoration: BoxDecoration(
-                          color: AppColors.black.withOpacity(0.5),
+                          color: AppColors.black.withValues(alpha: 0.5),
                           borderRadius: const BorderRadius.vertical(
                             top: Radius.circular(AppDimensions.borderRadiusLg),
                           ),
@@ -385,7 +385,7 @@ class _PropertyUnitsPageState extends State<PropertyUnitsPage> {
                         right: AppDimensions.paddingMedium,
                         child: Container(
                           padding: const EdgeInsets.all(AppDimensions.paddingSmall),
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                             color: AppColors.primary,
                             shape: BoxShape.circle,
                           ),
@@ -420,7 +420,7 @@ class _PropertyUnitsPageState extends State<PropertyUnitsPage> {
                           vertical: AppDimensions.paddingXSmall,
                         ),
                         decoration: BoxDecoration(
-                          color: AppColors.primary.withOpacity(0.1),
+                          color: AppColors.primary.withValues(alpha: 0.1),
                           borderRadius: BorderRadius.circular(
                             AppDimensions.borderRadiusXs,
                           ),
@@ -545,13 +545,13 @@ class _PropertyUnitsPageState extends State<PropertyUnitsPage> {
 
           return Container(
             padding: const EdgeInsets.all(AppDimensions.paddingMedium),
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: AppColors.surface,
               boxShadow: [
                 BoxShadow(
                   color: AppColors.shadow,
                   blurRadius: AppDimensions.blurLarge,
-                  offset: const Offset(0, -2),
+                  offset: Offset(0, -2),
                 ),
               ],
             ),

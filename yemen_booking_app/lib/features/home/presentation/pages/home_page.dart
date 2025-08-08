@@ -205,7 +205,7 @@ class _HomePageState extends State<HomePage>
               end: Alignment.bottomCenter,
               colors: [
                 AppColors.surface,
-                AppColors.surface.withOpacity(0.95),
+                AppColors.surface.withValues(alpha: 0.95),
               ],
             ),
           ),
@@ -244,7 +244,7 @@ class _HomePageState extends State<HomePage>
                       Stack(
                         children: [
                           Container(
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                               color: AppColors.background,
                               shape: BoxShape.circle,
                             ),
@@ -309,7 +309,7 @@ class _HomePageState extends State<HomePage>
         color: AppColors.surface,
         boxShadow: [
           BoxShadow(
-            color: AppColors.shadow.withOpacity(0.1),
+            color: AppColors.shadow.withValues(alpha: 0.1),
             blurRadius: 10,
             offset: const Offset(0, 5),
           ),

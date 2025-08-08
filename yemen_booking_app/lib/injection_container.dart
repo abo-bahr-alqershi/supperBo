@@ -60,7 +60,11 @@ import 'features/home/domain/usecases/get_sponsored_ads_usecase.dart';
 import 'features/home/domain/usecases/get_city_destinations_usecase.dart';
 import 'features/home/domain/usecases/record_ad_impression_usecase.dart';
 import 'features/home/domain/usecases/record_ad_click_usecase.dart';
+import 'features/home/domain/usecases/get_section_data_usecase.dart';
+import 'features/home/domain/usecases/track_section_impression_usecase.dart' as section_analytics;
+import 'features/home/domain/usecases/track_section_interaction_usecase.dart' as section_analytics;
 import 'features/home/presentation/bloc/home_bloc.dart';
+import 'features/home/presentation/bloc/section_bloc/section_bloc.dart';
 
 // Features - Review
 import 'features/review/data/datasources/review_remote_datasource.dart';
@@ -229,6 +233,14 @@ void _initHome() {
     ),
   );
 
+  sl.registerFactory(
+    () => SectionBloc(
+      getSectionData: sl(),
+      trackImpression: sl(),
+      trackInteraction: sl(),
+    ),
+  );
+
   // Use cases
   sl.registerLazySingleton(() => GetHomeConfigUseCase(sl()));
   sl.registerLazySingleton(() => GetHomeSectionsUseCase(sl()));
@@ -236,6 +248,9 @@ void _initHome() {
   sl.registerLazySingleton(() => GetCityDestinationsUseCase(sl()));
   sl.registerLazySingleton(() => RecordAdImpressionUseCase(sl()));
   sl.registerLazySingleton(() => RecordAdClickUseCase(sl()));
+  sl.registerLazySingleton(() => GetSectionDataUseCase(sl()));
+  sl.registerLazySingleton(() => section_analytics.TrackSectionImpressionUseCase(sl()));
+  sl.registerLazySingleton(() => section_analytics.TrackSectionInteractionUseCase(sl()));
 
   // Repository
   sl.registerLazySingleton<HomeRepository>(

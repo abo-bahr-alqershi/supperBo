@@ -44,7 +44,7 @@ class _PropertyImagesSliderWidgetState
           child: Icon(
             Icons.image_not_supported_outlined,
             size: 64,
-            color: AppColors.textSecondary.withOpacity(0.5),
+            color: AppColors.textSecondary.withValues(alpha: 0.5),
           ),
         ),
       );
@@ -73,7 +73,7 @@ class _PropertyImagesSliderWidgetState
                     end: Alignment.bottomCenter,
                     colors: [
                       AppColors.transparent,
-                      AppColors.black.withOpacity(0.3),
+                      AppColors.black.withValues(alpha: 0.3),
                     ],
                   ),
                 ),
@@ -93,7 +93,7 @@ class _PropertyImagesSliderWidgetState
                   vertical: AppDimensions.paddingSmall,
                 ),
                 decoration: BoxDecoration(
-                  color: AppColors.black.withOpacity(0.5),
+                  color: AppColors.black.withValues(alpha: 0.5),
                   borderRadius: BorderRadius.circular(
                     AppDimensions.borderRadiusLg,
                   ),
@@ -105,7 +105,7 @@ class _PropertyImagesSliderWidgetState
                     dotHeight: 8,
                     dotWidth: 8,
                     activeDotColor: AppColors.white,
-                    dotColor: AppColors.white.withOpacity(0.4),
+                    dotColor: AppColors.white.withValues(alpha: 0.4),
                     spacing: AppDimensions.spacingSm,
                   ),
                 ),
@@ -122,7 +122,7 @@ class _PropertyImagesSliderWidgetState
                 vertical: AppDimensions.paddingXSmall,
               ),
               decoration: BoxDecoration(
-                color: AppColors.black.withOpacity(0.5),
+                color: AppColors.black.withValues(alpha: 0.5),
                 borderRadius: BorderRadius.circular(
                   AppDimensions.borderRadiusXs,
                 ),

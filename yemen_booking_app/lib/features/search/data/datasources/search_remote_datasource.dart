@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:yemen_booking_app/core/models/paginated_result.dart';
-import '../../../../core/constants/api_constants.dart';
 import '../../../../core/error/exceptions.dart';
 import '../models/search_properties_response_model.dart';
 import '../../../../core/models/result_dto.dart';
@@ -110,7 +109,7 @@ class SearchRemoteDataSourceImpl implements SearchRemoteDataSource {
         return ResultDto.fromJson(
           response.data,
           (dataJson) => SearchPropertiesResponseModel.fromJson(
-            dataJson as Map<String, dynamic>,
+            dataJson,
           ),
         );
       } else {

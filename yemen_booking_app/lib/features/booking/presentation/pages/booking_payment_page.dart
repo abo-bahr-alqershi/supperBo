@@ -87,9 +87,9 @@ class _BookingPaymentPageState extends State<BookingPaymentPage> {
           ),
         ],
       ),
-      bottom: PreferredSize(
-        preferredSize: const Size.fromHeight(4),
-        child: Container(
+      bottom: const PreferredSize(
+        preferredSize: Size.fromHeight(4),
+        child: SizedBox(
           height: 4,
           child: LinearProgressIndicator(
             value: 1.0,
@@ -233,7 +233,7 @@ class _BookingPaymentPageState extends State<BookingPaymentPage> {
     return Container(
       padding: const EdgeInsets.all(AppDimensions.paddingMedium),
       decoration: BoxDecoration(
-        color: AppColors.warning.withOpacity(0.1),
+        color: AppColors.warning.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(AppDimensions.borderRadiusMd),
         border: Border.all(color: AppColors.warning),
       ),
@@ -250,7 +250,7 @@ class _BookingPaymentPageState extends State<BookingPaymentPage> {
                 },
                 activeColor: AppColors.primary,
               ),
-              Expanded(
+              const Expanded(
                 child: Text(
                   'أوافق على الشروط والأحكام وسياسة الإلغاء',
                   style: AppTextStyles.bodyMedium,
@@ -308,12 +308,12 @@ class _BookingPaymentPageState extends State<BookingPaymentPage> {
     return Container(
       padding: const EdgeInsets.all(AppDimensions.paddingMedium),
       decoration: BoxDecoration(
-        color: AppColors.info.withOpacity(0.1),
+        color: AppColors.info.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(AppDimensions.borderRadiusMd),
       ),
       child: Row(
         children: [
-          Icon(
+          const Icon(
             Icons.security,
             color: AppColors.info,
             size: AppDimensions.iconMedium,

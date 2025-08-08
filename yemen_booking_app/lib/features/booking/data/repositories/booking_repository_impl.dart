@@ -1,7 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import '../../../../core/error/error_handler.dart';
-import '../../../../core/error/exceptions.dart';
 import '../../../../core/error/failures.dart';
 import '../../../../core/models/paginated_result.dart';
 import '../../domain/entities/booking.dart';

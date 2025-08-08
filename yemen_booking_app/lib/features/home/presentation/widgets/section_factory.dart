@@ -20,8 +20,8 @@ import 'sections/listings/compact_property_list.dart';
 import 'sections/destinations/city_cards_grid.dart';
 import 'sections/destinations/destination_carousel.dart';
 import 'sections/destinations/explore_cities_widget.dart';
-import 'sections/carousels/premium_property_carousel.dart';
 import 'sections/carousels/interactive_showcase_carousel.dart';
+import 'sections/carousels/premium_property_carousel.dart';
 
 class SectionFactory {
   static Widget createSection({

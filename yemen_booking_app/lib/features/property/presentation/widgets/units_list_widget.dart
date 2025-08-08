@@ -25,7 +25,7 @@ class UnitsListWidget extends StatelessWidget {
             Icon(
               Icons.meeting_room_outlined,
               size: 48,
-              color: AppColors.textSecondary.withOpacity(0.5),
+              color: AppColors.textSecondary.withValues(alpha: 0.5),
             ),
             const SizedBox(height: AppDimensions.spacingMd),
             Text(
@@ -127,7 +127,7 @@ class _UnitCard extends StatelessWidget {
                           vertical: AppDimensions.paddingXSmall,
                         ),
                         decoration: BoxDecoration(
-                          color: AppColors.black.withOpacity(0.6),
+                          color: AppColors.black.withValues(alpha: 0.6),
                           borderRadius: BorderRadius.circular(
                             AppDimensions.borderRadiusXs,
                           ),
@@ -173,7 +173,7 @@ class _UnitCard extends StatelessWidget {
                           vertical: AppDimensions.paddingXSmall,
                         ),
                         decoration: BoxDecoration(
-                          color: AppColors.primary.withOpacity(0.1),
+                          color: AppColors.primary.withValues(alpha: 0.1),
                           borderRadius: BorderRadius.circular(
                             AppDimensions.borderRadiusXs,
                           ),
@@ -233,7 +233,7 @@ class _UnitCard extends StatelessWidget {
                           ),
                         ],
                       ),
-                      Icon(
+                      const Icon(
                         Icons.arrow_forward_ios,
                         size: 16,
                         color: AppColors.textSecondary,

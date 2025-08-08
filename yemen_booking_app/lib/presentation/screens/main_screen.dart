@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../core/theme/app_colors.dart';
-import '../../core/theme/app_text_styles.dart';
 import '../../features/home/presentation/pages/home_page.dart';
 import '../../features/search/presentation/pages/search_page.dart';
 import '../../features/booking/presentation/pages/my_bookings_page.dart';
@@ -119,7 +118,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
           end: Alignment.bottomCenter,
           colors: [
             Colors.transparent,
-            Colors.black.withOpacity(0.02),
+            Colors.black.withValues(alpha: 0.02),
           ],
         ),
       ),
@@ -140,7 +139,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.08),
+                    color: Colors.black.withValues(alpha: 0.08),
                     blurRadius: 20,
                     offset: const Offset(0, -5),
                   ),
@@ -206,7 +205,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
               height: isSelected ? 32 : 28,
               decoration: BoxDecoration(
                 color: isSelected 
-                  ? AppColors.primary.withOpacity(0.1)
+                  ? AppColors.primary.withValues(alpha: 0.1)
                   : Colors.transparent,
                 borderRadius: BorderRadius.circular(isSelected ? 16 : 12),
               ),
@@ -219,7 +218,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
                     size: isSelected ? 24 : 22,
                     color: isSelected 
                       ? AppColors.primary 
-                      : AppColors.textSecondary.withOpacity(0.7),
+                      : AppColors.textSecondary.withValues(alpha: 0.7),
                   ),
                   
                   // شارة الإشعارات للرسائل
@@ -245,7 +244,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
                               gradient: LinearGradient(
                                 colors: [
                                   AppColors.error,
-                                  AppColors.error.withOpacity(0.8),
+                                  AppColors.error.withValues(alpha: 0.8),
                                 ],
                               ),
                               borderRadius: BorderRadius.circular(8),
@@ -286,7 +285,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
                 fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
                 color: isSelected 
                   ? AppColors.primary 
-                  : AppColors.textSecondary.withOpacity(0.7),
+                  : AppColors.textSecondary.withValues(alpha: 0.7),
                 height: 1,
               ),
               child: Text(labels[index]),
@@ -304,7 +303,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
                 borderRadius: BorderRadius.circular(2.5),
                 boxShadow: isSelected ? [
                   BoxShadow(
-                    color: AppColors.primary.withOpacity(0.3),
+                    color: AppColors.primary.withValues(alpha: 0.3),
                     blurRadius: 4,
                     offset: const Offset(0, 2),
                   ),
@@ -343,7 +342,7 @@ class AnimatedNavIcon extends StatelessWidget {
             size: isSelected ? 24 : 22,
             color: isSelected 
               ? AppColors.primary 
-              : AppColors.textSecondary.withOpacity(0.7),
+              : AppColors.textSecondary.withValues(alpha: 0.7),
           ),
         );
       },

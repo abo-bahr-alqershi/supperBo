@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_dimensions.dart';
 import '../../../../core/theme/app_text_styles.dart';
-import '../../../../core/utils/formatters.dart';
 import '../../../../core/widgets/price_widget.dart';
-import '../bloc/booking_bloc.dart';
 import '../widgets/price_breakdown_widget.dart';
 
 class BookingSummaryPage extends StatelessWidget {
@@ -76,9 +73,9 @@ class BookingSummaryPage extends StatelessWidget {
           ),
         ],
       ),
-      bottom: PreferredSize(
-        preferredSize: const Size.fromHeight(4),
-        child: Container(
+      bottom: const PreferredSize(
+        preferredSize: Size.fromHeight(4),
+        child: SizedBox(
           height: 4,
           child: LinearProgressIndicator(
             value: 0.66,
@@ -97,11 +94,11 @@ class BookingSummaryPage extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: BorderRadius.circular(AppDimensions.borderRadiusMd),
-        boxShadow: [
+        boxShadow: const [
           BoxShadow(
             color: AppColors.shadow,
             blurRadius: AppDimensions.blurSmall,
-            offset: const Offset(0, 2),
+            offset: Offset(0, 2),
           ),
         ],
       ),
@@ -111,10 +108,10 @@ class BookingSummaryPage extends StatelessWidget {
             width: 80,
             height: 80,
             decoration: BoxDecoration(
-              color: AppColors.primary.withOpacity(0.1),
+              color: AppColors.primary.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(AppDimensions.borderRadiusSm),
             ),
-            child: Icon(
+            child: const Icon(
               Icons.apartment,
               color: AppColors.primary,
               size: AppDimensions.iconLarge,
@@ -136,7 +133,7 @@ class BookingSummaryPage extends StatelessWidget {
                 const SizedBox(height: AppDimensions.spacingXs),
                 Row(
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.location_on_outlined,
                       size: AppDimensions.iconSmall,
                       color: AppColors.textSecondary,
@@ -259,7 +256,7 @@ class BookingSummaryPage extends StatelessWidget {
                 ),
               ],
             ),
-          )).toList(),
+          )),
         ],
       ),
     );
@@ -270,14 +267,14 @@ class BookingSummaryPage extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: AppDimensions.paddingMedium),
       padding: const EdgeInsets.all(AppDimensions.paddingMedium),
       decoration: BoxDecoration(
-        color: AppColors.info.withOpacity(0.1),
+        color: AppColors.info.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(AppDimensions.borderRadiusMd),
         border: Border.all(color: AppColors.info),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(
+          const Icon(
             Icons.info_outline,
             color: AppColors.info,
             size: AppDimensions.iconSmall,
@@ -374,13 +371,13 @@ class BookingSummaryPage extends StatelessWidget {
 
     return Container(
       padding: const EdgeInsets.all(AppDimensions.paddingMedium),
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: AppColors.surface,
         boxShadow: [
           BoxShadow(
             color: AppColors.shadow,
             blurRadius: AppDimensions.blurLarge,
-            offset: const Offset(0, -2),
+            offset: Offset(0, -2),
           ),
         ],
       ),
