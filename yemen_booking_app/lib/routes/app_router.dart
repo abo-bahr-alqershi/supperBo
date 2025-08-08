@@ -21,6 +21,7 @@ import 'package:yemen_booking_app/features/settings/presentation/pages/settings_
 import 'package:yemen_booking_app/features/payment/presentation/pages/payment_methods_page.dart';
 import 'package:yemen_booking_app/features/payment/presentation/pages/add_payment_method_page.dart';
 import 'package:yemen_booking_app/features/payment/presentation/pages/payment_history_page.dart';
+import 'package:yemen_booking_app/presentation/screens/splash_screen.dart';
 
 class AppRouter {
   static GoRouter get router => _router;

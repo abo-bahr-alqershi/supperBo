@@ -72,6 +72,19 @@ import 'features/review/domain/usecases/get_property_reviews_Summary_usecase.dar
 import 'features/review/domain/usecases/upload_review_images_usecase.dart';
 import 'features/review/presentation/bloc/review_bloc.dart';
 
+// Features - Booking (imports added)
+import 'features/booking/presentation/bloc/booking_bloc.dart';
+import 'features/booking/domain/usecases/create_booking_usecase.dart';
+import 'features/booking/domain/usecases/get_booking_details_usecase.dart';
+import 'features/booking/domain/usecases/cancel_booking_usecase.dart';
+import 'features/booking/domain/usecases/get_user_bookings_usecase.dart';
+import 'features/booking/domain/usecases/get_user_bookings_summary_usecase.dart';
+import 'features/booking/domain/usecases/add_services_to_booking_usecase.dart';
+import 'features/booking/domain/usecases/check_availability_usecase.dart';
+import 'features/booking/domain/repositories/booking_repository.dart';
+import 'features/booking/data/repositories/booking_repository_impl.dart';
+import 'features/booking/data/datasources/booking_remote_datasource.dart';
+
 final sl = GetIt.instance;
 
 Future<void> init() async {

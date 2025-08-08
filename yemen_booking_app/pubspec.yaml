@@ -71,6 +71,11 @@ dependencies:
   # Navigation
   go_router: ^14.2.7
   app_links: ^6.4.0
+
+  # Added - required by code
+  carousel_slider: ^4.2.1
+  url_launcher: ^6.3.0
+  package_info_plus: ^8.0.2
   
 dev_dependencies:
   flutter_test:
