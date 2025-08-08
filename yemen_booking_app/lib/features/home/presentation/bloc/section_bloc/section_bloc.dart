@@ -4,12 +4,26 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../domain/entities/home_section.dart';
+import '../../../domain/usecases/get_section_data_usecase.dart';
+import '../../../domain/usecases/track_section_impression_usecase.dart';
+import '../../../domain/usecases/track_section_interaction_usecase.dart';
 
 part 'section_event.dart';
 part 'section_state.dart';
 
 class SectionBloc extends Bloc<SectionEvent, SectionState> {
-  SectionBloc() : super(const SectionInitial()) {
+  final GetSectionDataUseCase _getSectionData;
+  final TrackSectionImpressionUseCase _trackImpression;
+  final TrackSectionInteractionUseCase _trackInteraction;
+
+  SectionBloc({
+    required GetSectionDataUseCase getSectionData,
+    required TrackSectionImpressionUseCase trackImpression,
+    required TrackSectionInteractionUseCase trackInteraction,
+  })  : _getSectionData = getSectionData,
+        _trackImpression = trackImpression,
+        _trackInteraction = trackInteraction,
+        super(const SectionInitial()) {
     on<LoadSectionData>(_onLoadSectionData);
     on<RefreshSection>(_onRefreshSection);
     on<LoadMoreSectionItems>(_onLoadMoreSectionItems);
@@ -23,13 +37,16 @@ class SectionBloc extends Bloc<SectionEvent, SectionState> {
     Emitter<SectionState> emit,
   ) async {
     emit(SectionLoading(sectionId: event.section.id));
-    // Minimal placeholder: pass-through any provided data; otherwise empty list
-    emit(SectionLoaded(
-      section: event.section,
-      data: const [],
-      isVisible: true,
-      hasTrackedImpression: false,
-    ));
+    final result = await _getSectionData(GetSectionDataParams(sectionId: event.section.id));
+    result.fold(
+      (failure) => emit(SectionError(sectionId: event.section.id, message: failure.message)),
+      (data) => emit(SectionLoaded(
+        section: event.section,
+        data: data,
+        isVisible: true,
+        hasTrackedImpression: false,
+      )),
+    );
   }
 
   Future<void> _onRefreshSection(
@@ -40,7 +57,11 @@ class SectionBloc extends Bloc<SectionEvent, SectionState> {
 
     final currentState = state as SectionLoaded;
     emit(currentState.copyWith(isRefreshing: true));
-    emit(currentState.copyWith(isRefreshing: false));
+    final result = await _getSectionData(GetSectionDataParams(sectionId: currentState.section.id));
+    emit(result.fold(
+      (failure) => currentState.copyWith(isRefreshing: false, lastError: failure.message),
+      (data) => currentState.copyWith(data: data, isRefreshing: false),
+    ));
   }
 
   Future<void> _onLoadMoreSectionItems(
@@ -53,10 +74,8 @@ class SectionBloc extends Bloc<SectionEvent, SectionState> {
     if (currentState.hasReachedEnd || currentState.isLoadingMore) return;
 
     emit(currentState.copyWith(isLoadingMore: true));
-    emit(currentState.copyWith(
-      hasReachedEnd: true,
-      isLoadingMore: false,
-    ));
+    // Assuming pagination supported later; for now mark end
+    emit(currentState.copyWith(hasReachedEnd: true, isLoadingMore: false));
   }
 
   Future<void> _onTrackSectionImpression(
@@ -67,6 +86,7 @@ class SectionBloc extends Bloc<SectionEvent, SectionState> {
 
     final currentState = state as SectionLoaded;
     if (currentState.hasTrackedImpression) return;
+    await _trackImpression(TrackSectionImpressionParams(sectionId: currentState.section.id));
     emit(currentState.copyWith(hasTrackedImpression: true));
   }
 
@@ -74,7 +94,12 @@ class SectionBloc extends Bloc<SectionEvent, SectionState> {
     TrackSectionInteraction event,
     Emitter<SectionState> emit,
   ) async {
-    // No-op in minimal implementation
+    await _trackInteraction(TrackSectionInteractionParams(
+      sectionId: event.sectionId,
+      interactionType: event.interactionType,
+      itemId: event.itemId,
+      metadata: event.metadata,
+    ));
   }
 
   void _onUpdateSectionVisibility(

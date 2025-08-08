@@ -10,6 +10,7 @@ import '../../domain/entities/home_section.dart';
 import '../bloc/section_bloc/section_bloc.dart';
 import '../bloc/analytics_bloc/home_analytics_bloc.dart';
 import 'section_builder_widget.dart';
+import '../../../../injection_container.dart';
 
 class HomeSectionsListWidget extends StatelessWidget {
   final List<HomeSection> sections;
@@ -58,7 +59,7 @@ class HomeSectionsListWidget extends StatelessWidget {
                   bottom: AppDimensions.spacingLg,
                 ),
                 child: BlocProvider(
-                  create: (context) => SectionBloc()..add(LoadSectionData(section)),
+                  create: (context) => sl<SectionBloc>()..add(LoadSectionData(section)),
                   child: SectionBuilderWidget(
                     section: section,
                     onItemTap: (item) {
