@@ -31,25 +31,13 @@ class AppRouter {
       GoRoute(
         path: '/',
         builder: (BuildContext context, GoRouterState state) {
-          return const Scaffold(
-            body: Center(
-              child: Text(
-                'مرحباً بك في تطبيق حجوزات اليمن',
-                style: TextStyle(fontSize: 24),
-                textAlign: TextAlign.center,
-              ),
-            ),
-          );
+          return const SplashScreen();
         },
       ),
       GoRoute(
-        path: '/home',
+        path: '/main',
         builder: (BuildContext context, GoRouterState state) {
-          return const Scaffold(
-            body: Center(
-              child: Text('الصفحة الرئيسية'),
-            ),
-          );
+          return const MainScreen();
         },
       ),
       GoRoute(
