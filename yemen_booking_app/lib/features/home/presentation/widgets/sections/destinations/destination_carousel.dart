@@ -1,28 +1,26 @@
-// lib/features/home/presentation/widgets/sections/listings/vertical_property_grid.dart
+// lib/features/home/presentation/widgets/sections/destinations/destination_carousel.dart
 
 import 'package:flutter/material.dart';
 import '../../../../domain/entities/home_section.dart';
 import '../../../../domain/entities/section_config.dart';
 import '../base/base_section_widget.dart';
 
-class VerticalPropertyGrid extends BaseSectionWidget {
-  final List<dynamic> properties;
-  final bool isFullScreen;
-  final Function(dynamic)? onPropertyTap;
+class DestinationCarousel extends BaseSectionWidget {
+  final List<dynamic> destinations;
+  final Function(dynamic)? onDestinationTap;
 
-  const VerticalPropertyGrid({
+  const DestinationCarousel({
     super.key,
     required HomeSection section,
-    required this.properties,
+    required this.destinations,
     required SectionConfig config,
-    this.isFullScreen = false,
-    this.onPropertyTap,
+    this.onDestinationTap,
   }) : super(section: section, config: config);
 
   @override
   Widget build(BuildContext context) {
     return buildSectionContainer(
-      child: const Text('Vertical Property Grid'),
+      child: const Text('Destination Carousel'),
     );
   }
 }

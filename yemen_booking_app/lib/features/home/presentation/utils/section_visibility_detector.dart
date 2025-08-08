@@ -1,48 +1,47 @@
-import 'package:flutter/widgets.dart';
+// lib/features/home/presentation/widgets/utils/section_visibility_detector.dart
+
+import 'package:flutter/material.dart';
+import 'package:visibility_detector/visibility_detector.dart';
 
 class SectionVisibilityDetector extends StatefulWidget {
   final String sectionId;
   final Widget child;
-  final VoidCallback onVisible;
-  const SectionVisibilityDetector({super.key, required this.sectionId, required this.child, required this.onVisible});
+  final Function(bool isVisible)? onVisibilityChanged;
+  final Function(double visibleFraction)? onVisibleFractionChanged;
+  final double threshold;
+
+  const SectionVisibilityDetector({
+    super.key,
+    required this.sectionId,
+    required this.child,
+    this.onVisibilityChanged,
+    this.onVisibleFractionChanged,
+    this.threshold = 0.5,
+  });
 
   @override
-  State<SectionVisibilityDetector> createState() => _SectionVisibilityDetectorState();
+  State<SectionVisibilityDetector> createState() => 
+      _SectionVisibilityDetectorState();
 }
 
-class _SectionVisibilityDetectorState extends State<SectionVisibilityDetector> with WidgetsBindingObserver {
-  bool _reported = false;
+class _SectionVisibilityDetectorState extends State<SectionVisibilityDetector> {
+  bool _isVisible = false;
 
   @override
-  void didChangeMetrics() {
-    _checkVisibility();
+  Widget build(BuildContext context) {
+    return VisibilityDetector(
+      key: Key('visibility_${widget.sectionId}'),
+      onVisibilityChanged: (info) {
+        widget.onVisibleFractionChanged?.call(info.visibleFraction);
+        
+        final wasVisible = _isVisible;
+        _isVisible = info.visibleFraction >= widget.threshold;
+        
+        if (wasVisible != _isVisible) {
+          widget.onVisibilityChanged?.call(_isVisible);
+        }
+      },
+      child: widget.child,
+    );
   }
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addObserver(this);
-    WidgetsBinding.instance.addPostFrameCallback((_) => _checkVisibility());
-  }
-
-  @override
-  void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
-    super.dispose();
-  }
-
-  void _checkVisibility() {
-    if (_reported) return;
-    final renderObject = context.findRenderObject();
-    if (renderObject is RenderBox && renderObject.hasSize) {
-      final size = renderObject.size;
-      if (size.height > 0 && size.width > 0 && mounted) {
-        _reported = true;
-        widget.onVisible();
-      }
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) => widget.child;
 }

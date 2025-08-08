@@ -1,39 +1,76 @@
-import 'package:equatable/equatable.dart';
+// lib/features/home/presentation/bloc/section_bloc/section_event.dart
+
+part of 'section_bloc.dart';
 
 abstract class SectionEvent extends Equatable {
   const SectionEvent();
+
   @override
   List<Object?> get props => [];
 }
 
-class LoadSection extends SectionEvent {
-  final String sectionId;
-  final Map<String, dynamic>? params;
-  const LoadSection({required this.sectionId, this.params});
+class LoadSectionData extends SectionEvent {
+  final HomeSection section;
+
+  const LoadSectionData(this.section);
+
   @override
-  List<Object?> get props => [sectionId, params];
+  List<Object?> get props => [section];
 }
 
 class RefreshSection extends SectionEvent {
   final String sectionId;
+
   const RefreshSection(this.sectionId);
+
   @override
-  List<Object> get props => [sectionId];
+  List<Object?> get props => [sectionId];
+}
+
+class LoadMoreSectionItems extends SectionEvent {
+  final String sectionId;
+
+  const LoadMoreSectionItems(this.sectionId);
+
+  @override
+  List<Object?> get props => [sectionId];
 }
 
 class TrackSectionImpression extends SectionEvent {
   final String sectionId;
-  final String itemId;
-  const TrackSectionImpression({required this.sectionId, required this.itemId});
+
+  const TrackSectionImpression(this.sectionId);
+
   @override
-  List<Object> get props => [sectionId, itemId];
+  List<Object?> get props => [sectionId];
 }
 
 class TrackSectionInteraction extends SectionEvent {
   final String sectionId;
-  final String itemId;
   final String interactionType;
-  const TrackSectionInteraction({required this.sectionId, required this.itemId, required this.interactionType});
+  final String? itemId;
+  final Map<String, dynamic>? metadata;
+
+  const TrackSectionInteraction({
+    required this.sectionId,
+    required this.interactionType,
+    this.itemId,
+    this.metadata,
+  });
+
   @override
-  List<Object> get props => [sectionId, itemId, interactionType];
+  List<Object?> get props => [sectionId, interactionType, itemId, metadata];
+}
+
+class UpdateSectionVisibility extends SectionEvent {
+  final String sectionId;
+  final bool isVisible;
+
+  const UpdateSectionVisibility({
+    required this.sectionId,
+    required this.isVisible,
+  });
+
+  @override
+  List<Object?> get props => [sectionId, isVisible];
 }

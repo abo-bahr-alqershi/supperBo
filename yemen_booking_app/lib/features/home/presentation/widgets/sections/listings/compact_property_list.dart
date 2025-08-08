@@ -1,28 +1,26 @@
-// lib/features/home/presentation/widgets/sections/listings/vertical_property_grid.dart
+// lib/features/home/presentation/widgets/sections/listings/compact_property_list.dart
 
 import 'package:flutter/material.dart';
 import '../../../../domain/entities/home_section.dart';
 import '../../../../domain/entities/section_config.dart';
 import '../base/base_section_widget.dart';
 
-class VerticalPropertyGrid extends BaseSectionWidget {
+class CompactPropertyList extends BaseSectionWidget {
   final List<dynamic> properties;
-  final bool isFullScreen;
   final Function(dynamic)? onPropertyTap;
 
-  const VerticalPropertyGrid({
+  const CompactPropertyList({
     super.key,
     required HomeSection section,
     required this.properties,
     required SectionConfig config,
-    this.isFullScreen = false,
     this.onPropertyTap,
   }) : super(section: section, config: config);
 
   @override
   Widget build(BuildContext context) {
     return buildSectionContainer(
-      child: const Text('Vertical Property Grid'),
+      child: const Text('Compact Property List'),
     );
   }
 }

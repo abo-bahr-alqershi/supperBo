@@ -1,28 +1,26 @@
-// lib/features/home/presentation/widgets/sections/listings/vertical_property_grid.dart
+// lib/features/home/presentation/widgets/sections/destinations/explore_cities_widget.dart
 
 import 'package:flutter/material.dart';
 import '../../../../domain/entities/home_section.dart';
 import '../../../../domain/entities/section_config.dart';
 import '../base/base_section_widget.dart';
 
-class VerticalPropertyGrid extends BaseSectionWidget {
-  final List<dynamic> properties;
-  final bool isFullScreen;
-  final Function(dynamic)? onPropertyTap;
+class ExploreCitiesWidget extends BaseSectionWidget {
+  final List<dynamic> cities;
+  final Function(dynamic)? onCityTap;
 
-  const VerticalPropertyGrid({
+  const ExploreCitiesWidget({
     super.key,
     required HomeSection section,
-    required this.properties,
+    required this.cities,
     required SectionConfig config,
-    this.isFullScreen = false,
-    this.onPropertyTap,
+    this.onCityTap,
   }) : super(section: section, config: config);
 
   @override
   Widget build(BuildContext context) {
     return buildSectionContainer(
-      child: const Text('Vertical Property Grid'),
+      child: const Text('Explore Cities'),
     );
   }
 }

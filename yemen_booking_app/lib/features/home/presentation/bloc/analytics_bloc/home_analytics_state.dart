@@ -1,18 +1,36 @@
-import 'package:equatable/equatable.dart';
+// lib/features/home/presentation/bloc/analytics_bloc/home_analytics_state.dart
+
+part of 'home_analytics_bloc.dart';
 
 abstract class HomeAnalyticsState extends Equatable {
   const HomeAnalyticsState();
+
   @override
   List<Object?> get props => [];
 }
 
-class HomeAnalyticsIdle extends HomeAnalyticsState {}
+class HomeAnalyticsInitial extends HomeAnalyticsState {
+  const HomeAnalyticsInitial();
+}
 
-class HomeAnalyticsLogging extends HomeAnalyticsState {}
+class HomeAnalyticsTracked extends HomeAnalyticsState {
+  final String eventType;
+  final DateTime timestamp;
 
-class HomeAnalyticsError extends HomeAnalyticsState {
-  final String message;
-  const HomeAnalyticsError(this.message);
+  const HomeAnalyticsTracked({
+    required this.eventType,
+    required this.timestamp,
+  });
+
   @override
-  List<Object> get props => [message];
+  List<Object?> get props => [eventType, timestamp];
+}
+
+class HomeAnalyticsSummary extends HomeAnalyticsState {
+  final AnalyticsSummary summary;
+
+  const HomeAnalyticsSummary({required this.summary});
+
+  @override
+  List<Object?> get props => [summary];
 }

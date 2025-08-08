@@ -1,4 +1,6 @@
-import 'package:equatable/equatable.dart';
+// lib/features/home/presentation/bloc/home_event.dart
+
+part of 'home_bloc.dart';
 
 abstract class HomeEvent extends Equatable {
   const HomeEvent();
@@ -8,43 +10,81 @@ abstract class HomeEvent extends Equatable {
 }
 
 class LoadHomeData extends HomeEvent {
-  final bool forceRefresh;
+  final bool enableAutoRefresh;
 
-  const LoadHomeData({this.forceRefresh = false});
+  const LoadHomeData({this.enableAutoRefresh = true});
 
   @override
-  List<Object> get props => [forceRefresh];
+  List<Object?> get props => [enableAutoRefresh];
 }
 
-class LoadSectionData extends HomeEvent {
-  final String sectionId;
-  final Map<String, dynamic>? params;
+class RefreshHome extends HomeEvent {
+  final bool refreshAll;
 
-  const LoadSectionData({required this.sectionId, this.params});
+  const RefreshHome({this.refreshAll = true});
 
   @override
-  List<Object?> get props => [sectionId, params];
+  List<Object?> get props => [refreshAll];
 }
 
-class RefreshHome extends HomeEvent {}
-
-class TrackImpression extends HomeEvent {
-  final String sectionId;
-  final String itemId;
-
-  const TrackImpression({required this.sectionId, required this.itemId});
-
-  @override
-  List<Object> get props => [sectionId, itemId];
+class LoadMoreSections extends HomeEvent {
+  const LoadMoreSections();
 }
 
-class TrackInteraction extends HomeEvent {
-  final String sectionId;
-  final String itemId;
-  final String interactionType;
+class RetryLoadHome extends HomeEvent {
+  final bool enableAutoRefresh;
 
-  const TrackInteraction({required this.sectionId, required this.itemId, required this.interactionType});
+  const RetryLoadHome({this.enableAutoRefresh = true});
 
   @override
-  List<Object> get props => [sectionId, itemId, interactionType];
+  List<Object?> get props => [enableAutoRefresh];
+}
+
+class UpdateSearchQuery extends HomeEvent {
+  final String query;
+
+  const UpdateSearchQuery(this.query);
+
+  @override
+  List<Object?> get props => [query];
+}
+
+class UpdateSelectedCity extends HomeEvent {
+  final String? city;
+
+  const UpdateSelectedCity(this.city);
+
+  @override
+  List<Object?> get props => [city];
+}
+
+class UpdateDateRange extends HomeEvent {
+  final DateTime? checkIn;
+  final DateTime? checkOut;
+
+  const UpdateDateRange({this.checkIn, this.checkOut});
+
+  @override
+  List<Object?> get props => [checkIn, checkOut];
+}
+
+class UpdateGuestCount extends HomeEvent {
+  final int count;
+
+  const UpdateGuestCount(this.count);
+
+  @override
+  List<Object?> get props => [count];
+}
+
+class ClearFilters extends HomeEvent {
+  const ClearFilters();
+}
+
+class StartAutoRefresh extends HomeEvent {
+  const StartAutoRefresh();
+}
+
+class StopAutoRefresh extends HomeEvent {
+  const StopAutoRefresh();
 }

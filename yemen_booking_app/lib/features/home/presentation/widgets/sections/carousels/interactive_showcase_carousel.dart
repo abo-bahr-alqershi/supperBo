@@ -1,28 +1,26 @@
-// lib/features/home/presentation/widgets/sections/listings/vertical_property_grid.dart
+// lib/features/home/presentation/widgets/sections/carousels/interactive_showcase_carousel.dart
 
 import 'package:flutter/material.dart';
 import '../../../../domain/entities/home_section.dart';
 import '../../../../domain/entities/section_config.dart';
 import '../base/base_section_widget.dart';
 
-class VerticalPropertyGrid extends BaseSectionWidget {
-  final List<dynamic> properties;
-  final bool isFullScreen;
-  final Function(dynamic)? onPropertyTap;
+class InteractiveShowcaseCarousel extends BaseSectionWidget {
+  final List<dynamic> items;
+  final Function(dynamic)? onItemTap;
 
-  const VerticalPropertyGrid({
+  const InteractiveShowcaseCarousel({
     super.key,
     required HomeSection section,
-    required this.properties,
+    required this.items,
     required SectionConfig config,
-    this.isFullScreen = false,
-    this.onPropertyTap,
+    this.onItemTap,
   }) : super(section: section, config: config);
 
   @override
   Widget build(BuildContext context) {
     return buildSectionContainer(
-      child: const Text('Vertical Property Grid'),
+      child: const Text('Interactive Showcase Carousel'),
     );
   }
 }

@@ -1,15 +1,30 @@
+// lib/features/home/presentation/widgets/utils/section_config_parser.dart
+
+import '../../../../domain/entities/section_config.dart';
+
 class SectionConfigParser {
-  static bool showViewAll(Map<String, dynamic> displaySettings) {
-    return (displaySettings['showViewAllButton'] ?? displaySettings['showViewAll'] ?? false) == true;
+  static Map<String, dynamic> parseConfig(SectionConfig config) {
+    return {
+      'display': config.displaySettings,
+      'layout': config.layoutSettings,
+      'style': config.styleSettings,
+      'behavior': config.behaviorSettings,
+      'animation': config.animationSettings,
+      'cache': config.cacheSettings,
+    };
   }
 
-  static int itemsPerRow(Map<String, dynamic> layoutSettings, {int fallback = 2}) {
-    return (layoutSettings['itemsPerRow'] as int?) ?? fallback;
-  }
-
-  static double itemSpacing(Map<String, dynamic> layoutSettings, {double fallback = 12}) {
-    final v = layoutSettings['itemSpacing'];
-    if (v is num) return v.toDouble();
-    return fallback;
+  static T? getValue<T>(SectionConfig config, String key) {
+    final allSettings = {
+      ...config.displaySettings,
+      ...config.layoutSettings,
+      ...config.styleSettings,
+      ...config.behaviorSettings,
+      ...config.animationSettings,
+      ...config.cacheSettings,
+      ...config.customData,
+    };
+    
+    return allSettings[key] as T?;
   }
 }
