@@ -19,7 +19,6 @@ class HomeLoading extends HomeState {
 
 class HomeLoaded extends HomeState {
   final List<HomeSection> sections;
-  final List<FeaturedProperty> featuredProperties;
   final List<CityDestination> destinations;
   final String searchQuery;
   final String? selectedCity;
@@ -34,7 +33,6 @@ class HomeLoaded extends HomeState {
 
   const HomeLoaded({
     required this.sections,
-    required this.featuredProperties,
     required this.destinations,
     required this.searchQuery,
     this.selectedCity,
@@ -50,7 +48,6 @@ class HomeLoaded extends HomeState {
 
   HomeLoaded copyWith({
     List<HomeSection>? sections,
-    List<FeaturedProperty>? featuredProperties,
     List<CityDestination>? destinations,
     String? searchQuery,
     String? selectedCity,
@@ -65,7 +62,6 @@ class HomeLoaded extends HomeState {
   }) {
     return HomeLoaded(
       sections: sections ?? this.sections,
-      featuredProperties: featuredProperties ?? this.featuredProperties,
       destinations: destinations ?? this.destinations,
       searchQuery: searchQuery ?? this.searchQuery,
       selectedCity: selectedCity ?? this.selectedCity,
@@ -83,7 +79,6 @@ class HomeLoaded extends HomeState {
   @override
   List<Object?> get props => [
         sections,
-        featuredProperties,
         destinations,
         searchQuery,
         selectedCity,

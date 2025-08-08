@@ -141,9 +141,6 @@ namespace YemenBooking.Infrastructure.Repositories
         public async Task<IEnumerable<Property>> GetPendingPropertiesAsync(CancellationToken cancellationToken = default)
             => await _dbSet.Where(p => !p.IsApproved).ToListAsync(cancellationToken);
 
-        public async Task<IEnumerable<Property>> GetFeaturedPropertiesAsync(int count, CancellationToken cancellationToken = default)
-            => await _dbSet.OrderByDescending(p => p.CreatedAt).Take(count).ToListAsync(cancellationToken);
-
         public async Task<IEnumerable<Property>> GetPopularDestinationsAsync(int count, CancellationToken cancellationToken = default)
         {
             return await _dbSet

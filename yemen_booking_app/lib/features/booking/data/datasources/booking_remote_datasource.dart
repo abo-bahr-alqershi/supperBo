@@ -275,20 +275,22 @@ class BookingRemoteDataSourceImpl implements BookingRemoteDataSource {
     required int guestsCount,
   }) async {
     try {
-      final response = await apiClient.get(
-        '/api/client/booking/availability',
-        queryParameters: {
+      // Align with backend: POST /api/client/units/check-availability
+      final response = await apiClient.post(
+        '/api/client/units/check-availability',
+        data: {
           'unitId': unitId,
-          'checkIn': checkIn.toIso8601String(),
-          'checkOut': checkOut.toIso8601String(),
-          'guestsCount': guestsCount,
+          'checkInDate': checkIn.toIso8601String(),
+          'checkOutDate': checkOut.toIso8601String(),
+          'adults': guestsCount,
+          'children': 0,
         },
       );
 
       if (response.statusCode == 200) {
         return ResultDto.fromJson(
           response.data,
-          (json) => json as bool,
+          (json) => (json['isAvailable'] as bool? ?? false),
         );
       } else {
         throw ServerException(response.data['message'] ?? 'Failed to check availability');

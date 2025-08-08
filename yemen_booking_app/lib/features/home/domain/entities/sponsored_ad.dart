@@ -1,14 +1,13 @@
 // lib/features/home/domain/entities/sponsored_ad.dart
 
 import 'package:equatable/equatable.dart';
-import 'featured_property.dart';
 
 class SponsoredAd extends Equatable {
   final String id;
   final String title;
   final String? subtitle;
   final String? description;
-  final FeaturedProperty? property;
+  final String? propertyId;
   final List<String> propertyIds;
   final String? customImageUrl;
   final String? backgroundColor;
@@ -29,7 +28,7 @@ class SponsoredAd extends Equatable {
     required this.title,
     this.subtitle,
     this.description,
-    this.property,
+    this.propertyId,
     required this.propertyIds,
     this.customImageUrl,
     this.backgroundColor,
@@ -69,11 +68,11 @@ class SponsoredAd extends Equatable {
     return startDate.difference(now);
   }
 
-  String get displayImage => customImageUrl ?? property?.displayImage ?? '';
+  String get displayImage => customImageUrl ?? '';
 
   bool get hasCustomStyling => styling.isNotEmpty;
 
-  bool get hasProperty => property != null;
+  bool get hasProperty => propertyId != null;
 
   bool get hasMultipleProperties => propertyIds.length > 1;
 
@@ -118,7 +117,7 @@ class SponsoredAd extends Equatable {
   Map<String, dynamic> get impressionData => {
         'ad_id': id,
         'ad_type': adType,
-        'property_id': property?.id,
+        'property_id': propertyId,
         'property_ids': propertyIds,
         'priority': priority,
         'is_active': isCurrentlyActive,
@@ -131,7 +130,7 @@ class SponsoredAd extends Equatable {
         'ad_type': adType,
         'cta_text': ctaText,
         'cta_action': ctaAction,
-        'property_id': property?.id,
+        'property_id': propertyId,
         'property_ids': propertyIds,
         ...ctaData,
         ...analyticsData,
@@ -143,7 +142,7 @@ class SponsoredAd extends Equatable {
         title,
         subtitle,
         description,
-        property,
+        propertyId,
         propertyIds,
         customImageUrl,
         backgroundColor,

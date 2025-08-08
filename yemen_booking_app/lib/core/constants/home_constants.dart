@@ -24,7 +24,6 @@ class HomeConstants {
   
   // Section Heights
   static const double singlePropertyAdHeight = 320.0;
-  static const double featuredPropertyAdHeight = 400.0;
   static const double multiPropertyAdHeight = 280.0;
   static const double unitShowcaseAdHeight = 450.0;
   
@@ -39,7 +38,6 @@ class HomeConstants {
   static const double verticalGridMinHeight = 400.0;
   static const double mixedLayoutHeight = 500.0;
   static const double compactListHeight = 180.0;
-  static const double featuredShowcaseHeight = 360.0;
   
   static const double cityCardsHeight = 200.0;
   static const double destinationCarouselHeight = 240.0;

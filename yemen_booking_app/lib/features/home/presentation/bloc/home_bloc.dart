@@ -3,38 +3,44 @@
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:injectable/injectable.dart';
 
 import '../../domain/entities/home_section.dart';
-import '../../domain/entities/featured_property.dart';
 import '../../domain/entities/city_destination.dart';
 import '../../domain/usecases/get_home_config_usecase.dart';
-import '../../domain/usecases/get_featured_properties_usecase.dart';
-import '../../domain/usecases/get_popular_destinations_usecase.dart';
-import '../../domain/usecases/refresh_home_sections_usecase.dart';
+import '../../domain/usecases/get_home_sections_usecase.dart';
+import '../../domain/usecases/get_city_destinations_usecase.dart';
+import '../../domain/usecases/get_sponsored_ads_usecase.dart';
+import '../../domain/usecases/record_ad_impression_usecase.dart';
+import '../../domain/usecases/record_ad_click_usecase.dart';
+import '../../../../core/usecases/usecase.dart';
 
 part 'home_event.dart';
 part 'home_state.dart';
 
-@injectable
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
-  final GetHomeConfigUseCase _getHomeConfig;
-  final GetFeaturedPropertiesUseCase _getFeaturedProperties;
-  final GetPopularDestinationsUseCase _getPopularDestinations;
-  final RefreshHomeSectionsUseCase _refreshHomeSections;
+  final GetHomeConfigUseCase _getHomeConfigUseCase;
+  final GetHomeSectionsUseCase _getHomeSectionsUseCase;
+  final GetCityDestinationsUseCase _getCityDestinationsUseCase;
+  final GetSponsoredAdsUseCase _getSponsoredAdsUseCase;
+  final RecordAdImpressionUseCase _recordAdImpressionUseCase;
+  final RecordAdClickUseCase _recordAdClickUseCase;
 
   Timer? _refreshTimer;
   static const Duration _autoRefreshDuration = Duration(minutes: 5);
 
   HomeBloc({
-    required GetHomeConfigUseCase getHomeConfig,
-    required GetFeaturedPropertiesUseCase getFeaturedProperties,
-    required GetPopularDestinationsUseCase getPopularDestinations,
-    required RefreshHomeSectionsUseCase refreshHomeSections,
-  })  : _getHomeConfig = getHomeConfig,
-        _getFeaturedProperties = getFeaturedProperties,
-        _getPopularDestinations = getPopularDestinations,
-        _refreshHomeSections = refreshHomeSections,
+    required GetHomeConfigUseCase getHomeConfigUseCase,
+    required GetHomeSectionsUseCase getHomeSectionsUseCase,
+    required GetSponsoredAdsUseCase getSponsoredAdsUseCase,
+    required GetCityDestinationsUseCase getCityDestinationsUseCase,
+    required RecordAdImpressionUseCase recordAdImpressionUseCase,
+    required RecordAdClickUseCase recordAdClickUseCase,
+  })  : _getHomeConfigUseCase = getHomeConfigUseCase,
+        _getHomeSectionsUseCase = getHomeSectionsUseCase,
+        _getSponsoredAdsUseCase = getSponsoredAdsUseCase,
+        _getCityDestinationsUseCase = getCityDestinationsUseCase,
+        _recordAdImpressionUseCase = recordAdImpressionUseCase,
+        _recordAdClickUseCase = recordAdClickUseCase,
         super(const HomeInitial()) {
     on<LoadHomeData>(_onLoadHomeData);
     on<RefreshHome>(_onRefreshHome);
@@ -56,23 +62,17 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     emit(const HomeLoading());
 
     try {
-      // Load all home data in parallel
-      final results = await Future.wait([
-        _getHomeConfig.call(),
-        _getFeaturedProperties.call(),
-        _getPopularDestinations.call(),
-      ]);
+      final configEither = await _getHomeConfigUseCase(const GetHomeConfigParams());
+      final sectionsEither = await _getHomeSectionsUseCase(const GetHomeSectionsParams());
+      final destinationsEither = await _getCityDestinationsUseCase(NoParams());
 
-      final config = results[0];
-      final featuredProperties = results[1] as List<FeaturedProperty>;
-      final destinations = results[2] as List<CityDestination>;
-
-      // Load sections based on config
-      final sections = await _loadSections(config);
+      // Extract values or throw
+      final config = configEither.fold((failure) => throw failure, (r) => r);
+      final sections = sectionsEither.fold((failure) => throw failure, (r) => r);
+      final destinations = destinationsEither.fold((failure) => throw failure, (r) => r);
 
       emit(HomeLoaded(
         sections: sections,
-        featuredProperties: featuredProperties,
         destinations: destinations,
         searchQuery: '',
         selectedCity: null,
@@ -84,14 +84,12 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         currentPage: 1,
       ));
 
-      // Start auto-refresh if enabled
       if (event.enableAutoRefresh) {
         add(const StartAutoRefresh());
       }
     } catch (error) {
-      emit(HomeError(
-        message: _getErrorMessage(error),
-        canRetry: true,
+      emit(const HomeError(
+        message: 'فشل تحميل الصفحة الرئيسية، يرجى المحاولة لاحقاً',
       ));
     }
   }
@@ -106,27 +104,24 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     emit(currentState.copyWith(isRefreshing: true));
 
     try {
-      final refreshedSections = await _refreshHomeSections.call();
-      
-      // Optionally refresh featured properties and destinations
-      final featuredProperties = event.refreshAll 
-          ? await _getFeaturedProperties.call()
-          : currentState.featuredProperties;
-      
+      // Re-load sections (acts as refresh)
+      final sectionsEither = await _getHomeSectionsUseCase(const GetHomeSectionsParams());
+      final refreshedSections = sectionsEither.fold((f) => currentState.sections, (r) => r);
+
+      // Optionally refresh destinations
       final destinations = event.refreshAll
-          ? await _getPopularDestinations.call()
+          ? (await _getCityDestinationsUseCase(NoParams())).fold((f) => currentState.destinations, (r) => r)
           : currentState.destinations;
 
       emit(currentState.copyWith(
         sections: refreshedSections,
-        featuredProperties: featuredProperties,
         destinations: destinations,
         isRefreshing: false,
       ));
-    } catch (error) {
+    } catch (_) {
       emit(currentState.copyWith(
         isRefreshing: false,
-        lastError: _getErrorMessage(error),
+        lastError: 'تعذر تحديث المحتوى حالياً',
       ));
     }
   }
@@ -143,32 +138,20 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     emit(currentState.copyWith(isLoadingMore: true));
 
     try {
-      // Simulate loading more sections with pagination
-      final moreSections = await _loadMoreSectionsFromApi(
-        page: currentState.currentPage + 1,
-      );
-
-      if (moreSections.isEmpty) {
-        emit(currentState.copyWith(
-          hasReachedEnd: true,
-          isLoadingMore: false,
-        ));
-      } else {
-        emit(currentState.copyWith(
-          sections: [...currentState.sections, ...moreSections],
-          currentPage: currentState.currentPage + 1,
-          isLoadingMore: false,
-        ));
-      }
-    } catch (error) {
+      // Pagination not implemented on server yet for sections → keep as reached end
+      emit(currentState.copyWith(
+        hasReachedEnd: true,
+        isLoadingMore: false,
+      ));
+    } catch (_) {
       emit(currentState.copyWith(
         isLoadingMore: false,
-        lastError: _getErrorMessage(error),
+        lastError: 'تعذر تحميل المزيد من الأقسام',
       ));
     }
   }
 
-  Future<void> _onRetryLoadHome(
+  void _onRetryLoadHome(
     RetryLoadHome event,
     Emitter<HomeState> emit,
   ) async {
@@ -180,7 +163,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     Emitter<HomeState> emit,
   ) {
     if (state is! HomeLoaded) return;
-    
     final currentState = state as HomeLoaded;
     emit(currentState.copyWith(searchQuery: event.query));
   }
@@ -190,7 +172,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     Emitter<HomeState> emit,
   ) {
     if (state is! HomeLoaded) return;
-    
     final currentState = state as HomeLoaded;
     emit(currentState.copyWith(selectedCity: event.city));
   }
@@ -200,7 +181,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     Emitter<HomeState> emit,
   ) {
     if (state is! HomeLoaded) return;
-    
     final currentState = state as HomeLoaded;
     emit(currentState.copyWith(
       checkInDate: event.checkIn,
@@ -213,7 +193,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     Emitter<HomeState> emit,
   ) {
     if (state is! HomeLoaded) return;
-    
     final currentState = state as HomeLoaded;
     emit(currentState.copyWith(guestCount: event.count));
   }
@@ -223,7 +202,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     Emitter<HomeState> emit,
   ) {
     if (state is! HomeLoaded) return;
-    
     final currentState = state as HomeLoaded;
     emit(currentState.copyWith(
       searchQuery: '',
@@ -252,25 +230,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   ) {
     _refreshTimer?.cancel();
     _refreshTimer = null;
-  }
-
-  // Helper methods
-  Future<List<HomeSection>> _loadSections(dynamic config) async {
-    // Implementation to load sections based on config
-    // This would typically call a use case or repository
-    return [];
-  }
-
-  Future<List<HomeSection>> _loadMoreSectionsFromApi({required int page}) async {
-    // Implementation to load more sections with pagination
-    return [];
-  }
-
-  String _getErrorMessage(dynamic error) {
-    if (error is Exception) {
-      return error.toString();
-    }
-    return 'حدث خطأ غير متوقع';
   }
 
   @override

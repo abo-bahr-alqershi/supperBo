@@ -80,11 +80,6 @@ abstract class PropertyRemoteDataSource {
     int pageSize = 20,
   });
 
-  Future<ResultDto<List<PropertyDetailModel>>> getFeaturedProperties({
-    int limit = 10,
-    String? city,
-  });
-
   Future<ResultDto<List<PropertyDetailModel>>> getNearbyProperties({
     required double latitude,
     required double longitude,
@@ -172,11 +167,9 @@ class PropertyRemoteDataSourceImpl implements PropertyRemoteDataSource {
     int? filterByRating,
   }) async {
     try {
-      // Fetch property reviews via dedicated reviews controller
       final response = await apiClient.get(
-        '/api/client/reviews/property',
-        queryParameters: <String, dynamic>{
-          'propertyId': propertyId,
+        '/api/client/properties/$propertyId/reviews',
+        queryParameters: {
           'pageNumber': pageNumber,
           'pageSize': pageSize,
           if (sortBy != null) 'sortBy': sortBy,
@@ -187,9 +180,11 @@ class PropertyRemoteDataSourceImpl implements PropertyRemoteDataSource {
       if (response.statusCode == 200) {
         return ResultDto.fromJson(
           response.data,
-          (json) => PaginatedResult.fromJson(
-            json,
-            (reviewJson) => ReviewModel.fromJson(reviewJson),
+          (json) => PaginatedResult(
+            items: (json['items'] as List).map((e) => ReviewModel.fromJson(e)).toList(),
+            pageNumber: json['pageNumber'] ?? pageNumber,
+            pageSize: json['pageSize'] ?? pageSize,
+            totalCount: json['totalCount'] ?? 0,
           ),
         );
       } else {
@@ -213,10 +208,9 @@ class PropertyRemoteDataSourceImpl implements PropertyRemoteDataSource {
   }) async {
     try {
       final response = await apiClient.post(
-        '/api/client/properties/wishlist',
-        data: <String, dynamic>{
+        '/api/client/users/$userId/favorites',
+        data: {
           'propertyId': propertyId,
-          'userId': userId,
           if (notes != null) 'notes': notes,
           if (desiredVisitDate != null) 'desiredVisitDate': desiredVisitDate.toIso8601String(),
           if (expectedBudget != null) 'expectedBudget': expectedBudget,
@@ -224,11 +218,8 @@ class PropertyRemoteDataSourceImpl implements PropertyRemoteDataSource {
         },
       );
 
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        return ResultDto.fromJson(
-          response.data,
-          (json) => json as bool,
-        );
+      if (response.statusCode == 200) {
+        return ResultDto.fromJson(response.data, (json) => json as bool);
       } else {
         throw ServerException(response.data['message'] ?? 'Failed to add to favorites');
       }
@@ -246,18 +237,11 @@ class PropertyRemoteDataSourceImpl implements PropertyRemoteDataSource {
   }) async {
     try {
       final response = await apiClient.delete(
-        '/api/client/favorites',
-        data: {
-          'propertyId': propertyId,
-          'userId': userId,
-        },
+        '/api/client/users/$userId/favorites/$propertyId',
       );
 
       if (response.statusCode == 200) {
-        return ResultDto.fromJson(
-          response.data,
-          (json) => json as bool,
-        );
+        return ResultDto.fromJson(response.data, (json) => json as bool);
       } else {
         throw ServerException(response.data['message'] ?? 'Failed to remove from favorites');
       }
@@ -281,10 +265,7 @@ class PropertyRemoteDataSourceImpl implements PropertyRemoteDataSource {
       );
 
       if (response.statusCode == 200) {
-        return ResultDto.fromJson(
-          response.data,
-          (json) => json as bool,
-        );
+        return ResultDto.fromJson(response.data, (json) => json as bool);
       } else {
         throw ServerException(response.data['message'] ?? 'Failed to update view count');
       }
@@ -302,14 +283,12 @@ class PropertyRemoteDataSourceImpl implements PropertyRemoteDataSource {
     required DateTime checkOutDate,
   }) async {
     try {
-      // Check availability via unified availability endpoint
       final response = await apiClient.get(
         '/api/client/properties/availability',
-        queryParameters: <String, dynamic>{
-          'propertyId': propertyId,
-          'checkInDate': checkInDate.toIso8601String(),
-          'checkOutDate': checkOutDate.toIso8601String(),
-          // add guestsCount if needed, default is assumed server-side
+        queryParameters: {
+          'id': propertyId,
+          'checkIn': checkInDate.toIso8601String(),
+          'checkOut': checkOutDate.toIso8601String(),
         },
       );
 
@@ -431,37 +410,6 @@ class PropertyRemoteDataSourceImpl implements PropertyRemoteDataSource {
         );
       } else {
         throw ServerException(response.data['message'] ?? 'Failed to search properties');
-      }
-    } on DioException catch (e) {
-      throw ServerException(e.message ?? 'Network error occurred');
-    } catch (e) {
-      throw ServerException('Unexpected error: $e');
-    }
-  }
-
-  @override
-  Future<ResultDto<List<PropertyDetailModel>>> getFeaturedProperties({
-    int limit = 10,
-    String? city,
-  }) async {
-    try {
-      final queryParams = <String, dynamic>{
-        'limit': limit,
-      };
-      if (city != null) queryParams['city'] = city;
-
-      final response = await apiClient.get(
-        '/api/client/properties/featured',
-        queryParameters: queryParams,
-      );
-
-      if (response.statusCode == 200) {
-        return ResultDto.fromJson(
-          response.data,
-          (json) => (json as List).map((e) => PropertyDetailModel.fromJson(e)).toList(),
-        );
-      } else {
-        throw ServerException(response.data['message'] ?? 'Failed to load featured properties');
       }
     } on DioException catch (e) {
       throw ServerException(e.message ?? 'Network error occurred');

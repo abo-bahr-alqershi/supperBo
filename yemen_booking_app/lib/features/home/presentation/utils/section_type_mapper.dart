@@ -15,8 +15,6 @@ class SectionTypeMapper {
     switch (type) {
       case SectionType.singlePropertyAd:
         return 'إعلان عقار واحد';
-      case SectionType.featuredPropertyAd:
-        return 'عقار مميز';
       case SectionType.multiPropertyAd:
         return 'عقارات متعددة';
       case SectionType.horizontalPropertyList:

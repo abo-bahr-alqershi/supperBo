@@ -47,7 +47,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
     );
     
     // تحميل الإشعارات
-    context.read<NotificationBloc>().add(const GetNotificationsEvent());
+    context.read<NotificationBloc>().add(const LoadNotificationsEvent());
   }
 
   @override
@@ -227,7 +227,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
                     BlocBuilder<NotificationBloc, NotificationState>(
                       builder: (context, state) {
                         int unreadCount = 0;
-                        if (state is NotificationsLoaded) {
+                        if (state is NotificationLoaded) {
                           unreadCount = state.notifications
                               .where((n) => !n.isRead)
                               .length;

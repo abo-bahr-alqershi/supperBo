@@ -89,20 +89,6 @@ namespace YemenBooking.Api.Controllers.Client
         }
 
         /// <summary>
-        /// الحصول على العقارات المميزة للعملاء
-        /// Get featured properties for clients
-        /// </summary>
-        /// <param name="query">معايير البحث</param>
-        /// <returns>قائمة العقارات المميزة</returns>
-        [HttpGet("featured")]
-        [AllowAnonymous]
-        public async Task<ActionResult<ResultDto<List<ClientFeaturedPropertyDto>>>> GetFeaturedProperties([FromQuery] ClientGetFeaturedPropertiesQuery query)
-        {
-            var result = await _mediator.Send(query);
-            return Ok(result);
-        }
-
-        /// <summary>
         /// الحصول على العقارات القريبة
         /// Get nearby properties
         /// </summary>
