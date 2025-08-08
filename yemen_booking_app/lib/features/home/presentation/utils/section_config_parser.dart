@@ -1,6 +1,6 @@
 // lib/features/home/presentation/widgets/utils/section_config_parser.dart
 
-import '../../../../domain/entities/section_config.dart';
+import '../../domain/entities/section_config.dart';
 
 class SectionConfigParser {
   static Map<String, dynamic> parseConfig(SectionConfig config) {

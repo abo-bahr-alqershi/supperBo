@@ -1,13 +1,13 @@
 // lib/features/home/domain/entities/home_section.dart
 
 import 'package:equatable/equatable.dart';
-import '../../../../core/enums/section_type_enum.dart';
+import '../../../../core/enums/section_type_enum.dart' as core_enum;
 import '../../../../core/models/dynamic_content_model.dart';
 import 'section_config.dart';
 
 class HomeSection extends Equatable {
   final String id;
-  final SectionType sectionType; // Match backend and model naming
+  final core_enum.SectionType sectionType; // Match backend and model naming
   final int order;
   final bool isActive;
   final String? title;
@@ -64,9 +64,9 @@ class HomeSection extends Equatable {
 
   String get sectionKey => '${sectionType.value}_$id';
 
-  bool get requiresProperties => sectionType.requiresPropertyData;
+  bool get requiresProperties => _requiresPropertyData(sectionType);
 
-  bool get isTimeSensitive => sectionType.isTimeSensitive;
+  bool get isTimeSensitive => _isTimeSensitive(sectionType);
 
   Duration? get remainingTime {
     if (expiresAt == null) return null;
@@ -92,6 +92,32 @@ class HomeSection extends Equatable {
         'is_time_sensitive': isTimeSensitive,
         'priority': priority,
       };
+
+  bool _requiresPropertyData(core_enum.SectionType type) {
+    switch (type) {
+      case core_enum.SectionType.singlePropertyAd:
+      case core_enum.SectionType.multiPropertyAd:
+      case core_enum.SectionType.horizontalPropertyList:
+      case core_enum.SectionType.verticalPropertyGrid:
+      case core_enum.SectionType.mixedLayoutList:
+      case core_enum.SectionType.compactPropertyList:
+      case core_enum.SectionType.premiumCarousel:
+        return true;
+      default:
+        return false;
+    }
+  }
+
+  bool _isTimeSensitive(core_enum.SectionType type) {
+    switch (type) {
+      case core_enum.SectionType.limitedTimeOffer:
+      case core_enum.SectionType.flashDeals:
+      case core_enum.SectionType.seasonalOffer:
+        return true;
+      default:
+        return false;
+    }
+  }
 
   @override
   List<Object?> get props => [

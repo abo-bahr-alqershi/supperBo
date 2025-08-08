@@ -115,7 +115,7 @@ class SponsoredAdModel extends Equatable {
       title: title,
       subtitle: subtitle,
       description: description,
-      property: null,
+      propertyId: null,
       propertyIds: propertyIds,
       customImageUrl: customImageUrl,
       backgroundColor: backgroundColor,

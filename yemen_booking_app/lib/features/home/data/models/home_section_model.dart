@@ -1,14 +1,14 @@
 // lib/features/home/data/models/home_section_model.dart
 
 import 'package:equatable/equatable.dart';
-import '../../../../core/enums/section_type_enum.dart';
+import '../../../../core/enums/section_type_enum.dart' as core_enum;
 import '../../../../core/models/dynamic_content_model.dart';
 import '../../domain/entities/home_section.dart';
 import 'section_config_model.dart';
 
 class HomeSectionModel extends Equatable {
   final String id;
-  final SectionType sectionType; // Match backend naming
+  final core_enum.SectionType sectionType; // Match backend naming
   final int order;
   final bool isActive;
   final String? title;
@@ -68,9 +68,9 @@ class HomeSectionModel extends Equatable {
   bool get isCurrentlyVisible => isActive && !isCurrentlyScheduled && !isCurrentlyExpired;
   
   bool get isTimeSensitiveSection => 
-      sectionType == SectionType.limitedTimeOffer ||
-      sectionType == SectionType.flashDeals ||
-      sectionType == SectionType.seasonalOffer;
+      sectionType == core_enum.SectionType.limitedTimeOffer ||
+      sectionType == core_enum.SectionType.flashDeals ||
+      sectionType == core_enum.SectionType.seasonalOffer;
 
   bool get hasValidContent => content.isNotEmpty && content.any((c) => c.isCurrentlyValid);
 
@@ -79,7 +79,7 @@ class HomeSectionModel extends Equatable {
     final configMap = (json['sectionConfig'] ?? json['config']) as Map<String, dynamic>?;
     return HomeSectionModel(
       id: json['id'] as String,
-      sectionType: SectionType.tryFromString(typeString) ?? SectionType.horizontalPropertyList,
+      sectionType: core_enum.SectionTypeExtension.tryFromString(typeString ?? '') ?? core_enum.SectionType.horizontalPropertyList,
       order: json['order'] as int,
       isActive: json['isActive'] as bool,
       title: json['title'] as String?,
@@ -159,7 +159,7 @@ class HomeSectionModel extends Equatable {
 
   HomeSectionModel copyWith({
     String? id,
-    SectionType? sectionType,
+    core_enum.SectionType? sectionType,
     int? order,
     bool? isActive,
     String? title,

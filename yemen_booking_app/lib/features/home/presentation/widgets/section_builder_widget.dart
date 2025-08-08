@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/enums/section_type_enum.dart';
-import '../../../../core/theme/app_dimensions.dart';
 import '../../domain/entities/home_section.dart';
 import '../bloc/section_bloc/section_bloc.dart';
 import 'sections/base/section_placeholder.dart';
@@ -34,7 +33,7 @@ class SectionBuilderWidget extends StatelessWidget {
         }
         
         if (state is SectionError) {
-          return _buildErrorState(state);
+          return _buildErrorState(context, state);
         }
         
         if (state is SectionLoaded) {
@@ -53,7 +52,7 @@ class SectionBuilderWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildErrorState(SectionError state) {
+  Widget _buildErrorState(BuildContext context, SectionError state) {
     return SectionErrorWidget(
       message: state.message,
       onRetry: () {
@@ -82,8 +81,6 @@ class SectionBuilderWidget extends StatelessWidget {
     switch (section.sectionType) {
       case SectionType.singlePropertyAd:
         return 320;
-      // case SectionType.featuredPropertyAd: // removed
-        return 400;
       case SectionType.multiPropertyAd:
         return 280;
       case SectionType.horizontalPropertyList:

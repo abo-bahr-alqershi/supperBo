@@ -67,6 +67,8 @@ dependencies:
   photo_view: ^0.14.0
   smooth_page_indicator: ^1.0.0
   image_picker: ^0.8.7
+  visibility_detector: ^0.4.0
+  qr_flutter: ^4.1.0
   
   # Navigation
   go_router: ^14.2.7

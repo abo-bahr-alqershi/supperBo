@@ -2,12 +2,11 @@
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:injectable/injectable.dart';
+
 
 part 'home_analytics_event.dart';
 part 'home_analytics_state.dart';
 
-@injectable
 class HomeAnalyticsBloc extends Bloc<HomeAnalyticsEvent, HomeAnalyticsState> {
   final Map<String, DateTime> _impressionTimestamps = {};
   final Map<String, int> _interactionCounts = {};

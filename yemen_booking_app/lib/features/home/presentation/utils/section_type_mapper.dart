@@ -4,11 +4,7 @@ import '../../../../../core/enums/section_type_enum.dart';
 
 class SectionTypeMapper {
   static SectionType fromString(String type) {
-    return SectionType.tryFromString(type) ?? SectionType.horizontalPropertyList;
-  }
-
-  static String toString(SectionType type) {
-    return type.value;
+    return SectionTypeExtension.tryFromString(type) ?? SectionType.horizontalPropertyList;
   }
 
   static String getDisplayName(SectionType type) {
