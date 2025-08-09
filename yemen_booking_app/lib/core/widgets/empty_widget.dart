@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart'; // Assuming you use SVG for icons
 import '../theme/app_text_styles.dart';
+import '../utils/color_extensions.dart';
 
 class EmptyWidget extends StatelessWidget {
   final String message;

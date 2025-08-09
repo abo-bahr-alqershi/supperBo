@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_dimensions.dart';
 import '../theme/app_text_styles.dart';
+import '../utils/color_extensions.dart';
 
 class CustomErrorWidget extends StatelessWidget {
   final String? message;

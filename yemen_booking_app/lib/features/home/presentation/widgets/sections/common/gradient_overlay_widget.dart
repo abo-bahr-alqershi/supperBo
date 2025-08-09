@@ -1,6 +1,7 @@
 // lib/features/home/presentation/widgets/sections/common/gradient_overlay_widget.dart
 
 import 'package:flutter/material.dart';
+import 'package:yemen_booking_app/core/utils/color_extensions.dart';
 
 class GradientOverlayWidget extends StatelessWidget {
   final Widget child;

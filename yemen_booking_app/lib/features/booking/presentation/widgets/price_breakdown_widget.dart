@@ -3,6 +3,7 @@ import 'package:yemen_booking_app/core/theme/app_colors.dart';
 import 'package:yemen_booking_app/core/theme/app_dimensions.dart';
 import 'package:yemen_booking_app/core/theme/app_text_styles.dart';
 import 'package:yemen_booking_app/core/widgets/price_widget.dart';
+import 'package:yemen_booking_app/core/utils/color_extensions.dart';
 
 class PriceBreakdownWidget extends StatelessWidget {
   final int nights;

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../core/utils/color_extensions.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/theme/app_colors.dart';
@@ -7,9 +8,9 @@ import '../../../../core/theme/app_text_styles.dart';
 import '../../../../core/widgets/loading_widget.dart';
 import '../../../auth/presentation/bloc/auth_bloc.dart';
 import '../../../auth/presentation/bloc/auth_state.dart';
-import '../../domain/entities/booking_request.dart';
+// import '../../domain/entities/booking_request.dart';
 import '../bloc/booking_bloc.dart';
-import '../bloc/booking_event.dart';
+// import '../bloc/booking_event.dart';
 import '../bloc/booking_state.dart';
 import '../widgets/payment_methods_widget.dart';
 import '../../../payment/presentation/bloc/payment_bloc.dart';
@@ -355,7 +356,7 @@ class _BookingPaymentPageState extends State<BookingPaymentPage> {
     }
 
     // Convert string to PaymentMethod enum
-    final paymentMethod = PaymentMethod.fromString(_selectedPaymentMethod ?? 'cash');
+    final paymentMethod = PaymentMethodExtension.fromString(_selectedPaymentMethod ?? 'cash');
 
     // Calculate total amount
     final checkIn = widget.bookingData['checkIn'] as DateTime;

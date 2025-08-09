@@ -38,8 +38,8 @@ class TransactionModel extends Transaction {
       unitName: json['unitName'] ?? '',
       amount: (json['amount'] ?? 0).toDouble(),
       currency: json['currency'] ?? 'YER',
-      paymentMethod: PaymentMethod.fromString(json['paymentMethod'] ?? 'cash'),
-      status: PaymentStatus.fromString(json['status'] ?? 'pending'),
+      paymentMethod: PaymentMethodExtension.fromString(json['paymentMethod'] ?? 'cash'),
+      status: PaymentStatusExtension.fromString(json['status'] ?? 'pending'),
       createdAt: DateTime.parse(json['createdAt'] ?? DateTime.now().toIso8601String()),
       processedAt: json['processedAt'] != null 
           ? DateTime.parse(json['processedAt']) 

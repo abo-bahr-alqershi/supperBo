@@ -323,6 +323,7 @@ void _initBooking() {
       getUserBookingsSummaryUseCase: sl(),
       addServicesToBookingUseCase: sl(),
       checkAvailabilityUseCase: sl(),
+      processPaymentUseCase: sl(),
     ),
   );
 

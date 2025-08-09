@@ -114,21 +114,21 @@ class AppTheme {
       ),
 
       // Card Theme
-      cardTheme: CardThemeData(
+      cardTheme: const CardTheme(
         color: AppColors.surface,
         elevation: 2,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(AppDimensions.borderRadiusLg),
-        ),
         margin: EdgeInsets.zero,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(AppDimensions.borderRadiusLg)),
+        ),
       ),
 
       // Dialog Theme
-      dialogTheme: DialogThemeData(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(AppDimensions.borderRadiusLg),
-        ),
+      dialogTheme: const DialogTheme(
         backgroundColor: AppColors.surface,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(AppDimensions.borderRadiusLg)),
+        ),
       ),
 
       // BottomNavigationBar Theme
@@ -264,21 +264,21 @@ class AppTheme {
       ),
 
       // Card Theme
-      cardTheme: CardThemeData(
+      cardTheme: const CardTheme(
         color: AppColors.surfaceDark,
         elevation: 2,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(AppDimensions.borderRadiusLg),
-        ),
         margin: EdgeInsets.zero,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(AppDimensions.borderRadiusLg)),
+        ),
       ),
 
       // Dialog Theme
-      dialogTheme: DialogThemeData(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(AppDimensions.borderRadiusLg),
-        ),
+      dialogTheme: const DialogTheme(
         backgroundColor: AppColors.surfaceDark,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(AppDimensions.borderRadiusLg)),
+        ),
       ),
 
       // BottomNavigationBar Theme

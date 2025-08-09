@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../../../core/utils/color_extensions.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:yemen_booking_app/core/theme/app_text_styles.dart';
 import '../../../../core/theme/app_colors.dart';

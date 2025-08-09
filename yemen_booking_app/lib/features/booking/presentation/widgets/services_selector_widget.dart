@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:yemen_booking_app/core/theme/app_colors.dart';
 import 'package:yemen_booking_app/core/theme/app_dimensions.dart';
 import 'package:yemen_booking_app/core/theme/app_text_styles.dart';
+import 'package:yemen_booking_app/core/utils/color_extensions.dart';
 
 class ServicesSelectorWidget extends StatefulWidget {
   final String propertyId;
@@ -247,7 +248,7 @@ class _ServicesSelectorWidgetState extends State<ServicesSelectorWidget> {
                                 ),
                               ),
                             ),
-                                                      ],
+                          ],
                         ),
                       ),
                     ],
