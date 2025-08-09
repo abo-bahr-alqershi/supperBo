@@ -1,7 +1,6 @@
 // lib/features/home/presentation/widgets/property_categories_widget.dart
 
 import 'package:flutter/material.dart';
-import '../../../../core/utils/color_extensions.dart';
 import '../../../../core/theme/app_dimensions.dart';
 import '../../../../core/theme/app_text_styles.dart';
 

@@ -25,7 +25,7 @@ class SectionErrorWidget extends StatelessWidget {
           Icon(
             Icons.error_outline_rounded,
             size: 48,
-            color: AppColors.error.withOpacity(0.5),
+            color: AppColors.error.withValues(alpha: 0.5),
           ),
           const SizedBox(height: AppDimensions.spacingMd),
           Text(

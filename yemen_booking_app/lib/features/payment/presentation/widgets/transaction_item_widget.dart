@@ -1,7 +1,6 @@
 /// features/payment/presentation/widgets/transaction_item_widget.dart
 
 import 'package:flutter/material.dart';
-import '../../../../core/utils/color_extensions.dart';
 import 'package:intl/intl.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_dimensions.dart';
@@ -127,7 +126,7 @@ class TransactionItemWidget extends StatelessWidget {
                 ),
               ),
             Text(
-              '${transaction.amount.toStringAsFixed(0)}',
+              transaction.amount.toStringAsFixed(0),
               style: AppTextStyles.subtitle1.copyWith(
                 fontWeight: FontWeight.bold,
                 color: isRefund ? AppColors.error : AppColors.textPrimary,
@@ -264,7 +263,7 @@ class TransactionItemWidget extends StatelessWidget {
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.replay,
                       size: AppDimensions.iconXSmall,
                       color: AppColors.warning,
@@ -285,7 +284,7 @@ class TransactionItemWidget extends StatelessWidget {
         ),
         Row(
           children: [
-            Icon(
+            const Icon(
               Icons.access_time,
               size: AppDimensions.iconXSmall,
               color: AppColors.textSecondary,

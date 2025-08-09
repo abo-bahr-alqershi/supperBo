@@ -1,8 +1,6 @@
 /// features/payment/presentation/pages/payment_methods_page.dart
 
 import 'package:flutter/material.dart';
-import '../../../../core/utils/color_extensions.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_dimensions.dart';
@@ -93,7 +91,7 @@ class _PaymentMethodsPageState extends State<PaymentMethodsPage>
       backgroundColor: AppColors.primary,
       flexibleSpace: FlexibleSpaceBar(
         background: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
@@ -217,7 +215,7 @@ class _PaymentMethodsPageState extends State<PaymentMethodsPage>
                 onTap: () => _selectPaymentMethod(method),
                 onDelete: () => _deleteSavedMethod(method),
               ),
-            )).toList(),
+            )),
             const Divider(height: AppDimensions.spacingXl),
           ],
         ),

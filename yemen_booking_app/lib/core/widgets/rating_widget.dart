@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../utils/color_extensions.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_text_styles.dart';
 import '../theme/app_dimensions.dart';
@@ -78,7 +77,7 @@ class RatingWidget extends StatelessWidget {
   }
 
   Widget _buildStar(int index) {
-    final double starValue = index + 1;
+    final double starValue = index + 1.0;
     final bool isFilled = rating >= starValue;
     final bool isHalfFilled = rating > index && rating < starValue;
 
@@ -210,7 +209,7 @@ class _RatingStarsInputState extends State<RatingStarsInput> {
   }
 
   IconData _getIconForIndex(int index) {
-    final double starValue = index + 1;
+    final double starValue = index + 1.0;
     
     if (_currentRating >= starValue) {
       return Icons.star_rounded;
@@ -222,9 +221,9 @@ class _RatingStarsInputState extends State<RatingStarsInput> {
   }
 
   Color _getColorForIndex(int index) {
-    final double starValue = index + 1;
+    final double starValue = index + 1.0;
     
-    if (_currentRating >= index) {
+    if (_currentRating >= starValue) {
       return widget.activeColor ?? AppColors.ratingStar;
     } else {
       return widget.inactiveColor ?? AppColors.ratingEmpty;

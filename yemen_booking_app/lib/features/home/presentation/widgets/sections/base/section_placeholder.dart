@@ -23,7 +23,7 @@ class SectionPlaceholder extends StatelessWidget {
       padding: const EdgeInsets.all(AppDimensions.paddingMedium),
       child: Shimmer.fromColors(
         baseColor: AppColors.shimmer,
-        highlightColor: AppColors.shimmer.withOpacity(0.5),
+        highlightColor: AppColors.shimmer.withValues(alpha: 0.5),
         child: _buildPlaceholderContent(),
       ),
     );

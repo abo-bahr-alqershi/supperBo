@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 
 extension ColorExtensions on Color {
-  // Fallback for older Flutter where withValues may not exist
   Color withValues({double? alpha, double? red, double? green, double? blue}) {
-    final int a = (255 * (alpha ?? (this.alpha / 255))).clamp(0, 255).toInt();
-    final int r = (red != null ? (255 * red).clamp(0, 255).toInt() : this.red);
-    final int g = (green != null ? (255 * green).clamp(0, 255).toInt() : this.green);
-    final int b = (blue != null ? (255 * blue).clamp(0, 255).toInt() : this.blue);
-    return Color.fromARGB(a, r, g, b);
+    final double baseA = (alpha ?? a).clamp(0.0, 1.0);
+    final double baseR = (red ?? r).clamp(0.0, 1.0);
+    final double baseG = (green ?? g).clamp(0.0, 1.0);
+    final double baseB = (blue ?? b).clamp(0.0, 1.0);
+
+    final int ai = (baseA * 255.0).round().clamp(0, 255);
+    final int ri = (baseR * 255.0).round().clamp(0, 255);
+    final int gi = (baseG * 255.0).round().clamp(0, 255);
+    final int bi = (baseB * 255.0).round().clamp(0, 255);
+
+    return Color.fromARGB(ai, ri, gi, bi);
   }
 
   Color withAlphaFraction(double alpha) => withValues(alpha: alpha);

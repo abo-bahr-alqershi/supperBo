@@ -27,7 +27,7 @@ class SectionAnimationController {
           curve: curve,
         ));
       default:
-        return AlwaysStoppedAnimation(1.0);
+        return const AlwaysStoppedAnimation(1.0);
     }
   }
 

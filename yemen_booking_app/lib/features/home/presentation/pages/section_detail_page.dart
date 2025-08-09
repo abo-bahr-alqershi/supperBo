@@ -1,7 +1,6 @@
 // lib/features/home/presentation/pages/section_detail_page.dart
 
 import 'package:flutter/material.dart';
-import '../../../../core/utils/color_extensions.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/theme/app_colors.dart';
