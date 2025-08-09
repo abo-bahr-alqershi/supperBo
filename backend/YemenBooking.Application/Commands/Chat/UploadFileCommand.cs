@@ -25,5 +25,11 @@ namespace YemenBooking.Application.Commands.Chat
         /// </summary>
         [JsonPropertyName("message_type")]
         public string MessageType { get; set; } = string.Empty;
+
+        /// <summary>
+        /// معرف المحادثة المرتبطة بالمرفق
+        /// Conversation Id associated with this attachment
+        /// </summary>
+        public Guid ConversationId { get; set; }
     }
 } 

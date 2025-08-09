@@ -45,8 +45,8 @@ using YemenBooking.Core.Interfaces.Services;
             {
                 await _webSocketService.SendEventAsync(
                     participant.Id,
-                    "message_deleted",
-                    new { conversation_id = message.ConversationId, message_id = message.Id },
+                    "MessageDeleted",
+                    new { conversationId = message.ConversationId, messageId = message.Id },
                     cancellationToken);
             }
 

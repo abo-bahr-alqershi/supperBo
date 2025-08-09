@@ -63,10 +63,10 @@ namespace YemenBooking.Application.Handlers.Commands.Chat
                 var message = await _messageRepo.GetByIdAsync(request.MessageId, cancellationToken);
                 var conversation = await _conversationRepo.GetByIdAsync(message.ConversationId, cancellationToken);
                 // Send structured event via WebSocket to other participants
-                var eventData = new { conversation_id = message.ConversationId, message_id = message.Id, reaction_id = reaction.Id };
+                var eventData = new { conversationId = message.ConversationId, messageId = message.Id, reactionId = reaction.Id };
                 foreach (var participant in conversation.Participants.Where(p => p.Id != userId))
                 {
-                    await _webSocketService.SendEventAsync(participant.Id, "reaction_removed", eventData, cancellationToken);
+                    await _webSocketService.SendEventAsync(participant.Id, "ReactionRemoved", eventData, cancellationToken);
                 }
 
                 return ResultDto.Ok("تم إزالة التفاعل بنجاح");

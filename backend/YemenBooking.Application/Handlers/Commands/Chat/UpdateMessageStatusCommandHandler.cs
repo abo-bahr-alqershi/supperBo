@@ -65,8 +65,8 @@ namespace YemenBooking.Application.Handlers.Commands.Chat
                 // Send structured event via WebSocket
                 await _webSocketService.SendEventAsync(
                     message.SenderId,
-                    "message_updated",
-                    new { conversation_id = messageDto.ConversationId, message = messageDto },
+                    "MessageStatusUpdated",
+                    new { messageId = message.Id, conversationId = message.ConversationId, status = message.Status },
                     cancellationToken);
 
                 return ResultDto.Ok(null, "تم تحديث حالة الرسالة");

@@ -136,8 +136,8 @@ namespace YemenBooking.Application.Handlers.Commands.Chat
                     // Send structured event via WebSocket
                     await _webSocketService.SendEventAsync(
                         p.Id,
-                        "new_message",
-                        new { conversation_id = request.ConversationId, message = messageDto },
+                        "NewMessage",
+                        messageDto,
                         cancellationToken);
                 }
 

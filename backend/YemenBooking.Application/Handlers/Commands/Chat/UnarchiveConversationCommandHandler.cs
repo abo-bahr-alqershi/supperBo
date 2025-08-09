@@ -60,8 +60,8 @@ namespace YemenBooking.Application.Handlers.Commands.Chat
                 {
                     await _webSocketService.SendEventAsync(
                         participant.Id,
-                        "conversation_updated",
-                        new { conversation_id = conversation.Id, conversation = convDto },
+                        "ConversationUpdated",
+                        convDto,
                         cancellationToken);
                 }
 

@@ -60,8 +60,8 @@ using System.Linq;
             {
                 await _webSocketService.SendEventAsync(
                     participant.Id,
-                    "message_updated",
-                    new { conversation_id = message.ConversationId, message = dto },
+                    "MessageEdited",
+                    dto,
                     cancellationToken);
             }
             return ResultDto<ChatMessageDto>.Ok(dto, "تم تعديل المحتوى بنجاح");

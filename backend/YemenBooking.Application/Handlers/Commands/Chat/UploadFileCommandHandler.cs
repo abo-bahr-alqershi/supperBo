@@ -58,6 +58,7 @@ namespace YemenBooking.Application.Handlers.Commands.Chat
 
                 var attachment = new ChatAttachment
                 {
+                    ConversationId = request.ConversationId,
                     FileName = uploadResult.FileName ?? file.FileName,
                     ContentType = uploadResult.ContentType ?? file.ContentType,
                     FileSize = uploadResult.FileSizeBytes,

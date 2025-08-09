@@ -80,7 +80,7 @@ namespace YemenBooking.Application.Handlers.Commands.Chat
                 {
                     await _webSocketService.SendEventAsync(
                         participant.Id,
-                        "conversation_created",
+                        "ConversationCreated",
                         new { conversation = convDto },
                         cancellationToken);
                 }
