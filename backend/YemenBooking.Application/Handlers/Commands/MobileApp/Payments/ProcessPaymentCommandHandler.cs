@@ -202,15 +202,21 @@ public class ProcessPaymentCommandHandler : IRequestHandler<ProcessPaymentComman
                 }
                 break;
 
-            case PaymentMethodEnum.DigitalWallet:
+            // المحافظ الرقمية المتاحة في النظام
+            case PaymentMethodEnum.JwaliWallet:
+            case PaymentMethodEnum.CashWallet:
+            case PaymentMethodEnum.OneCashWallet:
+            case PaymentMethodEnum.FloskWallet:
+            case PaymentMethodEnum.JaibWallet:
                 if (string.IsNullOrWhiteSpace(request.WalletId))
                 {
                     return ResultDto<ProcessPaymentResponse>.Failed("معرف المحفظة الإلكترونية مطلوب", "WALLET_ID_REQUIRED");
                 }
                 break;
 
-            case PaymentMethodEnum.BankTransfer:
-                // لا توجد بيانات إضافية مطلوبة للتحويل البنكي
+            // طرق لا تحتاج تفاصيل إضافية
+            case PaymentMethodEnum.Cash:
+            case PaymentMethodEnum.Paypal:
                 break;
 
             default:
@@ -316,13 +322,41 @@ public class ProcessPaymentCommandHandler : IRequestHandler<ProcessPaymentComman
                 request.Amount.Amount,
                 request.Amount.Currency ?? "YER")),
 
-            PaymentMethodEnum.DigitalWallet => ConvertToProcessPaymentResponse(await _paymentService.ProcessPaymentAsync(
+            // المحافظ الرقمية
+            PaymentMethodEnum.JwaliWallet => ConvertToProcessPaymentResponse(await _paymentService.ProcessPaymentAsync(
+                request.BookingId,
+                paymentMethod.Id,
+                request.Amount.Amount,
+                request.Amount.Currency ?? "YER")),
+            PaymentMethodEnum.CashWallet => ConvertToProcessPaymentResponse(await _paymentService.ProcessPaymentAsync(
+                request.BookingId,
+                paymentMethod.Id,
+                request.Amount.Amount,
+                request.Amount.Currency ?? "YER")),
+            PaymentMethodEnum.OneCashWallet => ConvertToProcessPaymentResponse(await _paymentService.ProcessPaymentAsync(
+                request.BookingId,
+                paymentMethod.Id,
+                request.Amount.Amount,
+                request.Amount.Currency ?? "YER")),
+            PaymentMethodEnum.FloskWallet => ConvertToProcessPaymentResponse(await _paymentService.ProcessPaymentAsync(
+                request.BookingId,
+                paymentMethod.Id,
+                request.Amount.Amount,
+                request.Amount.Currency ?? "YER")),
+            PaymentMethodEnum.JaibWallet => ConvertToProcessPaymentResponse(await _paymentService.ProcessPaymentAsync(
                 request.BookingId,
                 paymentMethod.Id,
                 request.Amount.Amount,
                 request.Amount.Currency ?? "YER")),
 
-            PaymentMethodEnum.BankTransfer => ConvertToProcessPaymentResponse(await _paymentService.ProcessPaymentAsync(
+            // طرق أخرى مدعومة
+            PaymentMethodEnum.Cash => ConvertToProcessPaymentResponse(await _paymentService.ProcessPaymentAsync(
+                request.BookingId,
+                paymentMethod.Id,
+                request.Amount.Amount,
+                request.Amount.Currency ?? "YER")),
+
+            PaymentMethodEnum.Paypal => ConvertToProcessPaymentResponse(await _paymentService.ProcessPaymentAsync(
                 request.BookingId,
                 paymentMethod.Id,
                 request.Amount.Amount,

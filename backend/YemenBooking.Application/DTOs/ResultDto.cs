@@ -59,7 +59,7 @@ public class ResultDto<T>
     /// إنشاء نتيجة ناجحة
     /// Create successful result
     /// </summary>
-    public static ResultDto<T> Ok(T data, string? arabicMessage = null, string? englishMessage = null)
+    public static ResultDto<T> Ok(T? data, string? arabicMessage = null, string? englishMessage = null)
     {
         return new ResultDto<T>
         {
@@ -72,7 +72,7 @@ public class ResultDto<T>
     /// <summary>
     /// Alias for Ok to maintain existing Succeeded calls.
     /// </summary>
-    public static ResultDto<T> Succeeded(T data, string? arabicMessage = null, string? englishMessage = null)
+    public static ResultDto<T> Succeeded(T? data, string? arabicMessage = null, string? englishMessage = null)
     {
         return Ok(data, arabicMessage, englishMessage);
     }
@@ -80,7 +80,7 @@ public class ResultDto<T>
     /// <summary>
     /// Alias named Success to match handler usage
     /// </summary>
-    public static ResultDto<T> SuccessResult(T data, string? arabicMessage = null, string? englishMessage = null)
+    public static ResultDto<T> SuccessResult(T? data, string? arabicMessage = null, string? englishMessage = null)
     {
         return Ok(data, arabicMessage, englishMessage);
     }

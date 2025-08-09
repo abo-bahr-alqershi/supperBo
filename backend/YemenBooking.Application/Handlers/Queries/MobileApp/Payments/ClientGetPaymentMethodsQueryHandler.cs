@@ -236,10 +236,12 @@ public class ClientGetPaymentMethodsQueryHandler : IRequestHandler<ClientGetPaym
             case PaymentMethodEnum.CreditCard:
                 feePercentage += 0.029m; // 2.9% رسوم إضافية للبطاقات الائتمانية
                 break;
-            case PaymentMethodEnum.BankTransfer:
-                transactionFee += 5m; // 5 وحدات رسوم إضافية للتحويل البنكي
-                break;
-            case PaymentMethodEnum.DigitalWallet:
+            // المحافظ الرقمية المتاحة
+            case PaymentMethodEnum.JwaliWallet:
+            case PaymentMethodEnum.CashWallet:
+            case PaymentMethodEnum.OneCashWallet:
+            case PaymentMethodEnum.FloskWallet:
+            case PaymentMethodEnum.JaibWallet:
                 feePercentage += 0.015m; // 1.5% رسوم إضافية للمحافظ الرقمية
                 break;
         }
@@ -290,11 +292,7 @@ public class ClientGetPaymentMethodsQueryHandler : IRequestHandler<ClientGetPaym
             return $"المبلغ قريب من الحد الأقصى المسموح ({method.MaxAmount:N0})";
         }
 
-        if (method.Type == PaymentMethodEnum.BankTransfer)
-        {
-            return "قد يستغرق التحويل البنكي من 1-3 أيام عمل";
-        }
-
+        // لا توجد طريقة تحويل بنكي في التعريف الحالي لطريقة الدفع
         return null;
     }
 
