@@ -7,7 +7,6 @@ import '../../domain/usecases/get_user_bookings_summary_usecase.dart';
 import '../../domain/usecases/add_services_to_booking_usecase.dart';
 import '../../domain/usecases/check_availability_usecase.dart';
 import '../../../payment/domain/usecases/process_payment_usecase.dart';
-import '../../../../core/enums/payment_method_enum.dart';
 import 'booking_event.dart';
 import 'booking_state.dart';
 

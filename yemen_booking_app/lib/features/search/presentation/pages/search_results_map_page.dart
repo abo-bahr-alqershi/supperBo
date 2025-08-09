@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../../../core/utils/color_extensions.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_dimensions.dart';
@@ -108,12 +107,20 @@ class _SearchResultsMapPageState extends State<SearchResultsMapPage> {
     return GoogleMap(
       onMapCreated: (controller) {
         _mapController = controller;
-        _setMapStyle(controller);
       },
       initialCameraPosition: CameraPosition(
         target: _calculateCenter(),
         zoom: 12,
       ),
+      style: '''
+    [
+      {
+        "featureType": "poi",
+        "elementType": "labels",
+        "stylers": [{"visibility": "off"}]
+      }
+    ]
+    ''',
       markers: _markers,
       myLocationEnabled: true,
       myLocationButtonEnabled: false,
@@ -276,18 +283,6 @@ class _SearchResultsMapPageState extends State<SearchResultsMapPage> {
       sumLat / widget.results.length,
       sumLng / widget.results.length,
     );
-  }
-
-  void _setMapStyle(GoogleMapController controller) {
-    controller.setMapStyle('''
-    [
-      {
-        "featureType": "poi",
-        "elementType": "labels",
-        "stylers": [{"visibility": "off"}]
-      }
-    ]
-    ''');
   }
 
   void _zoomIn() {

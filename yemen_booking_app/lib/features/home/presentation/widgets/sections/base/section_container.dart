@@ -37,7 +37,7 @@ class SectionContainer extends StatelessWidget {
         boxShadow: boxShadow ??
             [
               BoxShadow(
-                color: AppColors.shadow.withOpacity(0.08),
+                color: AppColors.shadow.withValues(alpha: 0.08),
                 blurRadius: 10,
                 offset: const Offset(0, 4),
               ),

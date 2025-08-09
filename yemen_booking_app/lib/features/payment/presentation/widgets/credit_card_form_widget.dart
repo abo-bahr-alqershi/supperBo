@@ -1,7 +1,6 @@
 /// features/payment/presentation/widgets/credit_card_form_widget.dart
 
 import 'package:flutter/material.dart';
-import '../../../../core/utils/color_extensions.dart';
 import 'package:flutter/services.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_dimensions.dart';
@@ -249,42 +248,40 @@ class _CreditCardFormWidgetState extends State<CreditCardFormWidget>
   }
 
   Widget _buildCardBack() {
-    return Container(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            height: 40,
-            color: AppColors.black,
-            margin: const EdgeInsets.symmetric(vertical: AppDimensions.spacingLg),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: AppDimensions.paddingLarge),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: AppDimensions.paddingMedium,
-                    vertical: AppDimensions.paddingSmall,
-                  ),
-                  decoration: BoxDecoration(
-                    color: AppColors.white,
-                    borderRadius: BorderRadius.circular(AppDimensions.borderRadiusSm),
-                  ),
-                  child: Text(
-                    _cvvController.text.isEmpty ? 'CVV' : _cvvController.text,
-                    style: AppTextStyles.bodyMedium.copyWith(
-                      fontFamily: 'monospace',
-                      fontWeight: FontWeight.bold,
-                    ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
+          height: 40,
+          color: AppColors.black,
+          margin: const EdgeInsets.symmetric(vertical: AppDimensions.spacingLg),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: AppDimensions.paddingLarge),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: AppDimensions.paddingMedium,
+                  vertical: AppDimensions.paddingSmall,
+                ),
+                decoration: BoxDecoration(
+                  color: AppColors.white,
+                  borderRadius: BorderRadius.circular(AppDimensions.borderRadiusSm),
+                ),
+                child: Text(
+                  _cvvController.text.isEmpty ? 'CVV' : _cvvController.text,
+                  style: AppTextStyles.bodyMedium.copyWith(
+                    fontFamily: 'monospace',
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
@@ -503,7 +500,7 @@ class _CreditCardFormWidgetState extends State<CreditCardFormWidget>
             ),
             child: Row(
               children: [
-                Icon(
+                const Icon(
                   Icons.security,
                   color: AppColors.info,
                   size: AppDimensions.iconMedium,

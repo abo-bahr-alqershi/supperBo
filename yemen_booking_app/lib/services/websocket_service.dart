@@ -5,6 +5,7 @@ import 'package:web_socket_channel/status.dart' as status;
 import '../core/constants/api_constants.dart';
 import '../core/network/api_client.dart';
 import '../features/auth/data/datasources/auth_local_datasource.dart';
+import 'package:flutter/foundation.dart';
 
 class WebSocketService {
   WebSocketChannel? _channel;
@@ -168,7 +169,7 @@ class WebSocketService {
           break;
           
         default:
-          print('Unknown event type: $eventType');
+          debugPrint('Unknown event type: $eventType');
       }
     } catch (e) {
       _errorController.add(WebSocketError(

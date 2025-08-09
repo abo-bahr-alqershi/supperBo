@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_dimensions.dart';
 import '../theme/app_text_styles.dart';
-import '../utils/color_extensions.dart';
 
 class CustomErrorWidget extends StatelessWidget {
   final String? message;
@@ -22,8 +21,6 @@ class CustomErrorWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    
     return Container(
       padding: const EdgeInsets.all(AppDimensions.paddingLarge),
       child: Center(

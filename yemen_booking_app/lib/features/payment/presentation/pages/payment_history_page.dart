@@ -1,9 +1,7 @@
 /// features/payment/presentation/pages/payment_history_page.dart
 
 import 'package:flutter/material.dart';
-import '../../../../core/utils/color_extensions.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_dimensions.dart';
@@ -41,7 +39,7 @@ class _PaymentHistoryPageState extends State<PaymentHistoryPage>
   DateTime? _toDate;
   double? _minAmount;
   double? _maxAmount;
-  bool _showDateFilter = false;
+  final bool _showDateFilter = false;
   int _currentPage = 1;
   
   // Statistics
@@ -141,7 +139,7 @@ class _PaymentHistoryPageState extends State<PaymentHistoryPage>
       backgroundColor: AppColors.primary,
       flexibleSpace: FlexibleSpaceBar(
         background: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             gradient: LinearGradient(
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
@@ -555,7 +553,7 @@ class _PaymentHistoryPageState extends State<PaymentHistoryPage>
                 Navigator.pop(context);
                 _loadPaymentHistory();
               },
-            )).toList(),
+            )),
             const SafeArea(child: SizedBox.shrink()),
           ],
         ),

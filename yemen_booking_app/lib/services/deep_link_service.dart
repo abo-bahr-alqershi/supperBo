@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:app_links/app_links.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/foundation.dart';
 
 class DeepLinkService {
   late FirebaseDynamicLinks _dynamicLinks;
@@ -38,7 +39,7 @@ class DeepLinkService {
     _dynamicLinks.onLink.listen(
       _handleDynamicLink,
       onError: (error) {
-        print('Dynamic Link Error: $error');
+        debugPrint('Dynamic Link Error: $error');
       },
     );
   }
@@ -52,7 +53,7 @@ class DeepLinkService {
         _handleDeepLink(initialLink.toString());
       }
     } on PlatformException {
-      print('Failed to get initial link');
+      debugPrint('Failed to get initial link');
     }
 
     // Listen for links when app is in foreground/background
@@ -61,7 +62,7 @@ class DeepLinkService {
         _handleDeepLink(uri.toString());
       },
       onError: (error) {
-        print('Link Stream Error: $error');
+        debugPrint('Link Stream Error: $error');
       },
     );
   }
@@ -69,7 +70,7 @@ class DeepLinkService {
   // Handle Firebase Dynamic Link
   void _handleDynamicLink(PendingDynamicLinkData dynamicLink) {
     final Uri deepLink = dynamicLink.link;
-    print('Received dynamic link: $deepLink');
+    debugPrint('Received dynamic link: $deepLink');
 
     final data = _parseDeepLink(deepLink.toString());
     if (data != null) {
@@ -79,7 +80,7 @@ class DeepLinkService {
 
   // Handle custom scheme deep link
   void _handleDeepLink(String link) {
-    print('Received deep link: $link');
+    debugPrint('Received deep link: $link');
     
     final data = _parseDeepLink(link);
     if (data != null) {
@@ -142,7 +143,7 @@ class DeepLinkService {
 
       return null;
     } catch (e) {
-      print('Error parsing deep link: $e');
+      debugPrint('Error parsing deep link: $e');
       return null;
     }
   }

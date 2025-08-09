@@ -76,9 +76,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         return AuthResponseModel.fromJson(resultDto.data!);
       } else {
         throw ApiException(
-          message: resultDto.message ?? 
-                   resultDto.errors.join(', ') ?? 
-                   'فشل تسجيل الدخول',
+          message: resultDto.message ?? (resultDto.errors.isNotEmpty ? resultDto.errors.join(', ') : 'فشل تسجيل الدخول'),
           statusCode: response.statusCode,
           data: resultDto.errors,
         );
@@ -120,9 +118,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         return AuthResponseModel.fromJson(resultDto.data!);
       } else {
         throw ApiException(
-          message: resultDto.message ?? 
-                   resultDto.errors.join(', ') ?? 
-                   'فشل إنشاء الحساب',
+          message: resultDto.message ?? (resultDto.errors.isNotEmpty ? resultDto.errors.join(', ') : 'فشل إنشاء الحساب'),
           statusCode: response.statusCode,
           data: resultDto.errors,
         );
@@ -144,9 +140,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       
       if (!resultDto.success) {
         throw ApiException(
-          message: resultDto.message ?? 
-                   resultDto.errors.join(', ') ?? 
-                   'فشل تسجيل الخروج',
+          message: resultDto.message ?? (resultDto.errors.isNotEmpty ? resultDto.errors.join(', ') : 'فشل تسجيل الخروج'),
           statusCode: response.statusCode,
         );
       }
@@ -172,9 +166,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       
       if (!resultDto.success) {
         throw ApiException(
-          message: resultDto.message ?? 
-                   resultDto.errors.join(', ') ?? 
-                   'فشل إرسال رابط إعادة تعيين كلمة المرور',
+          message: resultDto.message ?? (resultDto.errors.isNotEmpty ? resultDto.errors.join(', ') : 'فشل إرسال رابط إعادة تعيين كلمة المرور'),
           statusCode: response.statusCode,
         );
       }
@@ -205,9 +197,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         return AuthResponseModel.fromJson(resultDto.data!);
       } else {
         throw ApiException(
-          message: resultDto.message ?? 
-                   resultDto.errors.join(', ') ?? 
-                   'فشل تحديث الجلسة',
+          message: resultDto.message ?? (resultDto.errors.isNotEmpty ? resultDto.errors.join(', ') : 'فشل تحديث الجلسة'),
           statusCode: response.statusCode,
         );
       }
@@ -232,9 +222,9 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       if (resultDto.success && resultDto.data != null) {
         return UserModel.fromJson(resultDto.data!);
       } else {
+        final String message = resultDto.message ?? (resultDto.errors.isNotEmpty ? resultDto.errors.join(', ') : 'فشل جلب المستخدم الحالي');
         throw ApiException(
-          message: resultDto.message ?? 
-                   resultDto.errors.join(', '),
+          message: message,
           statusCode: response.statusCode,
         );
       }
@@ -269,9 +259,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       
       if (!resultDto.success) {
         throw ApiException(
-          message: resultDto.message ?? 
-                   resultDto.errors.join(', ') ?? 
-                   'فشل تحديث الملف الشخصي',
+          message: resultDto.message ?? (resultDto.errors.isNotEmpty ? resultDto.errors.join(', ') : 'فشل تحديث الملف الشخصي'),
           statusCode: response.statusCode,
         );
       }
@@ -303,9 +291,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       
       if (!resultDto.success) {
         throw ApiException(
-          message: resultDto.message ?? 
-                   resultDto.errors.join(', ') ?? 
-                   'فشل تغيير كلمة المرور',
+          message: resultDto.message ?? (resultDto.errors.isNotEmpty ? resultDto.errors.join(', ') : 'فشل تغيير كلمة المرور'),
           statusCode: response.statusCode,
         );
       }

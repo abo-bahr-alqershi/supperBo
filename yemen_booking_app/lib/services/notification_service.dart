@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter/foundation.dart';
 import 'package:timezone/timezone.dart' as tz;
 import '../core/network/api_client.dart';
 import 'local_storage_service.dart';
@@ -54,7 +55,7 @@ class NotificationService {
       criticalAlert: false,
     );
 
-    print('Notification permission status: ${settings.authorizationStatus}');
+    debugPrint('Notification permission status: ${settings.authorizationStatus}');
   }
 
   // Initialize local notifications
@@ -104,7 +105,7 @@ class NotificationService {
         await _localStorage?.saveFcmToken(token);
       }
     } catch (e) {
-      print('Error registering FCM token: $e');
+      debugPrint('Error registering FCM token: $e');
     }
   }
 
@@ -127,7 +128,7 @@ class NotificationService {
         },
       );
     } catch (e) {
-      print('Error sending FCM token to server: $e');
+      debugPrint('Error sending FCM token to server: $e');
     }
   }
 
@@ -154,13 +155,13 @@ class NotificationService {
 
       await _firebaseMessaging.deleteToken();
     } catch (e) {
-      print('Error unregistering FCM token: $e');
+      debugPrint('Error unregistering FCM token: $e');
     }
   }
 
   // Handle foreground messages
   Future<void> _handleForegroundMessage(RemoteMessage message) async {
-    print('Foreground message received: ${message.messageId}');
+    debugPrint('Foreground message received: ${message.messageId}');
     
     // Show local notification
     await _showLocalNotification(message);
@@ -168,12 +169,12 @@ class NotificationService {
 
   // Handle background messages (static function required)
   static Future<void> _handleBackgroundMessage(RemoteMessage message) async {
-    print('Background message received: ${message.messageId}');
+    debugPrint('Background message received: ${message.messageId}');
   }
 
   // Handle notification tap when app is opened
   void _handleMessageOpenedApp(RemoteMessage message) {
-    print('Message opened app: ${message.messageId}');
+    debugPrint('Message opened app: ${message.messageId}');
     _navigateToScreen(message.data);
   }
 
@@ -227,23 +228,23 @@ class NotificationService {
     switch (type) {
       case 'booking':
         // Navigate to booking details
-        print('Navigate to booking: $id');
+        debugPrint('Navigate to booking: $id');
         break;
       case 'property':
         // Navigate to property details
-        print('Navigate to property: $id');
+        debugPrint('Navigate to property: $id');
         break;
       case 'chat':
         // Navigate to chat
-        print('Navigate to chat: $id');
+        debugPrint('Navigate to chat: $id');
         break;
       case 'promotion':
         // Navigate to promotion
-        print('Navigate to promotion: $id');
+        debugPrint('Navigate to promotion: $id');
         break;
       default:
         // Navigate to notifications page
-        print('Navigate to notifications');
+        debugPrint('Navigate to notifications');
     }
   }
 

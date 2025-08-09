@@ -116,11 +116,4 @@ class SectionBloc extends Bloc<SectionEvent, SectionState> {
       add(TrackSectionImpression(currentState.section.id));
     }
   }
-
-  String _getErrorMessage(dynamic error) {
-    if (error is Exception) {
-      return error.toString();
-    }
-    return 'فشل تحميل المحتوى';
-  }
 }

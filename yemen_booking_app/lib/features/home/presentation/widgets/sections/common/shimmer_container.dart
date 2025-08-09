@@ -1,7 +1,6 @@
 // lib/features/home/presentation/widgets/sections/common/shimmer_container.dart
 
 import 'package:flutter/material.dart';
-import 'package:yemen_booking_app/core/utils/color_extensions.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../../../../core/theme/app_colors.dart';
 

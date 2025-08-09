@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../../../core/utils/color_extensions.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_dimensions.dart';
@@ -547,6 +546,8 @@ class _SearchPageState extends State<SearchPage> {
         builder: (context) => const SearchFiltersPage(),
       ),
     );
+
+    if (!mounted) return;
 
     if (filters != null) {
       context.read<SearchBloc>().add(

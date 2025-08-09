@@ -7,7 +7,6 @@ import 'package:yemen_booking_app/core/widgets/cached_image_widget.dart';
 import 'package:yemen_booking_app/core/widgets/price_widget.dart';
 import 'package:yemen_booking_app/core/enums/booking_status.dart';
 import 'package:yemen_booking_app/features/booking/domain/entities/booking.dart';
-import 'package:yemen_booking_app/core/utils/color_extensions.dart';
 import 'booking_status_widget.dart';
 
 class BookingCardWidget extends StatelessWidget {

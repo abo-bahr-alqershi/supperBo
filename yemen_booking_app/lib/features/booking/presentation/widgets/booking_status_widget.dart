@@ -3,7 +3,6 @@ import 'package:yemen_booking_app/core/enums/booking_status.dart';
 import 'package:yemen_booking_app/core/theme/app_dimensions.dart';
 import 'package:yemen_booking_app/core/theme/app_colors.dart';
 import 'package:yemen_booking_app/core/theme/app_text_styles.dart';
-import 'package:yemen_booking_app/core/utils/color_extensions.dart';
 
 class BookingStatusWidget extends StatelessWidget {
   final BookingStatus status;

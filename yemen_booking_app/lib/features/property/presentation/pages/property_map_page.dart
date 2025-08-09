@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../../../../core/utils/color_extensions.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_dimensions.dart';
@@ -122,12 +121,20 @@ class _PropertyMapPageState extends State<PropertyMapPage> {
     return GoogleMap(
       onMapCreated: (controller) {
         _mapController = controller;
-        _setMapStyle(controller);
       },
       initialCameraPosition: CameraPosition(
         target: LatLng(widget.latitude, widget.longitude),
         zoom: 15,
       ),
+      style: '''
+    [
+      {
+        "featureType": "poi.business",
+        "elementType": "labels",
+        "stylers": [{"visibility": "off"}]
+      }
+    ]
+    ''',
       mapType: _currentMapType,
       markers: _markers,
       circles: _circles,
@@ -437,18 +444,6 @@ class _PropertyMapPageState extends State<PropertyMapPage> {
         ),
       ),
     );
-  }
-
-  void _setMapStyle(GoogleMapController controller) {
-    controller.setMapStyle('''
-    [
-      {
-        "featureType": "poi.business",
-        "elementType": "labels",
-        "stylers": [{"visibility": "off"}]
-      }
-    ]
-    ''');
   }
 
   void _toggleMapType() {

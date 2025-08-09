@@ -24,6 +24,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final GetSponsoredAdsUseCase _getSponsoredAdsUseCase;
   final RecordAdImpressionUseCase _recordAdImpressionUseCase;
   final RecordAdClickUseCase _recordAdClickUseCase;
+  // TODO: Use the above use cases to fetch and track sponsored ads when UI is ready.
 
   Timer? _refreshTimer;
   static const Duration _autoRefreshDuration = Duration(minutes: 5);
@@ -67,7 +68,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       final destinationsEither = await _getCityDestinationsUseCase(NoParams());
 
       // Extract values or throw
-      final config = configEither.fold((failure) => throw failure, (r) => r);
+      final _ = configEither.fold((failure) => throw failure, (r) => r);
       final sections = sectionsEither.fold((failure) => throw failure, (r) => r);
       final destinations = destinationsEither.fold((failure) => throw failure, (r) => r);
 

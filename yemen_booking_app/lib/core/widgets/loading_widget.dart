@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_dimensions.dart';
-import '../utils/color_extensions.dart';
 
 class LoadingWidget extends StatelessWidget {
   final LoadingType type;
