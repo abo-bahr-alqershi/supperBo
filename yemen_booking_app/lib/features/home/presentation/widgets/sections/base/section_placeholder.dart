@@ -1,8 +1,10 @@
+// lib/features/home/presentation/widgets/sections/base/section_placeholder.dart
+
 import 'package:flutter/material.dart';
+import 'package:shimmer/shimmer.dart';
+import '../../../../../../core/enums/section_type_enum.dart';
 import '../../../../../../core/theme/app_colors.dart';
 import '../../../../../../core/theme/app_dimensions.dart';
-import '../../../../../../core/theme/app_text_styles.dart';
-import '../../../../../../core/enums/section_type_enum.dart';
 
 class SectionPlaceholder extends StatelessWidget {
   final SectionType sectionType;
@@ -11,51 +13,89 @@ class SectionPlaceholder extends StatelessWidget {
   const SectionPlaceholder({
     super.key,
     required this.sectionType,
-    this.height = 200,
+    required this.height,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: height,
-      margin: const EdgeInsets.symmetric(
-        horizontal: AppDimensions.paddingMedium,
-      ),
-      decoration: BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: const [
-          BoxShadow(
-            color: AppColors.shadow,
-            blurRadius: 8,
-            offset: Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Center(
-        child: Text(
-          _placeholderText(),
-          style: AppTextStyles.bodyMedium.copyWith(
-            color: AppColors.textSecondary,
-          ),
-          textAlign: TextAlign.center,
-        ),
+      padding: const EdgeInsets.all(AppDimensions.paddingMedium),
+      child: Shimmer.fromColors(
+        baseColor: AppColors.shimmer,
+        highlightColor: AppColors.shimmer.withOpacity(0.5),
+        child: _buildPlaceholderContent(),
       ),
     );
   }
 
-  String _placeholderText() {
+  Widget _buildPlaceholderContent() {
     switch (sectionType) {
       case SectionType.horizontalPropertyList:
-        return 'جاري تحميل قائمة العقارات...';
+        return _buildHorizontalListPlaceholder();
       case SectionType.verticalPropertyGrid:
-        return 'جاري تحميل شبكة العقارات...';
-      case SectionType.cityCardsGrid:
-        return 'جاري تحميل المدن...';
+        return _buildGridPlaceholder();
       case SectionType.premiumCarousel:
-        return 'جاري تحميل المعروض المميز...';
+        return _buildCarouselPlaceholder();
       default:
-        return 'جاري تحميل المحتوى...';
+        return _buildDefaultPlaceholder();
     }
+  }
+
+  Widget _buildHorizontalListPlaceholder() {
+    return ListView.builder(
+      scrollDirection: Axis.horizontal,
+      itemCount: 3,
+      itemBuilder: (context, index) {
+        return Container(
+          width: 200,
+          margin: const EdgeInsets.only(right: AppDimensions.spacingMd),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(AppDimensions.borderRadiusMd),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildGridPlaceholder() {
+    return GridView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        childAspectRatio: 0.8,
+        crossAxisSpacing: AppDimensions.spacingMd,
+        mainAxisSpacing: AppDimensions.spacingMd,
+      ),
+      itemCount: 4,
+      itemBuilder: (context, index) {
+        return Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(AppDimensions.borderRadiusMd),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildCarouselPlaceholder() {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(AppDimensions.borderRadiusLg),
+      ),
+    );
+  }
+
+  Widget _buildDefaultPlaceholder() {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(AppDimensions.borderRadiusMd),
+      ),
+    );
   }
 }
