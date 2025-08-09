@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:app_links/app_links.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/foundation.dart';
 
 class DeepLinkService {
   late FirebaseDynamicLinks _dynamicLinks;

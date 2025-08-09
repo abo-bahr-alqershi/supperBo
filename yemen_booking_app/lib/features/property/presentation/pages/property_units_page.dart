@@ -689,6 +689,8 @@ class _PropertyUnitsPageState extends State<PropertyUnitsPage> {
       lastDate: DateTime.now().add(const Duration(days: 365)),
     );
 
+    if (!mounted) return;
+
     if (date != null) {
       setState(() {
         _checkInDate = date;
@@ -696,6 +698,7 @@ class _PropertyUnitsPageState extends State<PropertyUnitsPage> {
           _checkOutDate = _checkInDate.add(const Duration(days: 1));
         }
       });
+      if (!mounted) return;
       _loadUnits(context);
     }
   }
@@ -708,10 +711,13 @@ class _PropertyUnitsPageState extends State<PropertyUnitsPage> {
       lastDate: DateTime.now().add(const Duration(days: 365)),
     );
 
+    if (!mounted) return;
+
     if (date != null) {
       setState(() {
         _checkOutDate = date;
       });
+      if (!mounted) return;
       _loadUnits(context);
     }
   }

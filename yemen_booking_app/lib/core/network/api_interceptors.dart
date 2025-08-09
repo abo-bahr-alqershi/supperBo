@@ -4,6 +4,7 @@ import '../constants/storage_constants.dart';
 import '../constants/api_constants.dart';
 import '../localization/locale_manager.dart';
 import '../../injection_container.dart';
+import 'package:flutter/foundation.dart';
 
 class AuthInterceptor extends Interceptor {
   @override

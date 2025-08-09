@@ -248,42 +248,40 @@ class _CreditCardFormWidgetState extends State<CreditCardFormWidget>
   }
 
   Widget _buildCardBack() {
-    return Container(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            height: 40,
-            color: AppColors.black,
-            margin: const EdgeInsets.symmetric(vertical: AppDimensions.spacingLg),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: AppDimensions.paddingLarge),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: AppDimensions.paddingMedium,
-                    vertical: AppDimensions.paddingSmall,
-                  ),
-                  decoration: BoxDecoration(
-                    color: AppColors.white,
-                    borderRadius: BorderRadius.circular(AppDimensions.borderRadiusSm),
-                  ),
-                  child: Text(
-                    _cvvController.text.isEmpty ? 'CVV' : _cvvController.text,
-                    style: AppTextStyles.bodyMedium.copyWith(
-                      fontFamily: 'monospace',
-                      fontWeight: FontWeight.bold,
-                    ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
+          height: 40,
+          color: AppColors.black,
+          margin: const EdgeInsets.symmetric(vertical: AppDimensions.spacingLg),
+        ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: AppDimensions.paddingLarge),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: AppDimensions.paddingMedium,
+                  vertical: AppDimensions.paddingSmall,
+                ),
+                decoration: BoxDecoration(
+                  color: AppColors.white,
+                  borderRadius: BorderRadius.circular(AppDimensions.borderRadiusSm),
+                ),
+                child: Text(
+                  _cvvController.text.isEmpty ? 'CVV' : _cvvController.text,
+                  style: AppTextStyles.bodyMedium.copyWith(
+                    fontFamily: 'monospace',
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 

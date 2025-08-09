@@ -1,5 +1,3 @@
-/// core/enums/payment_method_enum.dart
-
 /// تعداد طرق الدفع
 /// Payment Methods enumeration
 enum PaymentMethod {

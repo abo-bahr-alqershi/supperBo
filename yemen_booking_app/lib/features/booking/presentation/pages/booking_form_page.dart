@@ -41,7 +41,6 @@ class _BookingFormPageState extends State<BookingFormPage> {
   int _adultsCount = 1;
   int _childrenCount = 0;
   List<Map<String, dynamic>> _selectedServices = [];
-  final bool _isCheckingAvailability = false;
 
   @override
   void dispose() {
@@ -313,11 +312,8 @@ class _BookingFormPageState extends State<BookingFormPage> {
 
   void _onContinue() {
     if (_formKey.currentState!.validate()) {
-      final authState = context.read<AuthBloc>().state;
-      String userId = '';
-      
-      if (authState is AuthAuthenticated) {
-        userId = authState.user.userId;
+      if (context.read<AuthBloc>().state is AuthAuthenticated) {
+        // If needed later, retrieve userId from state
       }
 
       // Check availability first

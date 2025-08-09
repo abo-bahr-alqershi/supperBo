@@ -5,6 +5,7 @@ import '../models/home_section_model.dart';
 import '../models/city_destination_model.dart';
 import '../models/sponsored_ad_model.dart';
 import '../models/section_data_model.dart';
+import 'package:flutter/foundation.dart';
 
 abstract class HomeRemoteDataSource {
   Future<HomeConfigModel> getHomeConfig({String? version});
@@ -120,17 +121,17 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
   //   try {
   //     await apiClient.post('/api/client/home-sections/sponsored-ads/$adId/impression', data: {'additionalData': additionalData});
   //   } catch (e) {
-  //     // Fail silently
-  //     print('Failed to record ad impression: $e');
-  //   }
-  // }
-  @override
+        //     // Fail silently
+      //     debugPrint('Failed to record ad impression: $e');
+      //   }
+      // }
+@override
   Future<void> recordAdImpression({required String adId, String? additionalData}) async {
     try {
       await apiClient.post('/api/client/home-sections-test/sponsored-ads/$adId/impression', data: {'additionalData': additionalData});
     } catch (e) {
       // Fail silently
-      print('Failed to record ad impression: $e');
+      debugPrint('Failed to record ad impression: $e');
     }
   }
 
@@ -149,7 +150,7 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
       await apiClient.post('/api/client/home-sections-test/sponsored-ads/$adId/click', data: {'additionalData': additionalData});
     } catch (e) {
       // Fail silently
-      print('Failed to record ad click: $e');
+      debugPrint('Failed to record ad click: $e');
     }
   }
 

@@ -121,12 +121,20 @@ class _PropertyMapPageState extends State<PropertyMapPage> {
     return GoogleMap(
       onMapCreated: (controller) {
         _mapController = controller;
-        _setMapStyle(controller);
       },
       initialCameraPosition: CameraPosition(
         target: LatLng(widget.latitude, widget.longitude),
         zoom: 15,
       ),
+      style: '''
+    [
+      {
+        "featureType": "poi.business",
+        "elementType": "labels",
+        "stylers": [{"visibility": "off"}]
+      }
+    ]
+    ''',
       mapType: _currentMapType,
       markers: _markers,
       circles: _circles,
@@ -436,18 +444,6 @@ class _PropertyMapPageState extends State<PropertyMapPage> {
         ),
       ),
     );
-  }
-
-  void _setMapStyle(GoogleMapController controller) {
-    controller.setMapStyle('''
-    [
-      {
-        "featureType": "poi.business",
-        "elementType": "labels",
-        "stylers": [{"visibility": "off"}]
-      }
-    ]
-    ''');
   }
 
   void _toggleMapType() {

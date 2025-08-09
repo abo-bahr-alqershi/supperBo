@@ -547,6 +547,8 @@ class _SearchPageState extends State<SearchPage> {
       ),
     );
 
+    if (!mounted) return;
+
     if (filters != null) {
       context.read<SearchBloc>().add(
         UpdateSearchFiltersEvent(filters: filters),
