@@ -168,7 +168,7 @@ class WebSocketService {
           break;
           
         default:
-          print('Unknown event type: $eventType');
+          debugPrint('Unknown event type: $eventType');
       }
     } catch (e) {
       _errorController.add(WebSocketError(

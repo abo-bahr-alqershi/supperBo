@@ -54,7 +54,7 @@ class NotificationService {
       criticalAlert: false,
     );
 
-    print('Notification permission status: ${settings.authorizationStatus}');
+    debugPrint('Notification permission status: ${settings.authorizationStatus}');
   }
 
   // Initialize local notifications
@@ -104,7 +104,7 @@ class NotificationService {
         await _localStorage?.saveFcmToken(token);
       }
     } catch (e) {
-      print('Error registering FCM token: $e');
+      debugPrint('Error registering FCM token: $e');
     }
   }
 
@@ -127,7 +127,7 @@ class NotificationService {
         },
       );
     } catch (e) {
-      print('Error sending FCM token to server: $e');
+      debugPrint('Error sending FCM token to server: $e');
     }
   }
 
@@ -154,13 +154,13 @@ class NotificationService {
 
       await _firebaseMessaging.deleteToken();
     } catch (e) {
-      print('Error unregistering FCM token: $e');
+      debugPrint('Error unregistering FCM token: $e');
     }
   }
 
   // Handle foreground messages
   Future<void> _handleForegroundMessage(RemoteMessage message) async {
-    print('Foreground message received: ${message.messageId}');
+    debugPrint('Foreground message received: ${message.messageId}');
     
     // Show local notification
     await _showLocalNotification(message);
