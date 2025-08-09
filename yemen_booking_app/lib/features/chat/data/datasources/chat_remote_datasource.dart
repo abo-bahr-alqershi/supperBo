@@ -444,6 +444,7 @@ class ChatRemoteDataSourceImpl implements ChatRemoteDataSource {
           filename: file.path.split('/').last,
         ),
         'message_type': messageType,
+        'conversationId': conversationId,
       });
 
       final response = await apiClient.upload(

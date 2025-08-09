@@ -62,7 +62,7 @@ class _ChatPageState extends State<ChatPage>
     final typingProvider = context.read<TypingIndicatorProvider>();
     
     // Listen to WebSocket typing events
-    webSocketService.typingEvents.listen((event) {
+    context.read<ChatBloc>().webSocketService.typingEvents.listen((event) {
       for (final userId in event.typingUserIds) {
         typingProvider.setUserTyping(
           conversationId: event.conversationId,

@@ -49,7 +49,7 @@ class _MediaItem extends StatelessWidget {
     bool isVideo = false;
 
     if (message.messageType == 'image' && message.attachments.isNotEmpty) {
-      imageUrl = message.attachments.first.url;
+      imageUrl = message.attachments.first.fileUrl;
     } else if (message.messageType == 'video' && message.attachments.isNotEmpty) {
       imageUrl = message.attachments.first.thumbnailUrl;
       isVideo = true;

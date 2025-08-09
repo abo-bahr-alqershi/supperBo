@@ -159,16 +159,7 @@ class _NewConversationPageState extends State<NewConversationPage> {
                         fontWeight: FontWeight.w500,
                       ),
                     ),
-                    subtitle: user.bio != null
-                        ? Text(
-                            user.bio!,
-                            style: AppTextStyles.bodySmall.copyWith(
-                              color: AppColors.textSecondary,
-                            ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          )
-                        : null,
+                    subtitle: _buildUserSubtitle(user),
                     activeColor: AppColors.primary,
                   );
                 },
@@ -326,6 +317,46 @@ class _NewConversationPageState extends State<NewConversationPage> {
         ),
       ),
     );
+  }
+
+  Widget? _buildUserSubtitle(ChatUser user) {
+    if (user.isOnline) {
+      return Text(
+        'متصل الآن',
+        style: AppTextStyles.caption.copyWith(
+          color: AppColors.success,
+        ),
+      );
+    }
+    if (user.lastSeen != null) {
+      return Text(
+        'آخر ظهور ${_formatLastSeen(user.lastSeen!)}',
+        style: AppTextStyles.caption.copyWith(
+          color: AppColors.textSecondary,
+        ),
+      );
+    }
+    if (user.email.isNotEmpty) {
+      return Text(
+        user.email,
+        style: AppTextStyles.bodySmall.copyWith(
+          color: AppColors.textSecondary,
+        ),
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+      );
+    }
+    return null;
+  }
+
+  String _formatLastSeen(DateTime lastSeen) {
+    final now = DateTime.now();
+    final difference = now.difference(lastSeen);
+    if (difference.inMinutes < 1) return 'الآن';
+    if (difference.inMinutes < 60) return 'منذ ${difference.inMinutes} دقيقة';
+    if (difference.inHours < 24) return 'منذ ${difference.inHours} ساعة';
+    if (difference.inDays == 1) return 'أمس';
+    return 'منذ ${difference.inDays} يوم';
   }
 
   Widget? _buildFAB() {

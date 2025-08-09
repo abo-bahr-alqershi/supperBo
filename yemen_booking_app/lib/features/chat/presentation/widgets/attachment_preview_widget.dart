@@ -51,7 +51,7 @@ class AttachmentPreviewWidget extends StatelessWidget {
             fit: StackFit.expand,
             children: [
               CachedImageWidget(
-                imageUrl: attachment.url,
+                imageUrl: attachment.fileUrl,
                 fit: BoxFit.cover,
               ),
               if (attachment.downloadProgress != null &&

@@ -12,6 +12,9 @@ class Attachment extends Equatable {
   final DateTime createdAt;
   final String? thumbnailUrl;
   final Map<String, dynamic>? metadata;
+  // New optional fields used by UI
+  final int? duration; // in seconds for audio/video
+  final double? downloadProgress; // 0.0 - 1.0 (transient, not from backend)
 
   const Attachment({
     required this.id,
@@ -25,6 +28,8 @@ class Attachment extends Equatable {
     required this.createdAt,
     this.thumbnailUrl,
     this.metadata,
+    this.duration,
+    this.downloadProgress,
   });
 
   @override
@@ -40,6 +45,8 @@ class Attachment extends Equatable {
     createdAt,
     thumbnailUrl,
     metadata,
+    duration,
+    downloadProgress,
   ];
 
   // Helper methods

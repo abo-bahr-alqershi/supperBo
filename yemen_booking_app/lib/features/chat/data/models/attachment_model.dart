@@ -13,6 +13,8 @@ class AttachmentModel extends Attachment {
     required super.createdAt,
     super.thumbnailUrl,
     super.metadata,
+    super.duration,
+    super.downloadProgress,
   });
 
   factory AttachmentModel.fromJson(Map<String, dynamic> json) {
@@ -28,6 +30,8 @@ class AttachmentModel extends Attachment {
       createdAt: DateTime.parse(json['uploaded_at'] ?? json['created_at'] ?? json['createdAt']),
       thumbnailUrl: json['thumbnail_url'] ?? json['thumbnailUrl'],
       metadata: json['metadata'],
+      duration: _parseDurationSeconds(json['duration'] ?? json['video_duration'] ?? json['audio_duration']),
+      downloadProgress: json['downloadProgress']?.toDouble(),
     );
   }
 
@@ -44,6 +48,8 @@ class AttachmentModel extends Attachment {
       'uploaded_at': createdAt.toIso8601String(),
       if (thumbnailUrl != null) 'thumbnail_url': thumbnailUrl,
       if (metadata != null) 'metadata': metadata,
+      if (duration != null) 'duration': duration,
+      if (downloadProgress != null) 'downloadProgress': downloadProgress,
     };
   }
 
@@ -60,7 +66,32 @@ class AttachmentModel extends Attachment {
       createdAt: attachment.createdAt,
       thumbnailUrl: attachment.thumbnailUrl,
       metadata: attachment.metadata,
+      duration: attachment.duration,
+      downloadProgress: attachment.downloadProgress,
     );
   }
+}
 
+int? _parseDurationSeconds(dynamic value) {
+  if (value == null) return null;
+  if (value is int) return value;
+  if (value is String) {
+    // Try to parse ISO8601 duration or HH:mm:ss or seconds string
+    final s = value.trim();
+    if (RegExp(r'^\d+$').hasMatch(s)) return int.tryParse(s);
+    // HH:mm:ss
+    final parts = s.split(':');
+    if (parts.length == 3) {
+      final h = int.tryParse(parts[0]) ?? 0;
+      final m = int.tryParse(parts[1]) ?? 0;
+      final sec = int.tryParse(parts[2]) ?? 0;
+      return h * 3600 + m * 60 + sec;
+    }
+    if (parts.length == 2) {
+      final m = int.tryParse(parts[0]) ?? 0;
+      final sec = int.tryParse(parts[1]) ?? 0;
+      return m * 60 + sec;
+    }
+  }
+  return null;
 }

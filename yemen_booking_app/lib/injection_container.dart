@@ -44,7 +44,7 @@ import 'features/notifications/data/datasources/notification_remote_datasource.d
 import 'features/notifications/data/repositories/notification_repository_impl.dart';
 import 'features/notifications/domain/repositories/notification_repository.dart';
 import 'features/notifications/domain/usecases/get_notifications_usecase.dart';
-import 'features/notifications/domain/usecases/mark_as_read_usecase.dart';
+
 import 'features/notifications/domain/usecases/dismiss_notification_usecase.dart';
 import 'features/notifications/domain/usecases/update_notification_settings_usecase.dart';
 import 'features/notifications/presentation/bloc/notification_bloc.dart';
@@ -96,6 +96,33 @@ import 'features/payment/domain/repositories/payment_repository.dart';
 import 'features/payment/domain/usecases/process_payment_usecase.dart';
 import 'features/payment/domain/usecases/get_payment_history_usecase.dart';
 import 'features/payment/presentation/bloc/payment_bloc.dart';
+
+// Features - Chat
+import 'features/chat/presentation/bloc/chat_bloc.dart';
+import 'features/chat/domain/repositories/chat_repository.dart';
+import 'features/chat/data/repositories/chat_repository_impl.dart';
+import 'features/chat/data/datasources/chat_remote_datasource.dart';
+import 'features/chat/data/datasources/chat_local_datasource.dart';
+import 'features/chat/domain/usecases/get_conversations_usecase.dart';
+import 'features/chat/domain/usecases/get_messages_usecase.dart';
+import 'features/chat/domain/usecases/send_message_usecase.dart';
+import 'features/chat/domain/usecases/create_conversation_usecase.dart';
+import 'features/chat/domain/usecases/delete_conversation_usecase.dart';
+import 'features/chat/domain/usecases/archive_conversation_usecase.dart';
+import 'features/chat/domain/usecases/unarchive_conversation_usecase.dart';
+import 'features/chat/domain/usecases/delete_message_usecase.dart';
+import 'features/chat/domain/usecases/edit_message_usecase.dart';
+import 'features/chat/domain/usecases/add_reaction_usecase.dart';
+import 'features/chat/domain/usecases/remove_reaction_usecase.dart';
+import 'features/chat/domain/usecases/mark_as_read_usecase.dart';
+import 'features/chat/domain/usecases/upload_attachment_usecase.dart';
+import 'features/chat/domain/usecases/search_chats_usecase.dart';
+import 'features/chat/domain/usecases/get_available_users_usecase.dart';
+import 'features/chat/domain/usecases/update_user_status_usecase.dart';
+import 'features/chat/domain/usecases/get_chat_settings_usecase.dart';
+import 'features/chat/domain/usecases/update_chat_settings_usecase.dart';
+// Alias notification MarkAsRead to avoid name conflict
+import 'features/notifications/domain/usecases/mark_as_read_usecase.dart' as notif;
 
 final sl = GetIt.instance;
 
@@ -212,7 +239,7 @@ void _initNotifications() {
   
   // Use cases
   sl.registerLazySingleton(() => GetNotificationsUseCase(sl()));
-  sl.registerLazySingleton(() => MarkAsReadUseCase(sl()));
+  sl.registerLazySingleton(() => notif.MarkAsReadUseCase(sl()));
   sl.registerLazySingleton(() => DismissNotificationUseCase(sl()));
   sl.registerLazySingleton(() => UpdateNotificationSettingsUseCase(sl()));
   
@@ -464,7 +491,7 @@ void _initCore() {
   sl.registerLazySingleton(() => NotificationService());
   sl.registerLazySingleton(() => AnalyticsService());
   sl.registerLazySingleton(() => DeepLinkService());
-  sl.registerLazySingleton(() => WebSocketService());
+  // Removed generic WebSocketService registration; using ChatWebSocketService for chat feature
 }
 
 Future<void> _initExternal() async {

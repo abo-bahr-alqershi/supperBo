@@ -125,16 +125,7 @@ class ParticipantItemWidget extends StatelessWidget {
             ),
         ],
       ),
-      subtitle: participant.bio != null
-          ? Text(
-              participant.bio!,
-              style: AppTextStyles.bodySmall.copyWith(
-                color: AppColors.textSecondary,
-              ),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            )
-          : participant.isOnline
+      subtitle: participant.isOnline
               ? Text(
                   'متصل الآن',
                   style: AppTextStyles.caption.copyWith(

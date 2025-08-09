@@ -8,10 +8,10 @@ import '../core/constants/api_constants.dart';
 import '../features/auth/data/datasources/auth_local_datasource.dart';
 import '../features/chat/domain/entities/conversation.dart';
 import '../features/chat/domain/entities/message.dart';
-import '../features/chat/domain/entities/attachment.dart';
+
 import '../features/chat/data/models/conversation_model.dart';
 import '../features/chat/data/models/message_model.dart';
-import '../features/chat/data/models/attachment_model.dart';
+
 
 class ChatWebSocketService {
   WebSocketChannel? _channel;
