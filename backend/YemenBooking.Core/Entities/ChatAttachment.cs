@@ -44,6 +44,20 @@ namespace YemenBooking.Core.Entities
         /// </summary>
         [Display(Name = "مسار الملف على الخادم")]
         public string FilePath { get; set; } = string.Empty;
+        /// <summary>
+        /// URL of the thumbnail image (optional)
+        /// </summary>
+        public string? ThumbnailUrl { get; set; }
+        /// <summary>
+        /// Additional metadata as JSON string (optional)
+        /// </summary>
+        public string? Metadata { get; set; }
+
+        /// <summary>
+        /// مدة المرفق بالثواني (للصوت/الفيديو)
+        /// Attachment duration in seconds (audio/video)
+        /// </summary>
+        public int? DurationSeconds { get; set; }
 
         /// <summary>
         /// المستخدم الذي رفع الملف
@@ -57,6 +71,6 @@ namespace YemenBooking.Core.Entities
         /// Date when the file was uploaded
         /// </summary>
         [Display(Name = "تاريخ الرفع")]
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public new DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }
-} 
+}

@@ -9,7 +9,7 @@ namespace YemenBooking.Application.DTOs
     /// </summary>
     public class ChatAttachmentDto
     {
-        [JsonIgnore]
+        [JsonPropertyName("conversation_id")]
         public Guid ConversationId { get; set; }
 
         [JsonPropertyName("attachment_id")]
@@ -27,7 +27,7 @@ namespace YemenBooking.Application.DTOs
         [JsonIgnore]
         public string FilePath { get; set; } = string.Empty;
 
-        [JsonIgnore]
+        [JsonPropertyName("uploaded_by")]
         public Guid UploadedBy { get; set; }
 
         [JsonPropertyName("uploaded_at")]
@@ -35,5 +35,16 @@ namespace YemenBooking.Application.DTOs
 
         [JsonPropertyName("file_url")]
         public string FileUrl => $"/api/common/chat/attachments/{Id}";
+        [JsonPropertyName("thumbnail_url")]
+        public string? ThumbnailUrl { get; set; }
+        [JsonPropertyName("metadata")]
+        public string? Metadata { get; set; }
+
+        /// <summary>
+        /// مدة المرفق بالثواني (للصوت/الفيديو)
+        /// Attachment duration in seconds (audio/video)
+        /// </summary>
+        [JsonPropertyName("duration")]
+        public int? DurationSeconds { get; set; }
     }
-} 
+}

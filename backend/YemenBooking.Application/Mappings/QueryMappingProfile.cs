@@ -176,7 +176,8 @@ namespace YemenBooking.Application.Mappings
             CreateMap<MessageReaction, MessageReactionDto>();
 
             // Chat attachment mapping
-            CreateMap<ChatAttachment, ChatAttachmentDto>();
+            CreateMap<ChatAttachment, ChatAttachmentDto>()
+                .ForMember(dest => dest.DurationSeconds, opt => opt.MapFrom(src => src.DurationSeconds));
 
             // Chat settings mapping
             CreateMap<ChatSettings, ChatSettingsDto>();
@@ -189,4 +190,4 @@ namespace YemenBooking.Application.Mappings
 
         }
     }
-} 
+}

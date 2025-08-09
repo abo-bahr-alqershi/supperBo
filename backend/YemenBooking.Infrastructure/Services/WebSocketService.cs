@@ -60,12 +60,12 @@ namespace YemenBooking.Infrastructure.Services
         {
             var options = new JsonSerializerOptions
             {
-                PropertyNamingPolicy = new SnakeCaseNamingPolicy(),
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
                 PropertyNameCaseInsensitive = true,
                 DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
             };
             options.Converters.Add(new JsonStringEnumConverter());
-            var envelope = new { event_type = eventType, data };
+            var envelope = new { type = eventType, data };
             var message = JsonSerializer.Serialize(envelope, options);
             await SendMessageAsync(userId, message, cancellationToken);
         }

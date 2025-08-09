@@ -106,10 +106,10 @@ namespace YemenBooking.Application.Handlers.Commands.Chat
                             {
                                 Id = Guid.NewGuid(),
                                 ConversationId = request.ConversationId,
-                                FileName = result.FileName,
+                                FileName = result.FileName ?? file.FileName,
                                 ContentType = result.ContentType ?? string.Empty,
                                 FileSize = result.FileSizeBytes,
-                                FilePath = result.FilePath,
+                                FilePath = result.FilePath ?? string.Empty,
                                 UploadedBy = userId,
                                 CreatedAt = DateTime.UtcNow
                             };
@@ -136,8 +136,8 @@ namespace YemenBooking.Application.Handlers.Commands.Chat
                     // Send structured event via WebSocket
                     await _webSocketService.SendEventAsync(
                         p.Id,
-                        "new_message",
-                        new { conversation_id = request.ConversationId, message = messageDto },
+                        "NewMessage",
+                        messageDto,
                         cancellationToken);
                 }
 
@@ -150,4 +150,4 @@ namespace YemenBooking.Application.Handlers.Commands.Chat
             }
         }
     }
-} 
+}

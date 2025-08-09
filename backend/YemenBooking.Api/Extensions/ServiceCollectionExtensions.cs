@@ -36,6 +36,9 @@ namespace YemenBooking.Api.Extensions
             // تسجيل خدمات البنية التحتية
             RegisterInfrastructureServices(services);
             
+            // Register media metadata service explicitly (not following *Service naming convention)
+            services.AddScoped<IMediaMetadataService, MediaMetadataService>();
+            
             return services;
         }
 
@@ -45,8 +48,9 @@ namespace YemenBooking.Api.Extensions
         private static void RegisterRepositories(IServiceCollection services)
         {
             var repoAssembly = Assembly.GetAssembly(typeof(BookingRepository));
-            var repoTypes = repoAssembly.GetTypes()
-                .Where(t => t.IsClass && !t.IsAbstract && t.Name.EndsWith("Repository"));
+            var repoTypes = repoAssembly != null
+                ? repoAssembly.GetTypes().Where(t => t.IsClass && !t.IsAbstract && t.Name.EndsWith("Repository"))
+                : Enumerable.Empty<Type>();
 
             foreach (var impl in repoTypes)
             {
@@ -65,8 +69,9 @@ namespace YemenBooking.Api.Extensions
         private static void RegisterInfrastructureServices(IServiceCollection services)
         {
             var svcAssembly = Assembly.GetAssembly(typeof(FileStorageService));
-            var svcTypes = svcAssembly.GetTypes()
-                .Where(t => t.IsClass && !t.IsAbstract && t.Name.EndsWith("Service"));
+            var svcTypes = svcAssembly != null
+                ? svcAssembly.GetTypes().Where(t => t.IsClass && !t.IsAbstract && t.Name.EndsWith("Service"))
+                : Enumerable.Empty<Type>();
 
             foreach (var impl in svcTypes)
             {
@@ -81,4 +86,4 @@ namespace YemenBooking.Api.Extensions
             services.AddScoped<IUnitRepository, UnitRepository>();
         }
     }
-} 
+}

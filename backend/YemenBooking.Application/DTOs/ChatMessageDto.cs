@@ -69,6 +69,6 @@ namespace YemenBooking.Application.DTOs
         /// قائمة معرفات المستخدمين الذين قرأوا الرسالة
         /// List of user IDs who read the message
         /// </summary>
-        public IEnumerable<Guid>? ReadBy { get; set; }
+        public IEnumerable<string>? ReadBy { get; set; }
     }
 } 

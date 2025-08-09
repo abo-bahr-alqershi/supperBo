@@ -39,6 +39,18 @@ namespace YemenBooking.Infrastructure.Data.Configurations
                 .HasMaxLength(500)
                 .HasComment("مسار الملف على الخادم");
 
+            // New optional fields
+            builder.Property(a => a.ThumbnailUrl)
+                .HasMaxLength(500)
+                .HasComment("URL of the thumbnail image (optional)");
+
+            builder.Property(a => a.Metadata)
+                .HasColumnType("nvarchar(max)")
+                .HasComment("Additional metadata as JSON string (optional)");
+
+            builder.Property(a => a.DurationSeconds)
+                .HasComment("Attachment duration in seconds (audio/video)");
+
             builder.Property(a => a.UploadedBy)
                 .IsRequired()
                 .HasComment("المستخدم الذي رفع الملف");
@@ -52,4 +64,4 @@ namespace YemenBooking.Infrastructure.Data.Configurations
                 .OnDelete(DeleteBehavior.Cascade);
         }
     }
-} 
+}

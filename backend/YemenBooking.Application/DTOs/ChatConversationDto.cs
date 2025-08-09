@@ -30,6 +30,6 @@ namespace YemenBooking.Application.DTOs
         /// </summary>
         public Guid? PropertyId { get; set; }
 
-        public IEnumerable<UserDto> Participants { get; set; } = new List<UserDto>();
+        public IEnumerable<ChatUserDto> Participants { get; set; } = new List<ChatUserDto>();
     }
 } 

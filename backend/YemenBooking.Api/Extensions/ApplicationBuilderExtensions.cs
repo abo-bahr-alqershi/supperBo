@@ -56,6 +56,10 @@ namespace YemenBooking.Api.Extensions
             // التفويض
             app.UseAuthorization();
 
+            // Enable WebSockets and map chat middleware
+            app.UseWebSockets();
+            app.UseMiddleware<YemenBooking.Api.Middlewares.ChatWebSocketMiddleware>();
+
             // تفعيل Swagger UI في بيئة التطوير
             if (app.Environment.IsDevelopment())
             {

@@ -56,7 +56,7 @@ namespace YemenBooking.Api.Controllers.Common
         {
             var result = await _mediator.Send(new GetConversationByIdQuery { ConversationId = conversationId });
             if (!result.Success) return NotFound(result);
-            return Ok(result.Data);
+            return Ok(result);
         }
 
         /// <summary>
@@ -165,7 +165,7 @@ namespace YemenBooking.Api.Controllers.Common
             command.MessageId = messageId;
             var result = await _mediator.Send(command);
             if (!result.Success) return BadRequest(result);
-            return Ok(result.Data);
+            return Ok(result);
         }
 
         /// <summary>
@@ -251,7 +251,7 @@ namespace YemenBooking.Api.Controllers.Common
         {
             var result = await _mediator.Send(command);
             if (!result.Success) return BadRequest(result);
-            return Ok(new { attachment = result.Data });
+            return Ok(new { attachment = result.Data, success = true });
         }
     }
 } 

@@ -30,8 +30,8 @@ using System;
             // Send structured event via WebSocket for user status change
             await _wsService.SendEventAsync(
                 userId,
-                "user_status_changed",
-                new { user_id = userId, status = request.Status, timestamp = DateTime.UtcNow },
+                "UserPresence",
+                new { userId = userId, status = request.Status, lastSeen = DateTime.UtcNow },
                 cancellationToken);
             return ResultDto.Ok(null, "تم تحديث حالة المستخدم");
         }
