@@ -168,12 +168,12 @@ class NotificationService {
 
   // Handle background messages (static function required)
   static Future<void> _handleBackgroundMessage(RemoteMessage message) async {
-    print('Background message received: ${message.messageId}');
+    debugPrint('Background message received: ${message.messageId}');
   }
 
   // Handle notification tap when app is opened
   void _handleMessageOpenedApp(RemoteMessage message) {
-    print('Message opened app: ${message.messageId}');
+    debugPrint('Message opened app: ${message.messageId}');
     _navigateToScreen(message.data);
   }
 
@@ -227,19 +227,19 @@ class NotificationService {
     switch (type) {
       case 'booking':
         // Navigate to booking details
-        print('Navigate to booking: $id');
+        debugPrint('Navigate to booking: $id');
         break;
       case 'property':
         // Navigate to property details
-        print('Navigate to property: $id');
+        debugPrint('Navigate to property: $id');
         break;
       case 'chat':
         // Navigate to chat
-        print('Navigate to chat: $id');
+        debugPrint('Navigate to chat: $id');
         break;
       case 'promotion':
         // Navigate to promotion
-        print('Navigate to promotion: $id');
+        debugPrint('Navigate to promotion: $id');
         break;
       default:
         // Navigate to notifications page
