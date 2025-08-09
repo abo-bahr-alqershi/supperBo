@@ -121,6 +121,9 @@ Future<void> init() async {
   // Features - Payment
   _initPaymentFeature();
 
+  // Features - Chat
+  _initChat();
+
   // Core
   _initCore();
   
@@ -377,6 +380,75 @@ void _initPaymentFeature() {
       apiClient: sl(),
     ),
   );
+}
+
+void _initChat() {
+  // Bloc
+  sl.registerFactory(
+    () => ChatBloc(
+      getConversationsUseCase: sl(),
+      getMessagesUseCase: sl(),
+      sendMessageUseCase: sl(),
+      createConversationUseCase: sl(),
+      deleteConversationUseCase: sl(),
+      archiveConversationUseCase: sl(),
+      unarchiveConversationUseCase: sl(),
+      deleteMessageUseCase: sl(),
+      editMessageUseCase: sl(),
+      addReactionUseCase: sl(),
+      removeReactionUseCase: sl(),
+      markAsReadUseCase: sl(),
+      uploadAttachmentUseCase: sl(),
+      searchChatsUseCase: sl(),
+      getAvailableUsersUseCase: sl(),
+      updateUserStatusUseCase: sl(),
+      getChatSettingsUseCase: sl(),
+      updateChatSettingsUseCase: sl(),
+      webSocketService: sl(),
+    ),
+  );
+
+  // Use cases
+  sl.registerLazySingleton(() => GetConversationsUseCase(sl()));
+  sl.registerLazySingleton(() => GetMessagesUseCase(sl()));
+  sl.registerLazySingleton(() => SendMessageUseCase(sl()));
+  sl.registerLazySingleton(() => CreateConversationUseCase(sl()));
+  sl.registerLazySingleton(() => DeleteConversationUseCase(sl()));
+  sl.registerLazySingleton(() => ArchiveConversationUseCase(sl()));
+  sl.registerLazySingleton(() => UnarchiveConversationUseCase(sl()));
+  sl.registerLazySingleton(() => DeleteMessageUseCase(sl()));
+  sl.registerLazySingleton(() => EditMessageUseCase(sl()));
+  sl.registerLazySingleton(() => AddReactionUseCase(sl()));
+  sl.registerLazySingleton(() => RemoveReactionUseCase(sl()));
+  sl.registerLazySingleton(() => MarkAsReadUseCase(sl()));
+  sl.registerLazySingleton(() => UploadAttachmentUseCase(sl()));
+  sl.registerLazySingleton(() => SearchChatsUseCase(sl()));
+  sl.registerLazySingleton(() => GetAvailableUsersUseCase(sl()));
+  sl.registerLazySingleton(() => UpdateUserStatusUseCase(sl()));
+  sl.registerLazySingleton(() => GetChatSettingsUseCase(sl()));
+  sl.registerLazySingleton(() => UpdateChatSettingsUseCase(sl()));
+
+  // Repository
+  sl.registerLazySingleton<ChatRepository>(
+    () => ChatRepositoryImpl(
+      remoteDataSource: sl(),
+      localDataSource: sl(),
+      internetConnectionChecker: sl(),
+    ),
+  );
+
+  // Data sources
+  sl.registerLazySingleton<ChatRemoteDataSource>(
+    () => ChatRemoteDataSourceImpl(apiClient: sl()),
+  );
+  sl.registerLazySingleton<ChatLocalDataSource>(
+    () => ChatLocalDataSourceImpl(),
+  );
+
+  // WebSocket Service
+  sl.registerLazySingleton(() => ChatWebSocketService(
+    authLocalDataSource: sl(),
+  ));
 }
 
 void _initCore() {

@@ -431,7 +431,13 @@ lib/
 │   │   │   ├── models/
 │   │   │   │   ├── conversation_model.dart
 │   │   │   │   ├── message_model.dart
-│   │   │   │   └── attachment_model.dart
+│   │   │   │   ├── attachment_model.dart
+│   │   │   │   ├── chat_settings_model.dart ✨
+│   │   │   │   ├── chat_user_model.dart ✨
+│   │   │   │   ├── message_reaction_model.dart ✨
+│   │   │   │   ├── delivery_receipt_model.dart ✨
+│   │   │   │   └── search_result_model.dart ✨
+│   │   │   │ 
 │   │   │   └── repositories/
 │   │   │       └── chat_repository_impl.dart
 │   │   │
@@ -443,17 +449,32 @@ lib/
 │   │   │   ├── repositories/
 │   │   │   │   └── chat_repository.dart
 │   │   │   └── usecases/
-│   │   │       ├── get_conversations_usecase.dart
-│   │   │       ├── get_messages_usecase.dart
-│   │   │       ├── send_message_usecase.dart
-│   │   │       ├── mark_as_read_usecase.dart
-│   │   │       └── upload_attachment_usecase.dart
+│   │   │       ├── get_conversations_usecase.dart ✓
+│   │   │       ├──  get_messages_usecase.dart ✓
+│   │   │       ├──  send_message_usecase.dart ✓
+│   │   │       ├──  mark_as_read_usecase.dart ✓
+│   │   │       ├──  upload_attachment_usecase.dart ✓
+│   │   │       ├──  create_conversation_usecase.dart ✨
+│   │   │       ├──  delete_conversation_usecase.dart ✨
+│   │   │       ├──  archive_conversation_usecase.dart ✨
+│   │   │       ├──  unarchive_conversation_usecase.dart ✨
+│   │   │       ├──  delete_message_usecase.dart ✨
+│   │   │       ├──  edit_message_usecase.dart ✨
+│   │   │       ├──  add_reaction_usecase.dart ✨
+│   │   │       ├──  remove_reaction_usecase.dart ✨
+│   │   │       ├──  search_chats_usecase.dart ✨
+│   │   │       ├──  get_available_users_usecase.dart ✨
+│   │   │       ├──  update_user_status_usecase.dart ✨
+│   │   │       ├──  get_chat_settings_usecase.dart ✨
+│   │   │       └── update_chat_settings_usecase.dart ✨
 │   │   │
 │   │   └── presentation/
 │   │       ├── bloc/
 │   │       │   ├── chat_bloc.dart
 │   │       │   ├── chat_event.dart
 │   │       │   └── chat_state.dart
+│   │       ├── providers/
+│   │       │   └── typing_indicator_provider.dart ✨
 │   │       ├── pages/
 │   │       │   ├── conversations_page.dart
 │   │       │   ├── chat_page.dart
@@ -461,10 +482,17 @@ lib/
 │   │       └── widgets/
 │   │           ├── conversation_item_widget.dart
 │   │           ├── message_bubble_widget.dart
+│   │           ├── chat_app_bar.dart
+│   │           ├── chat_fab.dart
+│   │           ├── media_grid_widget.dart
+│   │           ├── participant_item_widget.dart
 │   │           ├── message_input_widget.dart
 │   │           ├── typing_indicator_widget.dart
 │   │           ├── attachment_preview_widget.dart
-│   │           └── reaction_picker_widget.dart
+│   │           ├── reaction_picker_widget.dart
+│   │           ├── online_status_indicator.dart ✨
+│   │           ├── message_status_indicator.dart ✨
+│   │           └── chat_search_bar.dart ✨
 │   │
 │   ├── notifications/
 │   │   ├── data/

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:provider/provider.dart';
+import 'package:yemen_booking_app/features/chat/presentation/providers/typing_indicator_provider.dart';
 import 'core/theme/app_theme.dart';
 import 'core/localization/app_localizations.dart';
 import 'core/localization/locale_manager.dart';
@@ -21,7 +23,9 @@ class YemenBookingApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        
+        ChangeNotifierProvider(
+          create: (_) => TypingIndicatorProvider(),
+        ),
         BlocProvider(create: (_) => sl<SettingsBloc>()..add(LoadSettingsEvent())),
         BlocProvider(create: (_) => sl<AuthBloc>()..add(const CheckAuthStatusEvent())),
         BlocProvider(create: (_) => sl<NotificationBloc>()),
