@@ -23,20 +23,44 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
 
   HomeRemoteDataSourceImpl({required this.apiClient});
 
+  // @override
+  // Future<HomeConfigModel> getHomeConfig({String? version}) async {
+  //   try {
+  //     final response = await apiClient.get('/api/client/home-sections/config', queryParameters: {'version': version});
+  //     return HomeConfigModel.fromJson(response.data);
+  //   } catch (e) {
+  //     throw ServerException(e.toString());
+  //   }
+  // }
   @override
   Future<HomeConfigModel> getHomeConfig({String? version}) async {
     try {
-      final response = await apiClient.get('/api/client/home-sections/config', queryParameters: {'version': version});
+      final response = await apiClient.get('/api/client/home-sections-test/config', queryParameters: {'version': version});
       return HomeConfigModel.fromJson(response.data);
     } catch (e) {
       throw ServerException(e.toString());
     }
   }
 
+  // @override
+  // Future<List<HomeSectionModel>> getHomeSections({String? userId}) async {
+  //   try {
+  //     final response = await apiClient.get('/api/client/home-sections/sections', queryParameters: {
+  //       'userId': userId,
+  //       'includeContent': true,
+  //       'onlyActive': true,
+  //       'language': 'ar',
+  //     });
+  //     final data = response.data as List;
+  //     return data.map((item) => HomeSectionModel.fromJson(item)).toList();
+  //   } catch (e) {
+  //     throw ServerException(e.toString());
+  //   }
+  // }
   @override
   Future<List<HomeSectionModel>> getHomeSections({String? userId}) async {
     try {
-      final response = await apiClient.get('/api/client/home-sections/sections', queryParameters: {
+      final response = await apiClient.get('/api/client/home-sections-test/sections', queryParameters: {
         'userId': userId,
         'includeContent': true,
         'onlyActive': true,
@@ -49,10 +73,20 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
     }
   }
 
+  // @override
+  // Future<List<SponsoredAdModel>> getSponsoredAds() async {
+  //   try {
+  //     final response = await apiClient.get('/api/client/home-sections/sponsored-ads');
+  //     final data = response.data as List;
+  //     return data.map((item) => SponsoredAdModel.fromJson(item)).toList();
+  //   } catch (e) {
+  //     throw ServerException(e.toString());
+  //   }
+  // }
   @override
   Future<List<SponsoredAdModel>> getSponsoredAds() async {
     try {
-      final response = await apiClient.get('/api/client/home-sections/sponsored-ads');
+      final response = await apiClient.get('/api/client/home-sections-test/sponsored-ads');
       final data = response.data as List;
       return data.map((item) => SponsoredAdModel.fromJson(item)).toList();
     } catch (e) {
@@ -60,10 +94,20 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
     }
   }
 
+  // @override
+  // Future<List<CityDestinationModel>> getCityDestinations() async {
+  //   try {
+  //     final response = await apiClient.get('/api/client/home-sections/destinations');
+  //     final data = response.data as List;
+  //     return data.map((item) => CityDestinationModel.fromJson(item)).toList();
+  //   } catch (e) {
+  //     throw ServerException(e.toString());
+  //   }
+  // }
   @override
   Future<List<CityDestinationModel>> getCityDestinations() async {
     try {
-      final response = await apiClient.get('/api/client/home-sections/destinations');
+      final response = await apiClient.get('/api/client/home-sections-test/destinations');
       final data = response.data as List;
       return data.map((item) => CityDestinationModel.fromJson(item)).toList();
     } catch (e) {
@@ -71,30 +115,58 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
     }
   }
 
+  // @override
+  // Future<void> recordAdImpression({required String adId, String? additionalData}) async {
+  //   try {
+  //     await apiClient.post('/api/client/home-sections/sponsored-ads/$adId/impression', data: {'additionalData': additionalData});
+  //   } catch (e) {
+  //     // Fail silently
+  //     print('Failed to record ad impression: $e');
+  //   }
+  // }
   @override
   Future<void> recordAdImpression({required String adId, String? additionalData}) async {
     try {
-      await apiClient.post('/api/client/home-sections/sponsored-ads/$adId/impression', data: {'additionalData': additionalData});
+      await apiClient.post('/api/client/home-sections-test/sponsored-ads/$adId/impression', data: {'additionalData': additionalData});
     } catch (e) {
       // Fail silently
       print('Failed to record ad impression: $e');
     }
   }
 
+  // @override
+  // Future<void> recordAdClick({required String adId, String? additionalData}) async {
+  //   try {
+  //     await apiClient.post('/api/client/home-sections/sponsored-ads/$adId/click', data: {'additionalData': additionalData});
+  //   } catch (e) {
+  //     // Fail silently
+  //     print('Failed to record ad click: $e');
+  //   }
+  // }
   @override
   Future<void> recordAdClick({required String adId, String? additionalData}) async {
     try {
-      await apiClient.post('/api/client/home-sections/sponsored-ads/$adId/click', data: {'additionalData': additionalData});
+      await apiClient.post('/api/client/home-sections-test/sponsored-ads/$adId/click', data: {'additionalData': additionalData});
     } catch (e) {
       // Fail silently
       print('Failed to record ad click: $e');
     }
   }
 
+  // @override
+  // Future<SectionDataModel?> getSectionData({required String sectionId}) async {
+  //   try {
+  //     final response = await apiClient.get('/api/client/home-sections/sections/$sectionId/data');
+  //     if (response.data == null) return null;
+  //     return SectionDataModel.fromJson(response.data as Map<String, dynamic>);
+  //   } catch (e) {
+  //     throw ServerException(e.toString());
+  //   }
+  // }
   @override
   Future<SectionDataModel?> getSectionData({required String sectionId}) async {
     try {
-      final response = await apiClient.get('/api/client/home-sections/sections/$sectionId/data');
+      final response = await apiClient.get('/api/client/home-sections-test/sections/$sectionId/data');
       if (response.data == null) return null;
       return SectionDataModel.fromJson(response.data as Map<String, dynamic>);
     } catch (e) {
@@ -102,19 +174,39 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
     }
   }
 
+  // @override
+  // Future<void> recordSectionImpression({required String sectionId}) async {
+  //   try {
+  //     await apiClient.post('/api/client/home-sections/sections/$sectionId/impression');
+  //   } catch (e) {
+  //     // Silent failure for analytics
+  //   }
+  // }
   @override
   Future<void> recordSectionImpression({required String sectionId}) async {
     try {
-      await apiClient.post('/api/client/home-sections/sections/$sectionId/impression');
+      await apiClient.post('/api/client/home-sections-test/sections/$sectionId/impression');
     } catch (e) {
       // Silent failure for analytics
     }
   }
 
+  // @override
+  // Future<void> recordSectionInteraction({required String sectionId, required String interactionType, String? itemId, Map<String, dynamic>? metadata}) async {
+  //   try {
+  //     await apiClient.post('/api/client/home-sections/sections/$sectionId/interaction', data: {
+  //       'interactionType': interactionType,
+  //       'itemId': itemId,
+  //       'metadata': metadata,
+  //     });
+  //   } catch (e) {
+  //     // Silent failure for analytics
+  //   }
+  // }
   @override
   Future<void> recordSectionInteraction({required String sectionId, required String interactionType, String? itemId, Map<String, dynamic>? metadata}) async {
     try {
-      await apiClient.post('/api/client/home-sections/sections/$sectionId/interaction', data: {
+      await apiClient.post('/api/client/home-sections-test/sections/$sectionId/interaction', data: {
         'interactionType': interactionType,
         'itemId': itemId,
         'metadata': metadata,
