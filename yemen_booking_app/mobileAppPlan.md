@@ -61,6 +61,7 @@ lib/
 │   │   └── result_dto.dart
 │   │
 │   ├── enums/
+│   │   ├── payment_method_enum.dart
 │   │   ├── section_type_enum.dart
 │   │   ├── section_size_enum.dart
 │   │   └── section_animation_enum.dart
@@ -395,20 +396,17 @@ lib/
 │   │   │   ├── datasources/
 │   │   │   │   └── payment_remote_datasource.dart
 │   │   │   ├── models/
-│   │   │   │   ├── payment_method_model.dart
 │   │   │   │   └── transaction_model.dart
 │   │   │   └── repositories/
 │   │   │       └── payment_repository_impl.dart
 │   │   │
 │   │   ├── domain/
 │   │   │   ├── entities/
-│   │   │   │   ├── payment_method.dart
 │   │   │   │   └── transaction.dart
 │   │   │   ├── repositories/
 │   │   │   │   └── payment_repository.dart
 │   │   │   └── usecases/
 │   │   │       ├── process_payment_usecase.dart
-│   │   │       ├── get_payment_methods_usecase.dart
 │   │   │       └── get_payment_history_usecase.dart
 │   │   │
 │   │   └── presentation/
@@ -661,30 +659,3 @@ pubspec.yaml
 analysis_options.yaml
 .env
 .env.production
-
-# ========================================
-# تفاصيل إضافية - Splash Screen
-# ========================================
-
-## Splash Screen Features:
-- **مدة العرض**: 3 ثوانٍ
-- **التحقق من المصادقة**: تلقائي
-- **الانتقال الذكي**: 
-  - مسجل دخول → Main Screen
-  - غير مسجل → Login Screen
-- **التأثيرات البصرية**:
-  - حركة تكبير الشعار (Elastic)
-  - حركة انزلاق النص
-  - تدرج لوني في الخلفية
-  - مؤشر تحميل متحرك
-
-## Main Screen Features:
-- **5 تبويبات رئيسية**:
-  1. الرئيسية (Home)
-  2. البحث (Search)
-  3. حجوزاتي (Bookings)
-  4. المحادثة (Chat) - مع Badge للإشعارات
-  5. الملف الشخصي (Profile)
-- **PageView**: للتنقل السلس بين الصفحات
-- **إدارة الحالة**: مع BlocProvider
-- **تصميم متجاوب**: يعمل على جميع أحجام الشاشات

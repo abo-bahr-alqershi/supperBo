@@ -6,12 +6,12 @@ namespace YemenBooking.Core.Enums;
 /// </summary>
 public enum PaymentMethodEnum
 {
-    CreditCard = 1,
-    DebitCard = 2,
-    DigitalWallet = 3,
-    BankTransfer = 4,
-    Cash = 5,
-    Check = 6,
-    Cryptocurrency = 7,
-    PayOnDelivery = 8
+    JwaliWallet = 1,
+    CashWallet = 2,
+    OneCashWallet = 3,
+    FloskWallet = 4,
+    JaibWallet = 5,
+    Cash = 6,
+    Paypal = 7,
+    CreditCard = 8
 } 

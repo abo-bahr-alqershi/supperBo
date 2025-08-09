@@ -89,6 +89,14 @@ import 'features/booking/domain/repositories/booking_repository.dart';
 import 'features/booking/data/repositories/booking_repository_impl.dart';
 import 'features/booking/data/datasources/booking_remote_datasource.dart';
 
+// Features - Payment (imports added)
+import 'features/payment/data/datasources/payment_remote_datasource.dart';
+import 'features/payment/data/repositories/payment_repository_impl.dart';
+import 'features/payment/domain/repositories/payment_repository.dart';
+import 'features/payment/domain/usecases/process_payment_usecase.dart';
+import 'features/payment/domain/usecases/get_payment_history_usecase.dart';
+import 'features/payment/presentation/bloc/payment_bloc.dart';
+
 final sl = GetIt.instance;
 
 Future<void> init() async {
@@ -109,6 +117,9 @@ Future<void> init() async {
 
   // Features - Booking
   _initBooking();
+
+  // Features - Payment
+  _initPaymentFeature();
 
   // Core
   _initCore();
@@ -335,6 +346,35 @@ void _initBooking() {
   // Data sources
   sl.registerLazySingleton<BookingRemoteDataSource>(
     () => BookingRemoteDataSourceImpl(apiClient: sl()),
+  );
+}
+
+void _initPaymentFeature() {
+  // Bloc
+  sl.registerFactory(
+    () => PaymentBloc(
+      processPaymentUseCase: sl(),
+      getPaymentHistoryUseCase: sl(),
+    ),
+  );
+
+  // Use cases
+  sl.registerLazySingleton(() => ProcessPaymentUseCase(sl()));
+  sl.registerLazySingleton(() => GetPaymentHistoryUseCase(sl()));
+
+  // Repository
+  sl.registerLazySingleton<PaymentRepository>(
+    () => PaymentRepositoryImpl(
+      remoteDataSource: sl(),
+      internetConnectionChecker: sl(),
+    ),
+  );
+
+  // Data sources
+  sl.registerLazySingleton<PaymentRemoteDataSource>(
+    () => PaymentRemoteDataSourceImpl(
+      apiClient: sl(),
+    ),
   );
 }
 

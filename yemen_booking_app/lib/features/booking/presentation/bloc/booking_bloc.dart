@@ -6,6 +6,8 @@ import '../../domain/usecases/get_user_bookings_usecase.dart';
 import '../../domain/usecases/get_user_bookings_summary_usecase.dart';
 import '../../domain/usecases/add_services_to_booking_usecase.dart';
 import '../../domain/usecases/check_availability_usecase.dart';
+import '../../../payment/domain/usecases/process_payment_usecase.dart';
+import '../../../../core/enums/payment_method_enum.dart';
 import 'booking_event.dart';
 import 'booking_state.dart';
 
@@ -17,7 +19,8 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
   final GetUserBookingsSummaryUseCase getUserBookingsSummaryUseCase;
   final AddServicesToBookingUseCase addServicesToBookingUseCase;
   final CheckAvailabilityUseCase checkAvailabilityUseCase;
-
+  final ProcessPaymentUseCase processPaymentUseCase;
+  
   BookingBloc({
     required this.createBookingUseCase,
     required this.getBookingDetailsUseCase,
@@ -26,6 +29,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
     required this.getUserBookingsSummaryUseCase,
     required this.addServicesToBookingUseCase,
     required this.checkAvailabilityUseCase,
+    required this.processPaymentUseCase,
   }) : super(const BookingInitial()) {
     on<CreateBookingEvent>(_onCreateBooking);
     on<GetBookingDetailsEvent>(_onGetBookingDetails);
@@ -36,6 +40,7 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
     on<CheckAvailabilityEvent>(_onCheckAvailability);
     on<UpdateBookingFormEvent>(_onUpdateBookingForm);
     on<ResetBookingStateEvent>(_onResetBookingState);
+    on<ProcessBookingPaymentEvent>(_onProcessBookingPayment);
   }
 
   Future<void> _onCreateBooking(
@@ -214,5 +219,45 @@ class BookingBloc extends Bloc<BookingEvent, BookingState> {
     Emitter<BookingState> emit,
   ) {
     emit(const BookingInitial());
+  }
+
+  Future<void> _onProcessBookingPayment(
+    ProcessBookingPaymentEvent event,
+    Emitter<BookingState> emit,
+  ) async {
+    emit(const BookingLoading());
+
+    final paymentParams = ProcessPaymentParams(
+      bookingId: event.bookingId,
+      userId: event.userId,
+      amount: event.amount,
+      paymentMethod: event.paymentMethod,
+      currency: 'YER',
+      paymentDetails: event.paymentDetails,
+    );
+
+    final paymentResult = await processPaymentUseCase(paymentParams);
+
+    await paymentResult.fold(
+      (failure) async => emit(BookingError(message: failure.message)),
+      (transaction) async {
+        if (transaction.isSuccessful) {
+          // Get booking details after successful payment
+          final bookingResult = await getBookingDetailsUseCase(
+            GetBookingDetailsParams(
+              bookingId: event.bookingId,
+              userId: event.userId,
+            ),
+          );
+          
+          bookingResult.fold(
+            (failure) => emit(BookingError(message: failure.message)),
+            (booking) => emit(BookingCreated(booking: booking)),
+          );
+        } else {
+          emit(BookingError(message: 'فشل الدفع: ${transaction.failureReason ?? "خطأ غير معروف"}'));
+        }
+      },
+    );
   }
 }

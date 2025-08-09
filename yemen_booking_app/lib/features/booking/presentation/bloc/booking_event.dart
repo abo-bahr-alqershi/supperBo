@@ -121,3 +121,22 @@ class UpdateBookingFormEvent extends BookingEvent {
 class ResetBookingStateEvent extends BookingEvent {
   const ResetBookingStateEvent();
 }
+
+class ProcessBookingPaymentEvent extends BookingEvent {
+  final String bookingId;
+  final String userId;
+  final double amount;
+  final String paymentMethod;
+  final Map<String, dynamic>? paymentDetails;
+
+  const ProcessBookingPaymentEvent({
+    required this.bookingId,
+    required this.userId,
+    required this.amount,
+    required this.paymentMethod,
+    this.paymentDetails,
+  });
+
+  @override
+  List<Object?> get props => [bookingId, userId, amount, paymentMethod, paymentDetails];
+}

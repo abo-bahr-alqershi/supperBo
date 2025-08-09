@@ -31,18 +31,6 @@ namespace YemenBooking.Api.Controllers.Client
             return Ok(result);
         }
 
-        /// <summary>
-        /// الحصول على طرق الدفع المتاحة للعميل
-        /// Get available payment methods for client
-        /// </summary>
-        /// <param name="query">معايير البحث</param>
-        /// <returns>قائمة طرق الدفع</returns>
-        [HttpGet("methods")]
-        public async Task<ActionResult<ResultDto<List<ClientPaymentMethodDto>>>> GetPaymentMethods([FromQuery] ClientGetPaymentMethodsQuery query)
-        {
-            var result = await _mediator.Send(query);
-            return Ok(result);
-        }
 
         /// <summary>
         /// الحصول على تاريخ مدفوعات المستخدم

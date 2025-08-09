@@ -1,3 +1,5 @@
+// lib/features/home/presentation/widgets/sections/base/section_error_widget.dart
+
 import 'package:flutter/material.dart';
 import '../../../../../../core/theme/app_colors.dart';
 import '../../../../../../core/theme/app_dimensions.dart';
@@ -5,49 +7,41 @@ import '../../../../../../core/theme/app_text_styles.dart';
 
 class SectionErrorWidget extends StatelessWidget {
   final String message;
-  final VoidCallback onRetry;
+  final VoidCallback? onRetry;
 
   const SectionErrorWidget({
     super.key,
     required this.message,
-    required this.onRetry,
+    this.onRetry,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(
-        horizontal: AppDimensions.paddingMedium,
-      ),
-      padding: const EdgeInsets.all(AppDimensions.paddingMedium),
-      decoration: BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.error.withValues(alpha: 0.3)),
-      ),
-      child: Row(
+      padding: const EdgeInsets.all(AppDimensions.paddingLarge),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Icon(Icons.error_outline, color: AppColors.error),
-          const SizedBox(width: AppDimensions.spacingSm),
-          Expanded(
-            child: Text(
-              message,
-              style: AppTextStyles.bodyMedium.copyWith(
-                color: AppColors.error,
-              ),
-              maxLines: 3,
-              overflow: TextOverflow.ellipsis,
-            ),
+          Icon(
+            Icons.error_outline_rounded,
+            size: 48,
+            color: AppColors.error.withOpacity(0.5),
           ),
-          const SizedBox(width: AppDimensions.spacingSm),
-          TextButton.icon(
-            onPressed: onRetry,
-            icon: const Icon(Icons.refresh, color: AppColors.primary),
-            label: Text(
-              'إعادة المحاولة',
-              style: AppTextStyles.bodyMedium.copyWith(color: AppColors.primary),
+          const SizedBox(height: AppDimensions.spacingMd),
+          Text(
+            message,
+            style: AppTextStyles.bodyMedium.copyWith(
+              color: AppColors.textSecondary,
             ),
+            textAlign: TextAlign.center,
           ),
+          if (onRetry != null) ...[
+            const SizedBox(height: AppDimensions.spacingMd),
+            TextButton(
+              onPressed: onRetry,
+              child: const Text('إعادة المحاولة'),
+            ),
+          ],
         ],
       ),
     );

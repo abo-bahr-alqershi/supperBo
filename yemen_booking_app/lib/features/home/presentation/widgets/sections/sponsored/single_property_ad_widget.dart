@@ -5,6 +5,8 @@ import '../../../../../../core/theme/app_colors.dart';
 import '../../../../../../core/theme/app_dimensions.dart';
 import '../../../../../../core/theme/app_text_styles.dart';
 import '../../../../../../core/widgets/cached_image_widget.dart';
+import '../../../../domain/entities/home_section.dart';
+import '../../../../domain/entities/section_config.dart';
 import '../base/base_section_widget.dart';
 
 class SinglePropertyAdWidget extends BaseSectionWidget {
@@ -13,11 +15,11 @@ class SinglePropertyAdWidget extends BaseSectionWidget {
 
   const SinglePropertyAdWidget({
     super.key,
-    required super.section,
+    required HomeSection section,
     required this.property,
-    required super.config,
+    required SectionConfig config,
     this.onTap,
-  });
+  }) : super(section: section, config: config);
 
   @override
   Widget build(BuildContext context) {
@@ -33,13 +35,14 @@ class SinglePropertyAdWidget extends BaseSectionWidget {
           GestureDetector(
             onTap: () => onTap?.call(property),
             child: Container(
+              height: 320,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(config.borderRadius),
                 boxShadow: [
                   BoxShadow(
-                    color: AppColors.shadow.withValues(alpha: 0.12),
-                    blurRadius: 16,
-                    offset: const Offset(0, 8),
+                    color: AppColors.shadow.withOpacity(0.15),
+                    blurRadius: 20,
+                    offset: const Offset(0, 10),
                   ),
                 ],
               ),
@@ -47,60 +50,102 @@ class SinglePropertyAdWidget extends BaseSectionWidget {
                 borderRadius: BorderRadius.circular(config.borderRadius),
                 child: Stack(
                   children: [
+                    // Property Image
                     Positioned.fill(
                       child: CachedImageWidget(
-                        imageUrl: (property?.mainImageUrl ?? property?.imageUrl ?? '').toString(),
+                        imageUrl: property.mainImageUrl ?? '',
                         fit: BoxFit.cover,
                       ),
                     ),
-                    Positioned(
-                      bottom: 0,
-                      left: 0,
-                      right: 0,
+                    
+                    // Gradient Overlay
+                    Positioned.fill(
                       child: Container(
-                        padding: const EdgeInsets.all(AppDimensions.paddingMedium),
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
                             begin: Alignment.topCenter,
                             end: Alignment.bottomCenter,
                             colors: [
                               Colors.transparent,
-                              Colors.black.withValues(alpha: 0.75),
+                              Colors.black.withOpacity(0.7),
                             ],
                           ),
                         ),
+                      ),
+                    ),
+                    
+                    // Sponsored Badge
+                    Positioned(
+                      top: 16,
+                      left: 16,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 6,
+                        ),
+                        decoration: BoxDecoration(
+                          color: AppColors.warning,
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Icon(
+                              Icons.auto_awesome,
+                              color: Colors.white,
+                              size: 14,
+                            ),
+                            const SizedBox(width: 4),
+                            Text(
+                              'إعلان مميز',
+                              style: AppTextStyles.caption.copyWith(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    
+                    // Property Details
+                    Positioned(
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      child: Container(
+                        padding: const EdgeInsets.all(16),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              (property?.name ?? property?.title ?? '').toString(),
-                              style: AppTextStyles.heading3.copyWith(
+                              property.name ?? '',
+                              style: AppTextStyles.heading2.copyWith(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
                               ),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
                             ),
-                            const SizedBox(height: 4),
+                            const SizedBox(height: 8),
                             Row(
                               children: [
-                                if (property?.city != null)
-                                  Expanded(
-                                    child: Text(
-                                      (property?.city ?? '').toString(),
-                                      style: AppTextStyles.bodySmall.copyWith(
-                                        color: Colors.white70,
-                                      ),
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
+                                const Icon(
+                                  Icons.location_on_outlined,
+                                  color: Colors.white70,
+                                  size: 18,
+                                ),
+                                const SizedBox(width: 4),
+                                Text(
+                                  property.city ?? '',
+                                  style: AppTextStyles.bodyMedium.copyWith(
+                                    color: Colors.white70,
                                   ),
-                                if (property?.basePrice != null)
+                                ),
+                                const Spacer(),
+                                if (property.basePrice != null)
                                   Text(
-                                    '${property?.basePrice ?? ''} ${property?.currency ?? ''}',
-                                    style: AppTextStyles.bodySmall.copyWith(
+                                    '${property.basePrice} ${property.currency}/ليلة',
+                                    style: AppTextStyles.price.copyWith(
                                       color: Colors.white,
-                                      fontWeight: FontWeight.w600,
                                     ),
                                   ),
                               ],

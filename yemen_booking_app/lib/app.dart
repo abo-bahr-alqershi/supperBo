@@ -12,6 +12,8 @@ import 'features/settings/presentation/bloc/settings_state.dart';
 import 'features/auth/presentation/bloc/auth_bloc.dart';
 import 'features/auth/presentation/bloc/auth_event.dart';
 import 'features/notifications/presentation/bloc/notification_bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'features/payment/presentation/bloc/payment_bloc.dart';
 
 class YemenBookingApp extends StatelessWidget {
   const YemenBookingApp({super.key});
@@ -20,9 +22,11 @@ class YemenBookingApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        
         BlocProvider(create: (_) => sl<SettingsBloc>()..add(LoadSettingsEvent())),
         BlocProvider(create: (_) => sl<AuthBloc>()..add(const CheckAuthStatusEvent())),
         BlocProvider(create: (_) => sl<NotificationBloc>()),
+        BlocProvider(create: (_) => sl<PaymentBloc>()),
       ],
       child: BlocBuilder<SettingsBloc, SettingsState>(
         builder: (context, settingsState) {
@@ -64,3 +68,5 @@ Locale _localeFrom(SettingsState state) {
   }
   return const Locale('ar', 'YE');
 }
+
+

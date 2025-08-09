@@ -12,6 +12,9 @@ import '../bloc/booking_bloc.dart';
 import '../bloc/booking_event.dart';
 import '../bloc/booking_state.dart';
 import '../widgets/payment_methods_widget.dart';
+import '../../../payment/presentation/bloc/payment_bloc.dart';
+import '../../../payment/presentation/bloc/payment_event.dart';
+import '../../../../core/enums/payment_method_enum.dart';
 
 class BookingPaymentPage extends StatefulWidget {
   final Map<String, dynamic> bookingData;
@@ -347,33 +350,57 @@ class _BookingPaymentPageState extends State<BookingPaymentPage> {
   void _processPayment() {
     final authState = context.read<AuthBloc>().state;
     if (authState is! AuthAuthenticated) {
-      // Navigate to login
       context.push('/login');
       return;
     }
 
+    // Convert string to PaymentMethod enum
+    final paymentMethod = PaymentMethod.fromString(_selectedPaymentMethod ?? 'cash');
+
+    // Calculate total amount
     final checkIn = widget.bookingData['checkIn'] as DateTime;
     final checkOut = widget.bookingData['checkOut'] as DateTime;
-    final adultsCount = widget.bookingData['adultsCount'] as int;
-    final childrenCount = widget.bookingData['childrenCount'] as int;
+    final nights = checkOut.difference(checkIn).inDays;
+    final pricePerNight = (widget.bookingData['pricePerNight'] ?? 0.0) as double;
     final services = widget.bookingData['selectedServices'] as List<Map<String, dynamic>>;
-
-    final bookingRequest = BookingRequest(
-      userId: authState.user.userId,
-      unitId: widget.bookingData['unitId'] ?? '',
-      checkIn: checkIn,
-      checkOut: checkOut,
-      guestsCount: adultsCount + childrenCount,
-      services: services.map((s) => BookingServiceRequest(
-        serviceId: s['id'],
-        quantity: s['quantity'] ?? 1,
-      )).toList(),
-      specialRequests: widget.bookingData['specialRequests'],
-      bookingSource: 'MobileApp',
+    final servicesTotal = services.fold<double>(
+      0,
+      (sum, service) => sum + (service['price'] as num).toDouble(),
     );
+    final subtotal = (nights * pricePerNight) + servicesTotal;
+    final tax = subtotal * 0.05;
+    final total = subtotal + tax;
 
-    context.read<BookingBloc>().add(
-      CreateBookingEvent(bookingRequest: bookingRequest),
+    // Process payment through PaymentBloc
+    context.read<PaymentBloc>().add(
+      ProcessPaymentEvent(
+        bookingId: widget.bookingData['bookingId'] ?? '',
+        userId: authState.user.userId,
+        amount: total,
+        paymentMethod: paymentMethod,
+        currency: 'YER',
+        paymentDetails: _getPaymentDetails(paymentMethod),
+      ),
     );
+  }
+
+  Map<String, dynamic>? _getPaymentDetails(PaymentMethod method) {
+    // Get payment details based on method
+    if (method == PaymentMethod.creditCard) {
+      // Get from credit card form
+      return {
+        'cardNumber': '4111111111111111', // Example
+        'cardHolderName': 'John Doe',
+        'expiryDate': '12/25',
+        'cvv': '123',
+      };
+    } else if (method.isWallet) {
+      // Get from wallet form
+      return {
+        'walletNumber': '773123456',
+        'walletPin': '1234',
+      };
+    }
+    return null;
   }
 }
